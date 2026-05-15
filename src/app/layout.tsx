@@ -88,15 +88,14 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#2563eb" />
         <link rel="icon" href="/favicon.ico" />
-      </head>
-      <body className="min-h-full flex flex-col">
-        <ClientProviders>{children}</ClientProviders>
-        <Script
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5750850218373987"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
         />
+      </head>
+      <body className="min-h-full flex flex-col">
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );
