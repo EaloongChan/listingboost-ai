@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useI18n } from "@/lib/i18n/context";
 
 export function Footer() {
@@ -42,16 +43,30 @@ export function Footer() {
               {t.footer.product}
             </h4>
             <ul className="space-y-2.5">
-              {t.footer.productLinks.map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/#workspace"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                >
+                  {t.footer.productLinks[0]}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#features"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                >
+                  {t.footer.productLinks[1]}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#pricing"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                >
+                  {t.footer.productLinks[2]}
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -61,35 +76,63 @@ export function Footer() {
               {t.footer.resources}
             </h4>
             <ul className="space-y-2.5">
-              {t.footer.resourcesLinks.map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/faq"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                >
+                  {t.footer.resourcesLinks[2]}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                >
+                  {t.footer.companyLinks[0]}
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Company / Legal */}
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-4">
               {t.footer.company}
             </h4>
             <ul className="space-y-2.5">
-              {t.footer.companyLinks.map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/about"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                >
+                  {t.footer.companyLinks[0]}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/privacy-policy"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                >
+                  {t.footer.companyLinks[1]}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/terms-of-service"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                >
+                  {t.footer.companyLinks[2]}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                >
+                  {t.footer.companyLinks[3]}
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
