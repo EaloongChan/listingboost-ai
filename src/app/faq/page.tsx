@@ -3,92 +3,56 @@
 import { useState } from "react";
 import { PageLayout } from "@/components/PageLayout";
 import Link from "next/link";
-
-const faqCategories = [
-  {
-    category: "General",
-    questions: [
-      {
-        q: "What is ListingBoost AI?",
-        a: "ListingBoost AI is an AI-powered tool that generates professional product listings for e-commerce platforms. It creates optimized product titles, bullet points, and descriptions tailored to platforms like Amazon, Shopify, Etsy, eBay, and more.",
-      },
-      {
-        q: "Is ListingBoost AI free to use?",
-        a: "Yes! ListingBoost AI offers free listing generation powered by advanced AI models. You can generate unlimited product listings without any cost.",
-      },
-      {
-        q: "How does the AI generate listings?",
-        a: "Our AI uses state-of-the-art language models (powered by ZhipuAI) trained on millions of high-performing e-commerce listings. You simply provide your product name, key selling points, target audience, and preferred tone — the AI handles the rest.",
-      },
-      {
-        q: "How long does it take to generate a listing?",
-        a: "Most listings are generated in under 5 seconds. The AI processes your input and returns a complete, ready-to-use product listing with title, 5 bullet points, and a detailed product description.",
-      },
-    ],
-  },
-  {
-    category: "Platforms & Features",
-    questions: [
-      {
-        q: "Which e-commerce platforms are supported?",
-        a: "ListingBoost AI currently supports Amazon, Shopify, Etsy, eBay, independent websites (Shopify/WooCommerce), and Alibaba/1688. Each platform has specific optimization rules that the AI follows.",
-      },
-      {
-        q: "What languages are supported?",
-        a: "Our interface supports 13 languages: English, Chinese, Spanish, German, French, Japanese, Korean, Portuguese, Arabic, Russian, Indonesian, Thai, and Vietnamese. The AI can also generate listing content in the language of your choice.",
-      },
-      {
-        q: "What tone options are available?",
-        a: "We offer 5 tone options: Professional, Casual & Friendly, Luxury/Premium, Technical/Spec-focused, and Emotional/Story-driven. Each tone adjusts the language style and vocabulary to match your brand voice.",
-      },
-      {
-        q: "Can I customize the generated content?",
-        a: "Absolutely! The generated content is fully editable. We recommend reviewing and customizing the AI output to perfectly match your product and brand before publishing.",
-      },
-    ],
-  },
-  {
-    category: "Data & Privacy",
-    questions: [
-      {
-        q: "Is my product data safe?",
-        a: "Yes. Your product information is processed in real-time and is not permanently stored on our servers. Generated listings are displayed in your browser session only. Please refer to our Privacy Policy for complete details.",
-      },
-      {
-        q: "Do you share my data with third parties?",
-        a: "Product data is sent to our AI provider (ZhipuAI) for processing. We do not sell, rent, or share your data with any other third parties for marketing purposes. See our Privacy Policy for full transparency.",
-      },
-      {
-        q: "Can I delete my data?",
-        a: "Since we don't permanently store your product input data, there is nothing to delete on our end. Generated listings exist only in your browser session. You can clear your browser data to remove any locally stored preferences.",
-      },
-    ],
-  },
-  {
-    category: "Tips & Best Practices",
-    questions: [
-      {
-        q: "How can I get the best results from the AI?",
-        a: "For optimal results: (1) Provide a clear, descriptive product name, (2) Include 3-5 specific selling points with measurable details, (3) Select the most relevant target audience, (4) Choose a tone that matches your brand. The more specific your input, the better the output.",
-      },
-      {
-        q: "Should I edit the AI-generated content before publishing?",
-        a: "We strongly recommend reviewing and editing all generated content before publishing. The AI provides an excellent starting point, but you should verify factual claims, add brand-specific information, and ensure compliance with your target platform's policies.",
-      },
-      {
-        q: "How many listings can I generate per day?",
-        a: "There is no daily limit on the number of listings you can generate. Feel free to create as many listings as you need for your products.",
-      },
-    ],
-  },
-];
+import { useI18n } from "@/lib/i18n/context";
 
 export default function FAQPage() {
+  const { t } = useI18n();
   const [openIndex, setOpenIndex] = useState<string | null>(null);
 
   const toggleQuestion = (key: string) => {
     setOpenIndex(openIndex === key ? null : key);
   };
+
+  const faqSections = [
+    {
+      key: "general",
+      title: t.faq.categories.general,
+      questions: [
+        { q: t.faq.questions.q1, a: t.faq.answers.a1 },
+        { q: t.faq.questions.q2, a: t.faq.answers.a2 },
+        { q: t.faq.questions.q3, a: t.faq.answers.a3 },
+        { q: t.faq.questions.q4, a: t.faq.answers.a4 },
+      ],
+    },
+    {
+      key: "platforms",
+      title: t.faq.categories.platforms,
+      questions: [
+        { q: t.faq.questions.q5, a: t.faq.answers.a5 },
+        { q: t.faq.questions.q6, a: t.faq.answers.a6 },
+        { q: t.faq.questions.q7, a: t.faq.answers.a7 },
+        { q: t.faq.questions.q8, a: t.faq.answers.a8 },
+      ],
+    },
+    {
+      key: "data",
+      title: t.faq.categories.data,
+      questions: [
+        { q: t.faq.questions.q9, a: t.faq.answers.a9 },
+        { q: t.faq.questions.q10, a: t.faq.answers.a10 },
+        { q: t.faq.questions.q11, a: t.faq.answers.a11 },
+      ],
+    },
+    {
+      key: "tips",
+      title: t.faq.categories.tips,
+      questions: [
+        { q: t.faq.questions.q12, a: t.faq.answers.a12 },
+        { q: t.faq.questions.q13, a: t.faq.answers.a13 },
+        { q: t.faq.questions.q14, a: t.faq.answers.a14 },
+      ],
+    },
+  ];
 
   return (
     <PageLayout>
@@ -110,26 +74,26 @@ export default function FAQPage() {
                 <circle cx="12" cy="12" r="10" />
                 <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01" />
               </svg>
-              FAQ
+              {t.faq.badge}
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-4">
-              Frequently Asked Questions
+              {t.faq.title}
             </h1>
             <p className="text-muted-foreground text-lg">
-              Everything you need to know about ListingBoost AI.
+              {t.faq.subtitle}
             </p>
           </div>
 
           {/* FAQ Sections */}
           <div className="space-y-10">
-            {faqCategories.map((section) => (
-              <div key={section.category}>
+            {faqSections.map((section) => (
+              <div key={section.key}>
                 <h2 className="text-lg font-semibold text-foreground mb-4 pb-2 border-b border-border">
-                  {section.category}
+                  {section.title}
                 </h2>
                 <div className="space-y-3">
                   {section.questions.map((item, idx) => {
-                    const key = `${section.category}-${idx}`;
+                    const key = `${section.key}-${idx}`;
                     const isOpen = openIndex === key;
                     return (
                       <div
@@ -177,16 +141,16 @@ export default function FAQPage() {
           {/* Still have questions? */}
           <div className="mt-16 text-center bg-muted/50 rounded-2xl p-8 border border-border">
             <h3 className="text-lg font-semibold text-foreground mb-2">
-              Still have questions?
+              {t.faq.stillHaveQuestions}
             </h3>
             <p className="text-sm text-muted-foreground mb-6">
-              Can&apos;t find the answer you&apos;re looking for? Feel free to reach out to us.
+              {/* Can't find the answer you're looking for? Feel free to reach out to us. */}
             </p>
             <Link
               href="/contact"
               className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-primary-foreground bg-primary hover:bg-primary-hover rounded-lg transition-all duration-200"
             >
-              Contact Us
+              {t.faq.contactBtn}
               <svg
                 width="14"
                 height="14"

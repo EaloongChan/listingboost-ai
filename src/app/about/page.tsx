@@ -1,14 +1,12 @@
-import type { Metadata } from "next";
-import { PageLayout } from "@/components/PageLayout";
+"use client";
 
-export const metadata: Metadata = {
-  title: "About Us — ListingBoost AI",
-  description:
-    "Learn about ListingBoost AI, our mission to empower e-commerce sellers with AI-powered listing optimization, and the technology behind our platform.",
-  alternates: { canonical: "/about" },
-};
+import { PageLayout } from "@/components/PageLayout";
+import Link from "next/link";
+import { useI18n } from "@/lib/i18n/context";
 
 export default function AboutPage() {
+  const { t } = useI18n();
+
   return (
     <PageLayout>
       {/* Hero */}
@@ -28,17 +26,15 @@ export default function AboutPage() {
               <circle cx="12" cy="12" r="10" />
               <path d="M12 16v-4M12 8h.01" />
             </svg>
-            About ListingBoost AI
+            {t.about.badge}
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-            Empowering E-commerce Sellers
+            {t.about.title}
             <br />
-            <span className="text-primary">with AI-Powered Copywriting</span>
+            <span className="text-primary">{t.about.titleHighlight}</span>
           </h1>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            We believe every seller deserves access to professional-grade product listings. Our
-            mission is to democratize e-commerce copywriting using cutting-edge artificial
-            intelligence.
+            {t.about.subtitle}
           </p>
         </div>
       </section>
@@ -49,38 +45,32 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-2xl font-bold tracking-tight text-foreground mb-4">
-                Our Mission
+                {t.about.mission.title}
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                ListingBoost AI was founded with a simple goal: help e-commerce sellers create
-                high-converting product listings in seconds, not hours. We understand that writing
-                compelling product descriptions, bullet points, and titles is time-consuming and
-                requires specialized copywriting skills.
+                {t.about.mission.p1}
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Our AI-powered platform eliminates this bottleneck, enabling sellers of all sizes —
-                from individual entrepreneurs to large-scale operations — to produce
-                professional-quality listings optimized for platforms like Amazon, Shopify, Etsy, and
-                eBay.
+                {t.about.mission.p2}
               </p>
             </div>
             <div className="bg-card rounded-2xl border border-border p-8 shadow-sm">
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-primary">50K+</div>
-                  <div className="text-sm text-muted-foreground mt-1">Active Sellers</div>
+                  <div className="text-sm text-muted-foreground mt-1">{t.about.statSellers}</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-primary">2M+</div>
-                  <div className="text-sm text-muted-foreground mt-1">Listings Generated</div>
+                  <div className="text-sm text-muted-foreground mt-1">{t.about.statListings}</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-primary">13</div>
-                  <div className="text-sm text-muted-foreground mt-1">Languages Supported</div>
+                  <div className="text-sm text-muted-foreground mt-1">{t.about.statLanguages}</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-primary">4.8/5</div>
-                  <div className="text-sm text-muted-foreground mt-1">User Rating</div>
+                  <div className="text-sm text-muted-foreground mt-1">{t.about.statRating}</div>
                 </div>
               </div>
             </div>
@@ -93,11 +83,10 @@ export default function AboutPage() {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-2xl font-bold tracking-tight text-foreground mb-4">
-              Powered by Advanced AI
+              {t.about.techTitle}
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our platform leverages state-of-the-art language models specifically fine-tuned for
-              e-commerce copywriting.
+              {t.about.techSubtitle}
             </p>
           </div>
           <div className="grid sm:grid-cols-3 gap-6">
@@ -108,9 +97,6 @@ export default function AboutPage() {
                     <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
                   </svg>
                 ),
-                title: "Fast Generation",
-                description:
-                  "Generate complete product listings in under 5 seconds using optimized AI inference pipelines.",
               },
               {
                 icon: (
@@ -119,9 +105,6 @@ export default function AboutPage() {
                     <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
                   </svg>
                 ),
-                title: "Multi-Language",
-                description:
-                  "Support for 13+ languages with native-quality translations and culturally adapted content.",
               },
               {
                 icon: (
@@ -129,23 +112,20 @@ export default function AboutPage() {
                     <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
                   </svg>
                 ),
-                title: "SEO Optimized",
-                description:
-                  "Every listing is crafted with high-converting keywords strategically placed for maximum visibility.",
               },
-            ].map((item) => (
+            ].map((item, i) => (
               <div
-                key={item.title}
+                key={i}
                 className="bg-card rounded-xl border border-border p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
               >
                 <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-4">
                   {item.icon}
                 </div>
                 <h3 className="text-base font-semibold text-foreground mb-2">
-                  {item.title}
+                  {t.about.techItems[i]?.title}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  {item.description}
+                  {t.about.techItems[i]?.description}
                 </p>
               </div>
             ))}
@@ -158,32 +138,11 @@ export default function AboutPage() {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-2xl font-bold tracking-tight text-foreground mb-4">
-              What We Believe
+              {t.about.valuesTitle}
             </h2>
           </div>
           <div className="space-y-8 max-w-3xl mx-auto">
-            {[
-              {
-                title: "Accessibility First",
-                description:
-                  "Professional copywriting should not be a luxury. We make it accessible to every seller, regardless of budget or expertise.",
-              },
-              {
-                title: "Quality Without Compromise",
-                description:
-                  "We never sacrifice quality for speed. Our AI is trained on millions of high-performing listings to deliver content that converts.",
-              },
-              {
-                title: "Seller Empowerment",
-                description:
-                  "Our tool augments human creativity, not replaces it. We give sellers the foundation to build upon, so they can focus on growing their business.",
-              },
-              {
-                title: "Continuous Innovation",
-                description:
-                  "The e-commerce landscape evolves constantly. We invest heavily in R&D to ensure our platform stays ahead of market trends and platform algorithm changes.",
-              },
-            ].map((item) => (
+            {t.about.values.map((item) => (
               <div key={item.title} className="flex gap-4">
                 <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 mt-0.5">
                   <svg
@@ -217,17 +176,16 @@ export default function AboutPage() {
       <section className="py-16 bg-muted/50">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold tracking-tight text-foreground mb-4">
-            Ready to Boost Your Listings?
+            {t.about.ctaTitle}
           </h2>
           <p className="text-muted-foreground mb-8">
-            Join 50,000+ sellers who are already using ListingBoost AI to create
-            high-converting product listings.
+            {t.about.ctaDescription}
           </p>
           <a
             href="/#workspace"
             className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-primary-foreground bg-primary hover:bg-primary-hover rounded-lg transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-primary/20"
           >
-            Start Generating — Free
+            {t.about.ctaBtn}
             <svg
               width="16"
               height="16"

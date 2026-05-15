@@ -100,6 +100,60 @@ export interface TranslationStrings {
     resourcesLinks: readonly string[];
     companyLinks: readonly string[];
   };
+  about: {
+    badge: string;
+    title: string;
+    titleHighlight: string;
+    subtitle: string;
+    mission: { title: string; p1: string; p2: string };
+    techTitle: string;
+    techSubtitle: string;
+    techItems: readonly { title: string; description: string }[];
+    valuesTitle: string;
+    values: readonly { title: string; description: string }[];
+    ctaTitle: string;
+    ctaDescription: string;
+    ctaBtn: string;
+    statSellers: string;
+    statListings: string;
+    statLanguages: string;
+    statRating: string;
+  };
+  faq: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    categories: {
+      general: string;
+      platforms: string;
+      data: string;
+      tips: string;
+    };
+    questions: Record<string, string>;
+    answers: Record<string, string>;
+    stillHaveQuestions: string;
+    contactBtn: string;
+  };
+  contact: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    sentTitle: string;
+    sentMessage: string;
+    sendAnother: string;
+    emailLabel: string;
+    websiteLabel: string;
+    responseLabel: string;
+    nameField: string;
+    emailField: string;
+    subjectField: string;
+    messageField: string;
+    sendBtn: string;
+    namePlaceholder: string;
+    emailPlaceholder: string;
+    subjectPlaceholder: string;
+    messagePlaceholder: string;
+  };
   options: {
     audiences: readonly { value: string; label: string }[];
     tones: readonly { value: string; label: string }[];

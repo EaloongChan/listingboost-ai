@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { PageLayout } from "@/components/PageLayout";
+import { useI18n } from "@/lib/i18n/context";
 
 export default function ContactPage() {
+  const { t } = useI18n();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,7 +16,6 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In production, this would send to a backend API or email service
     setSubmitted(true);
   };
 
@@ -38,13 +39,13 @@ export default function ContactPage() {
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                 <polyline points="22,6 12,13 2,6" />
               </svg>
-              Contact
+              {t.contact.badge}
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-4">
-              Get in Touch
+              {t.contact.title}
             </h1>
             <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-              Have a question, suggestion, or need help? We&apos;d love to hear from you.
+              {t.contact.subtitle}
             </p>
           </div>
 
@@ -65,10 +66,10 @@ export default function ContactPage() {
                 </svg>
               </div>
               <h2 className="text-xl font-semibold text-foreground mb-2">
-                Message Sent!
+                {t.contact.sentTitle}
               </h2>
               <p className="text-muted-foreground mb-6">
-                Thank you for reaching out. We&apos;ll get back to you as soon as possible.
+                {t.contact.sentMessage}
               </p>
               <button
                 onClick={() => {
@@ -77,7 +78,7 @@ export default function ContactPage() {
                 }}
                 className="text-sm text-primary hover:underline"
               >
-                Send another message
+                {t.contact.sendAnother}
               </button>
             </div>
           ) : (
@@ -102,7 +103,7 @@ export default function ContactPage() {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-sm font-semibold text-foreground">Email</h3>
+                      <h3 className="text-sm font-semibold text-foreground">{t.contact.emailLabel}</h3>
                       <p className="text-sm text-muted-foreground">
                         support@listingboost.ai
                       </p>
@@ -128,7 +129,7 @@ export default function ContactPage() {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-sm font-semibold text-foreground">Website</h3>
+                      <h3 className="text-sm font-semibold text-foreground">{t.contact.websiteLabel}</h3>
                       <p className="text-sm text-muted-foreground">
                         ealoongchan.top
                       </p>
@@ -155,10 +156,10 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <h3 className="text-sm font-semibold text-foreground">
-                        Response Time
+                        {t.contact.responseLabel}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        Usually within 24-48 hours
+                        24-48h
                       </p>
                     </div>
                   </div>
@@ -177,7 +178,7 @@ export default function ContactPage() {
                         htmlFor="name"
                         className="block text-sm font-medium text-foreground mb-1.5"
                       >
-                        Name
+                        {t.contact.nameField}
                       </label>
                       <input
                         type="text"
@@ -188,7 +189,7 @@ export default function ContactPage() {
                           setFormData({ ...formData, name: e.target.value })
                         }
                         className="w-full px-3.5 py-2.5 text-sm rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
-                        placeholder="Your name"
+                        placeholder={t.contact.namePlaceholder}
                       />
                     </div>
                     <div>
@@ -196,7 +197,7 @@ export default function ContactPage() {
                         htmlFor="email"
                         className="block text-sm font-medium text-foreground mb-1.5"
                       >
-                        Email
+                        {t.contact.emailField}
                       </label>
                       <input
                         type="email"
@@ -207,7 +208,7 @@ export default function ContactPage() {
                           setFormData({ ...formData, email: e.target.value })
                         }
                         className="w-full px-3.5 py-2.5 text-sm rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
-                        placeholder="your@email.com"
+                        placeholder={t.contact.emailPlaceholder}
                       />
                     </div>
                   </div>
@@ -217,7 +218,7 @@ export default function ContactPage() {
                       htmlFor="subject"
                       className="block text-sm font-medium text-foreground mb-1.5"
                     >
-                      Subject
+                      {t.contact.subjectField}
                     </label>
                     <input
                       type="text"
@@ -228,7 +229,7 @@ export default function ContactPage() {
                         setFormData({ ...formData, subject: e.target.value })
                       }
                       className="w-full px-3.5 py-2.5 text-sm rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
-                      placeholder="What's this about?"
+                      placeholder={t.contact.subjectPlaceholder}
                     />
                   </div>
 
@@ -237,7 +238,7 @@ export default function ContactPage() {
                       htmlFor="message"
                       className="block text-sm font-medium text-foreground mb-1.5"
                     >
-                      Message
+                      {t.contact.messageField}
                     </label>
                     <textarea
                       id="message"
@@ -248,7 +249,7 @@ export default function ContactPage() {
                         setFormData({ ...formData, message: e.target.value })
                       }
                       className="w-full px-3.5 py-2.5 text-sm rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all resize-none"
-                      placeholder="Tell us more..."
+                      placeholder={t.contact.messagePlaceholder}
                     />
                   </div>
 
@@ -256,7 +257,7 @@ export default function ContactPage() {
                     type="submit"
                     className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium text-primary-foreground bg-primary hover:bg-primary-hover rounded-lg transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-primary/20"
                   >
-                    Send Message
+                    {t.contact.sendBtn}
                     <svg
                       width="16"
                       height="16"
