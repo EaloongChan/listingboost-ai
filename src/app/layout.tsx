@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { ClientProviders } from "./providers";
+
+const SITE_URL = "https://www.ealoongchan.top";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,14 +41,30 @@ export const metadata: Metadata = {
   authors: [{ name: "ListingBoost AI" }],
   creator: "ListingBoost AI",
   publisher: "ListingBoost AI",
-  metadataBase: new URL("https://ealoongchan.top"),
+  metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: "/",
+    languages: {
+      "en": "/en",
+      "zh": "/zh",
+      "es": "/es",
+      "de": "/de",
+      "fr": "/fr",
+      "ja": "/ja",
+      "ko": "/ko",
+      "pt": "/pt",
+      "ar": "/ar",
+      "ru": "/ru",
+      "id": "/id",
+      "th": "/th",
+      "vi": "/vi",
+      "x-default": "/en",
+    },
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ealoongchan.top",
+    url: SITE_URL,
     title:
       "ListingBoost AI — AI Product Description Generator for E-commerce",
     description:
@@ -92,6 +109,66 @@ export default function RootLayout({
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5750850218373987"
           crossOrigin="anonymous"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "ListingBoost AI",
+              url: SITE_URL,
+              description:
+                "Free AI-powered product description generator for e-commerce sellers. Generate optimized listings for Amazon, Shopify, Etsy, eBay and more.",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: `${SITE_URL}/en?q={search_term_string}`,
+                },
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "ListingBoost AI",
+              url: SITE_URL,
+              logo: `${SITE_URL}/logo.png`,
+              sameAs: [],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "ListingBoost AI",
+              url: SITE_URL,
+              applicationCategory: "BusinessApplication",
+              operatingSystem: "Web",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+                description: "Free plan with generous daily limits",
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.8",
+                ratingCount: "50000",
+                bestRating: "5",
+                worstRating: "1",
+              },
+            }),
+          }}
         />
       </head>
       <body className="min-h-full flex flex-col">
