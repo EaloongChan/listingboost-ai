@@ -60,13 +60,13 @@ export async function POST(request: NextRequest) {
 Please respond with a JSON object containing: title, bulletPoints (array of 5 strings), and productDescription.`;
 
     const completion = await client.chat.completions.create({
-      model: "glm-4-flash",
+      model: "glm-4.7-flash",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: userMessage },
       ],
-      temperature: 0.8,
-      max_tokens: 2000,
+      temperature: 1.0,
+      max_tokens: 4096,
     });
 
     const content = completion.choices[0]?.message?.content?.trim();
