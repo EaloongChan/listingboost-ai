@@ -5,7 +5,6 @@ import { useI18n } from "@/lib/i18n/context";
 import {
   type ListingFormData,
   type GeneratedListing,
-  generateMockListing,
 } from "@/lib/types";
 
 export function Workspace() {
@@ -22,6 +21,7 @@ export function Workspace() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState<GeneratedListing | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = useCallback(
     (field: keyof ListingFormData, value: string) => {
@@ -35,12 +35,28 @@ export function Workspace() {
 
     setIsGenerating(true);
     setResult(null);
+    setError(null);
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    const generated = generateMockListing(formData);
-    setResult(generated);
-    setIsGenerating(false);
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Generation failed. Please try again.");
+        return;
+      }
+
+      setResult(data.result);
+    } catch {
+      setError("Network error. Please check your connection and try again.");
+    } finally {
+      setIsGenerating(false);
+    }
   }, [formData]);
 
   const handleCopy = useCallback(async (text: string, field: string) => {
@@ -370,8 +386,40 @@ export function Workspace() {
 
             {/* Output Body */}
             <div className="flex-1 p-6 sm:p-8 overflow-y-auto">
+              {/* Error State */}
+              {error && !isGenerating && (
+                <div className="flex flex-col items-center justify-center h-full text-center py-12">
+                  <div className="w-16 h-16 rounded-2xl bg-destructive/10 flex items-center justify-center mb-4">
+                    <svg
+                      width="28"
+                      height="28"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-destructive"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="15" y1="9" x2="9" y2="15" />
+                      <line x1="9" y1="9" x2="15" y2="15" />
+                    </svg>
+                  </div>
+                  <p className="text-destructive text-sm font-medium mb-2">
+                    {error}
+                  </p>
+                  <button
+                    onClick={() => setError(null)}
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              )}
+
               {/* Empty State */}
-              {!result && !isGenerating && (
+              {!result && !isGenerating && !error && (
                 <div className="flex flex-col items-center justify-center h-full text-center py-12">
                   <div className="w-16 h-16 rounded-2xl bg-muted flex items-center justify-center mb-4">
                     <svg
