@@ -1,0 +1,8 @@
+# https://www.ealoongchan.top/robots.txt
+User-agent: *
+Allow: /
+
+# Disallow admin or private pages if any
+# Disallow: /private/
+
+Sitemap: https://www.ealoongchan.top/sitemap.xml
