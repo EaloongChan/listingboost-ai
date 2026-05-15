@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { ClientProviders } from "./providers";
 
@@ -90,6 +91,12 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <ClientProviders>{children}</ClientProviders>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5750850218373987"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
