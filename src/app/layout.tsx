@@ -105,6 +105,24 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#2563eb" />
         <link rel="icon" href="/favicon.ico" />
+        {/* Google Analytics 4 */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-1HTCYSWRJY"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-1HTCYSWRJY', {
+                page_title: document.title,
+                send_page_view: true
+              });
+            `,
+          }}
+        />
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5750850218373987"
