@@ -82,6 +82,12 @@ export interface TranslationStrings {
     labelTitle: string;
     labelBullets: string;
     labelDescription: string;
+    aiThinkingTitle: string;
+    aiThinkingSteps: string[];
+    dailyLimitReached: string;
+    hourlyLimitReached: string;
+    cachedResult: string;
+    remainingToday: string;
   };
   features: {
     badge: string;

@@ -43,6 +43,18 @@ export const de = {
     labelTitle: "Produkttitel",
     labelBullets: "Bulletpoints",
     labelDescription: "Produktbeschreibung",
+    aiThinkingTitle: "KI erstellt deine Anzeige",
+    aiThinkingSteps: [
+      "Analysiere Produktkeywords...",
+      "Verfasse überzeugende Bullet Points...",
+      "Optimiere Sprache und Ton...",
+      "Optimiere für Suchmaschinen...",
+      "Finalisiere deine Anzeige...",
+    ],
+    dailyLimitReached: "Tageslimit erreicht. Bitte versuche es morgen erneut.",
+    hourlyLimitReached: "Stundenlimit erreicht. Bitte warte einen Moment oder versuche es später erneut.",
+    cachedResult: "Ergebnis aus Cache geladen",
+    remainingToday: "Heute verbleibend:",
   },
   features: {
     badge: "Warum ListingBoost AI",

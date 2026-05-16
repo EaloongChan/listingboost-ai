@@ -6,6 +6,8 @@ import {
   type ListingFormData,
   type GeneratedListing,
 } from "@/lib/types";
+import { AIThinking } from "./AIThinking";
+import { RecommendedTools } from "./RecommendedTools";
 
 export function Workspace() {
   const { t } = useI18n();
@@ -22,6 +24,7 @@ export function Workspace() {
   const [result, setResult] = useState<GeneratedListing | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [rateLimited, setRateLimited] = useState(false);
 
   const handleChange = useCallback(
     (field: keyof ListingFormData, value: string) => {
@@ -36,6 +39,7 @@ export function Workspace() {
     setIsGenerating(true);
     setResult(null);
     setError(null);
+    setRateLimited(false);
 
     try {
       const response = await fetch("/api/generate", {
@@ -47,7 +51,12 @@ export function Workspace() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Generation failed. Please try again.");
+        if (response.status === 429) {
+          setRateLimited(true);
+          setError(data.error || t.workspace.dailyLimitReached);
+        } else {
+          setError(data.error || "Generation failed. Please try again.");
+        }
         return;
       }
 
@@ -57,7 +66,7 @@ export function Workspace() {
     } finally {
       setIsGenerating(false);
     }
-  }, [formData]);
+  }, [formData, t]);
 
   const handleCopy = useCallback(async (text: string, field: string) => {
     try {
@@ -389,28 +398,46 @@ export function Workspace() {
               {/* Error State */}
               {error && !isGenerating && (
                 <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                  <div className="w-16 h-16 rounded-2xl bg-destructive/10 flex items-center justify-center mb-4">
-                    <svg
-                      width="28"
-                      height="28"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-destructive"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="15" y1="9" x2="9" y2="15" />
-                      <line x1="9" y1="9" x2="15" y2="15" />
-                    </svg>
+                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 ${rateLimited ? "bg-orange-100 dark:bg-orange-900/20" : "bg-destructive/10"}`}>
+                    {rateLimited ? (
+                      /* Clock icon for rate limit */
+                      <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="text-orange-500"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l4 2" />
+                      </svg>
+                    ) : (
+                      <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="text-destructive"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="15" y1="9" x2="9" y2="15" />
+                        <line x1="9" y1="9" x2="15" y2="15" />
+                      </svg>
+                    )}
                   </div>
-                  <p className="text-destructive text-sm font-medium mb-2">
+                  <p className={`text-sm font-medium mb-2 ${rateLimited ? "text-orange-600 dark:text-orange-400" : "text-destructive"}`}>
                     {error}
                   </p>
                   <button
-                    onClick={() => setError(null)}
+                    onClick={() => { setError(null); setRateLimited(false); }}
                     className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                   >
                     Dismiss
@@ -437,10 +464,7 @@ export function Workspace() {
                     </svg>
                   </div>
                   <p className="text-muted-foreground text-sm">
-                    {t.workspace.emptyState.replace(
-                      "{generateBtn}",
-                      t.workspace.emptyStateBtn
-                    ).split("{generateBtn}").map((part, i) =>
+                    {t.workspace.emptyState.split("{generateBtn}").map((part, i) =>
                       i === 0 ? (
                         <span key={i}>{part}</span>
                       ) : (
@@ -456,44 +480,12 @@ export function Workspace() {
                 </div>
               )}
 
-              {/* Loading State */}
+              {/* AI Thinking Animation (Module 3) */}
               {isGenerating && (
-                <div className="space-y-6 animate-fade-in-up">
-                  <div>
-                    <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
-                      {t.workspace.labelTitle}
-                    </div>
-                    <div className="h-6 w-3/4 rounded-lg animate-shimmer" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
-                      {t.workspace.labelBullets}
-                    </div>
-                    <div className="space-y-3">
-                      {[...Array(5)].map((_, i) => (
-                        <div
-                          key={i}
-                          className="h-4 rounded-lg animate-shimmer"
-                          style={{ width: `${75 + Math.random() * 25}%` }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
-                      {t.workspace.labelDescription}
-                    </div>
-                    <div className="space-y-3">
-                      {[...Array(6)].map((_, i) => (
-                        <div
-                          key={i}
-                          className="h-4 rounded-lg animate-shimmer"
-                          style={{ width: `${60 + Math.random() * 40}%` }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                <AIThinking
+                  title={t.workspace.aiThinkingTitle}
+                  steps={t.workspace.aiThinkingSteps}
+                />
               )}
 
               {/* Result */}
@@ -593,6 +585,9 @@ export function Workspace() {
                       {result.productDescription}
                     </div>
                   </div>
+
+                  {/* Module 4: Recommended Tools (Affiliate) */}
+                  <RecommendedTools />
                 </div>
               )}
             </div>

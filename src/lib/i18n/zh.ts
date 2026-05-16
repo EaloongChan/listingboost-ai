@@ -42,6 +42,18 @@ export const zh = {
     labelTitle: "产品标题",
     labelBullets: "卖点要点",
     labelDescription: "产品描述",
+    aiThinkingTitle: "AI 正在为你打造文案",
+    aiThinkingSteps: [
+      "正在分析产品关键词...",
+      "正在撰写引人注目的卖点...",
+      "正在优化语言和语调...",
+      "正在优化搜索排名...",
+      "正在完成你的文案...",
+    ],
+    dailyLimitReached: "每日免费次数已用完，请明天再试。",
+    hourlyLimitReached: "已达到每小时限制，请稍后再试。",
+    cachedResult: "结果已从缓存加载",
+    remainingToday: "今日剩余次数：",
   },
   features: {
     badge: "为什么选择 ListingBoost AI",

@@ -41,6 +41,18 @@ export const vi = {
     labelTitle: "Tiêu đề sản phẩm",
     labelBullets: "Điểm nổi bật",
     labelDescription: "Mô tả sản phẩm",
+    aiThinkingTitle: "AI đang Tạo Nội dung của Bạn",
+    aiThinkingSteps: [
+      "Đang phân tích từ khóa sản phẩm...",
+      "Đang viết các điểm nổi bật thuyết phục...",
+      "Đang hoàn thiện ngôn ngữ & phong cách...",
+      "Đang tối ưu hóa cho xếp hạng tìm kiếm...",
+      "Đang hoàn tất nội dung của bạn...",
+    ],
+    dailyLimitReached: "Đã đạt đến giới hạn miễn phí hàng ngày. Vui lòng thử lại vào ngày mai.",
+    hourlyLimitReached: "Đã đạt đến giới hạn hàng giờ. Vui lòng đợi một lát hoặc thử lại sau.",
+    cachedResult: "Kết quả được tải từ bộ nhớ đệm",
+    remainingToday: "Còn lại hôm nay:",
   },
   features: {
     badge: "Tại sao ListingBoost AI",

@@ -41,6 +41,18 @@ export const ko = {
     labelTitle: "상품 제목",
     labelBullets: "주요 포인트",
     labelDescription: "상품 설명",
+    aiThinkingTitle: "AI가 상품 페이지를 작성하고 있습니다",
+    aiThinkingSteps: [
+      "상품 키워드 분석 중...",
+      "매력적인 불릿 포인트 작성 중...",
+      "언어 및 톤 다듬기 중...",
+      "검색 순위 최적화 중...",
+      "상품 페이지를 완성하고 있습니다...",
+    ],
+    dailyLimitReached: "오늘의 무료 사용 횟수에 도달했습니다. 내일 다시 시도해 주세요.",
+    hourlyLimitReached: "시간당 사용 한도에 도달했습니다. 잠시 후 또는 나중에 다시 시도해 주세요.",
+    cachedResult: "캐시에서 결과를 불러왔습니다",
+    remainingToday: "오늘 남은 횟수:",
   },
   features: {
     badge: "ListingBoost AI를 선택하는 이유",

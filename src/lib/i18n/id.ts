@@ -41,6 +41,18 @@ export const id = {
     labelTitle: "Judul Produk",
     labelBullets: "Poin Penting",
     labelDescription: "Deskripsi Produk",
+    aiThinkingTitle: "AI Sedang Membuat Listing Anda",
+    aiThinkingSteps: [
+      "Menganalisis kata kunci produk...",
+      "Menulis poin penting yang meyakinkan...",
+      " Menyempurnakan bahasa & nada...",
+      "Mengoptimalkan untuk peringkat pencarian...",
+      "Menyelesaikan listing Anda...",
+    ],
+    dailyLimitReached: "Batas gratis harian tercapai. Silakan coba lagi besok.",
+    hourlyLimitReached: "Batas per jam tercapai. Mohon tunggu sebentar atau coba lagi nanti.",
+    cachedResult: "Hasil dimuat dari cache",
+    remainingToday: "Sisa hari ini:",
   },
   features: {
     badge: "Mengapa ListingBoost AI",

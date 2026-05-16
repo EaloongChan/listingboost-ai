@@ -108,6 +108,16 @@ body {
   animation: spin-slow 1s linear infinite;
 }
 
+@keyframes shimmer-bar {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.animate-shimmer-bar {
+  animation: shimmer-bar 1.2s ease-in-out infinite;
+}
+
 /* ─── Premium Glass Effect ─── */
 .glass-card {
   background: rgba(255, 255, 255, 0.7);

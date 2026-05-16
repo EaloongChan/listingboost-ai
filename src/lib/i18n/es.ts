@@ -43,6 +43,18 @@ export const es = {
     labelTitle: "Título del Producto",
     labelBullets: "Puntos Destacados",
     labelDescription: "Descripción del Producto",
+    aiThinkingTitle: "La IA está creando tu anuncio",
+    aiThinkingSteps: [
+      "Analizando palabras clave del producto...",
+      "Redactando puntos destacados...",
+      "Perfeccionando lenguaje y tono...",
+      "Optimizando para ranking de búsqueda...",
+      "Finalizando tu anuncio...",
+    ],
+    dailyLimitReached: "Límite diario alcanzado. Por favor, intenta de nuevo mañana.",
+    hourlyLimitReached: "Límite por hora alcanzado. Por favor, espera un momento o intenta más tarde.",
+    cachedResult: "Resultado cargado desde caché",
+    remainingToday: "Restantes hoy:",
   },
   features: {
     badge: "Por Qué ListingBoost AI",

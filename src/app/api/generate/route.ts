@@ -1,34 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
+import { getAIConfig } from "@/lib/ai-provider";
+import { SYSTEM_PROMPT } from "@/lib/ai-prompts";
+import { hashRequest, getCached, setCache } from "@/lib/cache";
+import { checkRateLimit } from "@/lib/rate-limit";
 
-const SYSTEM_PROMPT = `You are an expert e-commerce copywriter who specializes in creating high-converting product listings. You generate compelling, SEO-optimized product content for various e-commerce platforms.
+// Cost control: reasonable token limits
+const MAX_TOKENS = 2048;
 
-When given product information, you MUST respond with a valid JSON object in this exact format (no markdown, no code blocks, just raw JSON):
-{
-  "title": "A compelling product title (under 200 characters, include key SEO keywords)",
-  "bulletPoints": [
-    "Bullet point 1 starting with a benefit keyword in CAPS",
-    "Bullet point 2 starting with a feature keyword in CAPS",
-    "Bullet point 3 starting with a benefit keyword in CAPS",
-    "Bullet point 4 starting with a guarantee keyword in CAPS",
-    "Bullet point 5 starting with a use-case keyword in CAPS"
-  ],
-  "productDescription": "A detailed product description (300-600 words) with clear sections, emotional appeal, and a call to action"
+function getClientIP(request: NextRequest): string {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) {
+    return forwarded.split(",")[0].trim();
+  }
+  const realIP = request.headers.get("x-real-ip");
+  if (realIP) return realIP;
+  return "unknown";
 }
-
-Rules:
-- Match the requested tone perfectly (professional, casual, luxury, technical, or emotional)
-- Optimize for the target platform's best practices
-- Include relevant keywords for SEO
-- Make bullet points scannable with CAPS prefix
-- Description should be persuasive but not spammy
-- If the user writes in Chinese, respond in Chinese. If in English, respond in English. Match the user's language.
-- Always respond with valid JSON only, no extra text`;
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { productName, keySellingPoints, targetAudience, tone, platform } = body;
+    const { productName, keySellingPoints, targetAudience, tone, platform } =
+      body;
 
     if (!productName?.trim()) {
       return NextResponse.json(
@@ -37,8 +31,42 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const apiKey = process.env.ZHIPU_API_KEY;
-    if (!apiKey) {
+    // ─── Rate Limiting (Module 2) ───
+    const ip = getClientIP(request);
+    const rateCheck = checkRateLimit(ip);
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        {
+          error: rateCheck.reason,
+          rateLimited: true,
+          retryAfterMs: rateCheck.retryAfterMs,
+        },
+        { status: 429 }
+      );
+    }
+
+    // ─── Cache Check (Module 2) ───
+    const cacheKey = hashRequest({
+      productName: productName.trim(),
+      keySellingPoints: keySellingPoints?.trim() || "",
+      targetAudience,
+      tone,
+      platform,
+    });
+
+    const cached = getCached<Record<string, unknown>>(cacheKey);
+    if (cached) {
+      return NextResponse.json({
+        result: cached,
+        cached: true,
+      });
+    }
+
+    // ─── AI Provider (Module 1: Decoupled) ───
+    let config;
+    try {
+      config = getAIConfig();
+    } catch {
       return NextResponse.json(
         { error: "AI service is not configured" },
         { status: 500 }
@@ -46,8 +74,8 @@ export async function POST(request: NextRequest) {
     }
 
     const client = new OpenAI({
-      apiKey: apiKey,
-      baseURL: "https://open.bigmodel.cn/api/paas/v4",
+      apiKey: config.apiKey,
+      baseURL: config.baseURL,
     });
 
     const userMessage = `Generate a product listing with the following details:
@@ -57,16 +85,17 @@ export async function POST(request: NextRequest) {
 - Tone: ${tone || "Professional"}
 - Platform: ${platform || "Amazon"}
 
-Please respond with a JSON object containing: title, bulletPoints (array of 5 strings), and productDescription.`;
+Respond with a JSON object containing: title, bulletPoints (array of 5 strings), and productDescription.`;
 
+    // ─── AI Call with Cost Control ───
     const completion = await client.chat.completions.create({
-      model: "glm-4.7-flash",
+      model: config.model,
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: userMessage },
       ],
-      temperature: 1.0,
-      max_tokens: 4096,
+      temperature: 0.85,
+      max_tokens: MAX_TOKENS,
     });
 
     const content = completion.choices[0]?.message?.content?.trim();
@@ -78,7 +107,7 @@ Please respond with a JSON object containing: title, bulletPoints (array of 5 st
       );
     }
 
-    // Parse JSON from response (handle potential markdown code blocks)
+    // ─── Parse & Validate ───
     let cleanedContent = content;
     if (content.startsWith("```")) {
       cleanedContent = content
@@ -91,7 +120,6 @@ Please respond with a JSON object containing: title, bulletPoints (array of 5 st
     try {
       result = JSON.parse(cleanedContent);
     } catch {
-      // If JSON parsing fails, try to extract JSON from the text
       const jsonMatch = cleanedContent.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         result = JSON.parse(jsonMatch[0]);
@@ -103,13 +131,19 @@ Please respond with a JSON object containing: title, bulletPoints (array of 5 st
       }
     }
 
-    // Validate the result structure
-    if (!result.title || !Array.isArray(result.bulletPoints) || !result.productDescription) {
+    if (
+      !result.title ||
+      !Array.isArray(result.bulletPoints) ||
+      !result.productDescription
+    ) {
       return NextResponse.json(
         { error: "AI returned incomplete data. Please try again." },
         { status: 500 }
       );
     }
+
+    // ─── Cache the result (Module 2) ───
+    setCache(cacheKey, result);
 
     return NextResponse.json({ result });
   } catch (error) {

@@ -50,6 +50,18 @@ export const en = {
     labelTitle: "Product Title",
     labelBullets: "Bullet Points",
     labelDescription: "Product Description",
+    aiThinkingTitle: "AI is Crafting Your Listing",
+    aiThinkingSteps: [
+      "Analyzing product keywords...",
+      "Writing compelling bullet points...",
+      "Refining language & tone...",
+      "Optimizing for search ranking...",
+      "Finalizing your listing...",
+    ],
+    dailyLimitReached: "Daily free limit reached. Please try again tomorrow.",
+    hourlyLimitReached: "Hourly limit reached. Please wait a moment or try again later.",
+    cachedResult: "Result loaded from cache",
+    remainingToday: "Remaining today:",
   },
 
   // Features

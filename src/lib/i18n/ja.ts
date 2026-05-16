@@ -43,6 +43,18 @@ export const ja = {
     labelTitle: "商品タイトル",
     labelBullets: "箇条書き",
     labelDescription: "商品説明",
+    aiThinkingTitle: "AIがあなたのリスティングを作成しています",
+    aiThinkingSteps: [
+      "商品のキーワードを分析中...",
+      "魅力的な箇条書きを作成中...",
+      "言語とトーンを調整中...",
+      "検索順位を最適化中...",
+      "リスティングを完成させています...",
+    ],
+    dailyLimitReached: "本日の無料回数に達しました。明日またお試しください。",
+    hourlyLimitReached: "1時間の制限に達しました。しばらくお待ちいただくか、後ほど再度お試しください。",
+    cachedResult: "キャッシュから結果を読み込みました",
+    remainingToday: "本日の残り回数：",
   },
   features: {
     badge: "ListingBoost AIを選ぶ理由",
