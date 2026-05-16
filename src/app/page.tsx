@@ -13,12 +13,12 @@ export default function Home() {
       <main className="flex-1">
         <HeroSection />
 
-        <EcommerceGuideSection />
-
         {/* ─── Main Workspace ─── */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Workspace />
         </div>
+
+        <EcommerceGuideSection />
 
         <FeaturesSection />
       </main>
