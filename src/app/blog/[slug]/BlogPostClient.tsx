@@ -167,6 +167,8 @@ export function BlogPostClient({ post }: BlogPostClientProps) {
 /**
  * Simple Markdown to HTML converter
  * Handles: headings, bold, italic, links, lists, code, blockquotes, hr, paragraphs
+ * Supports soft line breaks (consecutive lines → one paragraph),
+ * hard line breaks (trailing two spaces → <br>), and • bullet lists.
  */
 function markdownToHtml(md: string): string {
   const lines = md.split("\n");
@@ -175,12 +177,41 @@ function markdownToHtml(md: string): string {
   let listType: "ul" | "ol" = "ul";
   let inCodeBlock = false;
   let inBlockquote = false;
+  let paragraphBuffer: string[] = [];
+
+  /** Flush accumulated paragraph lines into a single <p> tag */
+  const flushParagraph = () => {
+    if (paragraphBuffer.length === 0) return;
+    // Join with spaces, then convert trailing double-spaces to <br>
+    const joined = paragraphBuffer.join(" ").replace(/  +\n?/g, "<br />\n");
+    result.push(`<p>${inlineFormat(joined.trim())}</p>`);
+    paragraphBuffer = [];
+  };
+
+  /** Close list if open */
+  const closeList = () => {
+    if (inList) {
+      result.push(listType === "ul" ? "</ul>" : "</ol>");
+      inList = false;
+    }
+  };
+
+  /** Close blockquote if open */
+  const closeBlockquote = () => {
+    if (inBlockquote) {
+      result.push("</blockquote>");
+      inBlockquote = false;
+    }
+  };
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
     // Code block toggle
     if (line.trim().startsWith("```")) {
+      flushParagraph();
+      closeList();
+      closeBlockquote();
       if (inCodeBlock) {
         result.push("</code></pre>");
         inCodeBlock = false;
@@ -197,27 +228,27 @@ function markdownToHtml(md: string): string {
       continue;
     }
 
-    // Empty line
+    // Empty line → flush paragraph
     if (line.trim() === "") {
-      if (inList) {
-        result.push(listType === "ul" ? "</ul>" : "</ol>");
-        inList = false;
-      }
-      if (inBlockquote) {
-        result.push("</blockquote>");
-        inBlockquote = false;
-      }
+      flushParagraph();
+      closeList();
+      closeBlockquote();
       continue;
     }
 
     // Horizontal rule
     if (/^---+$/.test(line.trim()) || /^\*\*\*+$/.test(line.trim())) {
+      flushParagraph();
+      closeList();
+      closeBlockquote();
       result.push("<hr />");
       continue;
     }
 
     // Blockquote
     if (line.trim().startsWith("> ")) {
+      flushParagraph();
+      closeList();
       if (!inBlockquote) {
         result.push("<blockquote>");
         inBlockquote = true;
@@ -229,26 +260,38 @@ function markdownToHtml(md: string): string {
     // Headings
     const headingMatch = line.match(/^(#{1,3})\s+(.+)/);
     if (headingMatch) {
+      flushParagraph();
+      closeList();
+      closeBlockquote();
       const level = headingMatch[1].length;
       result.push(`<h${level}>${inlineFormat(headingMatch[2])}</h${level}>`);
       continue;
     }
 
-    // Unordered list
-    if (line.trim().startsWith("- ") || line.trim().startsWith("* ")) {
+    // Unordered list (supports -, *, and • bullets)
+    if (
+      line.trim().startsWith("- ") ||
+      line.trim().startsWith("* ") ||
+      line.trim().startsWith("• ")
+    ) {
+      flushParagraph();
+      closeBlockquote();
+      const bulletPrefix = line.trim().startsWith("• ") ? 2 : 2; // "• ", "- ", or "* " all 2 chars
       if (!inList || listType !== "ul") {
         if (inList) result.push(listType === "ul" ? "</ul>" : "</ol>");
         result.push("<ul>");
         inList = true;
         listType = "ul";
       }
-      result.push(`<li>${inlineFormat(line.trim().slice(2))}</li>`);
+      result.push(`<li>${inlineFormat(line.trim().slice(bulletPrefix))}</li>`);
       continue;
     }
 
     // Ordered list
     const olMatch = line.trim().match(/^\d+\.\s+(.+)/);
     if (olMatch) {
+      flushParagraph();
+      closeBlockquote();
       if (!inList || listType !== "ol") {
         if (inList) result.push(listType === "ul" ? "</ul>" : "</ol>");
         result.push("<ol>");
@@ -259,21 +302,14 @@ function markdownToHtml(md: string): string {
       continue;
     }
 
-    // Close list if we hit non-list content
-    if (inList) {
-      result.push(listType === "ul" ? "</ul>" : "</ol>");
-      inList = false;
-    }
-    if (inBlockquote) {
-      result.push("</blockquote>");
-      inBlockquote = false;
-    }
-
-    // Paragraph
-    result.push(`<p>${inlineFormat(line)}</p>`);
+    // Regular text → buffer for paragraph merging
+    closeList();
+    closeBlockquote();
+    paragraphBuffer.push(line);
   }
 
-  // Close any remaining open tags
+  // Flush any remaining buffered content
+  flushParagraph();
   if (inList) result.push(listType === "ul" ? "</ul>" : "</ol>");
   if (inCodeBlock) result.push("</code></pre>");
   if (inBlockquote) result.push("</blockquote>");
