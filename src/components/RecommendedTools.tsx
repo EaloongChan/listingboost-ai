@@ -37,7 +37,7 @@ export function RecommendedTools() {
         <div className="space-y-3">
           {/* Helium 10 */}
           <a
-            href="#helium10-affiliate"
+            href="https://i.helium10.com/c/7311265/3054775/37271"
             target="_blank"
             rel="noopener noreferrer sponsored"
             className="group flex items-center gap-4 p-3.5 rounded-xl border border-border bg-background hover:bg-accent/50 hover:border-primary/30 transition-all duration-300 no-underline"
