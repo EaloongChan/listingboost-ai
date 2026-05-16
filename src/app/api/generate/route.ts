@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-import { getAIConfig } from "@/lib/ai-provider";
+import { getAIProviders } from "@/lib/ai-provider";
 import { SYSTEM_PROMPT } from "@/lib/ai-prompts";
 import { hashRequest, getCached, setCache } from "@/lib/cache";
 import { checkRateLimit } from "@/lib/rate-limit";
@@ -62,21 +62,14 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // ─── AI Provider (Module 1: Decoupled) ───
-    let config;
-    try {
-      config = getAIConfig();
-    } catch {
+    // ─── Multi-provider Fallback (Module 1: Decoupled) ───
+    const providers = getAIProviders();
+    if (providers.length === 0) {
       return NextResponse.json(
         { error: "AI service is not configured" },
         { status: 500 }
       );
     }
-
-    const client = new OpenAI({
-      apiKey: config.apiKey,
-      baseURL: config.baseURL,
-    });
 
     const userMessage = `Generate a product listing with the following details:
 - Product Name: ${productName}
@@ -87,23 +80,46 @@ export async function POST(request: NextRequest) {
 
 Respond with a JSON object containing: title, bulletPoints (array of 5 strings), and productDescription.`;
 
-    // ─── AI Call with Cost Control ───
-    const completion = await client.chat.completions.create({
-      model: config.model,
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: userMessage },
-      ],
-      temperature: 0.85,
-      max_tokens: MAX_TOKENS,
-    });
+    let content: string | null = null;
+    let lastError: string | null = null;
 
-    const content = completion.choices[0]?.message?.content?.trim();
+    for (const provider of providers) {
+      try {
+        const client = new OpenAI({
+          apiKey: provider.apiKey,
+          baseURL: provider.baseURL,
+        });
+
+        const completion = await client.chat.completions.create({
+          model: provider.model,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userMessage },
+          ],
+          temperature: 0.85,
+          max_tokens: MAX_TOKENS,
+        });
+
+        const raw = completion.choices[0]?.message?.content?.trim();
+        if (raw) {
+          content = raw;
+          break; // Success — stop trying other providers
+        }
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        lastError = message;
+        console.warn(`Provider ${provider.name} (${provider.baseURL}) failed: ${message}`);
+        // Continue to next provider
+      }
+    }
 
     if (!content) {
       return NextResponse.json(
-        { error: "AI generated empty response" },
-        { status: 500 }
+        {
+          error: "All AI providers are currently unavailable. Please try again later.",
+          detail: lastError || undefined,
+        },
+        { status: 503 }
       );
     }
 
