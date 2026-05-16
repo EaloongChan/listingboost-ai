@@ -104,6 +104,7 @@ export default function RootLayout({
     >
       <head>
         <meta name="theme-color" content="#2563eb" />
+        <meta name="impact-site-verification" content="21e1d1d9-4806-4ca6-8548-0146ac14e9be" />
         <link rel="icon" href="/favicon.ico" />
         {/* Google Analytics 4 */}
         <script
