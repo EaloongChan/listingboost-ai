@@ -3,6 +3,7 @@ export const pt = {
     generator: "Gerador",
     features: "Recursos",
     pricing: "Preços",
+    blog: "Blog",
     login: "Entrar",
     startFree: "Começar Grátis",
   },

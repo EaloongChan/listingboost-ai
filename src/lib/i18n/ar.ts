@@ -3,6 +3,7 @@ export const ar = {
     generator: "المُولّد",
     features: "المميزات",
     pricing: "الأسعار",
+    blog: "المدونة",
     login: "تسجيل الدخول",
     startFree: "ابدأ مجاناً",
   },

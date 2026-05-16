@@ -3,6 +3,7 @@ export const id = {
     generator: "Generator",
     features: "Fitur",
     pricing: "Harga",
+    blog: "Blog",
     login: "Masuk",
     startFree: "Mulai Gratis",
   },

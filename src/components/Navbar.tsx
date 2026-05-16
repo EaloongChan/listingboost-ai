@@ -52,6 +52,12 @@ export function Navbar() {
               {t.nav.features}
             </Link>
             <Link
+              href="/blog"
+              className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-lg hover:bg-accent"
+            >
+              {t.nav.blog}
+            </Link>
+            <Link
               href="#pricing"
               className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-lg hover:bg-accent"
             >
@@ -147,6 +153,13 @@ export function Navbar() {
             className="block px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg hover:bg-accent transition-colors"
           >
             {t.nav.features}
+          </Link>
+          <Link
+            href="/blog"
+            onClick={() => setMobileOpen(false)}
+            className="block px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg hover:bg-accent transition-colors"
+          >
+            {t.nav.blog}
           </Link>
           <Link
             href="#pricing"

@@ -3,6 +3,7 @@ export const fr = {
     generator: "Générateur",
     features: "Fonctionnalités",
     pricing: "Tarifs",
+    blog: "Blog",
     login: "Connexion",
     startFree: "Commencer Gratuitement",
   },

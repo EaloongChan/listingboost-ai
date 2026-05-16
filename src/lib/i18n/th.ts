@@ -3,6 +3,7 @@ export const th = {
     generator: "เครื่องมือสร้าง",
     features: "คุณสมบัติ",
     pricing: "ราคา",
+    blog: "บล็อก",
     login: "เข้าสู่ระบบ",
     startFree: "เริ่มฟรี",
   },

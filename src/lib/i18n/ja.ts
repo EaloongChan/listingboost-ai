@@ -3,6 +3,7 @@ export const ja = {
     generator: "ジェネレーター",
     features: "機能",
     pricing: "料金",
+    blog: "ブログ",
     login: "ログイン",
     startFree: "無料で始める",
   },

@@ -78,6 +78,14 @@ export function Footer() {
             <ul className="space-y-2.5">
               <li>
                 <Link
+                  href="/blog"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                >
+                  {t.footer.resourcesLinks[0]}
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/faq"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 >

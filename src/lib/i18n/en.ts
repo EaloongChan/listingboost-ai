@@ -4,6 +4,7 @@ export const en = {
     generator: "Generator",
     features: "Features",
     pricing: "Pricing",
+    blog: "Blog",
     login: "Log in",
     startFree: "Start Free",
   },

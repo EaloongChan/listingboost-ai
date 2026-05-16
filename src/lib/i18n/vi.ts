@@ -3,6 +3,7 @@ export const vi = {
     generator: "Trình tạo",
     features: "Tính năng",
     pricing: "Bảng giá",
+    blog: "Blog",
     login: "Đăng nhập",
     startFree: "Bắt đầu miễn phí",
   },

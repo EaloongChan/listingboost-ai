@@ -3,6 +3,7 @@ export const de = {
     generator: "Generator",
     features: "Funktionen",
     pricing: "Preise",
+    blog: "Blog",
     login: "Anmelden",
     startFree: "Kostenlos Starten",
   },

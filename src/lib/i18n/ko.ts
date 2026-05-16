@@ -3,6 +3,7 @@ export const ko = {
     generator: "생성기",
     features: "기능",
     pricing: "요금",
+    blog: "블로그",
     login: "로그인",
     startFree: "무료 시작",
   },

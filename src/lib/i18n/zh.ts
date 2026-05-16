@@ -3,6 +3,7 @@ export const zh = {
     generator: "生成器",
     features: "功能介绍",
     pricing: "定价",
+    blog: "博客",
     login: "登录",
     startFree: "免费开始",
   },

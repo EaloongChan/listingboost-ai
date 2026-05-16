@@ -45,6 +45,7 @@ export interface TranslationStrings {
     generator: string;
     features: string;
     pricing: string;
+    blog: string;
     login: string;
     startFree: string;
   };

@@ -3,6 +3,7 @@ export const ru = {
     generator: "Генератор",
     features: "Возможности",
     pricing: "Цены",
+    blog: "Blog",
     login: "Войти",
     startFree: "Начать бесплатно",
   },
