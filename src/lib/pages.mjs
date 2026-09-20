@@ -129,7 +129,7 @@ export function homePage(ctx) {
 
 <section class="section">
   <div class="container">
-    ${shead(4, '精选工具', '编辑挑选、实测可用、覆盖面广的入门首选', '/tools/?hot=1', '看全部热门')}
+    ${shead(4, '精选工具', '编辑挑选、覆盖面广、上手门槛低的入门首选', '/tools/?hot=1', '看全部热门')}
     <div class="grid">${hotTools.map((t) => toolCard(t, toolCatMap)).join('')}</div>
   </div>
 </section>
@@ -314,6 +314,13 @@ export function toolDetailPage(ctx, t) {
     t.cn ? `<span class="badge-pill badge-cn">国内直连</span>` : `<span class="badge-pill" style="color:var(--fg-3)">需境外访问</span>`,
   ].filter(Boolean).join('');
 
+
+  // 核验状态：默认「按公开资料整理」。将来某条真做了实测或按官方资料核验过，
+  // 在 tools.json 里给它加 review:{status:'tested'|'source-verified'} 就会自动变。
+  const reviewStatus = (t.review && t.review.status) || site.review?.defaultStatus || 'editorial';
+  const statusLabel = (site.review?.statusLabels || {})[reviewStatus] || reviewStatus;
+  const reviewedAt = (t.review && t.review.reviewedAt) || t.reviewed || (site.contentDates && site.contentDates.tools) || '';
+
   const facts = [
     ['分类', cat.name],
     ['价格模式', PRICING[t.pricing] || t.pricing],
@@ -406,7 +413,20 @@ ${siblings.length ? `<section class="section">
     ${shead(usedIn.length ? '05' : '04', `${cat.name}的其他工具`, '', `/tools/${esc(t.cat)}/`, '查看全部')}
     <div class="grid">${siblings.slice(0, 8).map((x) => toolCard(x, toolCatMap)).join('')}</div>
   </div>
-</section>` : ''}`;
+</section>` : ''}
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="review-note">
+      <div class="rn-head">
+        <span class="rn-status">${esc(statusLabel)}</span>
+        ${reviewedAt ? `<span class="rn-date">更新于 ${esc(reviewedAt)}</span>` : ''}
+        ${(t.evidence || []).length ? `<span class="rn-date">核验依据 ${t.evidence.length} 项</span>` : ''}
+      </div>
+      <p>${esc(site.review?.policy || '')} 发现信息有误或已过时，<a href="/about/#submit">欢迎指出</a>。</p>
+    </div>
+  </div>
+</section>`;
 
   return layout({
     altPath: `/en/tools/${t.cat}/${t.id}/`,
@@ -810,7 +830,7 @@ ${pageHead('全站搜索', '一次搜索覆盖场景手册、工具、提示词�
     site, path: '/search/', title: '全站搜索',
     description: '全站搜索：一次搜遍 AI 工具、场景手册、提示词、模型、术语、学习资源与资讯，共 500 多条内容。数据在页面加载时已就绪，输入即出结果。',
     body,
-    scripts: `<script>window.__AIWX_INDEX__=${jsonEmbed(ctx.searchIndex)};</script>`,
+    scripts: `<script>window.__AIWX_INDEX__=${jsonEmbed(ctx.searchIndex)};window.__AIWX_QUERY_MAP__=${jsonEmbed(ctx.queryMap || {})};</script>`,
     jsonld: breadcrumbLd(site, crumbItems),
   });
 }
@@ -1110,6 +1130,7 @@ export function liveNewsPage(ctx, { activeSource = '' } = {}) {
 
   if (!feed || !feed.items?.length) {
     return layout({
+      robots: 'noindex, follow',
       site, path: '/news/live/', title: '实时动态',
       description: '来自各大 AI 资讯源的实时抓取。',
       body: `${crumbs([{ label: '首页', href: '/' }, { label: '资讯', href: '/news/' }, { label: '实时动态' }])}
@@ -1214,6 +1235,7 @@ ${pageHead(
   return layout({
     site,
     path: activeSource ? `/news/live/${activeSource}/` : '/news/live/',
+    robots: 'noindex, follow', // 自动聚合页不进索引，但保留链接权重传递
     title: '实时动态',
     description: `从 ${sources.length} 个公开资讯源自动抓取的最新 AI 动态，共 ${feed.items.length} 条。`,
     body,

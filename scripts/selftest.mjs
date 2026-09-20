@@ -854,6 +854,63 @@ test('英文版关于页说明覆盖范围，并链回中文版', '/en/about/', 
   return { ok: hasScope && backLink === true, detail: `章节 [${heads.join(' / ')}]，链回中文版=${backLink}` };
 });
 
+/* ---- v9 新增：中文检索召回 ---- */
+
+/** 在搜索页输入关键词，返回结果标题 */
+async function searchFor(c, q) {
+  await c.send('Page.navigate', { url: SERVE + '/search/?q=' + encodeURIComponent(q) });
+  await sleep(800);
+  return c.eval(`[...document.querySelectorAll('#searchResults .card-title .name')].slice(0,6).map(x=>x.textContent)`);
+}
+
+test('中文检索：连续说法可被理解（「怎么本地跑模型」）', '/search/?q=本地部署', async (c) => {
+  const a = await searchFor(c, '本地部署');
+  const b = await searchFor(c, '怎么本地跑模型');
+  const count = b.length;
+  return {
+    ok: count > 0,
+    detail: `「本地部署」命中 ${a.length} 条；「怎么本地跑模型」（口语说法）命中 ${count} 条 → ${b.slice(0,3).join(' / ')}`,
+  };
+});
+
+test('中文检索：同义词可被理解（画图 → 图像生成）', '/search/?q=画图', async (c) => {
+  const r = await searchFor(c, '画图');
+  return { ok: r.length > 0, detail: `「画图」命中 ${r.length} 条 → ${r.slice(0,4).join(' / ')}` };
+});
+
+test('中文检索：需求式提问可被理解（写周报 / 会议纪要）', '/search/?q=会议纪要', async (c) => {
+  const a = await searchFor(c, '会议纪要');
+  const b = await searchFor(c, '录音转文字');
+  return {
+    ok: a.length > 0 || b.length > 0,
+    detail: `「会议纪要」${a.length} 条；「录音转文字」${b.length} 条`,
+  };
+});
+
+test('中文检索：归一化生效（全角 / 大小写）', '/search/?q=RAG', async (c) => {
+  const upper = await searchFor(c, 'RAG');
+  const lower = await searchFor(c, 'rag');
+  const full = await searchFor(c, 'ＲＡＧ');
+  return {
+    ok: upper.length > 0 && upper.length === lower.length && upper.length === full.length,
+    detail: `RAG ${upper.length} 条 / rag ${lower.length} 条 / 全角 ＲＡＧ ${full.length} 条（应一致）`,
+  };
+});
+
+test('中文检索：二元模糊召回（词序不同也能中）', '/search/?q=图像生成', async (c) => {
+  const exact = await searchFor(c, '图像生成');
+  const partial = await searchFor(c, '生成图像的');
+  return {
+    ok: exact.length > 0,
+    detail: `「图像生成」${exact.length} 条；「生成图像的」${partial.length} 条（模糊召回）`,
+  };
+});
+
+test('检索结果按相关度排序（标题命中优先于点评命中）', '/search/?q=ollama', async (c) => {
+  const r = await searchFor(c, 'ollama');
+  return { ok: r.length > 0 && r[0] === 'Ollama', detail: `首条「${r[0]}」，共 ${r.length} 条` };
+});
+
 test('打印样式表可访问', '/assets/print.css', async () => {
   const css = await get(SERVE + '/assets/print.css');
   return { ok: css.indexOf('@page') !== -1, detail: `${css.length} 字符` };

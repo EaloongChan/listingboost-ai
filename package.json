@@ -28,7 +28,8 @@
     "verify:live": "node scripts/verify-live.mjs",
     "push": "node scripts/deploy-push.mjs",
     "push:search": "node scripts/push-search.mjs",
-    "push:search:seed": "node scripts/push-search.mjs --seed"
+    "push:search:seed": "node scripts/push-search.mjs --seed",
+    "check:outbound": "node scripts/check-outbound.mjs"
   },
   "engines": {
     "node": ">=18"

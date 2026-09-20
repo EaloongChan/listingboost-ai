@@ -120,6 +120,45 @@ for (const file of htmlFiles) {
   }
 }
 
+/* ---------- hreflang 断言 ----------
+   踩过一次：三条 hreflang 里第二条写成了「另一个语言」，导致中文页输出两条 hreflang="en"
+   （一条对、一条指向自己），且完全没有 zh-CN。524 个页面全部受影响、线上也错了很久。
+   这里把规则固化下来，改错了立刻报。 */
+const hreflangBad = new Map();
+for (const file of htmlFiles) {
+  const html = fs.readFileSync(file, 'utf8');
+  const tags = [...html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)]
+    .map((m) => ({ lang: m[1], href: m[2] }));
+  if (!tags.length) continue;
+
+  const rel = path.relative(DIST, file).replace(/\\/g, '/');
+  const canon = (html.match(/<link rel="canonical" href="([^"]+)"/) || [])[1] || '';
+  const problems = [];
+
+  // 1. 每种语言只能出现一次
+  const count = {};
+  tags.forEach((t) => { count[t.lang] = (count[t.lang] || 0) + 1; });
+  Object.entries(count).forEach(([l, n]) => { if (n > 1) problems.push(`hreflang="${l}" 出现 ${n} 次`); });
+
+  // 2. 自身语言必须指向本页 canonical
+  const self = rel.startsWith('en/') ? 'en' : 'zh-CN';
+  const selfTag = tags.find((t) => t.lang === self);
+  if (!selfTag) problems.push(`缺少自身语言 hreflang="${self}"`);
+  else if (canon && selfTag.href !== canon) problems.push(`hreflang="${self}" 未指向自身 canonical`);
+
+  // 3. 必须有 x-default。我们的约定是「中文版为默认」，所以中英页面的 x-default
+  //    都应该指向中文版（也就是都不该含 /en/）。
+  const xd = tags.find((t) => t.lang === 'x-default');
+  if (!xd) problems.push('缺少 x-default');
+  else if (/\/en\//.test(xd.href)) problems.push('x-default 指向了英文版（约定的默认版本是中文）');
+
+  // 4. 另一语言必须存在且指向对方
+  const other = rel.startsWith('en/') ? 'zh-CN' : 'en';
+  if (!tags.some((t) => t.lang === other)) problems.push(`缺少另一语言 hreflang="${other}"`);
+
+  if (problems.length) hreflangBad.set(rel, problems);
+}
+
 /* ---------- 输出 ---------- */
 const line = '─'.repeat(56);
 console.log('');
@@ -166,6 +205,19 @@ if (orphans.size) {
   });
 } else {
   console.log(`  ✓ 没有游离属性`);
+}
+
+if (hreflangBad.size) {
+  problems += hreflangBad.size;
+  console.log('');
+  console.log(`  ✗ hreflang 标注有问题 ${hreflangBad.size} 个页面：`);
+  [...hreflangBad.entries()].slice(0, 8).forEach(([f, ps]) => {
+    console.log(`      ${f}`);
+    ps.forEach((p) => console.log(`        ${p}`));
+  });
+  if (hreflangBad.size > 8) console.log(`      … 还有 ${hreflangBad.size - 8} 个`);
+} else {
+  console.log(`  ✓ hreflang 标注正确（自身 + 对方 + x-default，各一次）`);
 }
 
 console.log('  ' + line);

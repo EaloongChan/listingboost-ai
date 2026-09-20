@@ -354,6 +354,106 @@
   var TYPE_ORDER = ['playbook', 'tool', 'prompt', 'model', 'learn', 'glossary', 'news'];
   var GROUP_CAP = 12;
 
+  /* ---------------- 检索的文本处理 ----------------
+     中文没有空格，简单 indexOf 对中文召回很差：
+     搜「怎么本地跑模型」匹配不到「本地部署」。
+     这里做三件事：归一化、二元切分、字段加权。仍是零依赖。 */
+
+  /** 归一化：全角转半角、标点转空格、统一小写 */
+  function normalize(s) {
+    return String(s || '')
+      .replace(/[\uFF01-\uFF5E]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xfee0); })
+      .replace(/[\u3000-\u303F\u2018\u2019\u201C\u201D\u2014\u2026]/g, ' ')
+      .toLowerCase()
+      .replace(/[\s\-_/]+/g, ' ')
+      .trim();
+  }
+
+  /** 中文二元切分：把连续汉字切成相邻两字组合，用于模糊召回 */
+  function bigrams(s) {
+    var cjk = String(s || '').replace(/[^\u4e00-\u9fa5]/g, '');
+    var out = [];
+    for (var i = 0; i < cjk.length - 1; i++) out.push(cjk.slice(i, i + 2));
+    return out;
+  }
+
+  /* 字段权重：标题 ≫ 别名 > 标签 > 分类 > 描述 > 编辑点评
+     编辑点评权重最低，因为它论述性的文字容易造成误命中。 */
+  var FIELDS = [
+    ['title', 10],
+    ['alias', 8],
+    ['tags', 5],
+    ['sub', 4],
+    ['desc', 3],
+    ['caveat', 2],
+  ];
+
+  function fieldValue(it, key) {
+    if (key === 'tags') return normalize((it.tags || []).join(' ') + ' ' + (it.extras || []));
+    if (key === 'alias') return normalize((it.alias || []).join(' '));
+    return normalize(it[key]);
+  }
+
+  /** 单个词对一个条目的得分；0 表示没命中 */
+  function termScore(it, t) {
+    var best = 0;
+    for (var i = 0; i < FIELDS.length; i++) {
+      var hay = fieldValue(it, FIELDS[i][0]);
+      if (!hay) continue;
+      var w = FIELDS[i][1];
+      if (hay.indexOf(t) !== -1) {
+        best = Math.max(best, w);
+        continue;
+      }
+      // 二元模糊：查询和字段的汉字二元组重合度够高就算弱命中
+      if (t.length >= 2) {
+        var bg = bigrams(t);
+        if (bg.length) {
+          var hit = 0;
+          for (var k = 0; k < bg.length; k++) if (hay.indexOf(bg[k]) !== -1) hit++;
+          var ratio = hit / bg.length;
+          if (ratio >= 0.6) best = Math.max(best, w * 0.4 * ratio);
+        }
+      }
+    }
+    return best;
+  }
+
+  /**
+   * 整条命中的总分。两条路径取较大值：
+   *   路径 A —— 按词 AND 匹配（查询被拆成多个词时，每个词都要有下落）
+   *   路径 B —— 整句同义词 OR 匹配（「画图」这类说法本身不在站内词汇里）
+   *
+   * 踩过的坑：一开始把同义词直接拼进 terms，等于要求结果同时匹配「画图」和「文生图」，
+   * 而查询本身就命中不了，于是永远 0 结果。同义词必须是 OR 而不是 AND。
+   */
+  function scoreItem(it, terms, phraseSynonyms, queryMap) {
+    // 路径 A
+    var a = 0;
+    for (var i = 0; i < terms.length; i++) {
+      var t = terms[i];
+      var s = termScore(it, t);
+      if (s === 0 && queryMap[t]) {
+        var syns = queryMap[t];
+        for (var j = 0; j < syns.length; j++) {
+          s = Math.max(s, termScore(it, normalize(syns[j])) * 0.7);
+          if (s > 0) break;
+        }
+      }
+      if (s === 0) { a = 0; break; }  // 有一个词没着落就整条淘汰
+      a += s;
+    }
+
+    // 路径 B
+    var b = 0;
+    for (var k = 0; k < phraseSynonyms.length; k++) {
+      b = Math.max(b, termScore(it, normalize(phraseSynonyms[k])) * 0.7);
+      if (b >= 7) break;
+    }
+
+    return Math.max(a, b);
+  }
+
   function initSearch() {
     var input = $('#globalSearch');
     var list = $('#searchResults');
@@ -363,9 +463,13 @@
     if (!input || !list) return;
 
     var idx = window.__AIWX_INDEX__ || [];
+    var queryMap = window.__AIWX_QUERY_MAP__ || {};
     var type = 'all';
     var sp = new URLSearchParams(location.search);
     if (sp.get('q')) input.value = sp.get('q');
+
+    // 词汇表也参与键匹配：用户输的是「本地跑模型」，键里有就映射
+    var mapKeys = Object.keys(queryMap);
 
     function card(it) {
       var ext = it.ext ? ' target="_blank" rel="noopener nofollow"' : '';
@@ -391,8 +495,8 @@
     }
 
     function render() {
-      var q = input.value.trim().toLowerCase();
-      if (!q) {
+      var raw = input.value.trim();
+      if (!raw) {
         list.innerHTML = '';
         if (countEl) countEl.textContent = '';
         if (emptyEl) emptyEl.classList.remove('hidden');
@@ -400,19 +504,38 @@
         return;
       }
       if (emptyEl) emptyEl.classList.add('hidden');
-      var terms = q.split(/\s+/).filter(Boolean);
-      var hits = idx.filter(function (it) {
-        if (type !== 'all' && it.t !== type) return false;
-        var hay = (it.title + ' ' + (it.sub || '') + ' ' + (it.desc || '') + ' ' + (it.caveat || '') + ' ' + (it.tags || []).join(' ')).toLowerCase();
-        return terms.every(function (t) { return hay.indexOf(t) !== -1; });
-      });
-      hits.sort(function (a, b) {
-        var sa = (a.title.toLowerCase().indexOf(q) !== -1 ? 2 : 0) + (a.hot ? 1 : 0);
-        var sb = (b.title.toLowerCase().indexOf(q) !== -1 ? 2 : 0) + (b.hot ? 1 : 0);
-        return sb - sa;
-      });
 
-      if (countEl) countEl.textContent = '共 ' + hits.length + ' 条结果';
+      // 归一化后按空格切词
+      var q = normalize(raw);
+      var terms = q.split(' ').filter(Boolean);
+
+      // 整句意图映射：找出出现在查询里的词典键（「怎么本地跑模型」里含「本地跑模型」），
+      // 把它们的等价说法收集起来，作为 OR 路径参与打分
+      var phraseSynonyms = [];
+      var phraseHit = '';
+      for (var mi = 0; mi < mapKeys.length; mi++) {
+        var key = normalize(mapKeys[mi]);
+        if (key && q.indexOf(key) !== -1) {
+          phraseSynonyms = phraseSynonyms.concat(queryMap[mapKeys[mi]]);
+          if (!phraseHit) phraseHit = mapKeys[mi];
+        }
+      }
+
+      var scored = [];
+      for (var i = 0; i < idx.length; i++) {
+        var it = idx[i];
+        if (type !== 'all' && it.t !== type) continue;
+        var sc = scoreItem(it, terms, phraseSynonyms, queryMap);
+        if (sc > 0) {
+          // 同样命中时，热门的、标题短的排前面
+          if (it.hot) sc += 2;
+          scored.push({ it: it, sc: sc });
+        }
+      }
+      scored.sort(function (a, b) { return b.sc - a.sc; });
+      var hits = scored.map(function (x) { return x.it; });
+
+      if (countEl) countEl.textContent = '共 ' + hits.length + ' 条结果' + (phraseHit ? '（已按「' + phraseHit + '」扩展了等价说法）' : '');
       if (noneEl) noneEl.classList.toggle('hidden', hits.length !== 0);
 
       if (type !== 'all') {

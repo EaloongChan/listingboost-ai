@@ -87,5 +87,25 @@
   },
   "stats": {
     "showOnHome": true
+  },
+  "review": {
+    "policy": "本站的工具信息与编辑点评，是在公开资料和一套固定的编辑规则（选型要点、常见坑、不该用的场景）基础上整理出来的，不是逐一手工实测的结果。每条都标注核验状态与更新日期；发现错误欢迎指出，我们会核对后修正。",
+    "defaultStatus": "editorial",
+    "statusLabels": {
+      "tested": "编辑实测",
+      "source-verified": "按官方资料核验",
+      "editorial": "按公开资料整理",
+      "needs-review": "待重新核验"
+    }
+  },
+  "contentDates": {
+    "tools": "2026-09-20",
+    "playbooks": "2026-09-20",
+    "prompts": "2026-09-20",
+    "models": "2026-09-20",
+    "glossary": "2026-09-20",
+    "learn": "2026-09-20",
+    "news": "2026-09-20",
+    "note": "内容真的变了才改这里。改一个值会让该模块所有页面的 lastmod 跟着变，所以不要为了「看起来新」而动它。"
   }
 }

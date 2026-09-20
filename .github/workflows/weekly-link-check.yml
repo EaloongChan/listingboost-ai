@@ -1,0 +1,66 @@
+name: 每周外链健康检查
+
+# 为什么放在 GitHub 上而不是本地跑：
+#   本机在境内，很多海外工具会返回「区域不可用」，
+#   被误判成链接失效。GitHub 的 runner 是美国 IP，结果才可信。
+
+on:
+  schedule:
+    # 每周一 02:00 UTC（北京 10:00）
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 检查全部外链
+        run: node scripts/check-outbound.mjs
+
+      # 结果写进 data/outbound-health.json，提交后前端与后续检查都能用到
+      - name: 提交检查结果
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/outbound-health.json
+          if git diff --staged --quiet; then
+            echo "结果无变化。"
+          else
+            git commit -m "chore: 外链健康检查 $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      # 需要人工关注的失败链接，直接贴进运行摘要
+      - name: 输出待核验清单
+        if: always()
+        run: |
+          node -e "
+            const fs = require('fs');
+            if (!fs.existsSync('data/outbound-health.json')) process.exit(0);
+            const s = JSON.parse(fs.readFileSync('data/outbound-health.json', 'utf8'));
+            const items = Object.entries(s.items || {});
+            const bad = items.filter(([, v]) => (v.failCount || 0) >= 2);
+            const moved = items.filter(([, v]) => v.status && v.finalUrl && v.finalUrl.replace(/\/$/, '') !== v.url.replace(/\/$/, ''));
+            const lines = [];
+            lines.push('### 外链健康检查');
+            lines.push('');
+            lines.push('- 检查总数：' + items.length);
+            lines.push('- 正常：' + items.filter(([, v]) => v.status).length);
+            lines.push('- 连续失败待核验：' + bad.length);
+            lines.push('- 有跳转：' + moved.length);
+            if (bad.length) {
+              lines.push('');
+              lines.push('#### 连续两次失败（需要人工确认）');
+              bad.slice(0, 30).forEach(([, v]) => lines.push('- ' + v.name + ' — ' + (v.error || ('HTTP ' + v.status)) + ' — ' + v.url));
+            }
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
+          "

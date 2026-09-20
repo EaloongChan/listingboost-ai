@@ -1738,6 +1738,40 @@ a.tag { padding-top: 3px; padding-bottom: 3px; }
   .card, .live-item { content-visibility: visible; }
 }
 
+/* ---------- 28. 内容核验状态说明 ----------
+   每个工具页底部都有一条，如实说明这条内容是怎么来的、什么时候更新的、怎么纠错。
+   这不是免责声明，是可信度基础设施：判断没有证据链就不是护城河，而是风险池。 */
+.review-note {
+  padding: 14px 18px;
+  border: var(--bw-thin) solid var(--line-2);
+  border-left: 3px solid var(--fg-3);
+  background: var(--surface);
+}
+.rn-head {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.rn-status {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  color: var(--fg-2);
+  border: var(--bw-thin) solid var(--line-2);
+}
+.rn-date {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--fg-3);
+}
+.review-note p { font-size: 0.83rem; color: var(--fg-3); line-height: 1.7; margin: 0; }
+.review-note p a { color: var(--accent-text); }
+
 /* ---------- 20. 响应式 ---------- */
 @media (max-width: 960px) {
   .nav {

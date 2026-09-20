@@ -1,6 +1,9 @@
 import { esc, jsonEmbed } from './utils.mjs';
 import { icon, iconSprite } from './icons.mjs';
 
+/** og:locale 要写成 zh_CN / en_US 这种带地区的格式，光写 en 不规范 */
+const ogLocale = (lang) => ({ 'zh-CN': 'zh_CN', zh: 'zh_CN', en: 'en_US', 'en-US': 'en_US' }[lang] || lang);
+
 /**
  * 页面外壳
  *
@@ -41,6 +44,7 @@ export function layout(o) {
     brandDesc = '',
     brandName = '',
     brandSlogan = '',
+    robots = '',
   } = o;
 
   const bName = brandName || site.brand.name;
@@ -144,14 +148,22 @@ export function layout(o) {
 <meta name="theme-color" content="#f3f1ea" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d0d0b" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
+${robots ? `<meta name="robots" content="${esc(robots)}">` : ''}
 ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 <link rel="alternate" type="application/rss+xml" title="${esc(site.brand.name)}" href="/feed.xml">
-${altPath ? `<link rel="alternate" hreflang="${esc(altLang)}" href="${esc(canonicalFor(altPath))}">
-<link rel="alternate" hreflang="${pageLang.startsWith('en') ? 'zh-CN' : 'en'}" href="${esc(canonical)}">
+/* hreflang 三件套，顺序与语义都不能错：
+     · 自身语言 → 指向本页 canonical
+     · 另一语言 → 指向对应版本
+     · x-default → 指向默认版本（我们把中文当默认）
+   踩过的坑：第二行原本写的是「另一个语言」，而不是「自身语言」，导致中文页输出两条
+   hreflang="en"（一条对、一条指向自己），且完全没有 zh-CN，524 个页面全部受影响。
+   links.mjs 里加了断言守卫，改这里务必跑一遍。 */
+${altPath ? `<link rel="alternate" hreflang="${esc(pageLang)}" href="${esc(canonical)}">
+<link rel="alternate" hreflang="${esc(altLang)}" href="${esc(canonicalFor(altPath))}">
 <link rel="alternate" hreflang="x-default" href="${esc(pageLang.startsWith('en') ? canonicalFor(altPath) : canonical)}">` : ''}
 <meta property="og:type" content="${esc(pageType)}">
 <meta property="og:site_name" content="${esc(site.brand.name)}">
-<meta property="og:locale" content="${esc(pageLang.replace('-', '_'))}">
+<meta property="og:locale" content="${esc(ogLocale(pageLang))}">
 <meta property="og:title" content="${esc(fullTitle)}">
 <meta property="og:description" content="${esc(desc)}">
 ${canonical ? `<meta property="og:url" content="${esc(canonical)}">` : ''}

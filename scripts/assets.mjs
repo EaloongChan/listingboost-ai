@@ -100,15 +100,21 @@ h1 .u{background:linear-gradient(to top,#ff3b00 0 .13em,transparent .13em)}
 </body></html>`;
 
 /* 180×180 图标 */
-const iconHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+/** 图标 HTML：尺寸自适应，180 给 iOS 主屏、48 给 favicon.ico */
+const iconHtml = (size) => {
+  const u = size / 180;                     // 以 180 为基准等比缩放
+  const grid = Math.round(20 * u);
+  const fs_ = Math.round(104 * u);
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
 ${FONTS}
 *{margin:0;padding:0;box-sizing:border-box}
-body{width:180px;height:180px;overflow:hidden}
-.wrap{width:180px;height:180px;background:#ff3b00;display:grid;place-items:center;position:relative;
+body{width:${size}px;height:${size}px;overflow:hidden}
+.wrap{width:${size}px;height:${size}px;background:#ff3b00;display:grid;place-items:center;
   background-image:linear-gradient(rgba(255,255,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.14) 1px,transparent 1px);
-  background-size:20px 20px}
-.t{font-family:'Plex Mono',monospace;font-size:104px;font-weight:600;color:#fff;line-height:1;letter-spacing:-.06em}
+  background-size:${grid}px ${grid}px}
+.t{font-family:'Plex Mono',monospace;font-size:${fs_}px;font-weight:600;color:#fff;line-height:1;letter-spacing:-.06em}
 </style></head><body><div class="wrap"><span class="t">象</span></div></body></html>`;
+};
 
 function cdp(url) {
   return new Promise((resolve, reject) => {
@@ -138,7 +144,9 @@ async function shoot(c, html, w, h, out) {
   await c.send('Page.navigate', { url });
   await sleep(1400); // 等字体解码
   const cap = await c.send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false });
-  fs.writeFileSync(out, Buffer.from(cap.data, 'base64'));
+  const buf = Buffer.from(cap.data, 'base64');
+  if (!out) return buf;
+  fs.writeFileSync(out, buf);
   const kb = (fs.statSync(out).size / 1024).toFixed(1);
   console.log(`  ✓ ${path.relative(ROOT, out).replace(/\\/g, '/')}  ${w}×${h}  ${kb} KB`);
 }
@@ -162,7 +170,21 @@ async function main() {
   console.log('  生成图片资源');
   console.log('  ' + '─'.repeat(44));
   await shoot(c, ogHtml, 1200, 630, path.join(OUT, 'og.png'));
-  await shoot(c, iconHtml, 180, 180, path.join(OUT, 'apple-touch-icon.png'));
+  await shoot(c, iconHtml(180), 180, 180, path.join(OUT, 'apple-touch-icon.png'));
+
+  /* favicon.ico：浏览器和 RSS 阅读器会主动请求 /favicon.ico（即使 head 里已经声明了 svg），
+     没有就会产生一个 404。这里用 Chrome 渲染 48×48 的 PNG，再包进 ICO 容器。
+     ICO 容器格式很简单（6 字节头 + 16 字节目录项 + 图像数据），不需要任何依赖。 */
+  const png48 = await shoot(c, iconHtml(48), 48, 48, null);
+  const ico = Buffer.concat([
+    Buffer.from([0, 0, 1, 0, 1, 0]),                       // 保留位 / 类型=图标 / 图像数=1
+    Buffer.from([48, 48, 0, 0, 1, 0, 32, 0,               // 宽 高 调色板 保留 色平面 位深
+      png48.length & 0xff, (png48.length >> 8) & 0xff, (png48.length >> 16) & 0xff, (png48.length >>> 24) & 0xff,
+      22, 0, 0, 0]),                                        // 数据长度 + 偏移(6+16)
+    png48,
+  ]);
+  fs.writeFileSync(path.join(OUT, 'favicon.ico'), ico);
+  console.log(`  ✓ public/favicon.ico  48×48  ${(ico.length / 1024).toFixed(1)} KB`);
   console.log('');
   c.close();
 }

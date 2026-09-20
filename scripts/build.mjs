@@ -103,6 +103,47 @@ const CHANGELOG = [
   { date: '2026-09-20', tag: 'INIT', title: '站点首次成型', desc: '完成工具库、提示词库、术语表、学习资源、资讯解读五大模块，以及全站搜索与深浅主题。' },
 ];
 
+/**
+ * 每个页面的 lastmod。
+ *
+ * 踩过的坑：原先所有 603 条 URL 的 lastmod 都是构建当天。每日 RSS 更新一次，
+ * 全部工具页 / 场景页 / 术语页都被标成「今日更新」—— 这是错误的新鲜度信号，
+ * Google 明确说过不要靠改日期假装内容更新。
+ *
+ * 现在的规则：
+ *   · 内容页 → 该内容自己的日期（条目级 reviewed/updated 优先，否则用模块级 contentDates）
+ *   · 目录页 → 所属模块的日期
+ *   · 首页 / 实时动态 / 更新日志 / 搜索 → 构建日期（这些页面确实每天都在变）
+ * 只有 data/feed.json 会每日变动，所以除首页和实时动态外，其他页面的 lastmod 是稳定的。
+ */
+function lastmodFor(meta, ctx, fallback) {
+  const d = ctx.site.contentDates || {};
+  const item = meta.item || null;
+  switch (meta.type) {
+    case 'tool-detail':      return (item && item.reviewed) || d.tools || fallback;
+    case 'tools':
+    case 'tools-cat':        return d.tools || fallback;
+    case 'playbook-detail':  return (item && item.updated) || d.playbooks || fallback;
+    case 'playbooks':
+    case 'playbooks-group':  return d.playbooks || fallback;
+    case 'prompts':
+    case 'prompts-cat':      return d.prompts || fallback;
+    case 'models':
+    case 'models-kind':      return d.models || fallback;
+    case 'glossary':         return d.glossary || fallback;
+    case 'learn':
+    case 'learn-track':      return d.learn || fallback;
+    case 'news-detail':      return (item && item.date) || d.news || fallback;
+    case 'news':             return d.news || fallback;
+    /* 这几页确实每天都在变 */
+    case 'home':
+    case 'news-live':
+    case 'changelog':
+    case 'search':           return fallback;
+    default:                 return fallback;
+  }
+}
+
 export function build({ quiet = false } = {}) {
   const t0 = Date.now();
   written.clear();
@@ -119,8 +160,10 @@ export function build({ quiet = false } = {}) {
   const playbooks = readJSON('playbooks.json');
   const models = readJSON('models.json');
   const i18n = readJSON('i18n.json');
+  const queryMap = readJSON('query-map.json');
   // 标签字典挂到英文标签表上，供卡片渲染时翻译受控词表
   EN.tagDict = readJSON('tags-en.json');
+  delete queryMap.note;
 
   // 实时动态是可选的：抓取与构建解耦，没有 feed.json 也能正常构建（只是没有实时区块）
   let feed = null;
@@ -212,7 +255,7 @@ export function build({ quiet = false } = {}) {
 
   const updatedAt = today();
   const ctx = {
-    site, categories, tools, prompts, news, learn, glossary, playbooks, models, i18n, feed, feedHours: FEED_HOURS,
+    site, categories, tools, prompts, news, learn, glossary, playbooks, models, i18n, queryMap, feed, feedHours: FEED_HOURS,
     toolCatMap, promptCatMap, topicMap, trackMap, groupMap, kindMap, toolMap, promptMap,
     counts, changelog: CHANGELOG,
     searchIndex, updatedAt,
@@ -226,7 +269,7 @@ export function build({ quiet = false } = {}) {
       ? (resetIcons(), htmlOrThunk())
       : htmlOrThunk;
     write(rel, html);
-    manifest.push({ url: '/' + rel.replace(/index\.html$/, ''), title: meta.title || '', type: meta.type || 'page', lastmod: updatedAt });
+    manifest.push({ url: '/' + rel.replace(/index\.html$/, ''), title: meta.title || '', type: meta.type || 'page', lastmod: meta.lastmod || lastmodFor(meta, ctx, updatedAt) });
   };
 
   emit('index.html', () => homePage(ctx), { title: site.brand.name, type: 'home' });
@@ -251,7 +294,7 @@ export function build({ quiet = false } = {}) {
     emit(`playbooks/${g.id}/index.html`, () => playbooksPage(ctx, { activeGroup: g.id }), { title: `${g.name} · 场景手册`, type: 'playbooks-group' });
   }
   for (const p of playbooks.items) {
-    emit(`playbooks/${p.id}/index.html`, () => playbookDetailPage(ctx, p), { title: p.title, type: 'playbook-detail' });
+    emit(`playbooks/${p.id}/index.html`, () => playbookDetailPage(ctx, p), { title: p.title, type: 'playbook-detail', item: p });
   }
   for (const k of models.kinds) {
     emit(`models/${k.id}/index.html`, () => modelsPage(ctx, { activeKind: k.id }), { title: `${k.name}模型 · 模型库`, type: 'models-kind' });
@@ -269,7 +312,7 @@ export function build({ quiet = false } = {}) {
     emit(`en/tools/${c.id}/index.html`, () => enTools(ctx, i18n, { activeCat: c.id }), { title: `${i18n.en['cat.' + c.id] || c.id} · AI Tools`, type: 'tools-cat' });
   }
   for (const t of tools) {
-    emit(`en/tools/${t.cat}/${t.id}/index.html`, () => enToolDetail(ctx, i18n, t), { title: `${t.name} · AI Tools`, type: 'tool-detail' });
+    emit(`en/tools/${t.cat}/${t.id}/index.html`, () => enToolDetail(ctx, i18n, t), { title: `${t.name} · AI Tools`, type: 'tool-detail', item: t });
   }
   for (const k of models.kinds) {
     emit(`en/models/${k.id}/index.html`, () => enModels(ctx, i18n, { activeKind: k.id }), { title: `${i18n.en['kind.' + k.id] || k.id} · Models`, type: 'models-kind' });
@@ -280,7 +323,7 @@ export function build({ quiet = false } = {}) {
   }
   // 工具详情页：同类对比 + 出现在哪些场景里（不做「复制官网简介」那种薄内容）
   for (const t of tools) {
-    emit(`tools/${t.cat}/${t.id}/index.html`, () => toolDetailPage(ctx, t), { title: `${t.name} · ${(toolCatMap[t.cat] || {}).name}`, type: 'tool-detail' });
+    emit(`tools/${t.cat}/${t.id}/index.html`, () => toolDetailPage(ctx, t), { title: `${t.name} · ${(toolCatMap[t.cat] || {}).name}`, type: 'tool-detail', item: t });
   }
   for (const c of categories.promptCategories) {
     emit(`prompts/${c.id}/index.html`, () => promptsPage(ctx, { activeCat: c.id }), { title: `${c.name} · 提示词`, type: 'prompts-cat' });
@@ -289,7 +332,7 @@ export function build({ quiet = false } = {}) {
     emit(`learn/${t.id}/index.html`, () => learnPage(ctx, { activeTrack: t.id }), { title: `${t.name} · 学习资源`, type: 'learn-track' });
   }
   for (const n of news.items) {
-    emit(`news/${n.id}/index.html`, () => newsDetailPage(ctx, n), { title: n.title, type: 'news-detail' });
+    emit(`news/${n.id}/index.html`, () => newsDetailPage(ctx, n), { title: n.title, type: 'news-detail', item: n });
   }
 
   /* ---------- 4. 静态资源 ---------- */
@@ -314,6 +357,7 @@ export function build({ quiet = false } = {}) {
     'playbooks.json': playbooks,
     'models.json': models,
     'search.json': searchIndex,
+    'query-map.json': queryMap,
     ...(feed ? { 'feed.json': feed } : {}),
   };
   for (const [f, v] of Object.entries(api)) write(`api/${f}`, JSON.stringify(v, null, 2));
@@ -346,8 +390,14 @@ ${rssItems}
 `);
 
   /* ---------- 7. SEO ---------- */
+  /* 不进 sitemap 的页面类型：
+     · 404 —— 本来就不该被索引
+     · news-live —— 实时动态是自动抓取的标题摘要聚合，不是自己的原创内容。
+       它对人有用（发现入口），但不该占 SEO 名额、也不该和原创解读抢权重。
+       该页另外打了 noindex,follow，见 liveNewsPage。 */
+  const NO_INDEX_TYPES = new Set(['404', 'news-live']);
   const urls = manifest
-    .filter((m) => m.type !== '404')
+    .filter((m) => !NO_INDEX_TYPES.has(m.type))
     .map((m) => `  <url>\n    <loc>${base}${m.url}</loc>\n    <lastmod>${m.lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${m.type === 'home' ? '1.0' : m.type.includes('-detail') || m.type === 'about' ? '0.6' : '0.8'}</priority>\n  </url>`)
     .join('\n');
   write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
