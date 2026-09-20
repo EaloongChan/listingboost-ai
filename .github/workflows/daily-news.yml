@@ -1,0 +1,84 @@
+name: 每日资讯更新
+
+# 为什么放在 GitHub 上而不是本地定时任务：
+#   本地定时任务需要电脑开机 + 客户端运行，关机就跳过。
+#   GitHub Actions 跑在 GitHub 的服务器上，你的电脑关不关都不影响。
+
+on:
+  schedule:
+    # 注意 cron 用 UTC。北京时间 09:00 = UTC 01:00
+    # GitHub 的定时任务在高峰期可能延迟几分钟到半小时，这是平台行为，不是配置问题
+    - cron: '0 1 * * *'
+  # 也允许在 GitHub 网页上手动点「Run workflow」触发，方便测试
+  workflow_dispatch:
+
+# 需要写权限才能把更新后的 data/feed.json 提交回去
+permissions:
+  contents: write
+
+# 同一条流水线不并发跑，避免两次提交打架
+concurrency:
+  group: daily-news
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # 本项目零依赖，不需要 npm install
+      - name: 抓取资讯源
+        run: node scripts/fetch-news.mjs
+
+      - name: 构建站点
+        run: node scripts/build.mjs
+
+      # 构建出来的链接必须是通的。这一步失败就不提交，避免把坏内容推上线
+      - name: 内部链接与锚点检查
+        run: node scripts/links.mjs
+
+      - name: 数据自检
+        run: node scripts/check.mjs
+        continue-on-error: true # 自检有问题只提示，不拦住内容更新
+
+      - name: 提交并推送
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "内容没有变化，跳过提交。"
+          else
+            git commit -m "chore: 每日资讯更新 $(date -u +%Y-%m-%d)"
+            git push
+            echo "已推送，Vercel 会自动重新部署。"
+          fi
+
+      # 抓取状态贴进运行摘要，不用翻日志
+      - name: 输出抓取概况
+        if: always()
+        run: |
+          if [ -f data/feed.json ]; then
+            node -e "
+              const f = require('./data/feed.json');
+              const ok = f.sources.filter(s => s.ok);
+              const bad = f.sources.filter(s => !s.ok);
+              console.log('### 抓取概况');
+              console.log('');
+              console.log('- 成功源：' + ok.length + ' / ' + f.sources.length);
+              console.log('- 去重后条目：' + f.items.length);
+              if (bad.length) {
+                console.log('- 失败源：');
+                bad.forEach(s => console.log('  - ' + s.name + '：' + s.error));
+              } else {
+                console.log('- 失败源：无');
+              }
+            " >> "$GITHUB_STEP_SUMMARY"
+          fi
