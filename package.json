@@ -24,7 +24,9 @@
     "fetch": "node scripts/fetch-news.mjs",
     "fetch:dry": "node scripts/fetch-news.mjs --dry",
     "daily": "node scripts/fetch-news.mjs && node scripts/build.mjs && node scripts/links.mjs",
-    "a11y": "node scripts/a11y.mjs"
+    "a11y": "node scripts/a11y.mjs",
+    "verify:live": "node scripts/verify-live.mjs",
+    "push": "node scripts/deploy-push.mjs"
   },
   "engines": {
     "node": ">=18"
