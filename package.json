@@ -1,0 +1,32 @@
+{
+  "name": "ai-wanxiang",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI 万象 — 收录 AI 相关一切的导航与资料站（工具 / 提示词 / 资讯 / 学习）",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs --watch",
+    "serve": "node scripts/serve.mjs",
+    "preview": "node scripts/build.mjs && node scripts/serve.mjs",
+    "assets": "node scripts/assets.mjs",
+    "check": "node scripts/check.mjs",
+    "links": "node scripts/links.mjs",
+    "audit": "node scripts/audit.mjs",
+    "audit:shot": "node scripts/audit.mjs --shot",
+    "test": "node scripts/selftest.mjs",
+    "verify": "node scripts/check.mjs && node scripts/build.mjs && node scripts/links.mjs && node scripts/audit.mjs && node scripts/a11y.mjs",
+    "add:tool": "node scripts/new.mjs tool",
+    "add:prompt": "node scripts/new.mjs prompt",
+    "add:news": "node scripts/new.mjs news",
+    "add:learn": "node scripts/new.mjs learn",
+    "add:gloss": "node scripts/new.mjs gloss",
+    "fetch": "node scripts/fetch-news.mjs",
+    "fetch:dry": "node scripts/fetch-news.mjs --dry",
+    "daily": "node scripts/fetch-news.mjs && node scripts/build.mjs && node scripts/links.mjs",
+    "a11y": "node scripts/a11y.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

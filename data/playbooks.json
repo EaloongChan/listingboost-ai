@@ -1,0 +1,2098 @@
+{
+  "groups": [
+    {
+      "id": "office",
+      "name": "办公效率",
+      "icon": "file",
+      "accent": "#E5337B",
+      "desc": "文档、会议、汇报、PPT"
+    },
+    {
+      "id": "content",
+      "name": "内容创作",
+      "icon": "pen",
+      "accent": "#FF3B00",
+      "desc": "文案、选题、社媒运营"
+    },
+    {
+      "id": "media",
+      "name": "影像创作",
+      "icon": "video",
+      "accent": "#7C3AED",
+      "desc": "图、视频、音频的生产流水线"
+    },
+    {
+      "id": "code",
+      "name": "编程开发",
+      "icon": "code",
+      "accent": "#00875A",
+      "desc": "接手代码、修 bug、自动化"
+    },
+    {
+      "id": "learn",
+      "name": "学习研究",
+      "icon": "book-open",
+      "accent": "#65A30D",
+      "desc": "入门新领域、备考、读论文"
+    },
+    {
+      "id": "data",
+      "name": "数据分析",
+      "icon": "chart",
+      "accent": "#0F766E",
+      "desc": "从数据到结论到汇报"
+    },
+    {
+      "id": "growth",
+      "name": "商业增长",
+      "icon": "megaphone",
+      "accent": "#BE123C",
+      "desc": "竞品、营销、获客"
+    }
+  ],
+  "items": [
+    {
+      "id": "pb-weekly-report",
+      "title": "写一份不流水账的周报",
+      "group": "office",
+      "time": "15 分钟",
+      "level": "零门槛",
+      "problem": "每周都写，但领导看完不知道你干了什么有价值的事。",
+      "steps": [
+        {
+          "text": "把这一周的碎片记录（聊天记录、提交记录、待办清单）不整理地全部丢给模型——**不要先自己总结**，先整理会丢掉细节。",
+          "tools": [],
+          "prompts": []
+        },
+        {
+          "text": "用结构化提示词让它按「业务价值」而不是「工作量」排序，并要求它指出哪些事不值得写进周报。",
+          "tools": [
+            "chatgpt",
+            "doubao",
+            "yuanbao"
+          ],
+          "prompts": [
+            "p-weekly"
+          ]
+        },
+        {
+          "text": "把它产出的草稿再喂回去，要求「删掉所有形容词和邀功表述，只留事实和数字」。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-polish"
+          ]
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "claude",
+        "doubao",
+        "yuanbao"
+      ],
+      "prompts": [
+        "p-weekly",
+        "p-polish"
+      ],
+      "warnings": [
+        "不要让它编造数据。业绩类数字必须你自己核对后填进去。",
+        "周报的「问题与风险」部分建议自己写——让 AI 代笔容易写得不像你会说的话，反而显得不真实。"
+      ]
+    },
+    {
+      "id": "pb-meeting-minutes",
+      "title": "把 3 小时会议变成一页纪要和待办",
+      "group": "office",
+      "time": "20 分钟",
+      "level": "零门槛",
+      "problem": "会议录音没人愿意再听一遍，纪要写成流水账，待办事项永远漏。",
+      "steps": [
+        {
+          "text": "用会议工具的自动转录拿到文字稿。腾讯会议、飞书妙记、通义听悟都能直接出文字。",
+          "tools": [
+            "tencent-meeting-ai",
+            "feishu-minutes",
+            "tingwu"
+          ],
+          "prompts": []
+        },
+        {
+          "text": "把文字稿交给模型，用固定格式输出：结论 / 待办（含负责人和时间） / 悬而未决的问题 / 关键数字。",
+          "tools": [
+            "chatgpt",
+            "claude",
+            "kimi"
+          ],
+          "prompts": [
+            "p-meeting"
+          ]
+        },
+        {
+          "text": "重点看「悬而未决」那一栏——这些是会上没吵出结果的事，往往是项目卡住的真正原因。",
+          "tools": [],
+          "prompts": []
+        }
+      ],
+      "tools": [
+        "tencent-meeting-ai",
+        "feishu-minutes",
+        "tingwu",
+        "iflyrec",
+        "otter"
+      ],
+      "prompts": [
+        "p-meeting",
+        "p-summarize"
+      ],
+      "warnings": [
+        "录音前务必征得参会人同意，多数地区对录音有明确要求。",
+        "如果转写质量差（口音重、多人抢话），纪要质量会断崖式下跌，这种情况下宁可人工整理要点。"
+      ]
+    },
+    {
+      "id": "pb-read-long-doc",
+      "title": "把长文档读薄（论文 / 合同 / 产品手册）",
+      "group": "office",
+      "time": "25 分钟",
+      "level": "零门槛",
+      "problem": "几十页的材料，通读太慢，跳读又怕漏关键条款。",
+      "steps": [
+        {
+          "text": "先做一次全文总结，但**只要求输出结构**，不要细节。目的是建立地图。",
+          "tools": [
+            "kimi",
+            "notebooklm",
+            "chatgpt"
+          ],
+          "prompts": [
+            "p-summarize"
+          ]
+        },
+        {
+          "text": "根据地图挑出 3-5 个你真正关心的部分，逐段追问。这一步比一次性喂全文效果好得多。",
+          "tools": [
+            "claude",
+            "kimi"
+          ],
+          "prompts": []
+        },
+        {
+          "text": "合同类材料加一步：让它列出「对我不利的条款」和「表述含糊的条款」，并要求引用原文位置。",
+          "tools": [
+            "claude",
+            "chatgpt"
+          ],
+          "prompts": [
+            "p-summarize"
+          ]
+        }
+      ],
+      "tools": [
+        "kimi",
+        "notebooklm",
+        "claude",
+        "chatgpt"
+      ],
+      "prompts": [
+        "p-summarize"
+      ],
+      "warnings": [
+        "合同和法律文件的结论**绝不能直接采信**，必须由专业人士复核。AI 在这里只用来加速定位，不用来做判断。",
+        "把关键信息放在文档开头或结尾提问，模型对中间部分的召回率明显更低。"
+      ]
+    },
+    {
+      "id": "pb-ppt-from-zero",
+      "title": "从零做一份能讲 15 分钟的 PPT",
+      "group": "office",
+      "time": "1 小时",
+      "level": "零门槛",
+      "problem": "有内容但不会组织，做出来是资料堆砌，讲的时候没有逻辑。",
+      "steps": [
+        {
+          "text": "先写讲稿而不是先做页面。让模型帮你把内容组织成「提出问题 → 分析 → 方案 → 行动」的叙事线。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-blog-outline"
+          ]
+        },
+        {
+          "text": "按叙事线生成逐页大纲：每页一个核心观点 + 支撑证据。**宁可少五页也不要把两页塞成一页。**",
+          "tools": [
+            "gamma",
+            "zhiwen",
+            "tome"
+          ],
+          "prompts": []
+        },
+        {
+          "text": "用工具生成初稿版式，然后手工调整——生成工具负责结构，视觉细节还是要自己过一遍。",
+          "tools": [
+            "gamma",
+            "zhiwen",
+            "wps-ai"
+          ],
+          "prompts": []
+        },
+        {
+          "text": "最后让模型扮演听众提 5 个刁钻问题，用来检验你的论证是否站得住。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-decision"
+          ]
+        }
+      ],
+      "tools": [
+        "gamma",
+        "zhiwen",
+        "tome",
+        "wps-ai",
+        "napkin"
+      ],
+      "prompts": [
+        "p-blog-outline",
+        "p-decision"
+      ],
+      "warnings": [
+        "生成工具做的版式经常「好看但不好讲」——字太大或太小、信息密度不均，一定要按实际投影效果调。",
+        "配图优先用 Napkin 这类「文字转示意图」的工具，比找现成图片更贴合你的内容。"
+      ]
+    },
+    {
+      "id": "pb-landing-copy",
+      "title": "做一份能上线的落地页文案",
+      "group": "content",
+      "time": "2 小时",
+      "level": "有产品即可",
+      "problem": "产品做出来了，但写不出让人想点「立即体验」的文案。",
+      "steps": [
+        {
+          "text": "先做用户画像挖掘，把「目标用户：年轻白领」推进到能想象出一张脸的程度。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-user-persona"
+          ]
+        },
+        {
+          "text": "按转化结构逐段写：首屏标题 → 痛点 → 方案 → 证据 → 异议处理 → 行动号召。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-landing-page"
+          ]
+        },
+        {
+          "text": "标题批量生成 20 个，按机制分组，然后挑出「你最不敢用但可能最有效」的那几个。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-title-batch"
+          ]
+        },
+        {
+          "text": "上线前用设计评审提示词过一遍首屏，检查视觉层级是否服务于转化目标。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-ui-critique"
+          ]
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "claude",
+        "jasper",
+        "copyai"
+      ],
+      "prompts": [
+        "p-landing-page",
+        "p-user-persona",
+        "p-title-batch"
+      ],
+      "warnings": [
+        "AI 很容易编造数据（「帮助 10 万用户提升 3 倍效率」）。所有数字必须换成你真实的，编数据被拆穿会毁掉信任。",
+        "「赋能」「一站式」「全方位」这类词删干净——它们不传递任何信息。"
+      ]
+    },
+    {
+      "id": "pb-content-calendar",
+      "title": "一次排满一个月的选题",
+      "group": "content",
+      "time": "40 分钟",
+      "level": "有账号即可",
+      "problem": "每天想选题，想不出来就断更，内容也没有积累效应。",
+      "steps": [
+        {
+          "text": "用「用户阶段 × 内容类型」的矩阵法生成选题，一次拿到 24 个不重复的方向。",
+          "tools": [
+            "chatgpt",
+            "claude",
+            "doubao"
+          ],
+          "prompts": [
+            "p-content-calendar"
+          ]
+        },
+        {
+          "text": "让模型标出哪些适合做引流款、哪些适合做转化款，以及哪些是你现在做不了的（缺素材或能力）。",
+          "tools": [
+            "chatgpt"
+          ],
+          "prompts": [
+            "p-content-calendar"
+          ]
+        },
+        {
+          "text": "对排在前面的选题，用标题工厂批量产出 20 个标题备选。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-title-batch"
+          ]
+        },
+        {
+          "text": "写完第一篇后，让它扮演你的目标读者，指出「哪一段你会划走」。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-role-critic"
+          ]
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "claude",
+        "doubao",
+        "newrank"
+      ],
+      "prompts": [
+        "p-content-calendar",
+        "p-title-batch",
+        "p-xiaohongshu"
+      ],
+      "warnings": [
+        "AI 生成的选题容易「正确但平庸」——它给的是大众化角度，真正的差异来自你自己的经历和判断。",
+        "先看数据工具（新榜、蝉妈妈）确认方向有人搜，再让 AI 加工，顺序不要反。"
+      ]
+    },
+    {
+      "id": "pb-long-to-short",
+      "title": "把一场长视频切成 10 条短视频",
+      "group": "media",
+      "time": "1 小时",
+      "level": "零门槛",
+      "problem": "录了两小时的直播/访谈，只有完整版，做不出适合短视频平台的内容。",
+      "steps": [
+        {
+          "text": "先用工具自动切片，拿到一批候选高光片段。这一步交给专用工具比手工挑快得多。",
+          "tools": [
+            "opus-clip"
+          ],
+          "prompts": []
+        },
+        {
+          "text": "把转录文字交给模型，让它按「能不能独立看懂」「有没有钩子」「有没有结论」给片段打分，重新排序。",
+          "tools": [
+            "chatgpt",
+            "claude",
+            "kimi"
+          ],
+          "prompts": [
+            "p-summarize"
+          ]
+        },
+        {
+          "text": "为选中的片段批量生成标题和封面文案。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-title-batch"
+          ]
+        },
+        {
+          "text": "字幕和竖屏裁剪交给剪辑工具自动处理，人工只做最终检查。",
+          "tools": [
+            "capcut",
+            "descript"
+          ],
+          "prompts": []
+        }
+      ],
+      "tools": [
+        "opus-clip",
+        "capcut",
+        "descript"
+      ],
+      "prompts": [
+        "p-summarize",
+        "p-title-batch"
+      ],
+      "warnings": [
+        "自动切片的片段经常「前半句没头没尾」——从中间剪掉一句话，观众听不懂。人工过一遍开头结尾是必要的。",
+        "不要把完整版直接压缩后发短视频平台，那是两套内容逻辑。"
+      ]
+    },
+    {
+      "id": "pb-ecom-images",
+      "title": "做一套统一的商品图",
+      "group": "media",
+      "time": "2 小时",
+      "level": "零门槛",
+      "problem": "几十个 SKU，每个都要抠图、换背景、配场景，美工做不过来。",
+      "steps": [
+        {
+          "text": "先抠图去背景，批量处理拿到干净的主体。",
+          "tools": [
+            "removebg",
+            "photoroom"
+          ],
+          "prompts": []
+        },
+        {
+          "text": "固定一套背景与光线参数，用图生图保持全系列视觉一致。**一致性比单张惊艳更重要。**",
+          "tools": [
+            "nano-banana",
+            "jimeng",
+            "photoroom"
+          ],
+          "prompts": [
+            "p-image-prompt"
+          ]
+        },
+        {
+          "text": "让模型给每个 SKU 生成一版卖点文案，控制在 12 字内。",
+          "tools": [
+            "chatgpt",
+            "doubao"
+          ],
+          "prompts": [
+            "p-xiaohongshu"
+          ]
+        },
+        {
+          "text": "最后统一检查尺寸、留白、水印位置是否符合平台要求（主图通常要求白底、主体占比有下限）。",
+          "tools": [],
+          "prompts": []
+        }
+      ],
+      "tools": [
+        "removebg",
+        "photoroom",
+        "nano-banana",
+        "jimeng",
+        "gaoding"
+      ],
+      "prompts": [
+        "p-image-prompt"
+      ],
+      "warnings": [
+        "生成式改图在商品场景有风险——它可能悄悄改变了产品的真实细节（材质、颜色、logo），这在电商里可能构成虚假宣传。只改背景，不要改主体。",
+        "涉及真实品牌的商品，商用前确认生成工具的版权许可范围。"
+      ]
+    },
+    {
+      "id": "pb-takeover-codebase",
+      "title": "用 AI 接手一个陌生代码库",
+      "group": "code",
+      "time": "半天",
+      "level": "有编程基础",
+      "problem": "新进项目，代码几千行没人带，文档等于没有。",
+      "steps": [
+        {
+          "text": "先用 AI IDE 建立全局认知：让它列出项目结构、入口文件、核心模块的职责。不要急着改代码。",
+          "tools": [
+            "cursor",
+            "claude-code",
+            "trae"
+          ],
+          "prompts": [
+            "p-code-explain"
+          ]
+        },
+        {
+          "text": "挑 3 个最核心的文件，让它逐层讲解：解决什么问题、数据怎么流动、为什么这么设计。",
+          "tools": [
+            "claude",
+            "cursor"
+          ],
+          "prompts": [
+            "p-code-explain"
+          ]
+        },
+        {
+          "text": "让它指出「改坏哪里最危险」——这些是脆弱点，动手前必须知道。",
+          "tools": [
+            "claude",
+            "cursor"
+          ],
+          "prompts": [
+            "p-code-explain"
+          ]
+        },
+        {
+          "text": "动手前先补测试。让 AI 为你要改的模块生成测试用例，跑通后再改。",
+          "tools": [
+            "claude-code",
+            "cursor"
+          ],
+          "prompts": [
+            "p-test-gen"
+          ]
+        }
+      ],
+      "tools": [
+        "cursor",
+        "claude-code",
+        "trae",
+        "aider",
+        "lingma"
+      ],
+      "prompts": [
+        "p-code-explain",
+        "p-test-gen",
+        "p-refactor-plan"
+      ],
+      "warnings": [
+        "**永远不要在没跑通测试之前让 AI 大范围改代码。** 它改得很自信，但你可能几小时后才发现方向错了。",
+        "它不知道你们团队的隐性约定（命名规范、错误处理方式），最好的办法是把它已经写好的类似代码贴给它看。"
+      ]
+    },
+    {
+      "id": "pb-fix-unknown-bug",
+      "title": "修一个自己看不懂的 bug",
+      "group": "code",
+      "time": "1 小时",
+      "level": "有编程基础",
+      "problem": "报错信息看不懂，搜也搜不到，改了这里坏了那里。",
+      "steps": [
+        {
+          "text": "把完整的报错栈和相关代码一起给它，明确要求「先列假设并说明如何验证」，不要直接给修复代码。",
+          "tools": [
+            "claude",
+            "cursor",
+            "chatgpt"
+          ],
+          "prompts": [
+            "p-debug"
+          ]
+        },
+        {
+          "text": "按它给的验证方法逐个排除，每排除一个就把结果反馈回去，让假设收敛。",
+          "tools": [
+            "claude",
+            "cursor"
+          ],
+          "prompts": [
+            "p-debug"
+          ]
+        },
+        {
+          "text": "找到根因后，让它给出「最小修改」版本，并说明会不会引入其他风险。",
+          "tools": [
+            "claude",
+            "cursor"
+          ],
+          "prompts": [
+            "p-code-review"
+          ]
+        },
+        {
+          "text": "改完补一个能复现这个 bug 的测试，防止回归。",
+          "tools": [
+            "claude-code",
+            "cursor"
+          ],
+          "prompts": [
+            "p-test-gen"
+          ]
+        }
+      ],
+      "tools": [
+        "claude",
+        "cursor",
+        "claude-code",
+        "chatgpt"
+      ],
+      "prompts": [
+        "p-debug",
+        "p-code-review",
+        "p-test-gen"
+      ],
+      "warnings": [
+        "**别让它一次改十个地方。** 如果它建议同时改多处，先只改一处验证——同时改多处，你永远不知道是哪一处起了作用。",
+        "如果连续两轮没进展，把「已排除的可能」一并告诉它，重新开始，不要继续在错误的方向上打转。"
+      ]
+    },
+    {
+      "id": "pb-automate-chores",
+      "title": "把重复的手工活自动化",
+      "group": "code",
+      "time": "半天",
+      "level": "零门槛",
+      "problem": "每周都要手工整理表格、转发消息、导数据，纯浪费时间。",
+      "steps": [
+        {
+          "text": "先把流程完整写下来（包括例外情况），让模型判断哪些步骤可以用确定性代码做，哪些需要 AI。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-sop-write"
+          ]
+        },
+        {
+          "text": "能用代码做的就写脚本——**这类任务不要用 AI 做**，规则明确的转换用程序又快又稳还免费。",
+          "tools": [
+            "claude-code",
+            "cursor"
+          ],
+          "prompts": [
+            "p-code-explain"
+          ]
+        },
+        {
+          "text": "真正需要 AI 的只有「非结构化输入」环节，比如从一堆格式不一的邮件里抽字段、给内容分类。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-extract-json"
+          ]
+        },
+        {
+          "text": "用工作流工具把脚本和 AI 环节串起来，设定定时触发。",
+          "tools": [
+            "n8n",
+            "coze",
+            "dify"
+          ],
+          "prompts": []
+        }
+      ],
+      "tools": [
+        "n8n",
+        "coze",
+        "dify",
+        "zapier"
+      ],
+      "prompts": [
+        "p-sop-write",
+        "p-extract-json"
+      ],
+      "warnings": [
+        "最常见的设计错误是「什么都让 AI 做」。规则明确的批量转换用脚本，成本和稳定性都好一个数量级。",
+        "自动化流程一定要有失败告警。静默失败比手工做还危险——你以为它在跑，其实早就断了。"
+      ]
+    },
+    {
+      "id": "pb-learn-new-field",
+      "title": "两周入门一个陌生领域",
+      "group": "learn",
+      "time": "两周",
+      "level": "零门槛",
+      "problem": "需要快速了解一个完全陌生的领域，但不知道从哪开始、哪些是重点。",
+      "steps": [
+        {
+          "text": "先让它画出这个领域的「知识地图」：有哪几个分支、各自解决什么问题、关联是什么。这一步建立方位感。",
+          "tools": [
+            "chatgpt",
+            "claude",
+            "kimi"
+          ],
+          "prompts": [
+            "p-learn-topic"
+          ]
+        },
+        {
+          "text": "用费曼法检验理解——让它讲解后由你复述，再由它指出你复述里的漏洞。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-learn-topic"
+          ]
+        },
+        {
+          "text": "找 3 个不同难度的解释版本，确认自己真的懂了而不是记住了术语。",
+          "tools": [
+            "chatgpt",
+            "doubao"
+          ],
+          "prompts": [
+            "p-explain-simple"
+          ]
+        },
+        {
+          "text": "让它把领域技能拆成「15 分钟一轮」的最小练习动作，边学边练。",
+          "tools": [
+            "chatgpt"
+          ],
+          "prompts": [
+            "p-skill-breakdown"
+          ]
+        },
+        {
+          "text": "最后用「毒舌评审团」检验——让它从三个立场挑战你的理解。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-role-critic"
+          ]
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "claude",
+        "kimi",
+        "notebooklm",
+        "perplexity"
+      ],
+      "prompts": [
+        "p-learn-topic",
+        "p-explain-simple",
+        "p-skill-breakdown",
+        "p-roadmap"
+      ],
+      "warnings": [
+        "**AI 在陌生领域会非常自信地编造。** 关键概念一定要用搜索工具交叉验证，尤其是人名、时间、数字。",
+        "让它「先提问」比让它「直接讲」有效得多——加一句「在我复述前不要给我答案」。"
+      ]
+    },
+    {
+      "id": "pb-exam-prep",
+      "title": "备考：把知识点变成能练的题",
+      "group": "learn",
+      "time": "持续",
+      "level": "零门槛",
+      "problem": "书看了一遍，合上还是不会做题。",
+      "steps": [
+        {
+          "text": "先自测定位薄弱点，**不要从第一页开始复习**。把薄弱点明确告诉 AI，出的题才有针对性。",
+          "tools": [
+            "chatgpt",
+            "deepseek",
+            "doubao"
+          ],
+          "prompts": [
+            "p-exam-drill"
+          ]
+        },
+        {
+          "text": "让它按「同知识点多角度 + 综合题 + 陷阱题」出题，先只出题不给答案。",
+          "tools": [
+            "chatgpt",
+            "deepseek"
+          ],
+          "prompts": [
+            "p-exam-drill"
+          ]
+        },
+        {
+          "text": "做完让它批改并指出「错的根因」是概念不清还是计算失误——两者的补救方式完全不同。",
+          "tools": [
+            "chatgpt",
+            "deepseek",
+            "gauth"
+          ],
+          "prompts": [
+            "p-exam-drill"
+          ]
+        },
+        {
+          "text": "把错题录进闪卡工具，隔几天重测一次。",
+          "tools": [
+            "quizlet"
+          ],
+          "prompts": []
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "deepseek",
+        "doubao",
+        "quizlet",
+        "gauth"
+      ],
+      "prompts": [
+        "p-exam-drill",
+        "p-learn-topic"
+      ],
+      "warnings": [
+        "**AI 出的题有错误率**，尤其是理科计算题。遇到答案和自己算的不一致时，让它重新算一遍并展示步骤，不要直接信它。",
+        "「先只出题」这个约定要写进提示词，否则它会一边出题一边漏答案。"
+      ]
+    },
+    {
+      "id": "pb-data-question",
+      "title": "用数据回答一个业务问题",
+      "group": "data",
+      "time": "半天",
+      "level": "零门槛",
+      "problem": "手上有一堆数据，但说不清它到底说明了什么，也不知道该建议做什么。",
+      "steps": [
+        {
+          "text": "先用自然语言问数，把业务问题转成 SQL 或直接上传表格让工具算。",
+          "tools": [
+            "julius",
+            "chatgpt",
+            "deepnote"
+          ],
+          "prompts": [
+            "p-sql"
+          ]
+        },
+        {
+          "text": "严格按「客观描述 → 异常点 → 原因假设 → 所以呢 → 数据局限」的结构分析。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-data-insight"
+          ]
+        },
+        {
+          "text": "特别关注「这份数据不能回答什么问题」——这是最容易被忽略、也最容易导致误判的部分。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-data-insight"
+          ]
+        },
+        {
+          "text": "给不同听众准备三个版本的叙事：高层 30 秒、业务方 3 分钟、专业同事 10 分钟。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-data-story"
+          ]
+        }
+      ],
+      "tools": [
+        "julius",
+        "chatgpt",
+        "claude",
+        "deepnote",
+        "powerbi-copilot"
+      ],
+      "prompts": [
+        "p-data-insight",
+        "p-sql",
+        "p-data-story"
+      ],
+      "warnings": [
+        "**AI 最大的风险是「相关性当因果」。** 它可能把两个同时变化的指标说成因果关系，这类结论必须自己判断。",
+        "让它先输出「客观描述」再让它解释，能有效减少它编故事。"
+      ]
+    },
+    {
+      "id": "pb-competitive-analysis",
+      "title": "做一份有洞察的竞品分析",
+      "group": "growth",
+      "time": "1 天",
+      "level": "零门槛",
+      "problem": "做出来的竞品分析是功能对照表，看完不知道该怎么打。",
+      "steps": [
+        {
+          "text": "先让模型列出需要收集的信息维度，**把「对方做不到什么」作为重点维度**，而不只是功能清单。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-competitor"
+          ]
+        },
+        {
+          "text": "用搜索和 AI 深研工具收集公开信息：产品更新日志、财报、招聘岗位（能看出他们在押注什么）。",
+          "tools": [
+            "perplexity",
+            "metaso",
+            "exa"
+          ],
+          "prompts": []
+        },
+        {
+          "text": "做「结构性劣势」分析——哪些是对方商业模式或组织能力上做不到的，这些才是持久的缝隙。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-competitor"
+          ]
+        },
+        {
+          "text": "收敛到自己现实的打法：以现有资源能切入的那个点，以及对手多久能跟进。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-decision"
+          ]
+        }
+      ],
+      "tools": [
+        "perplexity",
+        "metaso",
+        "exa",
+        "tavily",
+        "semrush"
+      ],
+      "prompts": [
+        "p-competitor",
+        "p-decision",
+        "p-user-persona"
+      ],
+      "warnings": [
+        "**AI 对具体公司的信息经常是过期的甚至是编的。** 所有关于竞品的事实（融资、人员、功能）必须用搜索工具核实。",
+        "不要只分析「对方做得好什么」——那会让你得出「他们很强我们打不过」的结论。重点找他们的结构性限制。"
+      ]
+    },
+    {
+      "id": "pb-first-customers",
+      "title": "冷启动触达第一批客户",
+      "group": "growth",
+      "time": "1 天",
+      "level": "有产品即可",
+      "problem": "产品能用了，但不知道第一批用户从哪来，发出去的私信没人回。",
+      "steps": [
+        {
+          "text": "先把目标用户精确到能列出 50 个具体名字/账号的程度，不要停留在「中小企业主」这种粒度。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-user-persona"
+          ]
+        },
+        {
+          "text": "写冷启动文案，硬性约束：150 字内、第一句与他有关、门槛低到只需回一个字。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-cold-outreach"
+          ]
+        },
+        {
+          "text": "小批量测试 3 个版本，只改一个变量（比如只改开头），看哪个回复率高。",
+          "tools": [
+            "chatgpt"
+          ],
+          "prompts": [
+            "p-ad-variants"
+          ]
+        },
+        {
+          "text": "对回复的人做深度访谈，把他们的原话收集起来——这些是你最好的文案素材。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-user-persona"
+          ]
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "claude",
+        "hubspot",
+        "mailchimp"
+      ],
+      "prompts": [
+        "p-cold-outreach",
+        "p-user-persona",
+        "p-ad-variants"
+      ],
+      "warnings": [
+        "**批量群发会毁掉你的账号和口碑。** AI 让生成成本变低，但接收方的反感没有变低。宁可一天发 20 条认真写的。",
+        "不要用 AI 编造「我们已服务 XX 家企业」这类背书，小团队编数据被查出来代价极高。"
+      ]
+    },
+    {
+      "id": "pb-messy-spreadsheets",
+      "title": "把一堆格式不一的表格整理成一张总表",
+      "group": "office",
+      "time": "1 小时",
+      "level": "零门槛",
+      "problem": "十几个部门各发一份表，字段名不同、格式不同，合起来要手工对一遍。",
+      "steps": [
+        {
+          "text": "先让模型做**字段映射**：把每个来源表的列名和你要的目标字段对应起来。这一步做完，后面的工作才有确定性。",
+          "tools": [
+            "chatgpt",
+            "claude",
+            "deepseek"
+          ],
+          "prompts": [
+            "p-clean-data"
+          ]
+        },
+        {
+          "text": "字段名对齐之后，**用脚本做合并，不要用模型做**。规则明确的转换交给程序，又快又稳又免费。",
+          "tools": [
+            "claude-code",
+            "cursor"
+          ],
+          "prompts": [
+            "p-code-explain"
+          ]
+        },
+        {
+          "text": "真正需要 AI 的只有非结构化部分：比如备注栏里的自由文本要归类、地址要拆成省市。用结构化抽取提示词处理。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-extract-json"
+          ]
+        },
+        {
+          "text": "合并后做一次质量检查：让模型列出异常行（数值不合理、日期异常、必填为空）。",
+          "tools": [
+            "chatgpt",
+            "julius"
+          ],
+          "prompts": [
+            "p-clean-data"
+          ]
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "claude",
+        "deepseek",
+        "julius",
+        "rows"
+      ],
+      "prompts": [
+        "p-clean-data",
+        "p-extract-json",
+        "p-sql"
+      ],
+      "warnings": [
+        "**不要把 20 个表格直接丢给模型让它合并。** 它会在长输入里丢行、串行，而且你无法验证。字段映射用 AI，合并用代码。",
+        "原始文件一定要留档。合并出问题时，你需要能回到源头重来。",
+        "涉及金额、库存这类对不上就要出事的字段，合并后必须人工抽查一批。"
+      ]
+    },
+    {
+      "id": "pb-project-proposal",
+      "title": "写一份能过审的方案 / 立项书",
+      "group": "office",
+      "time": "半天",
+      "level": "零门槛",
+      "problem": "想法有，但写出来的方案说服不了人，批不下来。",
+      "steps": [
+        {
+          "text": "先让模型当反方，把你的想法攻击一遍。**这一步在动笔之前做**，能帮你找到方案的薄弱环节。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-role-critic"
+          ]
+        },
+        {
+          "text": "用决策分析框架把「为什么要做」论证扎实：不做的代价是什么、有没有更好的替代方案、为什么是现在。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-decision"
+          ]
+        },
+        {
+          "text": "按审批人关心的顺序组织：结论 → 收益 → 投入 → 风险 → 里程碑。**别按你思考的顺序写，按他关心的顺序写。**",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-ask-boss"
+          ]
+        },
+        {
+          "text": "用项目排期提示词检验时间表是否现实，重点看它能不能找出瓶颈和关键路径。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-plan-project"
+          ]
+        },
+        {
+          "text": "最后让模型扮演三个角色（出钱的、执行的、客户）分别挑刺，你针对性补漏。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-role-critic"
+          ]
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "claude",
+        "gamma",
+        "feishu-ai",
+        "wps-ai"
+      ],
+      "prompts": [
+        "p-decision",
+        "p-role-critic",
+        "p-ask-boss",
+        "p-plan-project"
+      ],
+      "warnings": [
+        "**不要把 AI 的乐观语气照搬进方案。** 模型天然倾向于说「这是一个很有前景的方向」，审批人一眼就能看出是凑的。",
+        "收益测算里的数字必须是你能解释来源的。被问一句「这个 30% 怎么算的」答不上来，整份方案的可信度就没了。",
+        "方案里主动写清楚「什么情况下这个方案会失败」，比只写好处更容易过审。"
+      ]
+    },
+    {
+      "id": "pb-repurpose-content",
+      "title": "一篇长文改写成多平台版本",
+      "group": "content",
+      "time": "1 小时",
+      "level": "零门槛",
+      "problem": "花大力气写了篇长文，只在公众号发一次就沉了。",
+      "steps": [
+        {
+          "text": "先提炼出这篇长文的**核心论点与三个支撑点**。多平台改写的关键不是缩写，而是换切入角度。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-summarize"
+          ]
+        },
+        {
+          "text": "按平台特性分别改写：小红书要具体场景和情绪、知乎要论证链条、微博要一个尖锐的观点、视频号要开头三秒。",
+          "tools": [
+            "chatgpt",
+            "doubao"
+          ],
+          "prompts": [
+            "p-xiaohongshu",
+            "p-title-batch"
+          ]
+        },
+        {
+          "text": "为了每个平台单独生成标题组，不要一稿多投。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-title-batch"
+          ]
+        },
+        {
+          "text": "最后检查**各平台之间有没有自我重复**——同一批粉丝看到完全一样的内容会掉关。",
+          "tools": [
+            "chatgpt"
+          ],
+          "prompts": [
+            "p-content-calendar"
+          ]
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "claude",
+        "doubao",
+        "jimeng",
+        "napkin"
+      ],
+      "prompts": [
+        "p-xiaohongshu",
+        "p-title-batch",
+        "p-summarize",
+        "p-content-calendar"
+      ],
+      "warnings": [
+        "**不要把长文直接压缩后发到短视频平台**，那是两套内容逻辑。短视频需要单一观点 + 强钩子，而长文的价值在完整论证。",
+        "各平台同一时间批量发布容易被判为营销号。错开时间、调整表述。",
+        "AI 改写后一定要自己读一遍——它会悄悄改变你的观点强度，把「我倾向于」改成「一定」。"
+      ]
+    },
+    {
+      "id": "pb-social-visual-system",
+      "title": "做一套社媒视觉模板（发一年不重样）",
+      "group": "content",
+      "time": "半天",
+      "level": "零门槛",
+      "problem": "每次发内容都要重新做图，风格还越来越乱，账号看起来不像一个号。",
+      "steps": [
+        {
+          "text": "先定视觉基调：让模型帮你把「想要的感觉」翻译成具体参数（主色、字体气质、留白比例、图形元素）。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-design-brief"
+          ]
+        },
+        {
+          "text": "生成一套基础模板（封面 / 内页 / 引用 / 数据），固定下来，之后只换内容不换版式。",
+          "tools": [
+            "canva-ai",
+            "figma-ai",
+            "jsdesign",
+            "gaoding"
+          ],
+          "prompts": [
+            "p-design-system"
+          ]
+        },
+        {
+          "text": "用文生图生成一套统一的背景素材和装饰元素，保证后续拼图不缺料。",
+          "tools": [
+            "jimeng",
+            "nano-banana",
+            "liblib"
+          ],
+          "prompts": [
+            "p-image-prompt"
+          ]
+        },
+        {
+          "text": "建立命名和归档规则：模板 / 素材 / 成品分开存，按日期和主题命名。",
+          "tools": [],
+          "prompts": [
+            "p-sop-write"
+          ]
+        }
+      ],
+      "tools": [
+        "canva-ai",
+        "figma-ai",
+        "jsdesign",
+        "jimeng",
+        "liblib",
+        "gaoding"
+      ],
+      "prompts": [
+        "p-design-brief",
+        "p-design-system",
+        "p-image-prompt"
+      ],
+      "warnings": [
+        "**一致性比单张好看更重要。** 每张图都很惊艳但风格不同，账号反而没有辨识度。宁可单张普通。",
+        "生成素材要注意版权：涉及真实品牌、名人形象、特定艺术风格的，商用前确认许可范围。",
+        "模板定下来之后就不要频繁改版，视觉识别是靠重复建立的。"
+      ]
+    },
+    {
+      "id": "pb-podcast-produce",
+      "title": "做一档播客（从选题到成片）",
+      "group": "media",
+      "time": "1 天",
+      "level": "零门槛",
+      "problem": "想做播客但一想到剪辑和后期就放弃了。",
+      "steps": [
+        {
+          "text": "用「用户阶段 × 内容类型」矩阵规划前 8 期选题，避免做到第三期就不知道聊什么。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-content-calendar"
+          ]
+        },
+        {
+          "text": "录音前让模型给一份访谈提纲（含追问方向），但**录制时不要照读**——照着念的播客听起来很僵。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-blog-outline"
+          ]
+        },
+        {
+          "text": "录完用转录工具出文字稿，这一步是所有后续工作的基础。",
+          "tools": [
+            "feishu-minutes",
+            "tingwu",
+            "whisper",
+            "iflyrec"
+          ],
+          "prompts": []
+        },
+        {
+          "text": "用「像改文档一样剪视频」的工具做剪辑，删掉某句话对应的音轨就跟着没了，比传统剪辑快得多。",
+          "tools": [
+            "descript",
+            "adobe-podcast"
+          ],
+          "prompts": []
+        },
+        {
+          "text": "把转录稿交给模型生成节目简介、时间轴和三条可单独传播的金句片段。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-summarize"
+          ]
+        }
+      ],
+      "tools": [
+        "descript",
+        "adobe-podcast",
+        "feishu-minutes",
+        "tingwu",
+        "whisper",
+        "krisp"
+      ],
+      "prompts": [
+        "p-content-calendar",
+        "p-summarize",
+        "p-blog-outline"
+      ],
+      "warnings": [
+        "先解决录音质量再谈内容。手机直录的房间混响比内容差更劝退听众，Krisp 这类降噪能救一部分但救不了全部。",
+        "**AI 生成的节目简介很容易写成营销腔**，自己改一遍，用你自己的说话方式。",
+        "找嘉宾录制前一定要说清用途和发布范围，涉及他人声音和观点有明确的授权要求。"
+      ]
+    },
+    {
+      "id": "pb-video-localize",
+      "title": "给视频批量做字幕与多语言配音",
+      "group": "media",
+      "time": "半天",
+      "level": "零门槛",
+      "problem": "想做出海内容，但翻译和配音的工作量劝退。",
+      "steps": [
+        {
+          "text": "先用转录工具拿到原文时间轴字幕（SRT）。这是后续所有语种版本的母版。",
+          "tools": [
+            "whisper",
+            "tingwu",
+            "iflyrec"
+          ],
+          "prompts": []
+        },
+        {
+          "text": "翻译字幕。**要按口语翻译，不要按书面语**——字幕长度超了会溢出，口语化的表达观众才听得懂。",
+          "tools": [
+            "deepl",
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-translate-pro"
+          ]
+        },
+        {
+          "text": "用语音克隆或 TTS 生成配音，注意选择与视频语气相符的音色。",
+          "tools": [
+            "elevenlabs",
+            "voice-clone-cosyvoice",
+            "minimax-audio",
+            "fish-audio"
+          ],
+          "prompts": []
+        },
+        {
+          "text": "剪辑工具里把配音和字幕合成，检查口型对不上时的处理方式（切镜头或补画面）。",
+          "tools": [
+            "capcut",
+            "descript"
+          ],
+          "prompts": []
+        }
+      ],
+      "tools": [
+        "whisper",
+        "elevenlabs",
+        "voice-clone-cosyvoice",
+        "heygen",
+        "capcut",
+        "deepl"
+      ],
+      "prompts": [
+        "p-translate-pro"
+      ],
+      "warnings": [
+        "**音色克隆必须获得本人明确授权。** 未授权克隆他人声音在多数地区涉及侵权，甚至可能被用于诈骗。",
+        "字幕机器翻译后一定要人工过一遍专有名词和文化梗，直译出来的东西经常很尴尬。",
+        "不同语种的信息密度不同：中文 20 字的内容翻成英文可能要看三行，字幕条数需要重新切分。"
+      ]
+    },
+    {
+      "id": "pb-legacy-docs",
+      "title": "给老项目补文档和注释",
+      "group": "code",
+      "time": "1 天",
+      "level": "有编程基础",
+      "problem": "接手的老代码没有文档，半年后连自己都看不懂。",
+      "steps": [
+        {
+          "text": "先用 AI IDE 扫一遍项目，让它输出模块清单和各自的职责。**先建地图再补文档**，否则容易陷入细节。",
+          "tools": [
+            "cursor",
+            "claude-code",
+            "trae"
+          ],
+          "prompts": [
+            "p-code-explain"
+          ]
+        },
+        {
+          "text": "优先给「最常被改动的文件」和「最容易改错的地方」补文档，而不是平均用力。让模型帮你判断哪些文件风险最高。",
+          "tools": [
+            "claude",
+            "cursor"
+          ],
+          "prompts": [
+            "p-code-explain"
+          ]
+        },
+        {
+          "text": "让它为关键函数写注释，但要求写明**为什么这么写**而不是「这个函数做什么」——前者才是文档的价值。",
+          "tools": [
+            "claude",
+            "cursor"
+          ],
+          "prompts": [
+            "p-code-explain"
+          ]
+        },
+        {
+          "text": "用 API 设计评审提示词检查现有接口文档有没有缺错误码、分页、幂等说明。",
+          "tools": [
+            "claude",
+            "chatgpt"
+          ],
+          "prompts": [
+            "p-api-design"
+          ]
+        }
+      ],
+      "tools": [
+        "cursor",
+        "claude-code",
+        "claude",
+        "trae",
+        "cody"
+      ],
+      "prompts": [
+        "p-code-explain",
+        "p-api-design",
+        "p-sop-write"
+      ],
+      "warnings": [
+        "**AI 写的注释经常是「把代码翻译一遍」**（`// 遍历数组`），毫无价值。必须明确要求写意图、写坑、写为什么不用别的写法。",
+        "不要在补文档的同时顺手改代码。混在一起提交，出问题无法区分是哪部分导致的。",
+        "文档写完要有人真的照着做一遍，才能发现哪里还是没说清。"
+      ]
+    },
+    {
+      "id": "pb-prerelease-check",
+      "title": "上线前做一次系统性检查",
+      "group": "code",
+      "time": "半天",
+      "level": "有编程基础",
+      "problem": "每次上线都靠感觉，总在线上才发现问题。",
+      "steps": [
+        {
+          "text": "让模型列出一份针对你这个项目的上线检查清单。要具体到你的技术栈和业务，不要通用模板。",
+          "tools": [
+            "claude",
+            "chatgpt"
+          ],
+          "prompts": [
+            "p-sop-write"
+          ]
+        },
+        {
+          "text": "对这次改动的代码做一次审查，按「严重/中等/建议」分级，要求指出具体行。",
+          "tools": [
+            "claude",
+            "cursor"
+          ],
+          "prompts": [
+            "p-code-review"
+          ]
+        },
+        {
+          "text": "检查测试覆盖：让模型指出**哪些逻辑根本测不到**，这些通常是设计问题。",
+          "tools": [
+            "claude",
+            "claude-code"
+          ],
+          "prompts": [
+            "p-test-gen"
+          ]
+        },
+        {
+          "text": "演练回滚：让模型评估「如果这次上线出问题，回滚需要多久、有没有不可逆的改动（比如数据库迁移）」。",
+          "tools": [
+            "claude",
+            "chatgpt"
+          ],
+          "prompts": [
+            "p-refactor-plan"
+          ]
+        },
+        {
+          "text": "最后检查可观测性：出问题你能不能第一时间知道、能不能定位。没有监控的上线是赌博。",
+          "tools": [
+            "claude",
+            "chatgpt"
+          ],
+          "prompts": [
+            "p-sop-write"
+          ]
+        }
+      ],
+      "tools": [
+        "claude",
+        "cursor",
+        "claude-code",
+        "chatgpt"
+      ],
+      "prompts": [
+        "p-sop-write",
+        "p-code-review",
+        "p-test-gen",
+        "p-refactor-plan"
+      ],
+      "warnings": [
+        "**AI 说「看起来没问题」没有任何意义。** 它看不到线上环境、真实数据分布和你的历史事故。它只能帮你查漏，不能替你判断。",
+        "不可逆的改动（数据迁移、删除字段）必须单独拆出来，先做兼容、观察一段时间再清理。",
+        "上线清单要落到文档里并持续迭代——每次事故后补一条，这份清单会越来越值钱。"
+      ]
+    },
+    {
+      "id": "pb-learn-programming",
+      "title": "从零学一门编程语言到能写项目",
+      "group": "learn",
+      "time": "4 周",
+      "level": "零门槛",
+      "problem": "语法看了一遍，但写不出完整的东西。",
+      "steps": [
+        {
+          "text": "先让模型画出这门语言的核心概念地图，并标出**与你已经会的那门语言的差异点**。学语言不是从零开始，是从已知迁移。",
+          "tools": [
+            "chatgpt",
+            "claude",
+            "deepseek"
+          ],
+          "prompts": [
+            "p-learn-topic"
+          ]
+        },
+        {
+          "text": "设定一个贯穿全程的小项目（比如命令行待办、爬虫、小网站），每周给它加一个功能。**不要做一堆互不相关的练习。**",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-roadmap"
+          ]
+        },
+        {
+          "text": "遇到报错用调试提示词，重点让它解释错误**为什么**会发生，而不是直接给修复代码。这样才能积累判断力。",
+          "tools": [
+            "claude",
+            "chatgpt",
+            "cursor"
+          ],
+          "prompts": [
+            "p-debug"
+          ]
+        },
+        {
+          "text": "每周让模型 review 一次你写的代码，按严重程度分级给意见。这相当于有一个随时可用的资深同事。",
+          "tools": [
+            "claude",
+            "cursor"
+          ],
+          "prompts": [
+            "p-code-review"
+          ]
+        },
+        {
+          "text": "最后让模型扮演面试官，围绕你的项目做压力面，检验是不是真的理解。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-interview"
+          ]
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "claude",
+        "deepseek",
+        "cursor",
+        "cline"
+      ],
+      "prompts": [
+        "p-learn-topic",
+        "p-roadmap",
+        "p-debug",
+        "p-code-review",
+        "p-interview"
+      ],
+      "warnings": [
+        "**最大的陷阱是「让 AI 写、你看着」**。看着很懂，一动手就废。强制要求自己先写、再让 AI 改。",
+        "不要让 AI 一次给你整个项目的代码。你需要的是一行一行搞懂，不是拿到一个能跑但你不知道原理的东西。",
+        "每学一个概念就用自己的话讲一遍，让 AI 挑漏洞。这一步不能省。"
+      ]
+    },
+    {
+      "id": "pb-tech-talk",
+      "title": "准备一场技术分享 / 演讲",
+      "group": "learn",
+      "time": "1 天",
+      "level": "有专业基础",
+      "problem": "内容都在脑子里，但组织不成一场讲得下去的分享。",
+      "steps": [
+        {
+          "text": "先定**听众画像和他们的前知识**：他们知道什么、不知道什么、关心什么。这决定了你从哪里讲起。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-user-persona"
+          ]
+        },
+        {
+          "text": "把内容组织成「问题 → 为什么难 → 我的思路 → 结果 → 意外发现」的叙事线。**技术分享最大的问题是变成 API 罗列。**",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-blog-outline"
+          ]
+        },
+        {
+          "text": "为每个核心概念准备一个类比和一个反例。类比让人懂，反例让人记住。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-explain-simple"
+          ]
+        },
+        {
+          "text": "让模型扮演听众提 10 个刁钻问题，尤其是「那你为什么不直接用 XX 方案」这类。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-role-critic"
+          ]
+        },
+        {
+          "text": "做讲稿而不是做 PPT。先写完整讲稿，再从中提炼每页要点——反过来做会变成念 PPT。",
+          "tools": [
+            "gamma",
+            "zhiwen",
+            "napkin"
+          ],
+          "prompts": []
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "claude",
+        "gamma",
+        "napkin",
+        "zhiwen"
+      ],
+      "prompts": [
+        "p-blog-outline",
+        "p-explain-simple",
+        "p-role-critic",
+        "p-user-persona"
+      ],
+      "warnings": [
+        "**时间会严重超支。** 让模型帮你估算每部分讲多久，然后砍掉 30%——第一次讲的人普遍超时一倍。",
+        "Demo 一定要准备录屏备份。现场演示失败是技术分享最经典的事故。",
+        "AI 生成的类比经常很牵强（把神经网络比作「大脑」这类）。类比宁可少，但要贴切。"
+      ]
+    },
+    {
+      "id": "pb-data-dashboard",
+      "title": "做一份团队看得懂的数据看板",
+      "group": "data",
+      "time": "1 天",
+      "level": "零门槛",
+      "problem": "拉了一堆报表，但没人看，看了也不知道该做什么。",
+      "steps": [
+        {
+          "text": "先用指标树提示词拆解：北极星指标是什么、拆到团队能直接影响的层级。**没有拆解的看板就是数字墙。**",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-metric-tree"
+          ]
+        },
+        {
+          "text": "为每个指标设定「正常范围」和「异常阈值」，让看板能自己报警，而不是靠人看。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-metric-tree"
+          ]
+        },
+        {
+          "text": "用自然语言问数把数据拉出来，验证指标口径是否和你理解的一致。",
+          "tools": [
+            "julius",
+            "chatgpt",
+            "wrenai",
+            "vanna"
+          ],
+          "prompts": [
+            "p-sql"
+          ]
+        },
+        {
+          "text": "让模型为每个图表写一句「这一页在回答什么问题」——写不出来就说明这个图表该删。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-data-story"
+          ]
+        },
+        {
+          "text": "为不同角色设计不同视图：管理层看趋势和异常，执行层看具体动作。",
+          "tools": [
+            "powerbi-copilot",
+            "tableau-pulse",
+            "rows",
+            "quadratic"
+          ],
+          "prompts": [
+            "p-data-story"
+          ]
+        }
+      ],
+      "tools": [
+        "powerbi-copilot",
+        "tableau-pulse",
+        "julius",
+        "rows",
+        "quadratic",
+        "deepnote"
+      ],
+      "prompts": [
+        "p-metric-tree",
+        "p-sql",
+        "p-data-story",
+        "p-data-insight"
+      ],
+      "warnings": [
+        "**看板最大的问题是「指标太多」。** 一屏放 20 个数字等于没有重点。宁可只留 5 个，每个都要能对应一个动作。",
+        "指标口径必须在看板上写明。同一张表两个人算出不同数字，比没有报表还糟。",
+        "上线后观察两周真实使用情况。如果没人点开，问题不在于做得不够漂亮，而在于它没有回答任何人的问题。"
+      ]
+    },
+    {
+      "id": "pb-voice-of-customer",
+      "title": "从用户反馈里挖出产品问题",
+      "group": "data",
+      "time": "半天",
+      "level": "零门槛",
+      "problem": "收集了几百条反馈，看完只觉得「用户很难伺候」，总结不出结论。",
+      "steps": [
+        {
+          "text": "先让模型做**无预设的归类**：不告诉它你想验证什么，让它自己总结反馈里出现了哪几类主题。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-clean-data"
+          ]
+        },
+        {
+          "text": "统计每类的占比，并让它按「情绪强度 × 出现频率」排序——高频且强烈的是最该先改的。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-data-insight"
+          ]
+        },
+        {
+          "text": "对每一类，让它从反馈里摘出**用户的原话**。原话是最有说服力的证据，也能帮你发现你分类分错了。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-user-persona"
+          ]
+        },
+        {
+          "text": "区分「用户说的」和「用户真正需要的」。让模型指出哪些反馈是表象、背后可能是什么。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-decision"
+          ]
+        },
+        {
+          "text": "最后收敛成一份「改什么 + 为什么 + 预期影响」的清单，而不是一份反馈统计表。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-data-story"
+          ]
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "claude",
+        "deepseek"
+      ],
+      "prompts": [
+        "p-clean-data",
+        "p-data-insight",
+        "p-user-persona",
+        "p-data-story"
+      ],
+      "warnings": [
+        "**不要让模型直接从反馈跳到解决方案。** 它会给出听起来合理但完全没抓住痛点功能的建议，必须人工判断。",
+        "反馈量大时建议先分层抽样再分析，全部丢进去容易在长输入里丢失少数但关键的声音。",
+        "注意「沉默的大多数」——愿意写反馈的往往是最不满和最爱你的两类人，中间那批不发声。"
+      ]
+    },
+    {
+      "id": "pb-launch-materials",
+      "title": "准备一次产品发布的全部物料",
+      "group": "growth",
+      "time": "2 天",
+      "level": "有产品即可",
+      "problem": "发布会/上线在即，文案、图片、短视频、邮件全都要做，手忙脚乱。",
+      "steps": [
+        {
+          "text": "先定**一句话核心信息**：这次发布最重要的一件事是什么。所有物料都围绕这一句，不要贪多。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-landing-page"
+          ]
+        },
+        {
+          "text": "按物料清单批量产出文案：落地页、社媒预告、发布邮件、站内公告、媒体稿。用同一套核心信息，换表达方式。",
+          "tools": [
+            "chatgpt",
+            "claude",
+            "copyai"
+          ],
+          "prompts": [
+            "p-landing-page",
+            "p-ad-variants"
+          ]
+        },
+        {
+          "text": "生成视觉素材：主视觉、功能演示图、社媒封面。保持整套视觉一致。",
+          "tools": [
+            "jimeng",
+            "nano-banana",
+            "canva-ai"
+          ],
+          "prompts": [
+            "p-image-prompt"
+          ]
+        },
+        {
+          "text": "做一支 30 秒短视频：脚本 → 分镜 → 生成 → 剪辑。开头三秒必须讲清「这是什么」。",
+          "tools": [
+            "jimeng",
+            "capcut",
+            "heygen"
+          ],
+          "prompts": [
+            "p-ad-variants"
+          ]
+        },
+        {
+          "text": "发布前让模型扮演目标用户，指出哪一条物料最可能被忽略、为什么。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-role-critic"
+          ]
+        }
+      ],
+      "tools": [
+        "chatgpt",
+        "claude",
+        "jimeng",
+        "capcut",
+        "canva-ai",
+        "oceanengine",
+        "mailchimp"
+      ],
+      "prompts": [
+        "p-landing-page",
+        "p-ad-variants",
+        "p-image-prompt",
+        "p-role-critic"
+      ],
+      "warnings": [
+        "**物料多于三个核心信息，等于没有核心信息。** 发布这件事最容易失控的地方就是想说的太多。",
+        "发布前把所有对外文案里的数字核一遍。AI 抄自己之前的内容时，很可能会把旧数据带进来。",
+        "准备好一份「常见问题应对」文档。发布当天评论区的问题会高度重复，提前备好答复能省大量时间。"
+      ]
+    },
+    {
+      "id": "pb-content-matrix",
+      "title": "从零搭建多平台内容矩阵",
+      "group": "growth",
+      "time": "1 周",
+      "level": "零门槛",
+      "problem": "只有一个平台，增长见顶，但不知道其他平台该怎么起步。",
+      "steps": [
+        {
+          "text": "先明确**主阵地和分发地**：主阵地做深度、做资产；分发地做触达。不要平均用力。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-content-calendar"
+          ]
+        },
+        {
+          "text": "分析各平台的流量逻辑差异（推荐流 vs 关注流、图文 vs 视频、算法偏好），据此决定内容形态。",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-competitor"
+          ]
+        },
+        {
+          "text": "设计一条内容流水线：一次生产（长文/长视频）→ 多形态拆分（短视频/图文/问答）。",
+          "tools": [
+            "opus-clip",
+            "capcut",
+            "chatgpt"
+          ],
+          "prompts": [
+            "p-content-calendar"
+          ]
+        },
+        {
+          "text": "用数据工具确认选题方向真的有人搜、有流量，再投入生产。",
+          "tools": [
+            "newrank",
+            "chanmama",
+            "ahrefs",
+            "semrush"
+          ],
+          "prompts": []
+        },
+        {
+          "text": "设定评估节奏：每周看哪些平台值得继续投、哪些应该放弃。**敢于停掉没有起色的平台。**",
+          "tools": [
+            "chatgpt",
+            "claude"
+          ],
+          "prompts": [
+            "p-weekly-review"
+          ]
+        }
+      ],
+      "tools": [
+        "newrank",
+        "chanmama",
+        "ahrefs",
+        "opus-clip",
+        "capcut",
+        "buffer",
+        "later"
+      ],
+      "prompts": [
+        "p-content-calendar",
+        "p-competitor",
+        "p-weekly-review"
+      ],
+      "warnings": [
+        "**同时开五个平台是最常见的死法。** 先做透一个，再做第二个，否则每个都做不好。",
+        "不同平台的内容不能简单搬运。同一篇发到五个平台，算法会判定为低质重复。",
+        "给每个平台设一个明确的止损点（比如三个月无起色就停），否则会一直消耗精力。"
+      ]
+    }
+  ]
+}

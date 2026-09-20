@@ -1,0 +1,187 @@
+{
+  "note": "用于 scripts/fetch-news.mjs 抓取的 RSS/Atom 源。改完跑 node scripts/fetch-news.mjs 验证。",
+  "maxPerSource": 12,
+  "maxTotal": 140,
+  "sources": [
+    {
+      "id": "jiqizhixin",
+      "name": "机器之心",
+      "url": "https://www.jiqizhixin.com/rss",
+      "lang": "中文",
+      "topic": "industry",
+      "enabled": false,
+      "note": "实测 RSS 已下线：返回 HTML 页面而非 feed（2026-09）"
+    },
+    {
+      "id": "qbitai",
+      "name": "量子位",
+      "url": "https://www.qbitai.com/feed",
+      "lang": "中文",
+      "topic": "industry",
+      "enabled": true
+    },
+    {
+      "id": "infoq-cn",
+      "name": "InfoQ 中文",
+      "url": "https://www.infoq.cn/feed",
+      "lang": "中文",
+      "topic": "product",
+      "enabled": true
+    },
+    {
+      "id": "meituan-tech",
+      "name": "美团技术团队",
+      "url": "https://tech.meituan.com/feed/",
+      "lang": "中文",
+      "topic": "product",
+      "enabled": true
+    },
+    {
+      "id": "sspai",
+      "name": "少数派",
+      "url": "https://sspai.com/feed",
+      "lang": "中文",
+      "topic": "product",
+      "enabled": true
+    },
+    {
+      "id": "ifanr",
+      "name": "爱范儿",
+      "url": "https://www.ifanr.com/feed",
+      "lang": "中文",
+      "topic": "product",
+      "enabled": true
+    },
+    {
+      "id": "36kr",
+      "name": "36 氪",
+      "url": "https://36kr.com/feed",
+      "lang": "中文",
+      "topic": "industry",
+      "enabled": false,
+      "note": "实测 RSS 已下线：返回 HTML 页面而非 feed（2026-09）"
+    },
+    {
+      "id": "ithome",
+      "name": "IT 之家",
+      "url": "https://www.ithome.com/rss/",
+      "lang": "中文",
+      "topic": "product",
+      "enabled": true
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "url": "https://openai.com/news/rss.xml",
+      "lang": "English",
+      "topic": "model",
+      "enabled": true
+    },
+    {
+      "id": "deepmind",
+      "name": "Google DeepMind",
+      "url": "https://deepmind.google/blog/rss.xml",
+      "lang": "English",
+      "topic": "model",
+      "enabled": true
+    },
+    {
+      "id": "arxiv-ai",
+      "name": "arXiv cs.AI",
+      "url": "http://export.arxiv.org/rss/cs.AI",
+      "lang": "English",
+      "topic": "model",
+      "enabled": false,
+      "note": "实测 rss.arxiv.org/rss/cs.AI 返回空 channel，无 item（2026-09）"
+    },
+    {
+      "id": "hn-ai",
+      "name": "Hacker News · AI",
+      "url": "https://hnrss.org/newest?q=AI+OR+LLM&points=50",
+      "lang": "English",
+      "topic": "opensource",
+      "enabled": true
+    },
+    {
+      "id": "simonw",
+      "name": "Simon Willison",
+      "url": "https://simonwillison.net/atom/everything/",
+      "lang": "English",
+      "topic": "product",
+      "enabled": true
+    },
+    {
+      "id": "theverge-ai",
+      "name": "The Verge · AI",
+      "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+      "lang": "English",
+      "topic": "industry",
+      "enabled": true
+    },
+    {
+      "id": "techcrunch-ai",
+      "name": "TechCrunch · AI",
+      "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "lang": "English",
+      "topic": "industry",
+      "enabled": true
+    },
+    {
+      "id": "mittr-ai",
+      "name": "MIT Tech Review · AI",
+      "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+      "lang": "English",
+      "topic": "industry",
+      "enabled": true
+    },
+    {
+      "id": "arstechnica-ai",
+      "name": "Ars Technica · AI",
+      "url": "https://arstechnica.com/ai/feed/",
+      "lang": "English",
+      "topic": "industry",
+      "enabled": true
+    },
+    {
+      "id": "latentspace",
+      "name": "Latent Space",
+      "url": "https://www.latent.space/feed",
+      "lang": "English",
+      "topic": "product",
+      "enabled": true
+    },
+    {
+      "id": "interconnects",
+      "name": "Interconnects",
+      "url": "https://www.interconnects.ai/feed",
+      "lang": "English",
+      "topic": "industry",
+      "enabled": true
+    },
+    {
+      "id": "thegradient",
+      "name": "The Gradient",
+      "url": "https://thegradient.pub/rss/",
+      "lang": "English",
+      "topic": "industry",
+      "enabled": true
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face",
+      "url": "https://huggingface.co/blog/feed.xml",
+      "lang": "English",
+      "topic": "opensource",
+      "enabled": false,
+      "note": "国内网络不可达，需要代理时再开"
+    },
+    {
+      "id": "oschina",
+      "name": "开源中国",
+      "url": "https://www.oschina.net/news/rss",
+      "lang": "中文",
+      "topic": "opensource",
+      "enabled": true
+    }
+  ]
+}

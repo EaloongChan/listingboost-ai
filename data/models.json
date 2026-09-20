@@ -1,0 +1,1485 @@
+{
+  "kinds": [
+    {
+      "id": "chat",
+      "name": "对话 / 通用",
+      "icon": "chat",
+      "accent": "#1B4DFF"
+    },
+    {
+      "id": "reason",
+      "name": "推理增强",
+      "icon": "spark",
+      "accent": "#4F46E5"
+    },
+    {
+      "id": "coding",
+      "name": "代码专精",
+      "icon": "code",
+      "accent": "#00875A"
+    },
+    {
+      "id": "image",
+      "name": "图像生成",
+      "icon": "image",
+      "accent": "#FF3B00"
+    },
+    {
+      "id": "video",
+      "name": "视频生成",
+      "icon": "video",
+      "accent": "#7C3AED"
+    },
+    {
+      "id": "audio",
+      "name": "语音 / 音乐",
+      "icon": "audio",
+      "accent": "#0E7490"
+    },
+    {
+      "id": "embedding",
+      "name": "向量嵌入",
+      "icon": "layers",
+      "accent": "#0F766E"
+    }
+  ],
+  "tiers": {
+    "flagship": "旗舰",
+    "main": "主力",
+    "light": "轻量/低成本",
+    "open": "开源旗舰"
+  },
+  "note": "这里按「模型家族」对比，不写具体版本号和参数——那类信息几个月就过期，需要精确数据请点右侧官方链接。带「开源」标记的可以下载权重自行部署。",
+  "items": [
+    {
+      "id": "m-gpt",
+      "name": "GPT 系列",
+      "vendor": "OpenAI",
+      "kind": "chat",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "综合能力最均衡",
+        "工具调用与结构化输出成熟",
+        "第三方生态与文档最全"
+      ],
+      "cautions": [
+        "价格处于高位",
+        "国内需自备访问方式"
+      ],
+      "useFor": [
+        "通用助手",
+        "需要严格 JSON 输出的生产环境",
+        "Agent 开发"
+      ],
+      "url": "https://platform.openai.com/docs/models",
+      "strengthsEn": [
+        "The most balanced all-round capability",
+        "Mature tool calling and structured output",
+        "The largest third-party ecosystem and documentation"
+      ],
+      "cautionsEn": [
+        "Priced in the top tier",
+        "Access from mainland China needs a workaround"
+      ],
+      "useForEn": [
+        "General assistant work",
+        "Production systems needing strict JSON output",
+        "Agent development"
+      ]
+    },
+    {
+      "id": "m-o-series",
+      "name": "o 系列（推理）",
+      "vendor": "OpenAI",
+      "kind": "reason",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "复杂数学与逻辑推理",
+        "竞赛级题目表现突出",
+        "会先思考再答"
+      ],
+      "cautions": [
+        "思考过程也会计费，成本明显更高",
+        "简单任务上属于杀鸡用牛刀"
+      ],
+      "useFor": [
+        "难题攻坚",
+        "需要严格推导的任务",
+        "科研与算法设计"
+      ],
+      "url": "https://openai.com",
+      "strengthsEn": [
+        "Complex maths and logic reasoning",
+        "Outstanding on competition-level problems",
+        "Thinks before answering"
+      ],
+      "cautionsEn": [
+        "The reasoning process is billed too, so costs are clearly higher",
+        "Overkill for simple tasks"
+      ],
+      "useForEn": [
+        "Hard problems",
+        "Tasks needing rigorous derivation",
+        "Research and algorithm design"
+      ]
+    },
+    {
+      "id": "m-claude",
+      "name": "Claude 系列",
+      "vendor": "Anthropic",
+      "kind": "chat",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "长文档理解与代码能力强",
+        "写作语感被普遍认为最自然",
+        "Artifacts 可实时预览产物"
+      ],
+      "cautions": [
+        "安全策略偏保守，部分请求会被软化",
+        "国内需自备访问方式"
+      ],
+      "useFor": [
+        "代码与重构",
+        "长文写作与编辑",
+        "文档分析"
+      ],
+      "url": "https://docs.anthropic.com",
+      "strengthsEn": [
+        "Long-document understanding and strong coding",
+        "Widely considered the most natural writing voice",
+        "Artifacts give live previews of output"
+      ],
+      "cautionsEn": [
+        "Conservative safety policy softens some legitimate requests",
+        "Access from mainland China needs a workaround"
+      ],
+      "useForEn": [
+        "Code and refactoring",
+        "Long-form writing and editing",
+        "Document analysis"
+      ]
+    },
+    {
+      "id": "m-gemini",
+      "name": "Gemini 系列",
+      "vendor": "Google",
+      "kind": "chat",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "原生多模态，音视频理解强",
+        "与 Google 搜索和 Workspace 深度整合",
+        "上下文窗口行业领先"
+      ],
+      "cautions": [
+        "中文语感相较国产模型略逊",
+        "产品线复杂，选型需看清版本"
+      ],
+      "useFor": [
+        "多模态任务",
+        "音视频内容理解",
+        "Google 生态用户"
+      ],
+      "url": "https://ai.google.dev",
+      "strengthsEn": [
+        "Natively multimodal, strong audio and video understanding",
+        "Deep integration with Google Search and Workspace",
+        "Industry-leading context window"
+      ],
+      "cautionsEn": [
+        "Chinese phrasing is less natural than domestic models",
+        "A complex product line — check which version you're getting"
+      ],
+      "useForEn": [
+        "Multimodal tasks",
+        "Audio and video understanding",
+        "Teams already on Google Workspace"
+      ]
+    },
+    {
+      "id": "m-llama",
+      "name": "Llama 系列",
+      "vendor": "Meta",
+      "kind": "chat",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "开源生态最庞大",
+        "微调工具链和社区资源最多",
+        "可完全本地部署"
+      ],
+      "cautions": [
+        "许可证有月活规模等附加条款，商用前必看",
+        "与顶级闭源模型仍有可感差距"
+      ],
+      "useFor": [
+        "本地部署",
+        "二次微调",
+        "数据不出内网的场景"
+      ],
+      "url": "https://www.llama.com",
+      "strengthsEn": [
+        "The largest open ecosystem",
+        "The most fine-tuning tooling and community resources",
+        "Fully deployable on your own hardware"
+      ],
+      "cautionsEn": [
+        "The licence carries conditions such as monthly-active-user limits — read it before commercial use",
+        "A perceptible gap remains versus the top closed models"
+      ],
+      "useForEn": [
+        "Local deployment",
+        "Secondary fine-tuning",
+        "Scenarios where data cannot leave the network"
+      ]
+    },
+    {
+      "id": "m-qwen",
+      "name": "Qwen 系列",
+      "vendor": "阿里巴巴",
+      "kind": "chat",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "尺寸覆盖最全，从端侧到旗舰无缝衔接",
+        "中文能力扎实",
+        "Apache 协议宽松，商用友好"
+      ],
+      "cautions": [
+        "不同尺寸版本能力差异大，选型需实测",
+        "旗舰版与开源版能力不同"
+      ],
+      "useFor": [
+        "中文应用",
+        "端侧部署",
+        "需要自由选尺寸的场景"
+      ],
+      "url": "https://qwen.ai",
+      "strengthsEn": [
+        "The widest size coverage, from on-device to flagship",
+        "Solid Chinese capability",
+        "Apache licence, genuinely commercial-friendly"
+      ],
+      "cautionsEn": [
+        "Capability varies sharply between sizes — test your own case",
+        "The flagship API and the open weights are not the same thing"
+      ],
+      "useForEn": [
+        "Chinese-language applications",
+        "On-device deployment",
+        "Scenarios needing freedom to pick a size"
+      ]
+    },
+    {
+      "id": "m-deepseek",
+      "name": "DeepSeek 系列",
+      "vendor": "深度求索",
+      "kind": "reason",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "推理能力开源里领先",
+        "API 价格极低",
+        "数学与代码表现突出"
+      ],
+      "cautions": [
+        "高峰期响应可能变慢",
+        "安全对齐相对宽松，需自行加护栏"
+      ],
+      "useFor": [
+        "推理类任务",
+        "成本敏感的生产环境",
+        "代码生成"
+      ],
+      "url": "https://www.deepseek.com",
+      "strengthsEn": [
+        "Leading reasoning among open models",
+        "Extremely low API pricing",
+        "Strong at maths and code"
+      ],
+      "cautionsEn": [
+        "Response times slow at peak hours",
+        "Loose safety alignment — add your own guardrails"
+      ],
+      "useForEn": [
+        "Reasoning-heavy tasks",
+        "Cost-sensitive production",
+        "Code generation"
+      ]
+    },
+    {
+      "id": "m-glm",
+      "name": "GLM 系列",
+      "vendor": "智谱 AI",
+      "kind": "chat",
+      "tier": "main",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "国产里工具调用做得扎实",
+        "有开源版本可自部署",
+        "企业服务与私有化成熟"
+      ],
+      "cautions": [
+        "生态体量小于头部厂商"
+      ],
+      "useFor": [
+        "国内企业应用",
+        "Agent 与工具调用",
+        "私有化部署"
+      ],
+      "url": "https://www.zhipuai.cn",
+      "strengthsEn": [
+        "Solid tool calling among Chinese models",
+        "Open-weight versions available for self-hosting",
+        "Mature enterprise and private-deployment offering"
+      ],
+      "cautionsEn": [
+        "Ecosystem scale is smaller than the major labs"
+      ],
+      "useForEn": [
+        "Chinese enterprise applications",
+        "Agents and tool calling",
+        "Private deployment"
+      ]
+    },
+    {
+      "id": "m-kimi",
+      "name": "Kimi 系列",
+      "vendor": "月之暗面",
+      "kind": "chat",
+      "tier": "main",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "超长上下文是主打",
+        "文件解析与网页读取体验好",
+        "有开源版本"
+      ],
+      "cautions": [
+        "超长上下文下依然会有中间段落召回下降"
+      ],
+      "useFor": [
+        "长文档处理",
+        "资料整理",
+        "阅读密集型任务"
+      ],
+      "url": "https://www.moonshot.cn",
+      "strengthsEn": [
+        "Very long context is the headline feature",
+        "Good file parsing and web reading",
+        "Open-weight versions exist"
+      ],
+      "cautionsEn": [
+        "Even with a long window, recall for mid-document content drops"
+      ],
+      "useForEn": [
+        "Long-document processing",
+        "Research collation",
+        "Reading-intensive work"
+      ]
+    },
+    {
+      "id": "m-doubao",
+      "name": "豆包 / Seed 系列",
+      "vendor": "字节跳动",
+      "kind": "chat",
+      "tier": "main",
+      "open": false,
+      "cn": true,
+      "strengths": [
+        "API 价格极低",
+        "语音交互体验好",
+        "多模态产品线完整"
+      ],
+      "cautions": [
+        "部分能力偏向产品端，API 开放度不如消费端"
+      ],
+      "useFor": [
+        "高频低成本调用",
+        "语音类应用",
+        "消费级产品"
+      ],
+      "url": "https://www.volcengine.com/product/doubao",
+      "strengthsEn": [
+        "Extremely low API pricing",
+        "Good voice interaction",
+        "A complete multimodal product line"
+      ],
+      "cautionsEn": [
+        "Some capability is product-side only — API openness trails the consumer app"
+      ],
+      "useForEn": [
+        "High-frequency low-cost calls",
+        "Voice applications",
+        "Consumer products"
+      ]
+    },
+    {
+      "id": "m-hunyuan",
+      "name": "混元系列",
+      "vendor": "腾讯",
+      "kind": "chat",
+      "tier": "main",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "与微信、腾讯文档生态打通",
+        "视频与 3D 生成开源，口碑不错",
+        "中文长文能力扎实"
+      ],
+      "cautions": [
+        "通用对话能力与头部仍有差距"
+      ],
+      "useFor": [
+        "国内办公场景",
+        "视频生成",
+        "3D 内容生产"
+      ],
+      "url": "https://hunyuan.tencent.com",
+      "strengthsEn": [
+        "Wired into WeChat and Tencent Docs",
+        "Open-source video and 3D generation with a good reputation",
+        "Solid Chinese long-text handling"
+      ],
+      "cautionsEn": [
+        "General conversation still trails the leading labs"
+      ],
+      "useForEn": [
+        "Chinese office scenarios",
+        "Video generation",
+        "3D content production"
+      ]
+    },
+    {
+      "id": "m-ernie",
+      "name": "文心系列",
+      "vendor": "百度",
+      "kind": "chat",
+      "tier": "main",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "中文检索与知识整合强",
+        "企业客户基础厚",
+        "有开源版本"
+      ],
+      "cautions": [
+        "产品线版本较多，需确认具体型号"
+      ],
+      "useFor": [
+        "中文知识问答",
+        "国内企业集成"
+      ],
+      "url": "https://yiyan.baidu.com",
+      "strengthsEn": [
+        "Strong Chinese retrieval and knowledge integration",
+        "A large enterprise customer base",
+        "Open-weight versions available"
+      ],
+      "cautionsEn": [
+        "Many product versions — confirm the exact model"
+      ],
+      "useForEn": [
+        "Chinese knowledge Q&A",
+        "Chinese enterprise integration"
+      ]
+    },
+    {
+      "id": "m-spark",
+      "name": "星火系列",
+      "vendor": "科大讯飞",
+      "kind": "chat",
+      "tier": "main",
+      "open": false,
+      "cn": true,
+      "strengths": [
+        "中文语音识别与合成行业领先",
+        "教育场景优化深",
+        "国产算力适配好"
+      ],
+      "cautions": [
+        "纯文本推理能力不算第一梯队"
+      ],
+      "useFor": [
+        "语音应用",
+        "教育产品",
+        "国产化要求场景"
+      ],
+      "url": "https://xinghuo.xfyun.cn",
+      "strengthsEn": [
+        "Industry-leading Chinese speech recognition and synthesis",
+        "Deep tuning for education scenarios",
+        "Well adapted to domestic compute"
+      ],
+      "cautionsEn": [
+        "Pure text reasoning isn't first tier"
+      ],
+      "useForEn": [
+        "Voice applications",
+        "Education products",
+        "Scenarios requiring domestic hardware"
+      ]
+    },
+    {
+      "id": "m-mistral",
+      "name": "Mistral 系列",
+      "vendor": "Mistral AI",
+      "kind": "chat",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "小尺寸效率极高",
+        "响应速度快",
+        "欧洲合规友好"
+      ],
+      "cautions": [
+        "中文能力较弱",
+        "旗舰规模不及美国头部"
+      ],
+      "useFor": [
+        "低延迟场景",
+        "欧洲业务",
+        "边缘部署"
+      ],
+      "url": "https://mistral.ai",
+      "strengthsEn": [
+        "Exceptional efficiency at small sizes",
+        "Very fast responses",
+        "European compliance-friendly"
+      ],
+      "cautionsEn": [
+        "Weak Chinese capability",
+        "Flagship scale trails the US leaders"
+      ],
+      "useForEn": [
+        "Low-latency scenarios",
+        "European business",
+        "Edge deployment"
+      ]
+    },
+    {
+      "id": "m-grok",
+      "name": "Grok 系列",
+      "vendor": "xAI",
+      "kind": "chat",
+      "tier": "flagship",
+      "open": true,
+      "cn": false,
+      "strengths": [
+        "实时接入社交平台信息",
+        "部分版本权重开源",
+        "推理版本进步明显"
+      ],
+      "cautions": [
+        "内容审核策略宽松，输出需自行过滤",
+        "国内访问不便"
+      ],
+      "useFor": [
+        "实时趋势追踪",
+        "需要宽松输出的场景"
+      ],
+      "url": "https://x.ai",
+      "strengthsEn": [
+        "Real-time access to social platform information",
+        "Some versions ship open weights",
+        "Its reasoning tiers have improved markedly"
+      ],
+      "cautionsEn": [
+        "Loose content moderation — filter the output yourself",
+        "Inconvenient to access from China"
+      ],
+      "useForEn": [
+        "Real-time trend tracking",
+        "Scenarios needing looser output policy"
+      ]
+    },
+    {
+      "id": "m-minimax",
+      "name": "MiniMax 系列",
+      "vendor": "MiniMax",
+      "kind": "chat",
+      "tier": "main",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "文本、语音、视频全模态",
+        "语音合成质量高",
+        "有开源版本"
+      ],
+      "cautions": [
+        "通用对话能力非其最强项"
+      ],
+      "useFor": [
+        "语音克隆与配音",
+        "视频生成",
+        "多模态产品"
+      ],
+      "url": "https://www.minimaxi.com",
+      "strengthsEn": [
+        "Text, speech and video in one family",
+        "High speech synthesis quality",
+        "Open-weight versions exist"
+      ],
+      "cautionsEn": [
+        "General conversation is not its strongest area"
+      ],
+      "useForEn": [
+        "Voice cloning and dubbing",
+        "Video generation",
+        "Multimodal products"
+      ]
+    },
+    {
+      "id": "m-step",
+      "name": "Step 系列",
+      "vendor": "阶跃星辰",
+      "kind": "chat",
+      "tier": "main",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "多模态理解能力突出",
+        "视觉推理表现好"
+      ],
+      "cautions": [
+        "生态与文档相对较少"
+      ],
+      "useFor": [
+        "图像理解",
+        "多模态 Agent"
+      ],
+      "url": "https://www.stepfun.com",
+      "strengthsEn": [
+        "Outstanding multimodal understanding",
+        "Strong visual reasoning"
+      ],
+      "cautionsEn": [
+        "A smaller ecosystem and less documentation"
+      ],
+      "useForEn": [
+        "Image understanding",
+        "Multimodal agents"
+      ]
+    },
+    {
+      "id": "m-gpt-image",
+      "name": "GPT Image",
+      "vendor": "OpenAI",
+      "kind": "image",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "指令遵循精度最高",
+        "图内文字渲染准确",
+        "适合精确改图"
+      ],
+      "cautions": [
+        "审美风格偏保守，艺术性不如 Midjourney"
+      ],
+      "useFor": [
+        "需要精确控制的设计图",
+        "带文字的图像",
+        "按指令修改"
+      ],
+      "url": "https://platform.openai.com/docs/guides/image-generation",
+      "strengthsEn": [
+        "The most accurate instruction following",
+        "Reliable text rendering inside images",
+        "Suited to precise image editing"
+      ],
+      "cautionsEn": [
+        "Its aesthetic is conservative — less artistic than Midjourney"
+      ],
+      "useForEn": [
+        "Design work needing precise control",
+        "Images containing text",
+        "Instruction-driven edits"
+      ]
+    },
+    {
+      "id": "m-midjourney",
+      "name": "Midjourney",
+      "vendor": "Midjourney",
+      "kind": "image",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "美学水准行业标杆",
+        "风格一致性工具成熟",
+        "出图氛围感强"
+      ],
+      "cautions": [
+        "精确控制能力弱于竞品",
+        "没有免费额度"
+      ],
+      "useFor": [
+        "概念图与氛围图",
+        "艺术创作",
+        "品牌视觉探索"
+      ],
+      "url": "https://www.midjourney.com",
+      "strengthsEn": [
+        "The industry aesthetic benchmark",
+        "Mature style-consistency tooling",
+        "Strong atmosphere and mood in output"
+      ],
+      "cautionsEn": [
+        "Precise control is weaker than competitors",
+        "No free tier"
+      ],
+      "useForEn": [
+        "Concept and mood boards",
+        "Artistic work",
+        "Brand visual exploration"
+      ]
+    },
+    {
+      "id": "m-nanobanana",
+      "name": "Nano Banana",
+      "vendor": "Google",
+      "kind": "image",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "角色与物体一致性极强",
+        "对话式逐步改图体验好",
+        "理解复杂编辑指令"
+      ],
+      "cautions": [
+        "通过对话产品使用，批量与 API 能力受限"
+      ],
+      "useFor": [
+        "人物一致的系列图",
+        "迭代式改图",
+        "产品图合成"
+      ],
+      "url": "https://gemini.google.com",
+      "strengthsEn": [
+        "Exceptional character and object consistency",
+        "A conversational, iterative editing experience",
+        "Understands complex edit instructions"
+      ],
+      "cautionsEn": [
+        "Used mainly through the chat product — batch and API access are limited"
+      ],
+      "useForEn": [
+        "Series images with consistent characters",
+        "Iterative image editing",
+        "Product image compositing"
+      ]
+    },
+    {
+      "id": "m-flux",
+      "name": "FLUX",
+      "vendor": "Black Forest Labs",
+      "kind": "image",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "开源图像模型质量领先",
+        "可本地部署与微调",
+        "社区 LoRA 生态活跃"
+      ],
+      "cautions": [
+        "显存要求较高",
+        "需自行搭建工作流"
+      ],
+      "useFor": [
+        "本地出图",
+        "定制风格训练",
+        "批量生产"
+      ],
+      "url": "https://blackforestlabs.ai",
+      "strengthsEn": [
+        "Leading quality among open image models",
+        "Deployable and fine-tunable locally",
+        "An active community LoRA ecosystem"
+      ],
+      "cautionsEn": [
+        "High VRAM requirements",
+        "You have to build your own workflow"
+      ],
+      "useForEn": [
+        "Local generation",
+        "Custom style training",
+        "Bulk production"
+      ]
+    },
+    {
+      "id": "m-seedream",
+      "name": "Seedream / 即梦",
+      "vendor": "字节跳动",
+      "kind": "image",
+      "tier": "main",
+      "open": false,
+      "cn": true,
+      "strengths": [
+        "中文提示词理解好",
+        "文字渲染与海报排版强",
+        "国内可直连"
+      ],
+      "cautions": [
+        "风格库偏向商业设计"
+      ],
+      "useFor": [
+        "中文海报",
+        "电商素材",
+        "国内团队使用"
+      ],
+      "url": "https://jimeng.jianying.com",
+      "strengthsEn": [
+        "Good Chinese prompt understanding",
+        "Strong text rendering and poster layout",
+        "Directly accessible from China"
+      ],
+      "cautionsEn": [
+        "The style library skews towards commercial design"
+      ],
+      "useForEn": [
+        "Chinese-language posters",
+        "E-commerce assets",
+        "Chinese teams"
+      ]
+    },
+    {
+      "id": "m-wanxiang",
+      "name": "通义万相",
+      "vendor": "阿里巴巴",
+      "kind": "image",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "图像与视频双线开源",
+        "中文场景优化",
+        "阿里云 API 集成方便"
+      ],
+      "cautions": [
+        "开源版与 API 版能力有差异"
+      ],
+      "useFor": [
+        "国内商用部署",
+        "中文内容生成"
+      ],
+      "url": "https://tongyi.aliyun.com/wanxiang",
+      "strengthsEn": [
+        "Both image and video lines are open source",
+        "Optimised for Chinese scenarios",
+        "Convenient Alibaba Cloud API integration"
+      ],
+      "cautionsEn": [
+        "The open versions and the API versions differ in capability"
+      ],
+      "useForEn": [
+        "Commercial deployment in China",
+        "Chinese-language content generation"
+      ]
+    },
+    {
+      "id": "m-sora",
+      "name": "Sora",
+      "vendor": "OpenAI",
+      "kind": "video",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "物理一致性领先",
+        "长镜头连贯性好",
+        "复杂场景理解强"
+      ],
+      "cautions": [
+        "额度与价格都偏高",
+        "国内访问不便"
+      ],
+      "useFor": [
+        "高质量概念片",
+        "复杂物理场景"
+      ],
+      "url": "https://sora.com",
+      "strengthsEn": [
+        "Leading physical consistency",
+        "Good coherence across long shots",
+        "Strong complex-scene understanding"
+      ],
+      "cautionsEn": [
+        "Both quota and pricing sit at the high end",
+        "Inconvenient to access from China"
+      ],
+      "useForEn": [
+        "High-quality concept films",
+        "Complex physical scenes"
+      ]
+    },
+    {
+      "id": "m-veo",
+      "name": "Veo",
+      "vendor": "Google DeepMind",
+      "kind": "video",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "原生同步生成音频",
+        "画面质感接近实拍",
+        "提示词遵循度高"
+      ],
+      "cautions": [
+        "生成时长仍有限制"
+      ],
+      "useFor": [
+        "带音效的成片",
+        "广告级素材"
+      ],
+      "url": "https://deepmind.google/models/veo",
+      "strengthsEn": [
+        "Natively generates synchronised audio",
+        "Texture approaches live-action",
+        "High prompt adherence"
+      ],
+      "cautionsEn": [
+        "Output duration is still limited"
+      ],
+      "useForEn": [
+        "Clips that need sound",
+        "Advertising-grade footage"
+      ]
+    },
+    {
+      "id": "m-kling",
+      "name": "可灵 Kling",
+      "vendor": "快手",
+      "kind": "video",
+      "tier": "flagship",
+      "open": false,
+      "cn": true,
+      "strengths": [
+        "人物动作自然流畅",
+        "图生视频表现好",
+        "国内可直连"
+      ],
+      "cautions": [
+        "生成排队时间在高峰期较长"
+      ],
+      "useFor": [
+        "人物类视频",
+        "舞蹈与动作",
+        "国内团队"
+      ],
+      "url": "https://klingai.kuaishou.com",
+      "strengthsEn": [
+        "Natural, fluid human motion",
+        "Excellent image-to-video",
+        "Directly accessible from China"
+      ],
+      "cautionsEn": [
+        "Long queues at peak times"
+      ],
+      "useForEn": [
+        "Human-centric video",
+        "Dance and motion",
+        "Chinese teams"
+      ]
+    },
+    {
+      "id": "m-hailuo-video",
+      "name": "海螺视频",
+      "vendor": "MiniMax",
+      "kind": "video",
+      "tier": "main",
+      "open": false,
+      "cn": true,
+      "strengths": [
+        "镜头语言丰富",
+        "运动幅度大",
+        "有开源版本"
+      ],
+      "cautions": [
+        "细节稳定性略逊于旗舰"
+      ],
+      "useFor": [
+        "镜头感强的短片",
+        "创意广告"
+      ],
+      "url": "https://hailuoai.video",
+      "strengthsEn": [
+        "Rich camera language",
+        "Large motion range",
+        "Open-weight versions exist"
+      ],
+      "cautionsEn": [
+        "Fine-detail stability trails the flagships slightly"
+      ],
+      "useForEn": [
+        "Shorts with strong camera work",
+        "Creative advertising"
+      ]
+    },
+    {
+      "id": "m-hunyuan-video",
+      "name": "混元视频",
+      "vendor": "腾讯",
+      "kind": "video",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "开源视频模型里质量靠前",
+        "画面稳定性好",
+        "可自部署"
+      ],
+      "cautions": [
+        "自部署算力门槛高"
+      ],
+      "useFor": [
+        "需要自主可控的视频生成",
+        "研究用途"
+      ],
+      "url": "https://video.hunyuan.tencent.com",
+      "strengthsEn": [
+        "Among the better open video models",
+        "Good frame stability",
+        "Self-hostable"
+      ],
+      "cautionsEn": [
+        "Self-hosting has a high compute bar"
+      ],
+      "useForEn": [
+        "Video generation where you control the stack",
+        "Research"
+      ]
+    },
+    {
+      "id": "m-runway",
+      "name": "Runway Gen 系列",
+      "vendor": "Runway",
+      "kind": "video",
+      "tier": "main",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "工具箱最全（局部重绘、运动笔刷等）",
+        "专业创作流程成熟"
+      ],
+      "cautions": [
+        "中文提示词支持一般"
+      ],
+      "useFor": [
+        "专业视频后期",
+        "需要精细控制的创作"
+      ],
+      "url": "https://runwayml.com",
+      "strengthsEn": [
+        "The most complete toolbox — inpainting, motion brush and more",
+        "A mature professional creative flow"
+      ],
+      "cautionsEn": [
+        "Chinese prompt support is average"
+      ],
+      "useForEn": [
+        "Professional video post-production",
+        "Work needing fine control"
+      ]
+    },
+    {
+      "id": "m-pixverse",
+      "name": "PixVerse",
+      "vendor": "爱诗科技",
+      "kind": "video",
+      "tier": "main",
+      "open": false,
+      "cn": true,
+      "strengths": [
+        "特效模板丰富",
+        "上手即用门槛低",
+        "国内可直连"
+      ],
+      "cautions": [
+        "模板化痕迹明显，原创度有限"
+      ],
+      "useFor": [
+        "社交平台传播素材",
+        "快速试水"
+      ],
+      "url": "https://pixverse.ai",
+      "strengthsEn": [
+        "A rich library of effect templates",
+        "Very low barrier to entry",
+        "Directly accessible from China"
+      ],
+      "cautionsEn": [
+        "Templates leave obvious fingerprints — limited originality"
+      ],
+      "useForEn": [
+        "Social media material",
+        "Fast experimentation"
+      ]
+    },
+    {
+      "id": "m-luma",
+      "name": "Luma Ray 系列",
+      "vendor": "Luma AI",
+      "kind": "video",
+      "tier": "main",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "镜头运动自然",
+        "关键帧控制灵活"
+      ],
+      "cautions": [
+        "部分场景人物一致性一般"
+      ],
+      "useFor": [
+        "镜头调度要求高的短片"
+      ],
+      "url": "https://lumalabs.ai",
+      "strengthsEn": [
+        "Natural camera movement",
+        "Flexible keyframe control"
+      ],
+      "cautionsEn": [
+        "Character consistency is inconsistent in some scenes"
+      ],
+      "useForEn": [
+        "Shorts with demanding camera work"
+      ]
+    },
+    {
+      "id": "m-whisper",
+      "name": "Whisper",
+      "vendor": "OpenAI",
+      "kind": "audio",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "多语言识别准确率高",
+        "完全开源可本地跑",
+        "抗噪能力好"
+      ],
+      "cautions": [
+        "本身只做识别，不做说话人分离"
+      ],
+      "useFor": [
+        "本地转录",
+        "字幕生成",
+        "语音数据预处理"
+      ],
+      "url": "https://github.com/openai/whisper",
+      "strengthsEn": [
+        "High multilingual recognition accuracy",
+        "Fully open source and locally runnable",
+        "Good noise robustness"
+      ],
+      "cautionsEn": [
+        "Does recognition only — no speaker separation"
+      ],
+      "useForEn": [
+        "Local transcription",
+        "Subtitle generation",
+        "Speech data pre-processing"
+      ]
+    },
+    {
+      "id": "m-elevenlabs",
+      "name": "ElevenLabs",
+      "vendor": "ElevenLabs",
+      "kind": "audio",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "语音自然度行业领先",
+        "多语言配音口音地道",
+        "情感控制细腻"
+      ],
+      "cautions": [
+        "价格偏高",
+        "克隆功能有滥用风险，需注意合规"
+      ],
+      "useFor": [
+        "有声书与播客",
+        "多语言配音",
+        "高要求 TTS"
+      ],
+      "url": "https://elevenlabs.io",
+      "strengthsEn": [
+        "Industry-leading speech naturalness",
+        "Convincing multilingual dubbing with authentic accents",
+        "Fine emotional control"
+      ],
+      "cautionsEn": [
+        "Expensive",
+        "Cloning features carry misuse risk — mind the compliance requirements"
+      ],
+      "useForEn": [
+        "Audiobooks and podcasts",
+        "Multilingual dubbing",
+        "High-standard TTS"
+      ]
+    },
+    {
+      "id": "m-cosyvoice",
+      "name": "CosyVoice",
+      "vendor": "阿里巴巴",
+      "kind": "audio",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "3 秒音频即可克隆音色",
+        "中文自然度高",
+        "开源可商用"
+      ],
+      "cautions": [
+        "自部署需一定工程能力"
+      ],
+      "useFor": [
+        "中文语音合成",
+        "本地化部署",
+        "成本敏感场景"
+      ],
+      "url": "https://github.com/FunAudioLLM/CosyVoice",
+      "strengthsEn": [
+        "Clones a voice from three seconds of audio",
+        "High Chinese naturalness",
+        "Open source and commercially usable"
+      ],
+      "cautionsEn": [
+        "Self-hosting takes engineering effort"
+      ],
+      "useForEn": [
+        "Chinese speech synthesis",
+        "Local deployment",
+        "Cost-sensitive scenarios"
+      ]
+    },
+    {
+      "id": "m-suno",
+      "name": "Suno",
+      "vendor": "Suno",
+      "kind": "audio",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "整首歌生成质量高",
+        "人声与编曲完整",
+        "风格覆盖广"
+      ],
+      "cautions": [
+        "版权归属与商用范围需看清条款"
+      ],
+      "useFor": [
+        "背景音乐",
+        "创意歌曲",
+        "短视频配乐"
+      ],
+      "url": "https://suno.com",
+      "strengthsEn": [
+        "High-quality full-song generation",
+        "Complete vocals and arrangement",
+        "Wide style coverage"
+      ],
+      "cautionsEn": [
+        "Check the terms for ownership and commercial use carefully"
+      ],
+      "useForEn": [
+        "Background music",
+        "Creative songs",
+        "Short-video scores"
+      ]
+    },
+    {
+      "id": "m-gptsovits",
+      "name": "GPT-SoVITS",
+      "vendor": "社区",
+      "kind": "audio",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "极少数据即可克隆音色",
+        "完全免费开源",
+        "中文效果优秀"
+      ],
+      "cautions": [
+        "音色克隆务必获得本人授权，否则涉及侵权"
+      ],
+      "useFor": [
+        "个人语音助手",
+        "配音实验",
+        "本地 TTS"
+      ],
+      "url": "https://github.com/RVC-Boss/GPT-SoVITS",
+      "strengthsEn": [
+        "Clones a voice from very little data",
+        "Completely free and open source",
+        "Excellent Chinese results"
+      ],
+      "cautionsEn": [
+        "Voice cloning absolutely requires the speaker's authorisation, or it's an infringement"
+      ],
+      "useForEn": [
+        "Personal voice assistants",
+        "Dubbing experiments",
+        "Local TTS"
+      ]
+    },
+    {
+      "id": "m-bge",
+      "name": "BGE 系列",
+      "vendor": "智源研究院",
+      "kind": "embedding",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "中文检索效果优秀",
+        "开源可本地部署",
+        "有重排序模型配套"
+      ],
+      "cautions": [
+        "不同版本对输入长度限制不同"
+      ],
+      "useFor": [
+        "中文 RAG",
+        "语义检索",
+        "本地向量化"
+      ],
+      "url": "https://github.com/FlagOpen/FlagEmbedding",
+      "strengthsEn": [
+        "Excellent Chinese retrieval performance",
+        "Open source and locally deployable",
+        "A companion reranking model is available"
+      ],
+      "cautionsEn": [
+        "Input length limits differ between versions"
+      ],
+      "useForEn": [
+        "Chinese RAG",
+        "Semantic search",
+        "Local embedding"
+      ]
+    },
+    {
+      "id": "m-openai-embed",
+      "name": "OpenAI Embeddings",
+      "vendor": "OpenAI",
+      "kind": "embedding",
+      "tier": "main",
+      "open": false,
+      "cn": false,
+      "strengths": [
+        "多语言表现均衡",
+        "API 简单稳定",
+        "生态兼容性最好"
+      ],
+      "cautions": [
+        "需联网调用，数据出境需评估"
+      ],
+      "useFor": [
+        "通用 RAG",
+        "多语言检索"
+      ],
+      "url": "https://platform.openai.com/docs/guides/embeddings",
+      "strengthsEn": [
+        "Balanced multilingual performance",
+        "Simple, stable API",
+        "The best ecosystem compatibility"
+      ],
+      "cautionsEn": [
+        "Requires online calls — assess data-export compliance"
+      ],
+      "useForEn": [
+        "General RAG",
+        "Multilingual retrieval"
+      ]
+    },
+    {
+      "id": "m-jina",
+      "name": "Jina Embeddings",
+      "vendor": "Jina AI",
+      "kind": "embedding",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "strengths": [
+        "支持超长文本直接嵌入",
+        "多语言覆盖广",
+        "有开源权重"
+      ],
+      "cautions": [
+        "长文本嵌入的检索精度会下降"
+      ],
+      "useFor": [
+        "长文档检索",
+        "多语言场景"
+      ],
+      "url": "https://jina.ai/embeddings",
+      "strengthsEn": [
+        "Embeds very long text directly",
+        "Broad multilingual coverage",
+        "Open weights available"
+      ],
+      "cautionsEn": [
+        "Retrieval precision drops for long-text embeddings"
+      ],
+      "useForEn": [
+        "Long-document retrieval",
+        "Multilingual scenarios"
+      ]
+    },
+    {
+      "id": "m-cohere-embed",
+      "name": "Cohere Embed",
+      "vendor": "Cohere",
+      "kind": "embedding",
+      "tier": "main",
+      "open": true,
+      "cn": false,
+      "strengths": [
+        "检索与分类任务表现好",
+        "支持压缩向量降低存储成本",
+        "有开源版本"
+      ],
+      "cautions": [
+        "中文能力不如国产模型"
+      ],
+      "useFor": [
+        "英文检索",
+        "企业搜索"
+      ],
+      "url": "https://cohere.com/embeddings",
+      "strengthsEn": [
+        "Strong at retrieval and classification",
+        "Supports compressed vectors to cut storage cost",
+        "Open-source versions exist"
+      ],
+      "cautionsEn": [
+        "Chinese capability trails domestic models"
+      ],
+      "useForEn": [
+        "English retrieval",
+        "Enterprise search"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,745 @@
+[
+  {
+    "id": "l-3b1b-nn",
+    "title": "3Blue1Brown：神经网络系列",
+    "track": "basic",
+    "type": "video",
+    "level": "入门",
+    "lang": "中英字幕",
+    "free": true,
+    "url": "https://www.3blue1brown.com/topics/neural-networks",
+    "source": "3Blue1Brown",
+    "desc": "用动画把神经网络、梯度下降、反向传播讲得极其直观，公认的最佳入门可视化。",
+    "tags": [
+      "可视化",
+      "原理",
+      "必看"
+    ]
+  },
+  {
+    "id": "l-d2l",
+    "title": "动手学深度学习（D2L）",
+    "track": "build",
+    "type": "book",
+    "level": "进阶",
+    "lang": "中文",
+    "free": true,
+    "url": "https://zh.d2l.ai",
+    "source": "李沐 等",
+    "desc": "理论 + 可运行代码，每章配 Jupyter Notebook。想真正动手训练模型从这里开始。",
+    "tags": [
+      "代码",
+      "实战",
+      "教材"
+    ]
+  },
+  {
+    "id": "l-karpathy-zero",
+    "title": "Neural Networks: Zero to Hero",
+    "track": "build",
+    "type": "video",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://karpathy.ai/zero-to-hero.html",
+    "source": "Andrej Karpathy",
+    "desc": "从零手写反向传播一路做到 GPT，跟完这套你对大模型的理解会完全不同。",
+    "tags": [
+      "从零实现",
+      "GPT",
+      "硬核"
+    ]
+  },
+  {
+    "id": "l-karpathy-gpt",
+    "title": "Let's build GPT: from scratch",
+    "track": "build",
+    "type": "video",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://www.youtube.com/watch?v=kCc8FmEb1nY",
+    "source": "Andrej Karpathy",
+    "desc": "两小时视频，用 PyTorch 从空白文件写出一个能训练的小型 GPT。",
+    "tags": [
+      "GPT",
+      "PyTorch"
+    ]
+  },
+  {
+    "id": "l-hung-yi",
+    "title": "李宏毅 · 机器学习/生成式 AI 课程",
+    "track": "basic",
+    "type": "course",
+    "level": "入门",
+    "lang": "中文",
+    "free": true,
+    "url": "https://speech.ee.ntu.edu.tw/~hylee/",
+    "source": "台湾大学 李宏毅",
+    "desc": "中文世界最受欢迎的机器学习课，讲义与视频全程开放，更新紧跟前沿。",
+    "tags": [
+      "中文",
+      "系统课",
+      "开放"
+    ]
+  },
+  {
+    "id": "l-ng-prompt",
+    "title": "ChatGPT Prompt Engineering for Developers",
+    "track": "prompt",
+    "type": "course",
+    "level": "入门",
+    "lang": "中英字幕",
+    "free": true,
+    "url": "https://www.deeplearning.ai/short-courses/",
+    "source": "DeepLearning.AI × OpenAI",
+    "desc": "一个多小时的短课，把提示词的工程化写法讲清楚，含可运行代码。",
+    "tags": [
+      "提示词",
+      "短课",
+      "官方"
+    ]
+  },
+  {
+    "id": "l-ng-ai4everyone",
+    "title": "AI For Everyone",
+    "track": "business",
+    "type": "course",
+    "level": "零基础",
+    "lang": "中英字幕",
+    "free": true,
+    "url": "https://www.coursera.org/learn/ai-for-everyone",
+    "source": "吴恩达",
+    "desc": "完全不需要技术背景，讲 AI 能做什么、不能做什么、公司该怎么落地。",
+    "tags": [
+      "非技术",
+      "管理",
+      "认知"
+    ]
+  },
+  {
+    "id": "l-promptingguide",
+    "title": "Prompt Engineering Guide",
+    "track": "prompt",
+    "type": "docs",
+    "level": "入门到进阶",
+    "lang": "多语言",
+    "free": true,
+    "url": "https://www.promptingguide.ai/zh",
+    "source": "DAIR.AI",
+    "desc": "提示词技术的系统性整理，从零样本到思维链、自洽性，有中文版。",
+    "tags": [
+      "提示词",
+      "体系化",
+      "有中文"
+    ]
+  },
+  {
+    "id": "l-anthropic-prompt",
+    "title": "Anthropic 提示词工程文档",
+    "track": "prompt",
+    "type": "docs",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",
+    "source": "Anthropic",
+    "desc": "官方出品，工程视角的提示词最佳实践，含大量对比示例。",
+    "tags": [
+      "提示词",
+      "官方",
+      "工程"
+    ]
+  },
+  {
+    "id": "l-openai-cookbook",
+    "title": "OpenAI Cookbook",
+    "track": "build",
+    "type": "docs",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://cookbook.openai.com",
+    "source": "OpenAI",
+    "desc": "官方示例代码库，覆盖 API 用法、RAG、函数调用、评估等实战场景。",
+    "tags": [
+      "代码",
+      "API",
+      "官方"
+    ]
+  },
+  {
+    "id": "l-hf-course",
+    "title": "Hugging Face 免费课程",
+    "track": "build",
+    "type": "course",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://huggingface.co/learn",
+    "source": "Hugging Face",
+    "desc": "从 Transformers 库用法到 NLP、音频、视觉任务，配套在线 notebook。",
+    "tags": [
+      "实战",
+      "Transformers"
+    ]
+  },
+  {
+    "id": "l-fastai",
+    "title": "fast.ai 实践深度学习",
+    "track": "build",
+    "type": "course",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://course.fast.ai",
+    "source": "fast.ai",
+    "desc": "「先跑起来再学原理」的教学理念，第一课就能训练出可用模型。",
+    "tags": [
+      "自顶向下",
+      "实战"
+    ]
+  },
+  {
+    "id": "l-mcp-docs",
+    "title": "MCP 官方文档",
+    "track": "build",
+    "type": "docs",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://modelcontextprotocol.io",
+    "source": "Model Context Protocol",
+    "desc": "AI 与外部工具连接的标准协议，做 Agent 应用绕不开。",
+    "tags": [
+      "MCP",
+      "Agent",
+      "协议"
+    ]
+  },
+  {
+    "id": "l-langchain-docs",
+    "title": "LangChain / LangGraph 文档",
+    "track": "build",
+    "type": "docs",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://python.langchain.com/docs/",
+    "source": "LangChain",
+    "desc": "LLM 应用开发框架文档，LangGraph 部分讲多步 Agent 编排。",
+    "tags": [
+      "框架",
+      "Agent",
+      "编排"
+    ]
+  },
+  {
+    "id": "l-ml-glossary",
+    "title": "Google 机器学习术语表",
+    "track": "basic",
+    "type": "docs",
+    "level": "入门",
+    "lang": "中文",
+    "free": true,
+    "url": "https://developers.google.com/machine-learning/glossary",
+    "source": "Google",
+    "desc": "官方术语表，遇到看不懂的名词先来这里查，比搜中文博客准。",
+    "tags": [
+      "术语",
+      "速查",
+      "官方"
+    ]
+  },
+  {
+    "id": "l-ai-safety",
+    "title": "AI Safety / Alignment 入门材料",
+    "track": "business",
+    "type": "article",
+    "level": "入门",
+    "lang": "英文",
+    "free": true,
+    "url": "https://www.alignmentforum.org",
+    "source": "Alignment Forum",
+    "desc": "了解 AI 对齐、安全与风险议题的社区，适合建立批判性视角。",
+    "tags": [
+      "安全",
+      "对齐",
+      "思辨"
+    ]
+  },
+  {
+    "id": "l-li-mu-papers",
+    "title": "李沐 · 论文精读系列",
+    "track": "build",
+    "type": "video",
+    "level": "进阶",
+    "lang": "中文",
+    "free": true,
+    "url": "https://github.com/mli/paper-reading",
+    "source": "李沐",
+    "desc": "逐篇精读经典论文（Transformer、ResNet、GPT 等），中文讲解质量极高。",
+    "tags": [
+      "论文",
+      "中文",
+      "硬核"
+    ]
+  },
+  {
+    "id": "l-deeplearningai-short",
+    "title": "DeepLearning.AI 短课程合集",
+    "track": "business",
+    "type": "course",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://www.deeplearning.ai/short-courses/",
+    "source": "DeepLearning.AI",
+    "desc": "每门 1-2 小时，覆盖 RAG、评估、Agent、LangChain 等具体主题，迭代很快。",
+    "tags": [
+      "短课",
+      "更新快",
+      "落地"
+    ]
+  },
+  {
+    "id": "l-business-ai",
+    "title": "企业 AI 落地的方法论材料",
+    "track": "business",
+    "type": "article",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://www.a16z.com/ai",
+    "source": "a16z",
+    "desc": "投资机构视角的 AI 产业分析，适合判断趋势与选赛道，需自行甄别立场。",
+    "tags": [
+      "商业",
+      "趋势",
+      "选型"
+    ]
+  },
+  {
+    "id": "l-microsoft-genai",
+    "title": "Microsoft 生成式 AI 入门课",
+    "track": "basic",
+    "type": "course",
+    "level": "零基础",
+    "lang": "多语言",
+    "free": true,
+    "url": "https://microsoft.github.io/generative-ai-for-beginners/",
+    "source": "Microsoft",
+    "desc": "21 节课程覆盖从概念到应用开发，有中文版，结构友好适合零基础。",
+    "tags": [
+      "零基础",
+      "有中文",
+      "体系"
+    ]
+  },
+  {
+    "id": "l-karpathy-llm-intro",
+    "title": "Intro to Large Language Models",
+    "track": "basic",
+    "type": "video",
+    "level": "入门",
+    "lang": "英文",
+    "free": true,
+    "url": "https://www.youtube.com/watch?v=zjkBMFhNj_g",
+    "source": "Andrej Karpathy",
+    "desc": "一小时讲清大模型的训练全流程、能力边界和未来方向。目前公认最值入门的一小时。",
+    "tags": [
+      "必看",
+      "全局视角"
+    ]
+  },
+  {
+    "id": "l-hf-llm-course",
+    "title": "Hugging Face LLM Course",
+    "track": "basic",
+    "type": "course",
+    "level": "入门到进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://huggingface.co/learn/llm-course",
+    "source": "Hugging Face",
+    "desc": "从 Transformer 原理到微调实战，全部配可运行 Notebook，进度可保存。",
+    "tags": [
+      "实战",
+      "体系化"
+    ]
+  },
+  {
+    "id": "l-hf-agents-course",
+    "title": "Hugging Face Agents Course",
+    "track": "build",
+    "type": "course",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://huggingface.co/learn/agents-course",
+    "source": "Hugging Face",
+    "desc": "专门讲 Agent：工具调用、规划、多步任务、评测，最后有结业项目。",
+    "tags": [
+      "Agent",
+      "实战"
+    ]
+  },
+  {
+    "id": "l-google-mlcc",
+    "title": "Google 机器学习速成课程",
+    "track": "basic",
+    "type": "course",
+    "level": "入门",
+    "lang": "中文",
+    "free": true,
+    "url": "https://developers.google.com/machine-learning/crash-course?hl=zh-cn",
+    "source": "Google",
+    "desc": "经典的 ML 基础课，有中文版，含交互式练习，不用装环境。",
+    "tags": [
+      "中文",
+      "基础",
+      "交互式"
+    ]
+  },
+  {
+    "id": "l-elements-ai",
+    "title": "Elements of AI",
+    "track": "basic",
+    "type": "course",
+    "level": "零基础",
+    "lang": "多语言",
+    "free": true,
+    "url": "https://www.elementsofai.com",
+    "source": "赫尔辛基大学",
+    "desc": "完全不需要数学和编程，讲 AI 是什么、能做什么、有什么社会影响。",
+    "tags": [
+      "零基础",
+      "通识"
+    ]
+  },
+  {
+    "id": "l-cs50-ai",
+    "title": "CS50's Introduction to AI with Python",
+    "track": "build",
+    "type": "course",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://cs50.harvard.edu/ai/",
+    "source": "哈佛大学",
+    "desc": "哈佛的 AI 入门课，讲搜索、优化、学习、神经网络，作业质量很高。",
+    "tags": [
+      "计算机基础",
+      "免费名校课"
+    ]
+  },
+  {
+    "id": "l-mlu-explain",
+    "title": "MLU-Explain 可视化讲解",
+    "track": "basic",
+    "type": "article",
+    "level": "入门",
+    "lang": "英文",
+    "free": true,
+    "url": "https://mlu-explain.github.io",
+    "source": "Amazon MLU",
+    "desc": "用交互式可视化讲机器学习核心概念，交叉验证、偏差方差这些一看就懂。",
+    "tags": [
+      "可视化",
+      "直观"
+    ]
+  },
+  {
+    "id": "l-distill",
+    "title": "Distill.pub 经典可视化论文",
+    "track": "basic",
+    "type": "article",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://distill.pub",
+    "source": "Distill",
+    "desc": "已停止更新，但里面的可视化文章至今无人超越，理解神经网络内部机制首选。",
+    "tags": [
+      "可视化",
+      "经典",
+      "归档"
+    ]
+  },
+  {
+    "id": "l-fullstack-llm",
+    "title": "Full Stack LLM Bootcamp",
+    "track": "build",
+    "type": "course",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://fullstackdeeplearning.com/llm-bootcamp/",
+    "source": "Full Stack Deep Learning",
+    "desc": "从提示工程到部署上线，讲的是「怎么把 LLM 应用真正做成产品」。",
+    "tags": [
+      "工程化",
+      "上线"
+    ]
+  },
+  {
+    "id": "l-pinecone-learn",
+    "title": "Pinecone Learn",
+    "track": "build",
+    "type": "docs",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://www.pinecone.io/learn/",
+    "source": "Pinecone",
+    "desc": "向量数据库与 RAG 写得最系统的教程库，讲清了检索质量的取舍。",
+    "tags": [
+      "RAG",
+      "向量检索"
+    ]
+  },
+  {
+    "id": "l-openai-prompt-guide",
+    "title": "OpenAI 提示词官方指南",
+    "track": "prompt",
+    "type": "docs",
+    "level": "入门",
+    "lang": "英文",
+    "free": true,
+    "url": "https://platform.openai.com/docs/guides/prompt-engineering",
+    "source": "OpenAI",
+    "desc": "官方给出的六条策略，每条都有正反例对照，最权威的起点。",
+    "tags": [
+      "官方",
+      "必读"
+    ]
+  },
+  {
+    "id": "l-openai-prompt-library",
+    "title": "OpenAI Prompt Library",
+    "track": "prompt",
+    "type": "docs",
+    "level": "入门",
+    "lang": "英文",
+    "free": true,
+    "url": "https://platform.openai.com/docs/examples",
+    "source": "OpenAI",
+    "desc": "官方整理的提示词范例集，可以直接改改用。",
+    "tags": [
+      "模板",
+      "官方"
+    ]
+  },
+  {
+    "id": "l-anthropic-prompt-library",
+    "title": "Anthropic Prompt Library",
+    "track": "prompt",
+    "type": "docs",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://docs.anthropic.com/en/resources/prompt-library/library",
+    "source": "Anthropic",
+    "desc": "按任务分类的提示词库，写得更工程化，附变量说明。",
+    "tags": [
+      "模板",
+      "官方"
+    ]
+  },
+  {
+    "id": "l-learn-prompting",
+    "title": "Learn Prompting",
+    "track": "prompt",
+    "type": "course",
+    "level": "入门到进阶",
+    "lang": "多语言",
+    "free": true,
+    "url": "https://learnprompting.org",
+    "source": "Learn Prompting",
+    "desc": "从基础到对抗提示、Agent 提示的系统课程，有中文版，内容深度超出预期。",
+    "tags": [
+      "有中文",
+      "体系化"
+    ]
+  },
+  {
+    "id": "l-google-prompting",
+    "title": "Google 提示词策略指南",
+    "track": "prompt",
+    "type": "docs",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://ai.google.dev/gemini-api/docs/prompting-strategies",
+    "source": "Google",
+    "desc": "Gemini 官方的提示技巧，对结构化输出和多模态提示讲得清楚。",
+    "tags": [
+      "官方",
+      "多模态"
+    ]
+  },
+  {
+    "id": "l-openai-api-docs",
+    "title": "OpenAI API 官方文档",
+    "track": "build",
+    "type": "docs",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://platform.openai.com/docs",
+    "source": "OpenAI",
+    "desc": "API 的权威说明，结构化输出、函数调用、文件检索都在这里。",
+    "tags": [
+      "API",
+      "官方"
+    ]
+  },
+  {
+    "id": "l-anthropic-api-docs",
+    "title": "Anthropic API 文档",
+    "track": "build",
+    "type": "docs",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://docs.anthropic.com",
+    "source": "Anthropic",
+    "desc": "Tool Use、MCP、长上下文的实战说明，工程细节比多数教程扎实。",
+    "tags": [
+      "API",
+      "官方",
+      "工具调用"
+    ]
+  },
+  {
+    "id": "l-llamaindex-docs",
+    "title": "LlamaIndex 文档",
+    "track": "build",
+    "type": "docs",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://docs.llamaindex.ai",
+    "source": "LlamaIndex",
+    "desc": "做 RAG 最系统的文档，各种数据源接入和检索策略都有代码。",
+    "tags": [
+      "RAG",
+      "框架"
+    ]
+  },
+  {
+    "id": "l-vercel-ai-sdk-docs",
+    "title": "Vercel AI SDK",
+    "track": "build",
+    "type": "docs",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://sdk.vercel.ai/docs",
+    "source": "Vercel",
+    "desc": "前端做 AI 应用最省事的方案，流式输出和聊天界面几行代码搞定。",
+    "tags": [
+      "前端",
+      "TypeScript"
+    ]
+  },
+  {
+    "id": "l-vllm-docs",
+    "title": "vLLM 官方文档",
+    "track": "build",
+    "type": "docs",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://docs.vllm.ai",
+    "source": "vLLM",
+    "desc": "生产环境部署开源模型的标准方案，显存优化和吞吐调优都在这里。",
+    "tags": [
+      "部署",
+      "推理优化"
+    ]
+  },
+  {
+    "id": "l-ai-index",
+    "title": "Stanford AI Index 年度报告",
+    "track": "business",
+    "type": "article",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://aiindex.stanford.edu/report/",
+    "source": "斯坦福 HAI",
+    "desc": "每年一份，用数据讲清 AI 的投资、就业、能力进展。写方案找数据时最好用。",
+    "tags": [
+      "数据",
+      "权威",
+      "年度"
+    ]
+  },
+  {
+    "id": "l-mckinsey-state-ai",
+    "title": "McKinsey State of AI",
+    "track": "business",
+    "type": "article",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai",
+    "source": "McKinsey",
+    "desc": "企业 AI 落地的调研报告，看别人卡在哪、钱花在哪，比看成功案例有用。",
+    "tags": [
+      "企业",
+      "调研"
+    ]
+  },
+  {
+    "id": "l-lenny",
+    "title": "Lenny's Newsletter",
+    "track": "business",
+    "type": "article",
+    "level": "进阶",
+    "lang": "英文",
+    "free": true,
+    "url": "https://www.lennysnewsletter.com",
+    "source": "Lenny Rachitsky",
+    "desc": "产品与增长视角的 AI 实践，大量真实公司的一手经验，付费部分质量也高。",
+    "tags": [
+      "产品",
+      "增长"
+    ]
+  },
+  {
+    "id": "l-ai-engineering-book",
+    "title": "AI Engineering（Chip Huyen）",
+    "track": "business",
+    "type": "book",
+    "level": "进阶",
+    "lang": "英文",
+    "free": false,
+    "url": "https://www.oreilly.com/library/view/ai-engineering/9781098166298/",
+    "source": "Chip Huyen",
+    "desc": "把「怎么把模型变成产品」讲得最系统的书：评估、RAG、微调、成本控制。",
+    "tags": [
+      "工程",
+      "评估",
+      "付费"
+    ]
+  },
+  {
+    "id": "l-cn-ai-report",
+    "title": "中国信通院 AI 系列报告",
+    "track": "business",
+    "type": "article",
+    "level": "进阶",
+    "lang": "中文",
+    "free": true,
+    "url": "http://www.caict.ac.cn/kxyj/qwfb/",
+    "source": "中国信息通信研究院",
+    "desc": "国内官方视角的 AI 产业报告，做国内合规和产业分析时的权威参考。",
+    "tags": [
+      "中文",
+      "官方",
+      "合规"
+    ]
+  }
+]

@@ -1,0 +1,91 @@
+{
+  "brand": {
+    "name": "AI 万象",
+    "nameEn": "AI WANXIANG",
+    "slogan": "收录 AI 世界的一切",
+    "description": "AI 万象是一个长期维护的 AI 资料站：收录 AI 工具、提示词、资讯、学习资源，帮你在一处找到并上手任何 AI 能力。",
+    "logoText": "象"
+  },
+  "domain": "www.ealoongchan.top",
+  "baseUrl": "https://www.ealoongchan.top",
+  "locale": "zh-CN",
+  "theme": {
+    "default": "light",
+    "allowToggle": true
+  },
+  "nav": [
+    {
+      "label": "场景",
+      "href": "/playbooks/",
+      "icon": "compass"
+    },
+    {
+      "label": "工具",
+      "href": "/tools/",
+      "icon": "grid"
+    },
+    {
+      "label": "提示词",
+      "href": "/prompts/",
+      "icon": "spark"
+    },
+    {
+      "label": "模型",
+      "href": "/models/",
+      "icon": "cpu"
+    },
+    {
+      "label": "对比",
+      "href": "/compare/",
+      "icon": "layers"
+    },
+    {
+      "label": "资讯",
+      "href": "/news/",
+      "icon": "news"
+    },
+    {
+      "label": "学习",
+      "href": "/learn/",
+      "icon": "book"
+    },
+    {
+      "label": "关于",
+      "href": "/about/",
+      "icon": "info"
+    }
+  ],
+  "footer": {
+    "links": [
+      {
+        "label": "我的收藏",
+        "href": "/saved/"
+      },
+      {
+        "label": "工具对比",
+        "href": "/compare/"
+      },
+      {
+        "label": "提交收录",
+        "href": "/about/#submit"
+      },
+      {
+        "label": "AI 术语表",
+        "href": "/glossary/"
+      },
+      {
+        "label": "更新日志",
+        "href": "/changelog/"
+      },
+      {
+        "label": "友情链接",
+        "href": "/about/#links"
+      }
+    ],
+    "icp": "",
+    "copyright": "© 2026 AI 万象 · 收录 AI 世界的一切"
+  },
+  "stats": {
+    "showOnHome": true
+  }
+}
