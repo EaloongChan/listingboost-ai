@@ -145,7 +145,38 @@ const EXPR = `(() => {
   return JSON.stringify(out);
 })()`;
 
+
+/**
+ * 前置校验：本地服务必须真的在跑，而且返回的是我们的页面。
+ *
+ * 踩过一次：预览服务挂了，CDP 加载到的是 Chrome 的「无法访问此网站」错误页，
+ * 检查脚本照样跑完，还输出了「图片缺 alt 2 / 目标过小 1」这种莫名其妙的结论 ——
+ * 因为在测的是 Chrome 的错误页，不是我们的站。
+ * 这和「部署失败但线上看着正常」是同一类问题：**检查在验证错误的对象**。
+ * 所以先确认可达 + 内容标记正确，否则直接退出，不要给出任何结论。
+ */
+async function assertServeUp() {
+  const hint = '    先启动本地服务：node scripts/serve.mjs';
+  try {
+    const res = await fetch(SERVE, { signal: AbortSignal.timeout(8000) });
+    const html = await res.text();
+    if (res.status !== 200) {
+      console.error('\n  ✗ ' + SERVE + ' 返回 HTTP ' + res.status + '\n' + hint + '\n');
+      process.exit(1);
+    }
+    if (!/万象/.test(html)) {
+      console.error('\n  ✗ ' + SERVE + ' 返回的不是本站页面（内容标记不匹配）\n' + hint + '\n');
+      process.exit(1);
+    }
+  } catch (e) {
+    console.error('\n  ✗ 连不上 ' + SERVE + '：' + e.message + '\n' + hint + '\n');
+    process.exit(1);
+  }
+}
+
 async function main() {
+  await assertServeUp();
+
   const chrome = findChrome();
   if (!chrome) {
     console.error('  未找到 Chrome/Edge，跳过审计');
