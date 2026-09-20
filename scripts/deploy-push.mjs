@@ -41,7 +41,7 @@ function git(args, opts = {}) {
   }
 }
 
-function main() {
+async function main() {
   line('');
   line('  推送到线上');
   rule();
@@ -159,11 +159,59 @@ function main() {
   rule();
   line('  推送完成 ✓');
   line('');
-  line('  Vercel 会自动拉取这次提交并重新构建，约 1 分钟。');
-  line('  首次部署去 Deployments 页确认构建命令是 node scripts/build.mjs；');
-  line('  如果它还在跑 next build，去 Settings → Build & Development Settings');
-  line('  把 Framework Preset 改成 Other（Build/Output 留空，让 vercel.json 生效）。');
+
+  /* ---------- 4. 确认 Vercel 真的部署成功了 ----------
+     踩过一次：vercel.json 里有个 Vercel 不认识的字段，部署静默失败，
+     但线上继续服务上一次成功的版本 —— 页面看着完全正常，
+     verify-live 也全绿，我白推了两轮才发现。所以推完必须查部署状态。 */
+  line('  等待 Vercel 构建……');
+  const repoPath = (() => {
+    const m = remote.match(/github\.com[:/]([^/]+)\/([^/.]+)/);
+    return m ? `${m[1]}/${m[2]}` : '';
+  })();
+  const headSha = (() => { try { return git(['rev-parse', 'HEAD']).trim(); } catch { return ''; } })();
+
+  if (!repoPath || !headSha) {
+    line('  ! 拿不到仓库信息，跳过部署状态检查');
+    line('');
+    return;
+  }
+
+  const API = `https://api.github.com/repos/${repoPath}/commits/${headSha}/status`;
+  let final = 'pending';
+  for (let i = 1; i <= 24; i++) {            // 最多等约 4 分钟
+    await new Promise((r) => setTimeout(r, 10000));
+    try {
+      const res = await fetch(API, { headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'AIWanxiangDeploy' } });
+      const j = await res.json();
+      const vercel = (j.statuses || []).find((s) => /vercel/i.test(s.context || ''));
+      if (!vercel) { process.stdout.write(`\r    第 ${i} 次：还没有状态记录…   `); continue; }
+      final = vercel.state;
+      process.stdout.write(`\r    第 ${i} 次：${vercel.state}                        `);
+      if (vercel.state !== 'pending') break;
+    } catch {
+      process.stdout.write(`\r    第 ${i} 次：查询失败，重试…   `);
+    }
+  }
   line('');
+  line('');
+
+  if (final === 'success') {
+    line('  ✓ Vercel 部署成功，线上已是最新版本');
+    line('');
+  } else if (final === 'pending') {
+    line('  ! 4 分钟内没等到结果，去 Vercel 面板确认一下');
+    line('');
+  } else {
+    line('  ✗ **Vercel 部署失败**。线上现在还是上一个版本的页面，看着正常但其实没更新。');
+    line('');
+    line('  排查顺序：');
+    line('    1. 打开 https://vercel.com/dashboard 看这次构建的日志');
+    line('    2. 最常见原因是 vercel.json 里有 Vercel 不认识的字段（本地 node scripts/check.mjs 能查出来）');
+    line('    3. 改完重新跑本脚本');
+    line('');
+    process.exitCode = 1;
+  }
 }
 
-main();
+await main();

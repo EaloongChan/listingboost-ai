@@ -376,6 +376,56 @@ const playbookIds = new Set();
   }
 }
 
+/* ---- vercel.json 字段白名单校验 ----
+   踩过一次：在 redirects 里写了个 `comment` 字段（本意是留说明），
+   Vercel 校验很严，不认识这个字段就直接拒绝部署 —— 而且部署失败后
+   线上继续服务上一次成功的版本，从页面上完全看不出来，白推了两轮。
+   所以这里在本地就把不认识的字段拦下来。 */
+{
+  const vp = path.join(__dirname, '..', 'vercel.json');
+  if (!fs.existsSync(vp)) {
+    warns.push('vercel.json 不存在，Vercel 会按框架特征自行构建');
+  } else {
+    const TOP = new Set(['$schema', 'buildCommand', 'devCommand', 'installCommand', 'outputDirectory',
+      'framework', 'regions', 'functions', 'redirects', 'rewrites', 'cleanUrls', 'trailingSlash',
+      'headers', 'crons', 'git', 'ignoreCommand', 'public', 'images', 'routes', 'builds', 'github']);
+    const REDIRECT = new Set(['source', 'destination', 'permanent', 'statusCode', 'has', 'missing', 'caseSensitive', 'preserveQueryParams']);
+    const HEADER = new Set(['source', 'headers', 'has', 'missing']);
+    const HEADER_ITEM = new Set(['key', 'value']);
+    const COND = new Set(['type', 'key', 'value']);
+
+    const bad = [];
+    const checkKeys = (obj, allowed, where) => {
+      for (const k of Object.keys(obj || {})) {
+        if (!allowed.has(k)) bad.push(`${where} 里的未知字段「${k}」（Vercel 会因此拒绝部署）`);
+      }
+    };
+
+    try {
+      const v = JSON.parse(fs.readFileSync(vp, 'utf8'));
+      checkKeys(v, TOP, 'vercel.json');
+      (v.redirects || []).forEach((r, i) => {
+        checkKeys(r, REDIRECT, `redirects[${i}]`);
+        (r.has || []).forEach((h, j) => checkKeys(h, COND, `redirects[${i}].has[${j}]`));
+        (r.missing || []).forEach((h, j) => checkKeys(h, COND, `redirects[${i}].missing[${j}]`));
+      });
+      (v.headers || []).forEach((h, i) => {
+        checkKeys(h, HEADER, `headers[${i}]`);
+        (h.headers || []).forEach((x, j) => checkKeys(x, HEADER_ITEM, `headers[${i}].headers[${j}]`));
+      });
+      // framework 为 null 时必须是显式 null（写成 "" 会让 Vercel 按空字符串处理）
+      if ('framework' in v && v.framework !== null && typeof v.framework !== 'string') {
+        bad.push('vercel.json: framework 只能是字符串或 null');
+      }
+    } catch (e) {
+      bad.push(`vercel.json 不是合法 JSON：${e.message}`);
+    }
+
+    if (bad.length) bad.forEach((b) => errors.push(b));
+    else ok.push('vercel.json: 字段全部在 Vercel 白名单内');
+  }
+}
+
 /* ---- 输出 ---- */
 const line = '─'.repeat(52);
 console.log('');
