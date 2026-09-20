@@ -300,6 +300,16 @@ https://github.com/settings/ssh/new   ← 粘贴进去，Save
 默认**不做归档**。真正的回滚安全网是 Vercel 自己——它保留每一次部署记录，
 面板上一键就能回到旧版本，比 git 分支好用。
 
+### 顺手清掉 Vercel 送的第二个域名
+
+Vercel 默认会给项目一个 `xxx.vercel.app` 地址，它和正式域名**跑的是同一个站**。
+不清掉的话搜索引擎会当成两个站，权重被劈成两半（百度和 Google 都会）。
+
+`vercel.json` 里加了按 host 匹配的 301 跳转：命中 `.vercel.app` 的请求全部跳到正式域名。
+
+> ⚠️ 如果改动 Vercel 项目的 `.vercel.app` 名字（Settings → Domains），
+> **这里必须同步改**，否则跳转失效、重复内容问题会回来。
+
 ### 为什么不在 Vercel 上抓 RSS
 
 `data/feed.json` 跟着仓库走，构建只读不抓。这样**构建永远不依赖网络**——

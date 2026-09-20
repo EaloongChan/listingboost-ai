@@ -369,17 +369,14 @@ ${rssItems}
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=3600
 `);
-  write('vercel.json', JSON.stringify({
-    headers: [
-      { source: '/(.*)', headers: [
-        { key: 'X-Content-Type-Options', value: 'nosniff' },
-        { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-      ] },
-      { source: '/assets/(.*)', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] },
-      { source: '/fonts/(.*)', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] },
-      { source: '/api/(.*)', headers: [{ key: 'Access-Control-Allow-Origin', value: '*' }] },
-    ],
-  }, null, 2) + '\n');
+  // 部署配置以仓库根目录的 vercel.json 为唯一来源（重定向规则、响应头都在那里）。
+  // 这里把它复制进 dist，避免出现两份不一致的配置让人搞不清哪份生效。
+  // 注意：Vercel 真正读的是仓库根目录那份；dist 里的这份只是「构建产物里也留一份」，
+  // 便于别人直接把 dist 丢到别的主机（Netlify / Cloudflare Pages）时也能看到配置。
+  const rootVercel = path.join(ROOT, 'vercel.json');
+  if (fs.existsSync(rootVercel)) {
+    write('vercel.json', fs.readFileSync(rootVercel, 'utf8'));
+  }
   write('_redirects', `# Netlify: 旧链接兼容（如未来调整 URL 结构，在这里加 301）\n`);
 
   /* ---------- 9. 清理与报告 ---------- */
