@@ -257,6 +257,53 @@ arXiv cs.AI（返回空 channel）、Hugging Face（国内网络不可达）。
 
 ---
 
+## 部署（Vercel + 自有域名）
+
+线上：**https://www.ealoongchan.top**（裸域 307 跳到 www，所以 canonical 用 www 版本）
+
+### 形态
+
+Vercel 只做两件事：跑 `node scripts/build.mjs`，然后把 `dist/` 当静态站发出去。
+根目录 `vercel.json` 里写死了全部配置，**不依赖 Vercel 后台的任何设置**：
+
+```json
+{ "framework": null, "buildCommand": "node scripts/build.mjs", "outputDirectory": "dist" }
+```
+
+`framework: null` 是关键——不写的话 Vercel 会按仓库里的框架特征去构建。
+
+`dist/` 不进 git（看 `.gitignore`）。635 个产物文件每次构建都变，提交进去会让仓库历史迅速膨胀。
+
+### 推送
+
+双击根目录 **`推送到线上.bat`**，或者 `node scripts/deploy-push.mjs`。
+
+脚本内置「先备份后覆盖」，顺序是有意设计的：
+
+1. 把远端当前的 main 取下来
+2. 推成归档分支 `archive/listingboost-ai-v1`，确认成功
+3. **确认归档成功之后**才强推本地 main
+4. 任何一步失败就立刻停下
+
+这样不会出现「旧的没了、新的也没上去」的局面。加 `--dry` 可以只做检查不动 main。
+
+推送完成后 Vercel 自动拉取并构建，约 1 分钟出结果。
+
+### 为什么不在 Vercel 上抓 RSS
+
+`data/feed.json` 跟着仓库走，构建只读不抓。这样**构建永远不依赖网络**——
+第三方源挂了照样能发版。想更新实时动态，本地跑 `node scripts/fetch-news.mjs`
+再推送即可（已有每日 9:00 的自动化在跑这条链）。
+
+### 首次部署要留意
+
+Vercel 项目原来绑的是 Next.js，换成静态站之后第一次构建，去 Deployments 页面确认它
+读到了 `vercel.json` 的配置（构建日志里应该是 `node scripts/build.mjs`）。
+如果它还在跑 `next build`，在项目 Settings → Build & Development Settings 里把
+Framework Preset 改成 **Other**，Build/Output 留空（让 `vercel.json` 生效）。
+
+---
+
 ## 质量校验
 
 ```bash
