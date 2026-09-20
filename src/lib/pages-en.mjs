@@ -57,6 +57,7 @@ function mcard(m, i18n, kindMap) {
 
 const shell = (o) =>
   layout({
+    siteTagline: o.tagline,
     ...o,
     lang: 'en',
     navItems: enNav,
@@ -65,6 +66,7 @@ const shell = (o) =>
     altLabel: '切换到中文',
     hideSearch: true,
     brandName: 'AI Wanxiang',
+    brandSlogan: o.siteTagline || 'AI Tools & Models Directory',
     themeLabel: 'Toggle light/dark theme',
     menuLabel: 'Open menu',
     brandHref: '/en/',

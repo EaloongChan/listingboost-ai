@@ -26,7 +26,9 @@
     "daily": "node scripts/fetch-news.mjs && node scripts/build.mjs && node scripts/links.mjs",
     "a11y": "node scripts/a11y.mjs",
     "verify:live": "node scripts/verify-live.mjs",
-    "push": "node scripts/deploy-push.mjs"
+    "push": "node scripts/deploy-push.mjs",
+    "push:search": "node scripts/push-search.mjs",
+    "push:search:seed": "node scripts/push-search.mjs --seed"
   },
   "engines": {
     "node": ">=18"

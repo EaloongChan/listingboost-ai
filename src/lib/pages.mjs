@@ -215,7 +215,7 @@ export function toolsPage(ctx, { activeCat = '', sort = '' } = {}) {
   const title = activeName ? `${activeName}工具` : 'AI 工具库';
   const desc = activeName
     ? `「${activeName}」分类下的 ${list.length} 个 AI 工具。${(toolCatMap[activeCat] || {}).desc || ''}`
-    : `收录 ${tools.length} 个常用 AI 工具，按用途分类，标注是否国内直连、免费与否。点开即用，不做二次跳转广告。`;
+    : `AI 工具库：收录 ${tools.length} 个常用 AI 工具，按用途分成 ${categories.toolCategories.length} 类，逐个标注是否国内直连、免费还是付费。每个工具都附一条「什么时候别选它」的编辑点评。`;
 
   const crumbItems = activeName
     ? [{ label: '首页', href: '/' }, { label: 'AI 工具', href: '/tools/' }, { label: activeName }]
@@ -566,7 +566,7 @@ ${live.length ? `<section class="section" style="padding-top:0">
 
   return layout({
     site, path: '/news/', title: 'AI 资讯与解读',
-    description: 'AI 实时动态聚合、精选解读、信息源导航与 AI 发展里程碑时间线。',
+    description: 'AI 实时动态聚合、精选解读、信息源导航与 AI 发展里程碑时间线。每天自动抓取 18 个中英文 AI 资讯源，另收录 18 篇长期有效的深度解读。',
     body,
     jsonld: [
       breadcrumbLd(site, crumbItems),
@@ -654,7 +654,7 @@ export function learnPage(ctx, { activeTrack = '' } = {}) {
   const title = activeName ? `${activeName} · 学习资源` : '学习资源';
   const desc = activeName
     ? `${(trackMap[activeTrack] || {}).desc || ''} —— 该路径下共 ${list.length} 份材料，全部免费。`
-    : `收录 ${learn.length} 份高质量学习材料。全部免费、全部可访问，不用在广告丛里找教程。`;
+    : `AI 学习资源：${learn.length} 份精选教程、课程与书籍，从零基础到能动手做产品。全部标注免费与否和难度，按入门 / 动手做 / 提示词 / 商业四个方向分类。`;
 
   const crumbItems = activeName
     ? [{ label: '首页', href: '/' }, { label: '学习资源', href: '/learn/' }, { label: activeName }]
@@ -740,7 +740,7 @@ ${pageHead('AI 术语表', `收录 ${glossary.length} 个 AI 领域常用名词�
 
   return layout({
     site, path: '/glossary/', title: 'AI 术语表',
-    description: `AI 领域常用术语的人话解释，共 ${glossary.length} 条。`,
+    description: `AI 术语表：${glossary.length} 条常见 AI 名词的「人话」解释，涵盖大模型、训练、提示词、RAG、Agent 等方向。每条都写明它解决什么问题、什么时候不适用，不抄百科定义。`,
     body,
     jsonld: [
       breadcrumbLd(site, crumbItems),
@@ -808,7 +808,7 @@ ${pageHead('全站搜索', '一次搜索覆盖场景手册、工具、提示词�
 
   return layout({
     site, path: '/search/', title: '全站搜索',
-    description: '搜索 AI 万象收录的场景手册、工具、提示词、模型、学习资源、术语与资讯。',
+    description: '全站搜索：一次搜遍 AI 工具、场景手册、提示词、模型、术语、学习资源与资讯，共 500 多条内容。数据在页面加载时已就绪，输入即出结果。',
     body,
     scripts: `<script>window.__AIWX_INDEX__=${jsonEmbed(ctx.searchIndex)};</script>`,
     jsonld: breadcrumbLd(site, crumbItems),
@@ -1317,7 +1317,7 @@ ${pageHead(
     site,
     path: '/compare/',
     title: '工具对比',
-    description: `把 AI 工具并排放在一起比较，差异维度自动高亮。当前收录 ${counts.tools} 个工具可选。`,
+    description: `AI 工具对比：从 ${counts.tools} 个工具里挑最多 4 个并排比较，价格、国内可访问性、开源与否、编辑点评等维度自动高亮差异。选择保存在本机浏览器，可生成分享链接。`,
     body,
     scripts: `<script>window.__AIWX_TOOLS__=${jsonEmbed(compact)};</script>`,
     jsonld: breadcrumbLd(site, crumbItems),
@@ -1379,7 +1379,7 @@ ${pageHead(
     site,
     path: '/saved/',
     title: '我的收藏',
-    description: '收藏的 AI 工具、提示词、场景与模型汇总。数据仅存本机浏览器。',
+    description: '我的收藏：把 AI 工具、提示词、场景手册、模型和学习资源收在一处，按类型分组。数据只存在本机浏览器里，不上传、不跟踪，也不需要注册账号。',
     body,
     scripts: `<script>window.__AIWX_INDEX__=${jsonEmbed(ctx.searchIndex)};</script>`,
     jsonld: breadcrumbLd(site, crumbItems),
@@ -1473,7 +1473,7 @@ ${pageHead('关于 AI 万象', '一个打算长期做下去的 AI 资料站。',
     altLang: 'en',
     altLabel: '切换到英文版（Tools & Models）',
     site, path: '/about/', title: '关于', pageType: 'article',
-    description: 'AI 万象是什么、收录标准、数据开放说明与提交收录方式。',
+    description: '关于 AI 万象：这个站是什么、怎么决定收录哪些工具、编辑点评的写法、数据开放情况，以及如何提交你发现的工具或纠错。',
     body,
     jsonld: breadcrumbLd(site, crumbItems),
   });
@@ -1493,7 +1493,7 @@ ${pageHead('更新日志', '这个站每改一次都会记在这里。想跟踪�
     </div></div>
   </div>
 </section>`;
-  return layout({ site, path: '/changelog/', title: '更新日志', description: 'AI 万象的更新记录。', body, jsonld: breadcrumbLd(site, crumbItems) });
+  return layout({ site, path: '/changelog/', title: '更新日志', description: `${changelog.length} 次更新记录：新增了多少工具、新写了哪些场景手册、修了哪些问题。这个站是长期维护的，改动都在这里留痕。`, body, jsonld: breadcrumbLd(site, crumbItems) });
 }
 
 /* ============================ 404 ============================ */

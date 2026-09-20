@@ -40,10 +40,11 @@ export function layout(o) {
     brandHref = '/',
     brandDesc = '',
     brandName = '',
+    brandSlogan = '',
   } = o;
 
   const bName = brandName || site.brand.name;
-  const fullTitle = title ? `${title} · ${bName}` : `${bName} · ${site.brand.slogan}`;
+  const fullTitle = title ? `${title} · ${bName}` : `${bName} · ${brandSlogan || site.brand.slogan}`;
   const desc = description || site.brand.description;
   const base = (site.baseUrl || '').replace(/\/$/, '');
   const canonical = base ? base + path : path;
