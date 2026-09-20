@@ -55,6 +55,8 @@ export function layout(o) {
   const theme = site.theme?.default || 'light';
   const og = ogImage || (base ? `${base}/og.png` : '/og.png');
   const pageLang = lang || site.locale || 'zh-CN';
+  // 带内容哈希的资源名（由 build.mjs 算好挂在 site 上）。缺省值保证单独调用 layout 时也不炸。
+  const a = site.asset || { css: 'main.css', print: 'print.css', js: 'app.js' };
   const canonicalFor = (p) => (base ? base + p : p);
 
   const navList = navItems || site.nav || [];
@@ -138,6 +140,14 @@ export function layout(o) {
   // 到这里本页所有图标都已登记，可以安全生成 sprite
   const sprite = iconSprite();
 
+  /* hreflang 三件套，顺序与语义都不能错：
+       · 自身语言   → 指向本页 canonical
+       · 另一语言   → 指向对应版本
+       · x-default → 指向默认版本（我们把中文当默认）
+     踩过的坑：第二行原本写的是「另一个语言」而不是「自身语言」，导致中文页输出两条
+     hreflang="en"（一条对、一条指向自己），且完全没有 zh-CN，524 个页面受影响。
+     注意：注释必须写在模板字符串外面。写在里面就变成页面上能看见的文本了（已踩过一次）。
+     links.mjs 里有断言守卫，改这里务必跑一遍。 */
   return `<!DOCTYPE html>
 <html lang="${esc(pageLang)}" data-theme="${esc(theme)}">
 <head>
@@ -151,13 +161,6 @@ export function layout(o) {
 ${robots ? `<meta name="robots" content="${esc(robots)}">` : ''}
 ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 <link rel="alternate" type="application/rss+xml" title="${esc(site.brand.name)}" href="/feed.xml">
-/* hreflang 三件套，顺序与语义都不能错：
-     · 自身语言 → 指向本页 canonical
-     · 另一语言 → 指向对应版本
-     · x-default → 指向默认版本（我们把中文当默认）
-   踩过的坑：第二行原本写的是「另一个语言」，而不是「自身语言」，导致中文页输出两条
-   hreflang="en"（一条对、一条指向自己），且完全没有 zh-CN，524 个页面全部受影响。
-   links.mjs 里加了断言守卫，改这里务必跑一遍。 */
 ${altPath ? `<link rel="alternate" hreflang="${esc(pageLang)}" href="${esc(canonical)}">
 <link rel="alternate" hreflang="${esc(altLang)}" href="${esc(canonicalFor(altPath))}">
 <link rel="alternate" hreflang="x-default" href="${esc(pageLang.startsWith('en') ? canonicalFor(altPath) : canonical)}">` : ''}
@@ -178,8 +181,8 @@ ${canonical ? `<meta property="og:url" content="${esc(canonical)}">` : ''}
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/ibm-plex-mono-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/main.css">
-<link rel="stylesheet" href="/assets/print.css" media="print">
+<link rel="stylesheet" href="/assets/${esc(a.css)}">
+<link rel="stylesheet" href="/assets/${esc(a.print)}" media="print">
 <script>
 (function(){try{
 var q=new URLSearchParams(location.search).get('theme');
@@ -206,7 +209,7 @@ ${body}
 
 ${footer}
 
-<script src="/assets/app.js" defer></script>
+<script src="/assets/${esc(a.js)}" defer></script>
 ${scripts}
 </body>
 </html>`;

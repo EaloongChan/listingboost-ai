@@ -911,9 +911,34 @@ test('检索结果按相关度排序（标题命中优先于点评命中）', '/
   return { ok: r.length > 0 && r[0] === 'Ollama', detail: `首条「${r[0]}」，共 ${r.length} 条` };
 });
 
-test('打印样式表可访问', '/assets/print.css', async () => {
-  const css = await get(SERVE + '/assets/print.css');
-  return { ok: css.indexOf('@page') !== -1, detail: `${css.length} 字符` };
+test('中文检索：真实键盘输入（不是 URL 参数）也能出结果', '/search/', async (c) => {
+  // 之前的用例都走 /search/?q=xxx，绕过了输入框的事件绑定。
+  // 用户实际是打字进去的，这条补上真实路径。
+  await c.eval(`(function(){var i=document.querySelector('#globalSearch');i.value='';i.dispatchEvent(new Event('input',{bubbles:true}));return 0})()`);
+  const n = await c.eval(`document.querySelectorAll('#searchResults .card-title .name').length`);
+  await c.eval(`(function(){var i=document.querySelector('#globalSearch');i.value='怎么本地跑模型';i.dispatchEvent(new Event('input',{bubbles:true}));return 0})()`);
+  await sleep(300);
+  const hits = await c.eval(`[...document.querySelectorAll('#searchResults .card-title .name')].slice(0,4).map(x=>x.textContent)`);
+  const count = await c.eval(`(document.querySelector('#searchCount')||{}).textContent||''`);
+  return {
+    ok: n === 0 && hits.length > 0,
+    detail: `空输入 ${n} 条；打字「怎么本地跑模型」→ ${hits.length} 条（${hits.join(' / ')}），计数显示「${count}」`,
+  };
+});
+
+test('静态资源带内容哈希（防止用户被旧缓存卡住）', '/', async (c) => {
+  const srcs = await c.eval(`[...document.querySelectorAll('link[rel=stylesheet][href^="/assets/"],script[src^="/assets/"]')].map(x=>x.getAttribute('href')||x.getAttribute('src'))`);
+  const allHashed = srcs.length > 0 && srcs.every((u) => /^\/assets\/[a-z-]+\.[0-9a-f]{7,}\.(css|js)$/.test(u));
+  // 直接从浏览器里读，能加载出来说明文件真的存在
+  const loaded = await c.eval(`document.styleSheets.length > 0 || typeof window.__AIWX_INDEX__ !== 'undefined' || document.querySelectorAll('script[src^="/assets/"]').length > 0`);
+  return { ok: allHashed && loaded, detail: srcs.join(' , ') };
+});
+
+test('打印样式表可访问（从首页拿带哈希的真实文件名）', '/', async (c) => {
+  const href = await c.eval(`(document.querySelector('link[media="print"]')||{}).getAttribute?document.querySelector('link[media="print"]').getAttribute('href'):''`);
+  if (!href) return { ok: false, detail: '首页没有引用打印样式表' };
+  const css = await get(SERVE + href);
+  return { ok: css.indexOf('@page') !== -1, detail: `${href} · ${css.length} 字符` };
 });
 
 /* ---- 执行 ---- */

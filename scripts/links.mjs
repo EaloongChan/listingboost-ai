@@ -159,6 +159,36 @@ for (const file of htmlFiles) {
   if (problems.length) hreflangBad.set(rel, problems);
 }
 
+/* ---------- 挡两类「本地看着正常、用户那边是坏的」的问题 ---------- */
+
+/* A. 模板字符串里的块注释会变成页面上能看见的文本。
+      踩过一次：layout.mjs 里在反引号内部写了段说明，结果每个页面顶部都渲染出那段文字。
+      这类问题本地跑构建不会报错，检查脚本也发现不了，只能靠扫产物。 */
+const leakedComments = [];
+for (const file of htmlFiles) {
+  const html = fs.readFileSync(file, 'utf8');
+  // 先剔除 script / style 的内容，只留真正的页面文本
+  const visible = html.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '');
+  const hits = visible.match(/\/\*[\s\S]{4,200}?[\u4e00-\u9fa5][\s\S]{0,200}?\*\//g);
+  if (hits) leakedComments.push([path.relative(DIST, file).replace(/\\/g, '/'), hits[0].replace(/\s+/g, ' ').slice(0, 70)]);
+}
+
+/* B. 静态资源必须带内容哈希，而且引用的文件真的存在。
+      踩过一次：/assets/* 设了 max-age=31536000 + immutable，但文件名永远叫 app.js，
+      用户第一次访问后浏览器把旧版缓存了一年 —— 之后所有更新老用户都看不到。
+      表现为「本地测试正常、用户那边功能是坏的」，极难排查。 */
+const unhashedAssets = new Set();
+const missingAssets = new Set();
+const HASHED = /^\/assets\/[a-z-]+\.[0-9a-f]{7,}\.(css|js)$/;
+for (const file of htmlFiles) {
+  const html = fs.readFileSync(file, 'utf8');
+  for (const m of html.matchAll(/["'(](\/assets\/[A-Za-z0-9._-]+\.(?:css|js))["')]/g)) {
+    const url = m[1];
+    if (!HASHED.test(url)) unhashedAssets.add(url);
+    if (!fs.existsSync(path.join(DIST, url.replace(/^\//, '')))) missingAssets.add(url);
+  }
+}
+
 /* ---------- 输出 ---------- */
 const line = '─'.repeat(56);
 console.log('');
@@ -218,6 +248,30 @@ if (hreflangBad.size) {
   if (hreflangBad.size > 8) console.log(`      … 还有 ${hreflangBad.size - 8} 个`);
 } else {
   console.log(`  ✓ hreflang 标注正确（自身 + 对方 + x-default，各一次）`);
+}
+
+if (leakedComments.length) {
+  problems += leakedComments.length;
+  console.log('');
+  console.log(`  ✗ 有注释漏进了页面文本（模板字符串里的 /* */ 不是注释）：${leakedComments.length} 个页面`);
+  leakedComments.slice(0, 5).forEach(([f, t]) => console.log(`      ${f}\n        ${t}`));
+} else {
+  console.log(`  ✓ 没有注释漏进页面`);
+}
+
+if (unhashedAssets.size || missingAssets.size) {
+  problems += unhashedAssets.size + missingAssets.size;
+  console.log('');
+  if (unhashedAssets.size) {
+    console.log('  ✗ 静态资源没有内容哈希（会被缓存一年，用户看不到更新）：');
+    [...unhashedAssets].forEach((u) => console.log(`      ${u}`));
+  }
+  if (missingAssets.size) {
+    console.log('  ✗ 引用了不存在的静态资源：');
+    [...missingAssets].forEach((u) => console.log(`      ${u}`));
+  }
+} else {
+  console.log(`  ✓ 静态资源都带内容哈希且文件存在`);
 }
 
 console.log('  ' + line);

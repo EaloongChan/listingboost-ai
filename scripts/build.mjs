@@ -5,6 +5,7 @@
  *   node scripts/build.mjs --watch    监听 data/ 与 src/ 变化自动重建
  */
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -149,6 +150,19 @@ export function build({ quiet = false } = {}) {
   written.clear();
   fs.mkdirSync(DIST, { recursive: true });
 
+  /* ---------- 0. 静态资源指纹 ----------
+     踩过一次：/assets/* 设了 max-age=31536000 + immutable，但文件名永远叫 app.js。
+     结果用户第一次访问之后，浏览器把旧版 JS/CSS 缓存了一年 —— 之后不管我们怎么更新，
+     老用户看到的都是旧代码（表现为「本地测试正常、用户那边功能是坏的」）。
+     解决办法是内容哈希文件名：内容变了文件名就变，缓存自然不会命中旧的。 */
+  const hash7 = (buf) => crypto.createHash('sha256').update(buf).digest('hex').slice(0, 7);
+  const srcFile = (p) => fs.readFileSync(path.join(SRC, p));
+  const ASSET = {
+    css: `main.${hash7(srcFile('styles/main.css'))}.css`,
+    print: `print.${hash7(srcFile('styles/print.css'))}.css`,
+    js: `app.${hash7(srcFile('scripts/app.js'))}.js`,
+  };
+
   /* ---------- 1. 载入数据 ---------- */
   const site = readJSON('site.config.json');
   const categories = readJSON('categories.json');
@@ -207,6 +221,9 @@ export function build({ quiet = false } = {}) {
   };
   counts.total = counts.tools + counts.prompts + counts.glossary + counts.learn
     + counts.news + counts.playbooks + counts.models;
+
+  // layout 每个页面都会收到 site，所以把资源映射挂在这里，不用改任何调用点
+  site.asset = ASSET;
 
   /* ---------- 2. 派生字段 ---------- */
   // NEW 标记：最近收录的一小批（按 added 倒序取前 8），避免同月大规模入库时徽章泛滥
@@ -336,9 +353,9 @@ export function build({ quiet = false } = {}) {
   }
 
   /* ---------- 4. 静态资源 ---------- */
-  write('assets/main.css', fs.readFileSync(path.join(SRC, 'styles', 'main.css'), 'utf8'));
-  write('assets/print.css', fs.readFileSync(path.join(SRC, 'styles', 'print.css'), 'utf8'));
-  write('assets/app.js', fs.readFileSync(path.join(SRC, 'scripts', 'app.js'), 'utf8'));
+  write('assets/' + ASSET.css, fs.readFileSync(path.join(SRC, 'styles', 'main.css'), 'utf8'));
+  write('assets/' + ASSET.print, fs.readFileSync(path.join(SRC, 'styles', 'print.css'), 'utf8'));
+  write('assets/' + ASSET.js, fs.readFileSync(path.join(SRC, 'scripts', 'app.js'), 'utf8'));
   copyDir(path.join(ROOT, 'public'), DIST);
 
   /* ---------- 5. 开放数据 ---------- */
