@@ -81,6 +81,8 @@ function pruneStale() {
 const today = () => new Date().toISOString().slice(0, 10);
 
 const CHANGELOG = [
+  { date: '2026-09-21', tag: 'CONTENT', title: '场景手册 30 → 43 篇，工具覆盖率从 31% 提到 87%', desc: '之前 244 个工具里有 169 个从没出现在任何场景里——读者只知道它们存在，不知道什么时候该用。新增 13 篇覆盖最大缺口：本地跑模型、搭 Agent、AI 视频、3D 资产、文献综述、配乐配音、品牌视觉、会议自动化、翻译流水线、选编程工具、生成配图、学习辅导、做应用原型。' },
+  { date: '2026-09-21', tag: 'CONTENT', title: '每篇手册加上「验收区」——输入 / 产出 / 什么算失败 / 什么时候别用 AI', desc: '判断一篇流程文章是不是「假装有用」有客观标准。现在每篇开头就把这四件事写清楚，让你三十秒内知道这篇值不值得读、做完应该拿到什么、以及最重要的——什么情况下根本不该用 AI（用脚本、用模板、或者干脆别做）。' },
   { date: '2026-09-21', tag: 'CONTENT', title: '工具库 236 → 244：补上整条「终端编程 Agent」线', desc: '这个赛道已经扩到七八个工具，我们之前只收了 Claude Code 和 Codex 两个。补上 Gemini CLI / Antigravity CLI、Grok Build、Qwen Code、OpenCode、Kilo CLI、Kimi Code CLI，以及腾讯开源的 WeKnora 知识平台和 Java 生态的 mica-voice 语音套件。' },
   { date: '2026-09-21', tag: 'FIX', title: '去掉确认不了的精确版本号', desc: '写时效信息时发现有来源互相冲突（同一个模型被不同站点说成两个版本）。我们把无法交叉确认的小数点版本号删掉，改成描述「当前是什么形态」，并在模型库顶部写明：时效信息来自公开资料、会滞后，精确数据请点每条底部的「模型列表」看官方页。' },
   { date: '2026-09-21', tag: 'CONTENT', title: '模型库从 40 扩到 78，新增 3D 与文档解析两个类型', desc: '补上 38 个缺失的模型家族：Meta Muse（Meta 已从 Llama 转向 Muse，库里之前完全没有）、Amazon Nova、Microsoft Phi、NVIDIA Nemotron、Cohere Command、AI21 Jamba、Gemma、Yi、MiniCPM、InternLM、天工、日日新，以及 3D 生成（Hunyuan3D / TRELLIS / Tripo / Rodin / Meshy）和文档解析（MinerU / dots.ocr / PaddleOCR-VL / Docling / GOT-OCR / Qwen-VL / OmniParser）两条完整线。' },

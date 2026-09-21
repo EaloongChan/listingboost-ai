@@ -918,6 +918,24 @@ ${pageHead(title, desc, `<div class="ph-meta">
   });
 }
 
+
+/** 验收区：把「这篇手册到底要产出什么、什么算失败、什么时候别用 AI」摆到最前面。
+    ChatGPT 的审查意见里最有用的一条 —— 判断一篇手册是不是「假装有用」有客观标准：
+   有没有明确的输入与完成标准、有没有真实失败模式、有没有给出「不该用 AI」的边界。 */
+const pbSpec = (sp) => !sp ? '' : `<section class="section" style="padding-top:0">
+  <div class="container container-narrow">
+    <div class="pb-spec">
+      <div class="pbs-head">做完应该得到什么</div>
+      <dl>
+        <div><dt>输入</dt><dd>${esc(sp.input || '')}</dd></div>
+        <div><dt>产出</dt><dd>${esc(sp.output || '')}</dd></div>
+        <div><dt>什么算失败</dt><dd>${esc(sp.fail || '')}</dd></div>
+        <div><dt>什么时候别用 AI</dt><dd>${esc(sp.alt || '')}</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>`;
+
 export function playbookDetailPage(ctx, pb) {
   const { site, groupMap, toolMap, promptMap } = ctx;
   const g = groupMap[pb.group] || { name: pb.group, accent: '#1B4DFF', icon: 'target' };
@@ -966,13 +984,14 @@ ${crumbs(crumbItems)}
   </header>
 </div>
 
+${pbSpec(pb.spec)}
+
 <section class="section" style="padding-top:34px">
   <div class="container container-narrow">
     ${shead('01', '流程', '按顺序做，每一步都标注了用什么')}
     <div class="steps">${steps}</div>
   </div>
 </section>
-
 ${promptCards.length ? `<section class="section">
   <div class="container">
     ${shead('02', '用到的提示词', '展开可填变量，直接复制成完整提示词')}

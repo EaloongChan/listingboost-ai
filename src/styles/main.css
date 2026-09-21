@@ -1798,6 +1798,44 @@ a.tag { padding-top: 3px; padding-bottom: 3px; }
   margin: 0;
 }
 
+
+/* ---------- 30. 场景手册的验收区 ----------
+   把「产出什么 / 什么算失败 / 什么时候别用 AI」摆到流程之前。
+   判断一篇流程文章是不是「假装有用」有客观标准，这里就是把它显式化。 */
+.pb-spec {
+  border: var(--bw-thin) solid var(--line-2);
+  border-top: 3px solid var(--accent);
+  background: var(--surface);
+  padding: 16px 20px;
+}
+.pb-spec .pbs-head {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--fg-2);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.pb-spec dl { margin: 0; display: grid; gap: 10px; }
+.pb-spec dl > div {
+  display: grid;
+  grid-template-columns: 8.5em 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.pb-spec dt {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--fg-3);
+  padding-top: 2px;
+}
+.pb-spec dd { margin: 0; font-size: 0.86rem; line-height: 1.7; color: var(--fg-2); }
+@media (max-width: 560px) {
+  .pb-spec dl > div { grid-template-columns: 1fr; gap: 2px; }
+}
+
 /* ---------- 20. 响应式 ---------- */
 @media (max-width: 960px) {
   .nav {

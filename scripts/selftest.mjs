@@ -981,6 +981,27 @@ test('工具分类页：筛选栏高亮的是当前分类，不是「全部」',
   return { ok: on.length === 1 && on[0] === 'coding' && cards > 0, detail: `高亮 [${on.join(',')}]，卡片 ${cards} 张` };
 });
 
+test('场景手册：每篇都有验收区（输入/产出/失败/替代）', '/playbooks/pb-weekly-report/', async (c) => {
+  const rows = await c.eval(`[...document.querySelectorAll('.pb-spec dt')].map(x=>x.textContent)`);
+  const dd = await c.eval(`[...document.querySelectorAll('.pb-spec dd')].map(x=>x.textContent.trim().length)`);
+  return {
+    ok: rows.length === 4 && dd.every(n => n > 8),
+    detail: `四行标签 [${rows.join(' / ')}]，内容长度 [${dd.join(', ')}]`,
+  };
+});
+
+test('场景手册：新补的 13 篇都能打开且引用有效', '/playbooks/', async (c) => {
+  const ids = ['pb-local-model','pb-build-agent','pb-ai-video','pb-3d-asset','pb-lit-review','pb-music-voice','pb-brand-visual','pb-meeting-auto','pb-translate-workflow','pb-pick-coding-tool','pb-image-gen','pb-teach-with-ai','pb-zero-to-app'];
+  const bad = [];
+  for (const id of ids) {
+    await c.send('Page.navigate', { url: SERVE + '/playbooks/' + id + '/' });
+    await sleep(350);
+    const ok = await c.eval(`document.querySelectorAll('h1').length === 1 && document.querySelectorAll('.step').length > 0`);
+    if (!ok) bad.push(id);
+  }
+  return { ok: bad.length === 0, detail: bad.length ? '打不开或结构异常：' + bad.join(', ') : ids.length + ' 篇全部正常' };
+});
+
 test('打印样式表可访问（从首页拿带哈希的真实文件名）', '/', async (c) => {
   const href = await c.eval(`(document.querySelector('link[media="print"]')||{}).getAttribute?document.querySelector('link[media="print"]').getAttribute('href'):''`);
   if (!href) return { ok: false, detail: '首页没有引用打印样式表' };
