@@ -8,10 +8,17 @@
  * 域名跳转、canonical、sitemap、404、重定向、字体、关键页面、安全响应头。
  * 本地构建通过了不等于线上部署对了——构建配置、重定向规则、缓存都可能出岔子。
  */
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 const BASE = (() => {
   const i = process.argv.indexOf('--base');
   return (i !== -1 ? process.argv[i + 1] : '') || 'https://www.ealoongchan.top';
 })().replace(/\/$/, '');
+
+/* 解析 dist/assets 里的真实文件名要用到（产物带内容哈希，名字不能写死） */
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const UA = 'Mozilla/5.0 (compatible; AIWanxiangDeployCheck/1.0)';
 
@@ -115,17 +122,31 @@ async function main() {
     }
   }
 
-  /* ---------- 4. 静态资源 ---------- */
-  for (const [path, name] of [
-    ['/assets/main.css', '样式表'],
-    ['/assets/app.js', '前端脚本'],
+  /* ---------- 4. 静态资源 ----------
+     资源名带内容哈希（main.9958cf8.css），**不能写死 /assets/main.css** ——
+     以前这里就是写死的，于是这条检查恒为 404，等于"线上资源是否部署成功"从来没被验证过。
+     和 perf.mjs 当年踩的是同一个坑：产物命名规则变了，写死名字的脚本静默失效。
+     现在从本地 dist/assets 解析真实文件名；解析不到就直接失败（说明该同步本脚本了）。 */
+  const ASSET_DIR = path.join(ROOT, 'dist', 'assets');
+  const assetFiles = fs.existsSync(ASSET_DIR) ? fs.readdirSync(ASSET_DIR) : [];
+  const resolveAsset = (base, ext) => {
+    const hit = assetFiles.find((n) => n === `${base}.${ext}` || new RegExp(`^${base}\\.[0-9a-f]{7,}\\.${ext}$`).test(n));
+    return hit ? `/assets/${hit}` : null;
+  };
+  const assets = [
+    [resolveAsset('main', 'css'), '样式表'],
+    [resolveAsset('app', 'js'), '前端脚本'],
+    [resolveAsset('search', 'js'), '搜索脚本（按需加载）'],
+    [resolveAsset('card-svg', 'js'), '卡片图标碎片（按需加载）'],
     ['/fonts/ibm-plex-sans-latin-400-normal.woff2', '自托管字体'],
     ['/og.png', '社交分享图'],
-  ]) {
+  ];
+  for (const [path_, name] of assets) {
+    if (!path_) { bad(name, '本地 dist/assets 里找不到对应产物（构建过了吗 / 命名规则变了？）'); continue; }
     try {
-      const r = await req(path, { head: true });
-      if (r.status === 200) ok(name, `${r.headers.get('content-type') || ''}`.trim());
-      else bad(name, `HTTP ${r.status}`);
+      const r = await req(path_, { head: true });
+      if (r.status === 200) ok(name, `${path_.split('/').pop()} · ${(r.headers.get('content-type') || '').trim()}`);
+      else bad(name, `HTTP ${r.status}  ${path_}`);
     } catch (e) {
       bad(name, e.message);
     }
