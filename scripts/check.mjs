@@ -537,6 +537,37 @@ const playbookIds = new Set();
       }
     } catch { /* 忽略 */ }
 
+
+    /* 提示词的变量与占位符必须双向一致。
+       踩过一次（英文提示词批量翻译时出现 9 处）：
+       提示词正文里写了 {{code}}，但变量表里没有 —— 读者会看到一个
+       填不进去的占位符，功能是坏的但页面不报错。
+       反向也一样：变量表里声明了但正文没用，读者填了没反应。 */
+    try {
+      const pr = JSON.parse(fs.readFileSync(path.join(DATA, 'prompts.json'), 'utf8'));
+      const bad = [];
+      for (const p of pr) {
+        // 中文版和英文版各自检查
+        for (const [label, body, vars] of [
+          ['zh', p.prompt, p.vars],
+          ['en', p.en && p.en.prompt, p.en && p.en.vars],
+        ]) {
+          if (!body) continue;
+          const used = [...new Set([...body.matchAll(/\{\{([^}]+)\}\}/g)].map((m) => m[1]))];
+          const declared = new Set(vars || []);
+          const undeclared = used.filter((v) => !declared.has(v));
+          const unused = [...declared].filter((v) => !used.includes(v));
+          if (undeclared.length) bad.push(`${p.id}(${label}) 正文用了但没声明: ${undeclared.join(', ')}`);
+          if (unused.length) bad.push(`${p.id}(${label}) 声明了但正文没用: ${unused.join(', ')}`);
+        }
+      }
+      if (bad.length) {
+        errors.push(`提示词变量对不上 ${bad.length} 处（读者会看到填不进去的输入框）→ ${bad.slice(0, 5).join('; ')}${bad.length > 5 ? ' …' : ''}`);
+      } else {
+        ok.push(`提示词: ${pr.length} 条的变量与占位符全部一一对应`);
+      }
+    } catch { /* 忽略 */ }
+
 /* ---- vercel.json 字段白名单校验 ----
    踩过一次：在 redirects 里写了个 `comment` 字段（本意是留说明），
    Vercel 校验很严，不认识这个字段就直接拒绝部署 —— 而且部署失败后

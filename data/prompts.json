@@ -118,13 +118,26 @@
     ],
     "hot": false,
     "vars": [
+      "领域",
       "源语言",
       "目标语言",
-      "领域",
-      "读者"
+      "原文"
     ],
     "prompt": "你是{{领域}}领域的专业译者。请把下面的{{源语言}}内容翻译成{{目标语言}}。\n\n流程：\n1. 先判断文本类型（技术文档 / 营销文案 / 学术 / 口语）并说明；\n2. 列出 3-5 个需要特别处理的术语及其译法；\n3. 输出译文，要求符合{{目标语言}}母语者的表达习惯，不要翻译腔；\n4. 最后列出你不确定的 2-3 处，说明原因。\n\n原文：\n{{原文}}",
-    "tips": "先让 AI 报术语表，可以避免全文术语不一致这个经典坑。"
+    "tips": "先让 AI 报术语表，可以避免全文术语不一致这个经典坑。",
+    "en": {
+      "title": "Professional translation, not word-for-word",
+      "desc": "Understands the context first, then rewrites — suited to documents that will be read seriously.",
+      "vars": [
+        "Domain",
+        "Source language",
+        "Target language",
+        "Reader",
+        "Source text"
+      ],
+      "prompt": "You are a professional translator working in {{Domain}}. Translate the following from {{Source language}} into {{Target language}}.\n\nProcess:\n1. **Identify the text type first** (technical documentation / marketing copy / academic / conversational) and say which it is.\n2. **List 3-5 terms that need special handling** and your chosen rendering for each.\n3. **Produce the translation**, written for {{Reader}} and phrased the way a native speaker of {{Target language}} would write it. No translationese.\n4. **List 2-3 points you're unsure about**, with reasons.\n\nSource:\n{{Source text}}",
+      "tips": "Having it report the glossary first prevents the classic failure: the same term translated three different ways across one document."
+    }
   },
   {
     "id": "p-code-review",
@@ -143,7 +156,8 @@
     ],
     "hot": true,
     "vars": [
-      "语言/框架"
+      "语言/框架",
+      "代码"
     ],
     "prompt": "你是{{语言/框架}}的资深工程师。请审查以下代码。\n\n输出格式：\n【严重】会导致 bug / 安全问题 / 性能问题的地方（必须给修复代码）\n【中等】可维护性、可读性、命名问题\n【建议】风格与更优写法\n\n规则：\n- 每条意见必须指明具体行或函数名；\n- 不要泛泛地说「建议加注释」「注意边界」，要指出**哪一个**边界；\n- 不要重写整个文件，只给需要改的片段；\n- 如果代码没有严重问题，直接说「无严重问题」，不要凑数。\n\n代码：\n```\n{{代码}}\n```",
     "tips": "「如果没问题就直接说，不要凑数」能大幅减少 AI 硬编问题。",
@@ -151,7 +165,8 @@
       "title": "Code review, graded by severity",
       "desc": "Actionable findings sorted into must-fix, should-fix and optional — not generic advice.",
       "vars": [
-        "Language / framework"
+        "Language / framework",
+        "code"
       ],
       "prompt": "You are a senior {{Language / framework}} engineer. Review the code below.\n\nOutput format:\n**[Critical]** Bugs, security issues, performance problems. You must include the fix.\n**[Moderate]** Maintainability, readability, naming.\n**[Optional]** Style and better approaches.\n\nRules:\n- Every finding must point at a specific line or function name.\n- Don't say 'add comments' or 'watch the boundaries'. Name **which** boundary.\n- Don't rewrite the file. Give only the fragments that need changing.\n- If there is nothing critical, say **'no critical issues'** and move on. Do not pad the list.\n\nCode:\n```\n{{code}}\n```",
       "tips": "'If there is nothing critical, say so' dramatically cuts the number of invented problems."
@@ -173,7 +188,9 @@
     ],
     "hot": true,
     "vars": [
-      "环境"
+      "环境",
+      "报错信息",
+      "代码"
     ],
     "prompt": "环境：{{环境}}\n\n我遇到以下报错：\n```\n{{报错信息}}\n```\n相关代码：\n```\n{{代码}}\n```\n\n请按这个顺序回答：\n1. 用一句话解释这个报错的**根本原因**；\n2. 列出最可能的 3 个原因，按可能性排序，并说明如何快速验证每一个；\n3. 给出修复后的代码（只给改动的部分）；\n4. 说明这个改动会不会引入其他风险。\n\n如果信息不足，先问我最关键的 2 个问题，不要猜。",
     "tips": "最后一句是关键——让 AI 主动提问，比它硬答一堆猜测强得多。",
@@ -181,7 +198,9 @@
       "title": "Locate and fix an error",
       "desc": "Give it the trace and the code, and make it list hypotheses before guessing.",
       "vars": [
-        "Environment"
+        "Environment",
+        "error output",
+        "code"
       ],
       "prompt": "Environment: {{Environment}}\n\nI'm getting this error:\n```\n{{error output}}\n```\n\nRelevant code:\n```\n{{code}}\n```\n\nAnswer in this order:\n1. The **root cause** in one sentence.\n2. The three most likely causes, ranked, and how to verify each quickly.\n3. The fix — only the changed lines.\n4. Whether this change could introduce anything else.\n\nIf you don't have enough information, **ask me the two most important questions first**. Don't guess.",
       "tips": "That last line is the key: making the model ask beats letting it produce a pile of guesses."
@@ -299,7 +318,8 @@
     ],
     "hot": true,
     "vars": [
-      "参会人"
+      "参会人",
+      "记录"
     ],
     "prompt": "以下是会议转写记录（可能包含口语、重复、跑题）。参会人：{{参会人}}\n\n请整理成纪要：\n\n【会议结论】已达成共识的事项，每条一句话\n【待办事项】表格：事项 | 负责人 | 截止时间（未提及则写「未定」）\n【悬而未决】讨论但没有结论的问题，标注分歧点在哪\n【关键数字/名词】\n\n规则：\n- 严格基于原文，不要推测；\n- 把口语化表达转成书面语；\n- 如果同一件事讨论多次，合并并标注「反复讨论」。\n\n记录：\n{{记录}}",
     "tips": "「反复讨论」这个标注特别有用，能暴露出团队真正卡住的地方。",
@@ -307,7 +327,8 @@
       "title": "Turn a meeting transcript into minutes",
       "desc": "Pulls decisions, actions and unresolved questions out of a messy transcript.",
       "vars": [
-        "Attendees"
+        "Attendees",
+        "transcript"
       ],
       "prompt": "Below is a meeting transcript. It may contain filler, repetition and tangents. Attendees: {{Attendees}}\n\nProduce minutes:\n\n**[Decisions]** What was agreed, one line each.\n**[Actions]** Table: item | owner | deadline (write 'undecided' if not mentioned)\n**[Unresolved]** Discussed but not settled — and where the disagreement lies.\n**[Key numbers and names]**\n\nRules:\n- Stay strictly within the transcript. Do not infer.\n- Convert spoken phrasing into written form.\n- If the same subject came up repeatedly, merge it and mark it **'revisited'**.\n\nTranscript:\n{{transcript}}",
       "tips": "The 'revisited' tag is quietly the most useful output — repeated discussion is where a team is actually stuck."
@@ -395,7 +416,8 @@
     "hot": true,
     "vars": [
       "主题",
-      "目标人群"
+      "目标人群",
+      "素材"
     ],
     "prompt": "请为「{{主题}}」写一篇小红书笔记，目标人群：{{目标人群}}。\n\n要求：\n1. 先给我 5 个不同角度的标题（带 emoji，20 字内，制造具体的好奇心而不是夸张）；\n2. 正文 300-500 字，第一句必须让人想继续读；\n3. 结构：真实场景切入 → 踩坑经历 → 具体做法（要有可复制的细节）→ 结果；\n4. 语气像朋友分享，不要营销腔，不要「家人们」；\n5. 结尾给 5 个精准标签。\n\n重要：不要编造具体数据（比如「涨粉 10 万」），除非我提供。\n\n我提供的真实素材：\n{{素材}}",
     "tips": "「不要编造数据」很关键，编造的数字被拆穿会毁掉账号信任。"
@@ -495,10 +517,21 @@
     ],
     "hot": false,
     "vars": [
-      "界面类型"
+      "界面类型",
+      "说明"
     ],
     "prompt": "这是一个{{界面类型}}的设计。请以严苛的资深设计师视角评审。\n\n按以下维度逐条给出问题（每条必须具体到这个界面，不能套模板）：\n1. 视觉层级：用户第一眼会看到什么？这符合业务目标吗？\n2. 信息密度与留白\n3. 可点击区域与操作可达性\n4. 文案：有没有含糊、歧义、术语\n5. 一致性：间距、圆角、颜色、字号\n6. 无障碍：对比度、字号、色盲友好\n7. 状态覆盖：空态、加载、错误、极值（超长文本/0 条数据）\n\n最后：列出 3 个「投入产出比最高」的改动，按优先级排序。\n\n我的设计说明：{{说明}}",
-    "tips": "第 7 条「极值状态」是最容易被忽略也最容易翻车的部分。"
+    "tips": "第 7 条「极值状态」是最容易被忽略也最容易翻车的部分。",
+    "en": {
+      "title": "UI design critique",
+      "desc": "Goes through your interface against usability principles instead of complimenting it.",
+      "vars": [
+        "Screen type",
+        "notes"
+      ],
+      "prompt": "This is a {{Screen type}} design. Review it as a demanding senior designer.\n\nGo through these dimensions, and **every point must be specific to this screen** — no template answers:\n\n1. **Visual hierarchy** — what does the eye land on first? Is that what the business needs?\n2. **Information density and whitespace**\n3. **Tap targets and reachability**\n4. **Copy** — anything vague, ambiguous, or jargon?\n5. **Consistency** — spacing, corner radius, colour, type scale\n6. **Accessibility** — contrast, type size, colour-blind safety\n7. **State coverage** — empty, loading, error, and the extremes (very long text, zero rows)\n\nFinish with the **three highest-leverage changes**, ordered by priority.\n\nMy notes on the design: {{notes}}",
+      "tips": "Dimension 7 is the most commonly skipped and the most likely to blow up in production."
+    }
   },
   {
     "id": "p-data-insight",
@@ -516,7 +549,8 @@
     ],
     "hot": true,
     "vars": [
-      "数据背景"
+      "数据背景",
+      "数据"
     ],
     "prompt": "背景：{{数据背景}}\n数据：\n{{数据}}\n\n请分析，严格按这个结构：\n\n1. 【客观描述】只陈述数据本身说明了什么，不带解释（3 条以内）；\n2. 【异常点】指出哪些数字不符合预期或自相矛盾；\n3. 【可能原因】每个异常给 2-3 个假设，并说明如何用数据验证；\n4. 【所以呢】给出 3 条具体的行动建议，每条要包含「做什么 / 预期影响 / 怎么衡量」；\n5. 【数据局限】明确指出这份数据**不能**回答什么问题。\n\n重要：不要在没有依据时下结论。如果数据不足以支撑某判断，直接说「数据不足」。",
     "tips": "第 5 条「不能回答什么」，是专业分析师和随便看看的人最大的区别。",
@@ -524,7 +558,8 @@
       "title": "From numbers to action",
       "desc": "Refuses to stop at describing the data; forces the 'so what'.",
       "vars": [
-        "Data context"
+        "Data context",
+        "data"
       ],
       "prompt": "Context: {{Data context}}\nData:\n{{data}}\n\nAnalyse it, in this exact structure:\n\n1. **[Objective description]** What the data itself shows. No interpretation. Maximum 3 points.\n2. **[Anomalies]** Which figures are unexpected or contradictory.\n3. **[Possible causes]** For each anomaly, 2-3 hypotheses and how to test each with data.\n4. **[So what]** Three concrete recommendations, each with: what to do / expected effect / how to measure it.\n5. **[What this data cannot tell you]** Be explicit.\n\nImportant: do not draw conclusions without support. If the data can't sustain a claim, say **'insufficient data'**.",
       "tips": "Section 5 is the difference between a professional analyst and someone skimming a dashboard."
@@ -546,7 +581,9 @@
     ],
     "hot": false,
     "vars": [
-      "数据库类型"
+      "数据库类型",
+      "表结构",
+      "需求"
     ],
     "prompt": "数据库：{{数据库类型}}\n表结构：\n{{表结构}}\n\n我的需求：{{需求}}\n\n请输出：\n1. 先复述一遍你理解的业务问题（如果我描述有歧义，在此指出并列出你的假设）；\n2. SQL 语句，带清晰注释；\n3. 说明这条 SQL 在什么数据情况下会出错或返回异常结果；\n4. 如果数据量很大，给出性能优化建议。\n\n要求：用标准 SQL 语法，字段名严格按我给的，不要自己造字段。",
     "tips": "「不要自己造字段」能避免 AI 幻觉出根本不存在的列名。",
@@ -555,7 +592,8 @@
       "desc": "Turns a business question into working SQL, with its assumptions stated.",
       "vars": [
         "Database",
-        "Schema"
+        "Schema",
+        "requirement"
       ],
       "prompt": "Database: {{Database}}\nSchema:\n{{Schema}}\n\nWhat I need: {{requirement}}\n\nOutput:\n1. Restate the business question as you understand it. **If my description is ambiguous, say where and list your assumptions.**\n2. The SQL, with clear comments.\n3. Under what data conditions would this query fail or return something unexpected?\n4. If the table is large, performance suggestions.\n\nRequirements: standard SQL syntax, and **use exactly the column names I gave you**. Do not invent fields.",
       "tips": "'Do not invent fields' prevents the classic hallucinated column name."
@@ -578,7 +616,7 @@
     "hot": true,
     "vars": [
       "岗位",
-      "本周记录"
+      "记录"
     ],
     "prompt": "我的岗位：{{岗位}}\n本周做的事（碎片记录，没整理过）：\n{{记录}}\n\n请整理成一份周报，要求：\n\n1. 【本周成果】按「业务价值」而不是「工作量」排序，每条格式：做了什么 → 带来什么结果 → 数据支撑（没有就写「待量化」）；\n2. 【问题与风险】主动暴露 2-3 个真实卡点，说明需要什么支持；\n3. 【下周计划】具体到可验证的产出，不要写「继续推进 XX」；\n4. 【需要协调】明确列出要谁配合什么。\n\n风格：客观、不邀功、不注水。总长度 400 字以内。\n\n如果我的记录里有明显不值得写进周报的事，直接告诉我删掉哪些。",
     "tips": "最后一句很实用——大部分人周报写不好的原因是舍不得删。",
@@ -782,7 +820,8 @@
     ],
     "hot": false,
     "vars": [
-      "目标字段"
+      "目标字段",
+      "文本"
     ],
     "prompt": "请从下面的文本中抽取信息，输出 JSON。\n\n需要抽取的字段：{{目标字段}}\n\n规则（必须严格遵守）：\n1. 只输出 JSON，不要任何解释文字、不要 markdown 代码块标记；\n2. 找不到的字段值填 null，**绝对不要推测或编造**；\n3. 日期统一格式化为 YYYY-MM-DD；\n4. 如果一个字段在原文出现多次且不一致，选最完整的那次，并在同名字段后加 `_conflict: true`；\n5. 数字保留原文精度，不要四舍五入。\n\n文本：\n{{文本}}",
     "tips": "「绝对不要推测」和 null 约定，是把 AI 用在生产环境的前提。",
@@ -841,7 +880,18 @@
       "我的独特观点"
     ],
     "prompt": "我要写一篇关于「{{目标关键词}}」的文章，读者是{{读者}}。\n\n请先做三件事，再出大纲：\n1. 判断搜索这个词的人真实意图是什么（信息型 / 交易型 / 导航型），说明依据；\n2. 列出他们大概率已经看过哪些内容（常识层面），指出哪些是「说了等于没说」的部分；\n3. 指出要赢过现有内容，我必须提供什么额外价值。\n\n然后输出大纲：H2/H3 层级，每个标题说明「这一段要解决读者的什么问题」。\n\n最后单独列出 5 个「相关长尾问题」，用于做 FAQ 段落。\n\n我自己的独特观点是：{{我的独特观点}}——请在设计结构时把这个观点作为差异点放大。",
-    "tips": "「先判断意图和已有内容」这一步，能挡掉大部分自嗨型选题。"
+    "tips": "「先判断意图和已有内容」这一步，能挡掉大部分自嗨型选题。",
+    "en": {
+      "title": "SEO article skeleton that earns its ranking",
+      "desc": "Checks search intent before structuring, so you don't write for a term nobody uses.",
+      "vars": [
+        "Target keyword",
+        "Reader",
+        "My distinctive take"
+      ],
+      "prompt": "I'm writing an article about '{{Target keyword}}' for {{Reader}}.\n\nDo three things first, then outline:\n1. **What is the real intent** behind that search (informational / transactional / navigational)? Say how you can tell.\n2. **What have they probably already read?** At the common-knowledge level — and which parts of that are saying nothing at all?\n3. **What must I provide beyond what already exists** in order to win?\n\nThen the outline: H2/H3 levels, and for each heading, **which of the reader's questions that section answers**.\n\nFinish with five **long-tail questions** to use in an FAQ section.\n\nMy distinctive take is: {{My distinctive take}} — build the structure so that lands as the differentiator.",
+      "tips": "Checking intent and existing coverage first filters out most self-indulgent topic choices."
+    }
   },
   {
     "id": "p-story-hook",
@@ -896,7 +946,18 @@
       "必须保留的信息"
     ],
     "prompt": "把下面这段文字压缩到 {{目标字数}} 字左右。\n\n必须保留的信息：{{必须保留的信息}}\n\n要求：\n- 先告诉我原文的「逻辑骨架」是什么（不超过 3 条），压缩时只允许动血肉，不许动骨架；\n- 合并同类表达，删掉所有例子中重复的那些；\n- 形容词和程度副词砍掉一半；\n- 不要变成罗列要点，仍然要能读通的段落；\n- 输出压缩后的正文，另附一句说明你砍掉了哪类内容。\n\n原文：\n{{原文}}",
-    "tips": "先让它提取「逻辑骨架」，你就能判断它砍得对不对，而不是凭感觉。"
+    "tips": "先让它提取「逻辑骨架」，你就能判断它砍得对不对，而不是凭感觉。",
+    "en": {
+      "title": "Cut a long piece to a target length",
+      "desc": "Restructures rather than deleting — keeps the logical skeleton, drops the padding.",
+      "vars": [
+        "Original text",
+        "Target length",
+        "Must-keep information"
+      ],
+      "prompt": "Compress the text below to about {{Target length}}.\n\nMust keep: {{Must-keep information}}\n\nRequirements:\n- **First tell me what the logical skeleton of the original is** (three points maximum). When compressing, you may change the flesh but not the skeleton.\n- Merge repeated points. Where several examples make the same point, keep one.\n- Cut half the adjectives and intensifiers.\n- **It must still read as connected prose, not a bullet list.**\n- Output the compressed text, plus one line on what kind of material you removed.\n\nOriginal:\n{{Original text}}",
+      "tips": "Extracting the skeleton first lets you judge whether the cut is sound, instead of going on feel."
+    }
   },
   {
     "id": "p-style-clone",
@@ -918,7 +979,17 @@
       "写作主题"
     ],
     "prompt": "下面是我希望模仿的文风样本（3 段）：\n{{范文}}\n\n请分两步：\n\n第 1 步：归纳这套文风的可复制规则，具体到：句子平均长度、擅不擅用短句断层、常用连接方式、比喻的密度、要不要用第一人称、标点习惯、段落长度。不要用「简洁有力」这类空话。\n\n第 2 步：用这套规则写{{写作主题}}（400 字左右）。\n\n写完后，自己指出哪一句最不像原文风格，以及为什么。",
-    "tips": "「先归纳规则」这一步是质量关键。直接让它模仿，出来的往往只是用词相近、节奏完全不同。"
+    "tips": "「先归纳规则」这一步是质量关键。直接让它模仿，出来的往往只是用词相近、节奏完全不同。",
+    "en": {
+      "title": "Write in a given style",
+      "desc": "Derives the rules from your samples first, rather than imitating surface vocabulary.",
+      "vars": [
+        "Style samples",
+        "Subject"
+      ],
+      "prompt": "Here are three samples of the style I want to write in:\n{{Style samples}}\n\nTwo steps:\n\n**Step 1** — Derive the reproducible rules of this style, specific enough to apply: average sentence length, does it use short fragmented sentences, how ideas are connected, density of metaphor, first person or not, punctuation habits, paragraph length. **No vague summaries like 'concise and forceful'.**\n\n**Step 2** — Using those rules, write about {{Subject}} in about 400 words.\n\nAfterwards, identify which single sentence reads least like the samples, and why.",
+      "tips": "Step 1 is what makes the difference — direct imitation usually matches the vocabulary and misses the rhythm entirely."
+    }
   },
   {
     "id": "p-abstract",
@@ -973,7 +1044,17 @@
       "我的修改情况"
     ],
     "prompt": "审稿意见：\n{{审稿意见}}\n\n我的修改情况：{{我的修改情况}}\n\n请帮我起草回复信：\n\n先按性质给每条意见分类：【方法质疑】【表述不清】【补充实验】【文献缺失】【我个人保留意见】。\n\n然后逐条回复，每条包含：\n- 我们对这条意见的理解（确认没有误解审稿人）；\n- 我们做了什么修改（指明修改稿中的位置）；\n- 如果是保留意见，给出有理有据的学术理由，态度要谦和但不含糊其辞。\n\n最后统计：总共几条意见，其中完全接受几条、部分接受几条、保留几条。",
-    "tips": "先分类再回复，能避免对「表述不清」类意见过度谦虚地大改研究。"
+    "tips": "先分类再回复，能避免对「表述不清」类意见过度谦虚地大改研究。",
+    "en": {
+      "title": "Reply to reviewer comments",
+      "desc": "Classifies each comment, then answers it — professional without giving away your position.",
+      "vars": [
+        "Reviewer comments",
+        "What I changed"
+      ],
+      "prompt": "Reviewer comments:\n{{Reviewer comments}}\n\nWhat I actually changed: {{What I changed}}\n\nDraft my response letter.\n\nFirst classify each comment: **[methodological concern] [unclear writing] [additional experiment] [missing literature] [I disagree]**.\n\nThen answer each one with:\n- **Our understanding of the comment** — confirm no misunderstanding before responding.\n- **What we changed** — with the location in the revised manuscript.\n- If we disagree: a reasoned academic justification. Courteous in tone, but not evasive.\n\nFinish with a tally: total comments, how many fully accepted, partially accepted, and held.",
+      "tips": "Classifying before replying stops you over-apologising your way into restructuring the whole study over a wording complaint."
+    }
   },
   {
     "id": "p-code-explain",
@@ -992,7 +1073,8 @@
     "hot": true,
     "vars": [
       "语言/框架",
-      "我的背景"
+      "我的背景",
+      "代码"
     ],
     "prompt": "语言/框架：{{语言/框架}}\n我的背景：{{我的背景}}\n\n代码：\n```\n{{代码}}\n```\n\n请分四层讲解：\n\n第 1 层｜这段代码解决什么问题（不看代码也能懂的一句话）\n第 2 层｜整体流程（用编号步骤描述数据怎么流动）\n第 3 层｜关键设计决策：为什么用这个数据结构 / 为什么这里要加锁 / 为什么不用更简单的写法。这些才是接手的人真正会踩坑的地方。\n第 4 层｜如果我改坏哪一行，会出什么现象（列出 3 个最脆弱的点）\n\n不要逐行翻译代码。第 3 层和第 4 层是重点，请写详细。",
     "tips": "第 3、4 层才是真正有价值的。逐行翻译代码谁都会，讲清设计意图才需要功力。",
@@ -1001,7 +1083,8 @@
       "desc": "From the whole to the detail, explaining why it was written this way rather than what it does.",
       "vars": [
         "Language / framework",
-        "My background"
+        "My background",
+        "code"
       ],
       "prompt": "Language / framework: {{Language / framework}}\nMy background: {{My background}}\n\nCode:\n```\n{{code}}\n```\n\nExplain it in four layers:\n\nLayer 1 — What problem does this code solve? One sentence, understandable without reading the code.\nLayer 2 — The overall flow. Describe how data moves through it as numbered steps.\nLayer 3 — Key design decisions: why this data structure, why the lock here, why not the simpler approach. **This is where the next person actually gets hurt.**\nLayer 4 — If I broke which line, what would I see? List the three most fragile points.\n\nDon't translate the code line by line. Layers 3 and 4 are the point — go deep on those.",
       "tips": "Layers 3 and 4 are the valuable part. Anyone can translate code line by line; explaining design intent is the hard bit."
@@ -1597,7 +1680,18 @@
       "有无品牌色"
     ],
     "prompt": "产品类型：{{产品类型}}\n想要的气质：{{气质关键词}}\n品牌色：{{有无品牌色}}\n\n请输出一套设计令牌，以 CSS 自定义属性形式给出：\n\n1. 【配色】主色（含 hover/active/disabled 态）、中性灰阶 8 级、语义色（成功/警告/危险/信息），每个都给出深色模式对应值。\n2. 【字号阶梯】6-8 级，标注各自的使用场景和行高、字重。\n3. 【间距系统】基于 4px 或 8px 的倍数，说明使用规则。\n4. 【圆角与阴影】2-3 档，说明使用场景。\n5. 【对比度自检】指出上面哪些颜色组合的对比度可能不达标，给出修正值。\n\n要求：所有颜色给出 HEX，并说明选取理由（为什么是这个色相而不是相邻的）。",
-    "tips": "第 5 条对比度自检很实用——大部分人配完色根本没验证过可读性。"
+    "tips": "第 5 条对比度自检很实用——大部分人配完色根本没验证过可读性。",
+    "en": {
+      "title": "Build a design token set from scratch",
+      "desc": "Outputs CSS variables you can use immediately: colour, type, spacing, radius.",
+      "vars": [
+        "Product type",
+        "Desired feel",
+        "Brand colour"
+      ],
+      "prompt": "Product type: {{Product type}}\nFeel I want: {{Desired feel}}\nBrand colour: {{Brand colour}}\n\nOutput a design token set, as CSS custom properties:\n\n1. **Colour** — primary (with hover / active / disabled states), an 8-step neutral ramp, and semantic colours (success / warning / danger / info). Give the dark-mode value for each.\n2. **Type scale** — 6-8 steps, each with its use case, line height and weight.\n3. **Spacing system** — based on multiples of 4px or 8px, with rules for when to use which.\n4. **Radius and shadow** — 2-3 levels, with use cases.\n5. **Contrast self-check** — flag any of those colour pairings that may fail contrast, and give corrected values.\n\nAll colours as HEX, and **say why that hue rather than the neighbouring one**.",
+      "tips": "The contrast check is the practical part — most people pick a palette and never verify it is readable."
+    }
   },
   {
     "id": "p-copy-ui",
@@ -1618,7 +1712,17 @@
       "系统行为"
     ],
     "prompt": "界面场景：{{界面场景}}\n系统实际行为：{{系统行为}}\n\n请写以下界面文案，每个都给出「当前常见写法」和「更好的写法」对比，并说明为什么更好：\n\n1. 主按钮 / 次按钮 / 危险按钮（危险操作要写清后果，不能只写「确定」）\n2. 输入框占位符与校验错误（错误要说清哪里错了、怎么改）\n3. 空态（首次无数据 vs 搜索无结果，这两种完全不同）\n4. 加载中（超过 3 秒要说什么）\n5. 成功反馈（避免空洞的「操作成功」）\n6. 错误页（5xx 时用户能做什么）\n\n原则：不指责用户、不推卸责任、不堆术语、每条都给出下一步动作。",
-    "tips": "「危险按钮要说清后果」这一条能避免大量误操作——「确定」两个字太危险了。"
+    "tips": "「危险按钮要说清后果」这一条能避免大量误操作——「确定」两个字太危险了。",
+    "en": {
+      "title": "Interface copy: buttons, messages, empty states",
+      "desc": "Translates system language into human language, and says what happened and what to do.",
+      "vars": [
+        "Screen context",
+        "What the system actually does"
+      ],
+      "prompt": "Screen context: {{Screen context}}\nWhat the system actually does: {{What the system actually does}}\n\nWrite the following interface copy. For each, give both the **usual wording** and a **better version**, and say why it is better:\n\n1. **Primary / secondary / destructive buttons** — a destructive action must state the consequence, never just 'OK'.\n2. **Input placeholders and validation errors** — an error should say what is wrong and how to fix it.\n3. **Empty states** — first-run with no data and a search with no results are **completely different situations**.\n4. **Loading** — what to say once it passes three seconds.\n5. **Success feedback** — avoid the hollow 'Operation successful'.\n6. **Error pages** — what the user can actually do during a 5xx.\n\nPrinciples: don't blame the user, don't dodge responsibility, no jargon, and every message gives a next step.",
+      "tips": "'A destructive action must state the consequence' prevents a lot of accidental deletion — 'OK' is a dangerous word."
+    }
   },
   {
     "id": "p-visual-critique",
@@ -1639,7 +1743,17 @@
       "业务目标"
     ],
     "prompt": "业务目标：{{业务目标}}\n设计说明：{{设计说明}}\n\n请以视觉设计原理为框架评审（每条都要落到具体位置，不要泛泛而谈）：\n\n1. 对齐：画面里有几套对齐系统？有没有元素处于「差一点对齐」的尴尬位置？\n2. 视觉层级：遮住文字只看形状，视线第一落点在哪？是业务希望的地方吗？\n3. 对比：哪些地方该强没强、该弱没弱？\n4. 节奏：疏密关系如何？有没有出现「平均用力」导致画面平庸？\n5. 色彩：色彩是否承担了信息功能，还是纯装饰？\n6. 一致性：间距、圆角、描边宽度、图标风格是否统一？\n\n最后给出「三处投入产出比最高的修改」，按优先级排序并说明预期效果。",
-    "tips": "「遮住文字只看形状」是个很有效的自检动作，能瞬间暴露层级问题。"
+    "tips": "「遮住文字只看形状」是个很有效的自检动作，能瞬间暴露层级问题。",
+    "en": {
+      "title": "Critical review of a visual design",
+      "desc": "Judges against visual principles rather than taste.",
+      "vars": [
+        "Design notes",
+        "Business goal"
+      ],
+      "prompt": "Business goal: {{Business goal}}\nDesign notes: {{Design notes}}\n\nReview against visual principles. **Every point must point at a specific place** — no generalities:\n\n1. **Alignment** — how many alignment systems are running? Any element sitting in the awkward 'almost aligned' position?\n2. **Hierarchy** — cover the text and look at shape only. Where does the eye land first? Is that where the business wants it?\n3. **Contrast** — where should something be stronger or weaker than it is?\n4. **Rhythm** — how does density vary? Is anything 'evenly weighted', which is what makes a layout boring?\n5. **Colour** — is colour carrying information, or is it decoration?\n6. **Consistency** — spacing, radius, stroke width, icon style.\n\nFinish with the **three highest-leverage changes**, ordered, with the expected effect of each.",
+      "tips": "'Cover the text and look at shape only' is a fast self-check that exposes hierarchy problems instantly."
+    }
   },
   {
     "id": "p-data-story",
@@ -2322,7 +2436,18 @@
       "背景色"
     ],
     "prompt": "我的配色方案：\n主色 {{主色}}，辅助色 {{辅助色}}，背景色 {{背景色}}\n（如有其他颜色一并列出）\n\n请做一次**可读性审查**，不要评价审美：\n\n1. **对比度逐对计算**。列出所有「文字色 × 背景色」的实际组合，给出对比度数值，并标注是否达标：正文需 4.5:1，大号文字需 3:1，图标与边框需 3:1。**请真算，不要凭感觉说「看起来不错」。**\n2. **不达标的给出最小修改方案**。说明是把文字调深还是把背景调浅，改动后的对比度是多少。\n3. **深色模式**：这套配色直接反色能不能用？如果不能，指出哪几个颜色在深色底上会失效，给出替代值。\n4. **极端场景**：\n   - 黑白打印后还分得清吗？\n   - 手机小屏、户外强光下呢？\n   - 色盲用户（红绿色盲、蓝黄色盲）能区分吗？\n5. **主次关系**：这套颜色里哪个视觉跳得最前、哪个最沉？**如果跳得最前的不是你希望用户第一眼看到的那个，说明配色和意图不匹配。**\n\n最后用一句话给出结论：能用 / 微调后能用 / 建议重配。",
-    "tips": "「色盲能不能区分」这一项经常抓出问题——很多品牌色在红绿色盲眼里是同一个灰。"
+    "tips": "「色盲能不能区分」这一项经常抓出问题——很多品牌色在红绿色盲眼里是同一个灰。",
+    "en": {
+      "title": "Palette readability audit",
+      "desc": "Doesn't judge whether it looks good — only whether it works in real conditions.",
+      "vars": [
+        "Primary colour",
+        "Secondary colour",
+        "Background colour"
+      ],
+      "prompt": "My palette:\nPrimary {{Primary colour}}, secondary {{Secondary colour}}, background {{Background colour}}\n(list any others too)\n\nRun a **readability audit**. Do not comment on aesthetics.\n\n1. **Compute contrast for every pair.** List all text-on-background combinations with their ratios, and mark pass or fail: body text needs 4.5:1, large text 3:1, icons and borders 3:1. **Actually calculate — don't say 'looks fine'.**\n2. **For failures, give the minimal fix.** Darken the text or lighten the background — and give the resulting ratio.\n3. **Dark mode** — would a straight inversion work? If not, which colours break on a dark surface, and what replaces them?\n4. **Extreme conditions:**\n   - Does it survive black-and-white printing?\n   - Small phone screen, bright sunlight?\n   - Can colour-blind users distinguish them (red-green, blue-yellow)?\n5. **Emphasis** — which colour jumps forward, which recedes? **If what jumps forward isn't what you wanted people to see first, the palette and the intent disagree.**\n\nFinish with one line: usable / usable after tuning / rebuild it.",
+      "tips": "The colour-blind check catches real problems — plenty of brand colours collapse into the same grey for red-green colour blindness."
+    }
   },
   {
     "id": "p-glossary-build",
@@ -2345,7 +2470,19 @@
       "文档内容或词表"
     ],
     "prompt": "我要把一份 {{文档领域}} 的文档从 {{源语言}} 翻成 {{目标语言}}。\n文档内容（或我初步整理的词表）：{{文档内容或词表}}\n\n请帮我建一份**翻译术语表**，输出成表格：\n\n| 原文 | 建议译法 | 是否翻译 | 理由 | 出现场景 |\n\n要求：\n\n1. **先区分「该翻」和「不该翻」**。产品名、API 名称、代码标识符、行业惯例用英文的词——这些保持原文，强行翻译反而让人看不懂。\n2. **一词多义的要拆开列**。同一个词在文档里如果指两个不同东西，列两行，并说明怎么区分（比如「用户」在计费章节指付费账户，在产品章节指访问者）。\n3. **标注约定**。对于有多个常见译法的词，选定一个并说明为什么选它（更贴近原意 / 更符合中文习惯 / 行业已经通用）。\n4. **容易翻错的词单独列出**。那些直译会很别扭、或者中文里有更自然说法的词。\n5. 最后给我一段「交给翻译工具的提示词」——把这份术语表浓缩成一段约束说明，可以直接贴进翻译对话里。\n\n不确定的译法标注「待确认」，不要编一个看起来权威的说法。",
-    "tips": "第 5 步很实用——把术语表浓缩成一段提示词，之后每次翻译直接粘贴，不用重复解释。"
+    "tips": "第 5 步很实用——把术语表浓缩成一段提示词，之后每次翻译直接粘贴，不用重复解释。",
+    "en": {
+      "title": "Build a translation glossary",
+      "desc": "Sets terminology before translating, so the same term doesn't drift across the document.",
+      "vars": [
+        "Source language",
+        "Target language",
+        "Field",
+        "Text or term list"
+      ],
+      "prompt": "I'm translating a {{Field}} document from {{Source language}} into {{Target language}}.\nThe content (or my rough term list): {{Text or term list}}\n\nBuild me a **translation glossary**, as a table:\n\n| Source term | Proposed rendering | Translate? | Reasoning | Where it appears |\n\nRequirements:\n\n1. **Separate what should be translated from what should not.** Product names, API names, code identifiers, and terms the industry already uses in English stay as they are — forcing a translation makes them harder to understand, not easier.\n2. **Split polysemous terms.** If the same source word means two different things in different sections, give it two rows and say how to tell them apart.\n3. **State your convention.** Where several renderings are common, pick one and say why (closer to the original / more natural in the target language / already standard in the field).\n4. **Flag the traps separately.** Words that translate awkwardly or that have a more natural idiomatic equivalent.\n5. Finish with **a prompt paragraph** — the glossary compressed into a set of constraints I can paste into any translation conversation.\n\nMark anything uncertain as 'to confirm'. Don't invent an authoritative-sounding answer.",
+      "tips": "Step 5 pays off immediately — paste that paragraph and you never have to re-explain your terminology."
+    }
   },
   {
     "id": "p-tool-eval",
