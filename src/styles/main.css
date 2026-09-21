@@ -1333,6 +1333,26 @@ select.filter-input {
   line-height: 1.75;
   max-width: 60ch;
 }
+/* ---------- 外链健康提示（工具详情页） ----------
+   用警示条而不是 badge：这是需要读进去的信息，不是装饰。
+   颜色走 --accent-btn 那套强调色变量，深浅主题自动适配；
+   边框 + 实心投影与站内其它卡片语言一致，不新造一种视觉。 */
+.dead-link {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  border: var(--bw-thin) solid var(--accent-btn);
+  background: var(--surface-2, var(--surface));
+  box-shadow: 3px 3px 0 var(--accent-btn);
+  padding: 10px 12px;
+  margin: 0 0 6px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--fg);
+}
+.dead-link svg { flex: none; margin-top: 2px; color: var(--accent-btn); }
+.dead-link b { font-family: var(--font-mono); }
+
 .tool-hero-act {
   display: flex;
   flex-direction: column;

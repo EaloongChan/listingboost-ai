@@ -1484,7 +1484,7 @@
   {
     "id": "ernie",
     "name": "文心一言",
-    "url": "https://yiyan.baidu.com",
+    "url": "https://wenxin.baidu.com",
     "cat": "chat",
     "desc": "百度文心大模型，中文理解与检索整合能力强。",
     "tags": [
@@ -2182,9 +2182,9 @@
     "hot": false,
     "official": true,
     "added": "2026-06-01",
-    "caveat": "免费额度大方但排队慢，且内容过滤较严，商业素材容易触发限制。",
+    "caveat": "免费额度大方但排队慢，且内容过滤较严，商业素材容易触发限制。另一个要考虑的点：这个入口在国内网络下已经访问不到（2026-09 自动检查返回 404），国内用户基本指望不上。",
     "descEn": "Microsoft's free DALL·E entry point, with a generous quota.",
-    "caveatEn": "Generous but slow queues, and content filtering is strict — commercial material often trips the limits."
+    "caveatEn": "Generous but slow queues, and content filtering is strict — commercial material often trips the limits. It is also unreachable from mainland China as of our Sept 2026 check (404), so don't plan around it if that's where you are."
   },
   {
     "id": "removebg",
@@ -2756,9 +2756,9 @@
     "hot": false,
     "official": true,
     "added": "2026-06-01",
-    "caveat": "叙事化演示有特色，但严谨的商务汇报反而需要更朴素的版式。",
+    "caveat": "叙事化演示有特色，但严谨的商务汇报反而需要更朴素的版式。2026-09 起官网已返回 404，看起来是停掉了——建议先别在上面投入时间。",
     "descEn": "Narrative-style presentation generation, emphasising storyline over slide layout.",
-    "caveatEn": "Narratives are its thing, but a rigorous business report often needs a plainer layout."
+    "caveatEn": "Narratives are its thing, but a rigorous business report often needs a plainer layout. Its site has returned 404 since our Sept 2026 check and looks discontinued — don't invest time in it before confirming."
   },
   {
     "id": "napkin",

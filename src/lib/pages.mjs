@@ -313,6 +313,15 @@ export function toolDetailPage(ctx, t) {
   const cat = toolCatMap[t.cat] || { name: t.cat, accent: '#1B4DFF' };
   const c = cat.accent || '#1B4DFF';
 
+  /* 外链健康提示：只有 check-outbound.mjs 用 GET 确认过 404/410 才会出现。
+     措辞必须是「本次检查访问不到」，不是「官网已关闭」——
+     后者是我们给不了保证的判断，而且上线=打停在 CDN/地区层面的正常产品。 */
+  const dead = typeof ctx.deadLink === 'function' ? ctx.deadLink(t.id) : null;
+  const deadNote = dead
+    ? `<p class="dead-link">${icon('alert', 14)}<span>最近一次自动检查（${esc(String(dead.checkedAt || '').slice(0, 10))}）访问这个地址返回 <b>${esc(String(dead.status || '404'))}</b>。
+       可能已经下线、换了域名，或者只是屏蔽了我们的检查。链接仍然保留，点之前有个数。</span></p>`
+    : '';
+
   // 同类工具：同一分类下，精选与其他
   const siblings = ctx.tools.filter((x) => x.cat === t.cat && x.id !== t.id);
   const compare = [t, ...siblings].slice(0, 12);
@@ -321,6 +330,30 @@ export function toolDetailPage(ctx, t) {
   const usedIn = ctx.playbooks.items.filter(
     (p) => (p.tools || []).includes(t.id) || (p.steps || []).some((s) => (s.tools || []).includes(t.id)),
   );
+
+  /* 没被任何手册引用的工具（全站大多数），这一节原本是空的，页面就只剩一张资料卡——
+     这就是「薄内容」的来源。这里按相关性补几条：
+     手册里用到的工具与本工具同分类 +2、同标签 +1，用了本工具 +3，取前 3 篇。
+     措辞必须如实说「没直接收录它」：推荐同类工具所在的流程，
+     不能让用户点进去发现根本没提到这个工具。靠虚构相关性换链接是骗过去的另一种写法。 */
+  const usedIds = new Set(usedIn.map((p) => p.id));
+  const relatedPb = usedIn.length ? [] : ctx.playbooks.items
+    .map((p) => {
+      const ids = new Set([...(p.tools || []), ...(p.steps || []).flatMap((s) => s.tools || [])]);
+      let sc = 0;
+      for (const id of ids) {
+        if (id === t.id) sc += 3;
+        const x = ctx.toolMap[id];
+        if (!x) continue;
+        if (x.cat === t.cat) sc += 2;
+        sc += (x.tags || []).filter((g) => (t.tags || []).includes(g)).length;
+      }
+      return { p, sc: usedIds.has(p.id) ? 0 : sc };
+    })
+    .filter((x) => x.sc > 0)
+    .sort((a, b) => b.sc - a.sc)
+    .slice(0, 3)
+    .map((x) => x.p);
 
   const crumbItems = [
     { label: '首页', href: '/' },
@@ -377,6 +410,7 @@ ${crumbs(crumbItems)}
       <div class="row" style="gap:5px;margin-top:10px">${(t.tags || []).map((g) => `<span class="tag">${esc(g)}</span>`).join('')}</div>
     </div>
     <div class="tool-hero-act">
+      ${deadNote}
       <a class="btn btn-primary" href="${esc(t.url)}" target="_blank" rel="noopener nofollow">访问官网 ${icon('arrow-up-right', 13)}</a>
       <button class="btn" type="button" data-cmp="${esc(t.id)}" data-cmp-label aria-pressed="false">${icon('plus', 13)} 加入对比</button>
       <a class="btn" href="/compare/">查看对比清单 ${icon('arrow-right', 12)}</a>
@@ -422,9 +456,16 @@ ${usedIn.length ? `<section class="section">
   </div>
 </section>` : ''}
 
+${relatedPb.length ? `<section class="section">
+  <div class="container">
+    ${shead('03', '可以照着做的流程', '这些手册没有点名收录它，但用的是同一类工具')}
+    <div class="grid">${relatedPb.map((p) => playbookCard(p, ctx.groupMap)).join('')}</div>
+  </div>
+</section>` : ''}
+
 <section class="section">
   <div class="container">
-    ${shead(usedIn.length ? '04' : '03', '基本信息', '')}
+    ${shead(usedIn.length || relatedPb.length ? '04' : '03', '基本信息', '')}
     <div class="fact-grid">
       ${facts.map(([k, v]) => `<div class="fact"><span class="label">${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}
     </div>

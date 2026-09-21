@@ -106,6 +106,49 @@ const glossary = read('glossary.json');
   ok.push(`glossary: ${glossary.length} 条术语，term 唯一`);
 }
 
+/* ---- query-map（检索意图词典） ----
+   这个文件一旦写错，症状是「搜索召回静默退化」——不报错、不红 Θ，只是搜不到东西。
+   踩过两次：① 手工编辑时整段词条被替换掉而不自知（开会记录/会议记录凭空消失）；
+   ② 想写注释键却写成了普通键。这两种都不会让构建失败，所以必须显式守。 */
+{
+  const qm = read('query-map.json');
+  const keys = Object.keys(qm).filter((k) => k !== 'note');
+  for (const k of keys) {
+    if (k.startsWith('_')) errors.push(`query-map: 键不能以 _ 开头（会被当成真词条）→ ${k}`);
+    if (!Array.isArray(qm[k])) errors.push(`query-map: ${k} 的值必须是数组，现在是 ${typeof qm[k]}`);
+    else if (!qm[k].length) errors.push(`query-map: ${k} 的同义词列表是空的`);
+    else if (qm[k].some((v) => !v || typeof v !== 'string')) errors.push(`query-map: ${k} 里有非字符串的同义词`);
+  }
+  ok.push(`query-map: ${keys.length} 条意图映射，格式合法`);
+}
+
+/* ---- outbound-health（外链健康）—— 只提醒，不阻断 ----
+   它由独立的检查脚本产出，没跑过就是空壳，那不是代码错误，不该让 check 失败。
+   但「明确失效」的条目一旦出现，就必须被人看到：这是我们答应给用户的信息。 */
+{
+  const h = read('outbound-health.json');
+  const items = (h && h.items) || {};
+  const rows = Object.entries(items);
+  if (!rows.length) {
+    warns.push('外链健康：还没有检查结果（跑一次 node scripts/check-outbound.mjs 生成）');
+  } else {
+    const dead = rows.filter(([, v]) => v.verdict === 'dead');
+    const moved = rows.filter(([, v]) => v.verdict === 'moved');
+    const unknown = rows.filter(([, v]) => v.verdict === 'unknown');
+    for (const [id, v] of rows) {
+      if (v.verdict && !['ok', 'moved', 'dead', 'unknown'].includes(v.verdict)) {
+        errors.push(`outbound-health: ${id} 的 verdict 值非法 → ${v.verdict}`);
+      }
+    }
+    const ago = Date.now() - Date.parse(h.checkedAt || 0);
+    if (isFinite(ago) && ago > 21 * 864e5) {
+      warns.push(`外链健康数据已过期（${String(h.checkedAt).slice(0, 10)}，超过 21 天），页面上的失效提示可能不准`);
+    }
+    warns.push(`外链健康：检查 ${rows.length} 条 → 失效 ${dead.length}（已在工具页提示）· 换了域名 ${moved.length} · 未能验证 ${unknown.length}`);
+    for (const [, v] of dead) warns.push(`  ↳ 失效待处理：${v.name} （${v.url}）`);
+  }
+}
+
 /* ---- 编辑点评覆盖率 ----
    caveat（什么时候别选它）是本站相对普通工具导航的核心差异，属于「编辑价值」而非元数据。
    新加工具时不要漏，这里会点名。 */

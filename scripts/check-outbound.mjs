@@ -26,14 +26,19 @@ const ONLY = onlyArg !== -1 ? process.argv[onlyArg + 1] : '';
 const limitArg = process.argv.indexOf('--limit');
 const LIMIT = limitArg !== -1 ? Number(process.argv[limitArg + 1]) : 0;
 
-const UA = 'Mozilla/5.0 (compatible; AIWanxiangLinkCheck/1.0)';
+/* 必须用正常浏览器的 UA，不能用自报家门的 bot UA。
+   踩过一次：用 AIWanxiangLinkCheck/1.0 去问，百度系站点（文心一言、文心一格）
+   一律回 404，于是报告里「明确失效 5 个」里有 2 个是活得好好的——
+   只是人家不想给爬虫好脸色。目录站误报成本极高（会让用户以为某某产品挂了），
+   所以用浏览器 UA，换来的代价是站点可能对我们不设防，这不冲突。 */
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
 const TIMEOUT = Number(process.env.LINK_TIMEOUT || 6000);
 const DELAY = 120; // 对目标站点客气一点
 
 /* 熔断一：连续这么多次「网络层失败」就认为本机网络不可用，直接停下。
    踩过一次：网络很差时每个链接都要等满超时，300 个链接跑了 15 分钟还没完，
    而且结论毫无价值（全是超时）。检查开始前先判断前置条件是否成立。 */
-const BREAKER = 12;
+const BREAKER = Number(process.env.LINK_BREAKER || 12);
 
 /* 熔断二：总时间预算。网络半通不通时（部分成功会重置上面的连续计数），
    上面那个熔断不会触发，还是会一路磨下去。所以再加一道硬天花板：
@@ -74,7 +79,25 @@ function collect() {
     items: (feeds.sources || []).filter((s) => s.enabled !== false).map((s) => ({ id: s.id, name: s.name, url: s.url, kind: 'feed' })),
   });
 
-  return ONLY ? groups.filter((g) => g.name.includes(ONLY) || g.items.some((i) => i.kind === ONLY)) : groups;
+  /* --only 支持三种写法：组名关键字（工具/学习/资讯/实时）、kind 值（tool/learn/...）、
+     以及它们的英文别名。踩过一次：原先只做 kind 全等匹配，传 `--only tools`
+     （复数、英文名）会匹配空集合，脚本静默报告「共 0 个链接」——
+     看起来像跑成功、实际什么都没查。 */
+  if (!ONLY) return groups;
+  const ALIAS = {
+    tools: 'tool', tool: 'tool',
+    learn: 'learn',
+    news: 'news-source', source: 'news-source', sources: 'news-source',
+    feed: 'feed', feeds: 'feed',
+  };
+  const want = ALIAS[ONLY.toLowerCase()] || ONLY.toLowerCase();
+  const hit = groups.filter((g) => g.name.includes(ONLY) || g.items.some((i) => i.kind === want));
+  if (!hit.length) {
+    console.log(`  ✗ --only ${ONLY} 没有匹配到任何分组。`);
+    console.log('    可选：' + groups.map((g) => `${g.name}(${g.items[0]?.kind || '—'})`).join(' / '));
+    process.exit(2);
+  }
+  return hit;
 }
 
 /* ---------- 检查单个 URL ---------- */
@@ -90,8 +113,13 @@ async function probe(url) {
         headers: { 'User-Agent': UA, Accept: 'text/html,*/*' },
         signal: ctl.signal,
       });
-      // 有些站点对 HEAD 返回 405/403，但那不代表链接坏了，交给上层判断
-      if (method === 'HEAD' && (res.status === 405 || res.status === 403 || res.status === 501)) return null;
+      /* 这些状态码要用 GET 重验，不能拿 HEAD 的结果当结论。
+         405/403/501 → 站点不支持 HEAD（原本就有这条）
+         404/410     → 后来补的：百度系站点（文心一言 yiyan.baidu.com）对 HEAD 一律回 404，
+                        GET 才是 302 跳到新域名。直接采信 HEAD 的结果是灾难性的：
+                        我们会把「产品换了域名」报道成「产品已经挂了」，
+                        而目录站最不能错的就是这个。只有 GET 也 404 才允许判 dead。 */
+      if (method === 'HEAD' && [404, 410, 405, 403, 501].includes(res.status)) return null;
       return { status: res.status, finalUrl: res.url || url };
     } catch (e) {
       return { error: e.name === 'AbortError' ? '超时' : e.message };
@@ -149,6 +177,15 @@ async function main() {
     const it = all[i];
     const r = await probe(it.url);
     const ok = r.status && r.status >= 200 && r.status < 400;
+    const movedUrl = ok && r.finalUrl && r.finalUrl !== it.url && r.finalUrl.replace(/\/$/, '') !== it.url.replace(/\/$/, '');
+
+    /* 结论分三档，不能只有「正常/坏了」两档：
+       目录站最怕误杀。403/429/401 往往是反爬、地区限制或鉴权，不是链接失效；
+       超时/连不上更只能算「没验证成」。只有 404/410 这种明确信号才叫 dead。
+       在国内网络下跑，这一栏的区别决定了页面上是写「官网可能已失效」还是「未能验证」。 */
+    const verdict = ok ? (movedUrl ? 'moved' : 'ok')
+      : r.status === 404 || r.status === 410 ? 'dead'
+      : 'unknown';
 
     // ---- 熔断判断 ----
     if (isNetworkError(r)) {
@@ -172,19 +209,18 @@ async function main() {
     next[it.id] = {
       name: it.name,
       url: it.url,
-      status: ok ? r.status : 0,
+      status: ok ? r.status : (r.status || 0),
       finalUrl: r.finalUrl || it.url,
       error: r.error || '',
+      verdict,
       checkedAt: new Date().toISOString(),
       failCount: ok ? 0 : (prev[it.id]?.failCount || 0) + 1,
     };
 
     if (ok) {
       okList.push(it);
-      if (r.finalUrl && r.finalUrl !== it.url && r.finalUrl.replace(/\/$/, '') !== it.url.replace(/\/$/, '')) {
-        moved.push({ ...it, to: r.finalUrl });
-      }
-    } else if (next[it.id].failCount >= 2) {
+      if (movedUrl) moved.push({ ...it, to: r.finalUrl });
+    } else if (verdict === 'dead' || next[it.id].failCount >= 2) {
       hardFail.push({ ...it, err: r.error || `HTTP ${r.status}` });
     } else {
       softFail.push({ ...it, err: r.error || `HTTP ${r.status}` });
@@ -198,8 +234,10 @@ async function main() {
   console.log('');
   console.log('  ' + '─'.repeat(60));
   console.log(`  正常            ${okList.length}`);
+  console.log(`  明确失效        ${hardFail.filter((x) => next[x.id]?.verdict === 'dead').length}（404/410，页面应提示用户）`);
   console.log(`  首次失败        ${softFail.length}${softFail.length ? '（可能只是抖动，下次复查）' : ''}`);
   console.log(`  连续失败待核验   ${hardFail.length}${hardFail.length ? '  ← 需要人工确认' : ''}`);
+  console.log(`  无法判定        ${Object.values(next).filter((x) => x.verdict === 'unknown').length}（403/429/超时——是反爬或网络问题，不是链接坏了）`);
   console.log(`  跳到别处        ${moved.length}${moved.length ? '（建议更新数据里的 URL）' : ''}`);
 
   if (hardFail.length) {

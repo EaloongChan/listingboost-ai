@@ -20,3 +20,7 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
+
+# 搜索召回测试用的 Chrome profile（临时，已在脚本里改到系统临时目录）
+.chrome-recall/
+.chrome-probe/

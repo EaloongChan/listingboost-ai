@@ -268,6 +268,27 @@ export function enToolDetail(ctx, i18n, t) {
   );
   const pbGroups = enGroupMap(ctx.playbooks.groups);
 
+  /* 与中文版同一套补救（详见 pages.mjs 的注释）：大多数工具没被手册点名，
+     英文页更薄。这里只挑**已有英文版**的手册推荐，否则点过去是中文页。 */
+  const usedIds = new Set(usedIn.map((p) => p.id));
+  const relatedPb = usedIn.length ? [] : enReady(ctx)
+    .map((p) => {
+      const ids = new Set([...(p.tools || []), ...(p.en.steps || []).flatMap((s) => s.tools || [])]);
+      let sc = 0;
+      for (const id of ids) {
+        if (id === t.id) sc += 3;
+        const x = ctx.toolMap[id];
+        if (!x) continue;
+        if (x.cat === t.cat) sc += 2;
+        sc += (x.tags || []).filter((g) => (t.tags || []).includes(g)).length;
+      }
+      return { p, sc: usedIds.has(p.id) ? 0 : sc };
+    })
+    .filter((x) => x.sc > 0)
+    .sort((a, b) => b.sc - a.sc)
+    .slice(0, 3)
+    .map((x) => x.p);
+
   const crumbItems = [
     { label: 'Home', href: '/en/' },
     { label: 'Tools', href: '/en/tools/' },
@@ -303,6 +324,13 @@ export function enToolDetail(ctx, i18n, t) {
     </tr>`;
   }).join('');
 
+  /* 与中文版同一套措辞逻辑：只报「上次自动检查访问不到」，
+     不报「这个产品没了」——后者是我们给不了保证的判断（见 pages.mjs 的注释）。 */
+  const dead = typeof ctx.deadLink === 'function' ? ctx.deadLink(t.id) : null;
+  const deadNote = dead
+    ? `<p class="dead-link">${icon('alert', 14)}<span>Our last automated check (${esc(String(dead.checkedAt || '').slice(0, 10))}) got <b>${esc(String(dead.status || '404'))}</b> from this URL. It may have shut down, moved, or simply blocked our crawler. The link is kept as-is — just go in knowing that.</span></p>`
+    : '';
+
   const body = `
 ${crumbs(crumbItems, 'Breadcrumb')}
 <div class="container">
@@ -316,6 +344,7 @@ ${crumbs(crumbItems, 'Breadcrumb')}
       <div class="row" style="gap:5px;margin-top:10px">${tagList(t.tags, EN).map((g) => `<span class="tag">${esc(g)}</span>`).join('')}</div>
     </div>
     <div class="tool-hero-act">
+      ${deadNote}
       <a class="btn btn-primary" href="${esc(t.url)}" target="_blank" rel="noopener nofollow">Visit website ↗</a>
       <a class="btn" href="/en/tools/${esc(t.cat)}/">More in ${esc(catName(t.cat))}</a>
     </div>
@@ -344,6 +373,13 @@ ${usedIn.length ? `<section class="section" style="padding-top:30px;padding-bott
   <div class="container">
     ${sec('Where this tool fits in', `Step-by-step workflows that use it (${usedIn.length})`, '/en/playbooks/', 'All playbooks')}
     <div class="grid">${usedIn.map((p) => playbookCard(p, pbGroups, '/en/playbooks/', EN)).join('')}</div>
+  </div>
+</section>` : ''}
+
+${relatedPb.length ? `<section class="section" style="padding-top:30px;padding-bottom:0">
+  <div class="container">
+    ${sec('Workflows worth following', 'These do not feature this tool by name, but they run on the same kind of tool', '/en/playbooks/', 'All playbooks')}
+    <div class="grid">${relatedPb.map((p) => playbookCard(p, pbGroups, '/en/playbooks/', EN)).join('')}</div>
   </div>
 </section>` : ''}
 

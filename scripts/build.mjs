@@ -190,6 +190,24 @@ export function build({ quiet = false } = {}) {
   const models = readJSON('models.json');
   const i18n = readJSON('i18n.json');
   const queryMap = readJSON('query-map.json');
+
+  /* ---------- 2a-1. 外链健康状态 ----------
+     由 scripts/check-outbound.mjs 产出（每周一次，CI 或本地）。
+     这里是**可选数据**：文件不存在、格式不对、还是空壳，都必须能正常构建——
+     抓取与构建解耦这条原则在这里同样成立，不能让一次没跑的检查拖垮整站构建。
+     页面上只展示 verdict === 'dead'（GET 也确认过 404/410）的条目，
+     403/超时那些「没能验证成功」的不能当成坏链告诉用户。 */
+  let outbound = {};
+  let outboundAt = '';
+  try {
+    const h = readJSON('outbound-health.json');
+    outbound = h && typeof h.items === 'object' && h.items ? h.items : {};
+    outboundAt = String((h && h.checkedAt) || '').slice(0, 10);
+  } catch {
+    outbound = {};
+  }
+  /** 只在确凿失效时返回该条目的结论 */
+  const deadLink = (id) => (outbound[id] && outbound[id].verdict === 'dead' ? outbound[id] : null);
   // 标签字典挂到英文标签表上，供卡片渲染时翻译受控词表
   EN.tagDict = readJSON('tags-en.json');
   delete queryMap.note;
@@ -259,29 +277,34 @@ export function build({ quiet = false } = {}) {
       tags: t.tags || [], ext: true, hot: !!t.hot,
     });
   }
+  /* prompt/glossary/news/playbook/model 的 url 本身就是站内详情页，
+     必须同时写进 detail —— 搜索结果卡片的标题只有在 detail 非空时才渲染成链接。
+     踩过一次：只给 tool 写了 detail，于是 608 条结果里有 319 条（全部非工具内容）
+     标题点不动，只有底部那颗小按钮能进。learn 类型的 url 是站外资源，
+     没有站内详情页，故意不写 detail。 */
   for (const p of prompts) {
-    searchIndex.push({ t: 'prompt', id: p.id, title: p.title, sub: (promptCatMap[p.cat] || {}).name || '', desc: p.desc, url: `/prompts/${encodeURIComponent(p.cat)}/#${p.id}`, tags: p.tags || [], hot: !!p.hot });
+    searchIndex.push({ t: 'prompt', id: p.id, title: p.title, sub: (promptCatMap[p.cat] || {}).name || '', desc: p.desc, url: `/prompts/${encodeURIComponent(p.cat)}/#${p.id}`, detail: `/prompts/${encodeURIComponent(p.cat)}/#${p.id}`, tags: p.tags || [], hot: !!p.hot });
   }
   for (const l of learn) {
     searchIndex.push({ t: 'learn', id: l.id, title: l.title, sub: (trackMap[l.track] || {}).name || '', desc: l.desc, url: l.url, tags: l.tags || [], ext: true });
   }
   for (const g of glossary) {
-    searchIndex.push({ t: 'glossary', id: g.term, title: g.term, sub: g.cat, desc: g.def, url: `/glossary/?q=${encodeURIComponent(g.term)}`, tags: g.abbr ? [g.abbr] : [] });
+    searchIndex.push({ t: 'glossary', id: g.term, title: g.term, sub: g.cat, desc: g.def, url: `/glossary/?q=${encodeURIComponent(g.term)}`, detail: `/glossary/?q=${encodeURIComponent(g.term)}`, tags: g.abbr ? [g.abbr] : [] });
   }
   for (const n of news.items) {
-    searchIndex.push({ t: 'news', id: n.id, title: n.title, sub: (topicMap[n.topic] || {}).name || '', desc: n.summary, url: `/news/${n.id}/`, tags: n.tags || [] });
+    searchIndex.push({ t: 'news', id: n.id, title: n.title, sub: (topicMap[n.topic] || {}).name || '', desc: n.summary, url: `/news/${n.id}/`, detail: `/news/${n.id}/`, tags: n.tags || [] });
   }
   for (const p of playbooks.items) {
     searchIndex.push({
       t: 'playbook', id: p.id, title: p.title, sub: (groupMap[p.group] || {}).name || '',
-      desc: p.problem, url: `/playbooks/${p.id}/`,
+      desc: p.problem, url: `/playbooks/${p.id}/`, detail: `/playbooks/${p.id}/`,
       tags: [p.time, p.level].filter(Boolean),
     });
   }
   for (const m of models.items) {
     searchIndex.push({
       t: 'model', id: m.id, title: m.name, sub: m.vendor,
-      desc: (m.strengths || []).join('；'), url: `/models/${m.kind}/`,
+      desc: (m.strengths || []).join('；'), url: `/models/${m.kind}/`, detail: `/models/${m.kind}/`,
       tags: [m.vendor, (kindMap[m.kind] || {}).name, m.open ? '开源' : '闭源'].filter(Boolean),
     });
   }
@@ -317,6 +340,7 @@ export function build({ quiet = false } = {}) {
     enSearchIndex.push({
       t: 'prompt', id: p.id, title: p.en.title, sub: enPcatName(p.cat), desc: p.en.desc || '',
       url: `/en/prompts/${p.cat}/#${p.id}`,
+      detail: `/en/prompts/${p.cat}/#${p.id}`,
       tags: tagList(p.tags, EN).filter((g) => !/[\u4e00-\u9fa5]/.test(g)), hot: !!p.hot,
     });
   }
@@ -325,6 +349,7 @@ export function build({ quiet = false } = {}) {
     enSearchIndex.push({
       t: 'glossary', id: g.en || g.term, title: g.en || g.term, sub: enGcatName(g.cat),
       desc: g.defEn, url: `/en/glossary/?q=${encodeURIComponent(g.en || g.term)}`,
+      detail: `/en/glossary/?q=${encodeURIComponent(g.en || g.term)}`,
       tags: g.abbr ? [g.abbr] : [],
     });
   }
@@ -332,7 +357,7 @@ export function build({ quiet = false } = {}) {
     if (!p.en || !p.en.steps || !p.en.steps.length) continue;
     enSearchIndex.push({
       t: 'playbook', id: p.id, title: p.en.title, sub: GROUP_EN[p.group] || p.group,
-      desc: p.en.problem || '', url: `/en/playbooks/${p.id}/`,
+      desc: p.en.problem || '', url: `/en/playbooks/${p.id}/`, detail: `/en/playbooks/${p.id}/`,
       tags: [p.en.time || p.time, p.en.level || p.level].filter(Boolean),
     });
   }
@@ -340,7 +365,7 @@ export function build({ quiet = false } = {}) {
     if (!m.strengthsEn || !m.strengthsEn.length) continue;
     enSearchIndex.push({
       t: 'model', id: m.id, title: modelNameEn(m.name), sub: vendorEn(m.vendor),
-      desc: m.strengthsEn.join('; '), url: `/en/models/${m.kind}/`,
+      desc: m.strengthsEn.join('; '), url: `/en/models/${m.kind}/`, detail: `/en/models/${m.kind}/`,
       tags: [vendorEn(m.vendor), enKindName(m.kind), m.open ? 'Open source' : 'Closed'].filter(Boolean),
     });
   }
@@ -350,6 +375,7 @@ export function build({ quiet = false } = {}) {
     toolCatMap, promptCatMap, topicMap, trackMap, groupMap, kindMap, toolMap, promptMap, playbookMap,
     counts, changelog: CHANGELOG,
     searchIndex, enSearchIndex, updatedAt,
+    outbound, outboundAt, deadLink,
   };
 
   /* ---------- 3. 生成页面 ---------- */

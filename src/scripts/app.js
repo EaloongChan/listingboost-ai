@@ -431,14 +431,21 @@
         best = Math.max(best, w);
         continue;
       }
-      // 二元模糊：查询和字段的汉字二元组重合度够高就算弱命中
+      /* 二元模糊：查询和字段的汉字二元组重合度够高就算弱命中。
+         踩过一次：原来是纯比例阈值（≥0.6），短查询没问题，长查询必挂——
+         「AI 帮我刷题备考」的二元组是 帮我/我刷/刷题/题备/备考，
+         命中「备考」只有 1/5=0.2，被一刀切掉，用户搜不到明明存在的备考手册。
+         改成「命中绝对个数」和「比例」双轨：只要命中的二元组够多（≥2 且 ≥0.3），
+         或者比例足够高，都算命中。长句往往只命中它真正想搜的那两三个字，
+         绝对个数才是能反映这个信号的指标。 */
       if (t.length >= 2) {
         var bg = bigrams(t);
         if (bg.length) {
           var hit = 0;
           for (var k = 0; k < bg.length; k++) if (hay.indexOf(bg[k]) !== -1) hit++;
           var ratio = hit / bg.length;
-          if (ratio >= 0.6) best = Math.max(best, w * 0.4 * ratio);
+          var enough = (hit >= 2 && ratio >= 0.3) || ratio >= 0.6;
+          if (enough) best = Math.max(best, w * 0.4 * Math.max(ratio, Math.min(1, hit / 4)));
         }
       }
     }
@@ -452,11 +459,20 @@
    *
    * 踩过的坑：一开始把同义词直接拼进 terms，等于要求结果同时匹配「画图」和「文生图」，
    * 而查询本身就命中不了，于是永远 0 结果。同义词必须是 OR 而不是 AND。
+   *
+   * covered 记录被意图短语「认领」掉的词位置。为什么必须有它：
+   * 「turn long article into social posts」里 social posts 已经进词表了，
+   * 可 turn / into 在站内任何字段都不存在——继续要求它们命中，结果就是 0 条。
+   * 被已知短语覆盖过的词，不该再参与 AND。
    */
-  function scoreItem(it, terms, phraseSynonyms, queryMap) {
+  function scoreItem(it, terms, phraseSynonyms, queryMap, covered) {
     // 路径 A
     var a = 0;
+    var alive = 0;      // 参与 AND 判断的词数（没被意图短语认领走的）
+    var missing = 0;    // 其中没命中的
     for (var i = 0; i < terms.length; i++) {
+      if (covered && covered[i]) continue;
+      alive++;
       var t = terms[i];
       var s = termScore(it, t);
       if (s === 0 && queryMap[t]) {
@@ -466,8 +482,23 @@
           if (s > 0) break;
         }
       }
-      if (s === 0) { a = 0; break; }  // 有一个词没着落就整条淘汰
-      a += s;
+      if (s === 0) missing++;
+      else a += s;
+    }
+
+    /* 长难句放宽：全部命中最好；部分命中不直接判死，而是按覆盖率平方打折。
+       为什么改成这样：口语化的长查询（「turn long article into social posts」）
+       总有几个词在站内客观上不存在，严格 AND 会把唯一对的结果也筛掉。
+       平方惩罚让「全命中」依然明显排在前面，同时保证用户还能看到东西。
+       下限 0.5 覆盖率 + 至少一个强命中（标题/别名/标签层），防止收音式乱来。 */
+    if (missing > 0) {
+      var ratio = alive ? (alive - missing) / alive : 0;
+      var strongHit = false;
+      for (var si = 0; si < terms.length; si++) {
+        if (covered && covered[si]) continue;
+        if (termScore(it, terms[si]) >= 5) { strongHit = true; break; }
+      }
+      a = ratio >= 0.5 && strongHit ? a * ratio * ratio : 0;
     }
 
     // 路径 B
@@ -531,27 +562,58 @@
       }
       if (emptyEl) emptyEl.classList.add('hidden');
 
+      /* 停用词：中文口语里的虚词、英文里的功能词。
+         删掉它们是因为打分是 AND 的——有一个词没着落整条就被淘汰，
+         「notes app with ai」里的 with 会让 Notion AI 永远搜不到。 */
+      var STOPWORDS = {
+        '的': 1, '了': 1, '吗': 1, '啊': 1, '呢': 1, '把': 1, '被': 1, '给': 1, '我想': 1, '帮我': 1,
+        '怎么': 1, '如何': 1, '什么': 1, '哪些': 1, '可以': 1, '有没有': 1, '有没有推荐': 1,
+        // 带疑问尾巴的组合也要删：用户搜「什么叫 prompt」，剩下那个「什么叫」在站内
+        // 任何字段里都不存在，要求它命中就等于把真正的答案整条淘汰。
+        '什么叫': 1, '叫什么': 1, '是什么': 1, '是什么意思': 1, '啥是': 1, '怎么用': 1, '该不该': 1,
+        'the': 1, 'a': 1, 'an': 1, 'and': 1, 'or': 1, 'with': 1, 'for': 1, 'to': 1, 'of': 1,
+        'in': 1, 'on': 1, 'is': 1, 'are': 1, 'do': 1, 'does': 1, 'i': 1, 'my': 1, 'me': 1,
+        'need': 1, 'want': 1, 'best': 1, 'good': 1, 'app': 1, 'tool': 1, 'tools': 1, 'using': 1,
+      };
+
       // 归一化后按空格切词
       var q = normalize(raw);
-      var terms = q.split(' ').filter(Boolean);
+      var terms = q.split(' ').filter(Boolean).filter(function (t) { return !STOPWORDS[t]; });
+      if (!terms.length) terms = [q];   // 全是停用词时退回整句，至少别崩出来空结果
 
       // 整句意图映射：找出出现在查询里的词典键（「怎么本地跑模型」里含「本地跑模型」），
       // 把它们的等价说法收集起来，作为 OR 路径参与打分
       var phraseSynonyms = [];
       var phraseHit = '';
+      var covered = [];
       for (var mi = 0; mi < mapKeys.length; mi++) {
-        var key = normalize(mapKeys[mi]);
+        var rawKey = mapKeys[mi];
+        var key = normalize(rawKey);
         if (key && q.indexOf(key) !== -1) {
-          phraseSynonyms = phraseSynonyms.concat(queryMap[mapKeys[mi]]);
-          if (!phraseHit) phraseHit = mapKeys[mi];
+          phraseSynonyms = phraseSynonyms.concat(queryMap[rawKey]);
+          if (!phraseHit) phraseHit = rawKey;
+          // 这个词表里命中了，就把 key 里的词标记为「已认领」，它们不再参与 AND
+          var keyTerms = key.split(' ');
+          for (var ti = 0; ti < terms.length; ti++) {
+            if (keyTerms.indexOf(terms[ti]) !== -1) covered[ti] = 1;
+          }
+          // 中文整块输入时（terms 只有一块），key 是这块的子串也算整块被认领
+          if (terms.length === 1 && key.length >= 2) covered[0] = 1;
         }
       }
+
+      /* 定义意图识别：搜「什么叫 X」「X 是什么」「what is X」时，
+         用户要的是术语解释，不是一堆用到这个词的工具。
+         站点确实有术语表（92 条），但默认排序下会被「描述里提到过它」的工具压住，
+         所以识别到这类问法就给术语条目加权。 */
+      var defIntent = /什么叫|叫什么|是什么|什么意思|啥是|什么意思|的定义|definition|what is|meaning of/i.test(raw);
 
       var scored = [];
       for (var i = 0; i < idx.length; i++) {
         var it = idx[i];
         if (type !== 'all' && it.t !== type) continue;
-        var sc = scoreItem(it, terms, phraseSynonyms, queryMap);
+        var sc = scoreItem(it, terms, phraseSynonyms, queryMap, covered);
+        if (defIntent && it.t === 'glossary') sc *= 1.8;
         if (sc > 0) {
           // 同样命中时，热门的、标题短的排前面
           if (it.hot) sc += 2;
@@ -573,7 +635,10 @@
 
       // 全部：按类型分组，保证每类都能被看到，不被高数量类型淹没
       list.classList.add('search-grouped');
-      var present = TYPE_ORDER.filter(function (t) {
+      /* 定义类提问时把术语组提到最前：TYPE_ORDER 里 glossary 排第 6，
+         而搜「什么叫 X」的人要的就是那一条术语解释——放在最后等于让他划五屏。 */
+      var order = defIntent ? ['glossary'].concat(TYPE_ORDER.filter(function (t) { return t !== 'glossary'; })) : TYPE_ORDER;
+      var present = order.filter(function (t) {
         return hits.some(function (h) { return h.t === t; });
       });
       list.innerHTML = present.map(function (t) {
