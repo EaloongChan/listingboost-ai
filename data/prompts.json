@@ -23,7 +23,19 @@
       "语气"
     ],
     "prompt": "你是一位资深内容编辑。请围绕《{{主题}}》写一篇面向{{读者}}的文章，约{{字数}}字，语气{{语气}}。\n\n严格执行以下流程：\n1. 先输出一份三级大纲（不超过 6 个一级标题）；\n2. 我确认后，再逐节展开，每节 200-400 字；\n3. 不要出现「首先/其次/总而言之」这类模板化表述；\n4. 每个观点必须给出具体例子或数据支撑；\n5. 全文结束后，附 3 条「可以继续深挖的方向」。\n\n现在先只给我大纲。",
-    "tips": "关键在「先只给大纲」这一步：把 AI 的思考过程拆成两轮，质量会明显变好。"
+    "tips": "关键在「先只给大纲」这一步：把 AI 的思考过程拆成两轮，质量会明显变好。",
+    "en": {
+      "title": "Structured long-form writing",
+      "desc": "Outline first, then fill in section by section — avoids padding and drift.",
+      "vars": [
+        "Topic",
+        "Reader",
+        "Length",
+        "Tone"
+      ],
+      "prompt": "You are a senior content editor. Write an article on '{{Topic}}' for {{Reader}}, around {{Length}} words, in a {{Tone}} tone.\n\nFollow this process strictly:\n1. Output a three-level outline first (no more than 6 top-level headings).\n2. **After I confirm, expand section by section**, 200-400 words each.\n3. No template phrasing like 'firstly / secondly / in conclusion'.\n4. Every point needs a concrete example or supporting data.\n5. After the article, add three 'directions worth digging into further'.\n\n**For now, just give me the outline.**",
+      "tips": "The 'outline only' step is the trick: splitting the model's thinking into two rounds visibly improves the result."
+    }
   },
   {
     "id": "p-polish",
@@ -258,7 +270,18 @@
       "基础"
     ],
     "prompt": "我的目标是：{{目标}}\n我能投入的时间：{{可用时间}}\n我已有的基础：{{基础}}\n\n请给我一份学习路线图，要求：\n- 按周拆分，每周有明确的「学什么 + 做什么产出」；\n- 每周的产出必须是**看得见的东西**（一个脚本、一篇笔记、一个可运行的项目），不能是「理解 XX」；\n- 标注哪些内容必须亲手做、哪些可以略读；\n- 给出 3 个「常见的放弃点」以及对应的应对方式；\n- 最后给一份最小资源清单（不超过 5 个），要具体到课程名或书名。\n\n不要给我励志话术，只要可执行的内容。",
-    "tips": "要求「可交付产出」是关键，否则路线图会变成知识点罗列。"
+    "tips": "要求「可交付产出」是关键，否则路线图会变成知识点罗列。",
+    "en": {
+      "title": "Personalised learning roadmap",
+      "desc": "Works backwards from your goal and your available time, down to weekly deliverables.",
+      "vars": [
+        "Goal",
+        "Time available",
+        "Current baseline"
+      ],
+      "prompt": "My goal: {{Goal}}\nTime I can commit: {{Time available}}\nWhere I'm starting from: {{Current baseline}}\n\nGive me a roadmap:\n\n- Split by week. Each week has a clear 'what to learn + what to produce'.\n- The weekly output must be **something visible** — a script, a set of notes, a working project. Not 'understand X'.\n- Mark which parts must be done by hand and which can be skimmed.\n- Give three **common quitting points** and how to get past each.\n- Finish with a minimum resource list (no more than 5 items), specific enough to name the course or the book.\n\nNo motivational filler. Only executable content.",
+      "tips": "The demand for a deliverable is the whole point — without it a roadmap degenerates into a list of topics."
+    }
   },
   {
     "id": "p-meeting",
@@ -696,7 +719,16 @@
       "问题"
     ],
     "prompt": "问题：{{问题}}\n\n不要直接给答案。请按以下步骤：\n\n1. 【拆解】把这个问题拆成 3-5 个必须分别解决的子问题；\n2. 【所需信息】列出解决每个子问题需要什么信息，其中哪些是我没提供的；\n3. 【逐步推理】逐个解决，每步都要写出你的推理依据；\n4. 【交叉检验】用另一种方法验算一遍，如果结果不一致，指出分歧在哪；\n5. 【答案】给出结论，并标注你的置信度（高/中/低）和主要不确定因素。\n\n如果第 2 步发现关键信息缺失，先停下来问我，不要用假设硬算。",
-    "tips": "「交叉检验」这一步能筛掉相当一部分 AI 的错误推理。"
+    "tips": "「交叉检验」这一步能筛掉相当一部分 AI 的错误推理。",
+    "en": {
+      "title": "Force slow thinking",
+      "desc": "Stops the model from answering off the top of its head on complex problems.",
+      "vars": [
+        "Problem"
+      ],
+      "prompt": "Problem: {{Problem}}\n\nDon't answer directly. Work through this:\n\n1. **[Decompose]** Split this into 3-5 sub-problems that must each be solved separately.\n2. **[Information needed]** For each sub-problem, what information is required — and which of it have I not given you?\n3. **[Step-by-step reasoning]** Solve them one at a time, stating your reasoning at each step.\n4. **[Cross-check]** Verify using a second method. If the results disagree, say where they diverge.\n5. **[Answer]** State your conclusion, with a confidence level (high / medium / low) and the main sources of uncertainty.\n\nIf step 2 reveals missing critical information, **stop and ask me**. Do not plug in assumptions.",
+      "tips": "The cross-check step filters out a meaningful share of the model's bad reasoning."
+    }
   },
   {
     "id": "p-extract-json",
@@ -797,7 +829,17 @@
       "读者"
     ],
     "prompt": "素材：{{素材}}\n读者：{{读者}}\n\n请写 6 个不同的开头（每个 80 字以内），分别用这些机制：\nA. 冲突前置（一上来就是矛盾）\nB. 反常识结论（先说一个对方不信的结论）\nC. 具体场景（一段能让人代入的画面）\nD. 代价揭示（做错这件事会付出什么）\nE. 提问式（一个对方回答不上来的问题）\nF. 数据冲击（一个具体到不像是编的数字）\n\n写完 6 个后，指出哪 2 个最有可能让人读下去，说明理由。\n不要用「在这个时代」「随着……的发展」这类开头。",
-    "tips": "一次给 6 个而不是 1 个，是因为你自己往往判断不出哪个好——对比才看得出来。"
+    "tips": "一次给 6 个而不是 1 个，是因为你自己往往判断不出哪个好——对比才看得出来。",
+    "en": {
+      "title": "Six opening hooks, six different mechanisms",
+      "desc": "The same material opened six ways, so you can pick the one with the most tension.",
+      "vars": [
+        "Material",
+        "Reader"
+      ],
+      "prompt": "Material: {{Material}}\nReader: {{Reader}}\n\nWrite six different openings (each under 40 words), one per mechanism:\n\nA. **Conflict first** — start on the disagreement.\nB. **Counterintuitive claim** — lead with a conclusion they won't believe.\nC. **Concrete scene** — a moment the reader can step into.\nD. **Reveal the cost** — what getting this wrong costs them.\nE. **The question** — one they cannot answer off the top of their head.\nF. **Data shock** — a specific number that doesn't sound invented.\n\nAfter the six, say which two are most likely to keep someone reading, and why.\n\nNo openings like 'in today's world' or 'with the development of'.",
+      "tips": "Six rather than one, because you usually can't judge a hook in isolation — comparison is what reveals it."
+    }
   },
   {
     "id": "p-shorten",
@@ -864,7 +906,17 @@
       "学科方向"
     ],
     "prompt": "学科方向：{{学科方向}}\n\n以下是论文的核心内容：\n{{论文内容}}\n\n请输出：\n1. 中文摘要（250-300 字），严格按「研究背景一句 → 方法 → 主要发现（含具体数据）→ 结论与意义」的结构，不要出现「本文」「笔者认为」之外的自我指涉；\n2. 英文摘要（对应翻译，学术书面语）；\n3. 关键词 5 个（中英对照），要求能被检索到，不要用过于宽泛的词；\n4. 指出我原文里哪些内容属于「应该放在正文而不是摘要」的部分。",
-    "tips": "第 4 条能帮你改掉摘要写太长的通病。"
+    "tips": "第 4 条能帮你改掉摘要写太长的通病。",
+    "en": {
+      "title": "Paper abstract and keywords",
+      "desc": "Extracts an abstract to academic convention, rather than an introduction in miniature.",
+      "vars": [
+        "Paper content",
+        "Field"
+      ],
+      "prompt": "Field: {{Field}}\n\nHere is the core content of the paper:\n{{Paper content}}\n\nOutput:\n1. **Chinese abstract** (250-300 characters), following exactly: one sentence of context → method → main findings (with concrete figures) → conclusion and significance. Avoid self-reference beyond 'this paper'.\n2. **English abstract** — the corresponding translation, in academic register.\n3. **Five keywords**, Chinese and English paired. They must be searchable — no terms so broad they retrieve everything.\n4. Point out which parts of my original belong in the body rather than the abstract.",
+      "tips": "Section 4 cures the most common abstract problem: trying to say everything."
+    }
   },
   {
     "id": "p-reply-reviewer",
@@ -1004,7 +1056,16 @@
       "接口定义"
     ],
     "prompt": "这是我的接口设计：\n{{接口定义}}\n\n请以「三年后还要维护这个 API」的视角评审：\n\n1. 命名一致性（动词/复数/大小写是否统一，是否混用了风格）\n2. 资源建模（有没有把动作伪装成资源，或者相反）\n3. 可演化性（将来要加字段、改语义、废弃某个参数时，现有设计会不会挡路）\n4. 错误设计（错误码是否有层级、能否区分「用户错」和「系统错」、是否可重试）\n5. 分页与过滤（大数据量下是否可用）\n6. 鉴权与幂等（写操作重复提交会怎样）\n7. 版本策略\n\n每条给出「问题 + 具体的改进写法」。最后指出 2 个如果现在不改、将来代价最大的点。",
-    "tips": "「三年后还要维护」这个设定能逼出很多当下觉得无所谓、未来很痛的问题。"
+    "tips": "「三年后还要维护」这个设定能逼出很多当下觉得无所谓、未来很痛的问题。",
+    "en": {
+      "title": "API design review",
+      "desc": "Critiques an interface on consistency, evolvability and error handling.",
+      "vars": [
+        "API definition"
+      ],
+      "prompt": "This is my API design:\n{{API definition}}\n\nReview it from the perspective of **someone maintaining it in three years**:\n\n1. **Naming consistency** — verbs, plurals, casing. Is a mix of styles creeping in?\n2. **Resource modelling** — are actions disguised as resources, or the reverse?\n3. **Evolvability** — when you later add a field, change semantics, or deprecate a parameter, does this design get in the way?\n4. **Errors** — is there a hierarchy of codes, can a client tell 'user error' from 'system error', and is it clear what is retryable?\n5. **Pagination and filtering** — does it still work at volume?\n6. **Auth and idempotency** — what happens if a write is submitted twice?\n7. **Versioning strategy**\n\nFor each, give **the problem plus the specific better wording**. Finish with the two decisions that will be most expensive to change later.",
+      "tips": "'Maintaining it in three years' surfaces a lot of things that feel fine today and hurt later."
+    }
   },
   {
     "id": "p-regex",
@@ -1790,7 +1851,18 @@
       "绝对要避免的行为"
     ],
     "prompt": "Bot 用途：{{Bot 的用途}}\n目标用户：{{目标用户}}\n绝对不能出现的行为：{{绝对要避免的行为}}\n\n请写一份系统提示词，按这个结构：\n\n1. 【身份与职责】它是什么、服务谁、负责什么、不负责什么（边界要明确）。\n2. 【能力与工具】它能做什么、什么时候该用工具、什么时候不该用。\n3. 【行为准则】回答风格、长度、语言、遇到不确定时怎么办。写具体规则，不要写「要专业友好」这种空话。\n4. 【硬性约束】绝对禁止的行为，以及触碰时的应对方式（比如转人工、拒答的具体话术）。\n5. 【输出格式】如果有固定格式，给出格式模板和一个完整示例。\n6. 【边界情况】列出 5 个最容易出问题的输入场景，并给出期望的应对。\n\n最后附一段「维护说明」：将来要调整这个 Bot 时，应该改哪一节。",
-    "tips": "第 6 条「边界情况」是区分业余和专业系统提示词的分水岭。"
+    "tips": "第 6 条「边界情况」是区分业余和专业系统提示词的分水岭。",
+    "en": {
+      "title": "Write a system prompt for a bot",
+      "desc": "Structured as role, capability, boundaries and format — ready for production.",
+      "vars": [
+        "Bot's purpose",
+        "Target users",
+        "Behaviours to avoid"
+      ],
+      "prompt": "The bot's purpose: {{Bot's purpose}}\nTarget users: {{Target users}}\nBehaviour that must never occur: {{Behaviours to avoid}}\n\nWrite a system prompt in this structure:\n\n1. **[Identity and remit]** What it is, who it serves, what it owns, and **what it does not** — the boundary must be explicit.\n2. **[Capabilities and tools]** What it can do, when to reach for a tool, and when not to.\n3. **[Behaviour]** Answer style, length, language, and what to do when uncertain. Write concrete rules, not 'be professional and friendly'.\n4. **[Hard constraints]** Prohibited behaviour, and what to do when it is triggered — escalation wording, refusal wording.\n5. **[Output format]** If there is a fixed format, give the template and one worked example.\n6. **[Edge cases]** Five inputs most likely to cause trouble, and the expected handling for each.\n\nFinish with a **maintenance note**: which section to edit when you adjust the bot later.",
+      "tips": "Section 6 is the dividing line between amateur and professional system prompts."
+    }
   },
   {
     "id": "p-eval-prompts",
@@ -1811,7 +1883,17 @@
       "当前版本"
     ],
     "prompt": "提示词用途：{{提示词用途}}\n当前版本：\n{{当前版本}}\n\n请帮我建一个评测集：\n\n1. 【用例设计】设计 15 个测试输入，覆盖：典型情况（5）、边界情况（4）、容易误判的情况（3）、对抗性输入（3，比如试图让它偏离任务的输入）。每个说明「这个用例想验证什么」。\n2. 【判定标准】给出评分维度（准确性、完整性、格式合规、是否编造、是否越界），每个维度说明怎么打分。\n3. 【期望输出】为其中 5 个关键用例写出期望输出的要点。\n4. 【自动化方案】如果要批量跑，怎么组织输入输出、怎么用另一个模型当裁判，以及裁判自身可能有什么偏差。\n5. 【回归纪律】以后每次改提示词，应该跑哪些用例？多久全量跑一次？\n\n重点：用例要能区分「改好了」和「改坏了」，而不只是看它有没有崩。",
-    "tips": "有了评测集，提示词优化才从玄学变成工程。这是业余和专业最大的分界线。"
+    "tips": "有了评测集，提示词优化才从玄学变成工程。这是业余和专业最大的分界线。",
+    "en": {
+      "title": "Build an evaluation set for a prompt",
+      "desc": "Judges whether a change made things better or worse, instead of guessing.",
+      "vars": [
+        "What the prompt does",
+        "Current version"
+      ],
+      "prompt": "What the prompt does: {{What the prompt does}}\nCurrent version:\n{{Current version}}\n\nBuild an evaluation set:\n\n1. **[Cases]** Design 15 test inputs covering: typical (5), edge cases (4), easily misjudged (3), adversarial (3 — inputs that try to pull it off task). For each, say **what it is testing**.\n2. **[Scoring]** Define the dimensions — accuracy, completeness, format compliance, fabrication, boundary violations — and how each is scored.\n3. **[Expected output]** Write the key points of the expected output for five critical cases.\n4. **[Automation]** For batch runs, how to structure input and output, how to use another model as a judge, and **what biases that judge will have**.\n5. **[Regression discipline]** Which cases to run on every prompt change, and how often to run the full set.\n\nThe point is a set that distinguishes **better** from **worse**, not one that only catches crashes.",
+      "tips": "With an eval set, prompt tuning stops being folklore and becomes engineering."
+    }
   },
   {
     "id": "p-chain-prompt",
@@ -1832,7 +1914,17 @@
       "工具/模型"
     ],
     "prompt": "我想完成的复杂任务：{{复杂任务}}\n可用的工具/模型：{{工具/模型}}\n\n请设计提示词链：\n\n1. 【为什么要拆】说明一步做完会在哪里失败。\n2. 【步骤设计】拆成 3-5 步，每步给出：\n   - 这一步的目标（单一，可验证）\n   - 完整的提示词\n   - 输入是什么（来自上一步的哪部分）\n   - 输出格式（必须结构化，方便下一步使用）\n   - 判错标准（什么情况算这步失败了，需要重跑）\n3. 【人工介入点】哪一步必须人工检查后再继续？为什么？\n4. 【失败处理】某一步失败时，是重跑、回退还是手动兜底？\n5. 【合并优化】哪几步可以合并成一次调用而不损失质量？\n\n最后画出步骤之间的数据流向（用文字描述即可）。",
-    "tips": "第 3 条「人工介入点」很关键——不是所有步骤都值得自动化，人工卡在最容易出错的地方性价比最高。"
+    "tips": "第 3 条「人工介入点」很关键——不是所有步骤都值得自动化，人工卡在最容易出错的地方性价比最高。",
+    "en": {
+      "title": "Split a big task into a prompt chain",
+      "desc": "Each step's output feeds the next, with a defined failure test at every stage.",
+      "vars": [
+        "Complex task",
+        "Available tools / models"
+      ],
+      "prompt": "The complex task I want to complete: {{Complex task}}\nTools / models I have: {{Available tools / models}}\n\nDesign the chain:\n\n1. **[Why split it]** Where would a single-shot attempt fail?\n2. **[Steps]** Split into 3-5 steps. For each:\n   - Its goal — single and verifiable\n   - The full prompt\n   - Its input, and which part of the previous step it comes from\n   - The output format — must be structured so the next step can consume it\n   - The failure test — what counts as this step failing and needing a rerun\n3. **[Human checkpoints]** Which step must a person review before continuing? Why that one?\n4. **[Failure handling]** When a step fails: rerun, roll back, or handle it by hand?\n5. **[Consolidation]** Which steps could merge into one call without losing quality?\n\nFinish by describing the data flow between steps in words.",
+      "tips": "Section 3 matters most — not every step deserves automation, and putting a human where errors concentrate pays off best."
+    }
   },
   {
     "id": "p-few-shot",
@@ -2188,7 +2280,18 @@
       "尺寸"
     ],
     "prompt": "我要做一张图：用途是 {{图的用途}}，尺寸 {{尺寸}}。\n图上需要出现的文字有：{{需要出现的文字}}\n\n请帮我规划文字怎么处理，重点是怎么避开 AI 的短板：\n\n1. **判断哪些文字该生成、哪些该后期叠加**。中文文字、精确数字、品牌名、需要严格正确的内容——**这些建议全部后期叠加**，不要交给图像模型。说明理由。\n2. **如果确实要让模型生成文字**（比如英文短语作为画面元素），给出专门的提示词写法，并说明这个模型的文字渲染能力边界在哪。\n3. **留白规划**。为了让后期文字有地方放，生成时要在画面的哪个区域留空？用具体的方位和比例描述（比如「左上三分之一保持简洁」）。\n4. **生成提示词里的「不要什么」**。明确写进 negative prompt 的内容——比如「no text, no letters, no watermark」，避免模型自作主张加字。\n5. **后期叠加的操作要点**。字体选择、描边或阴影（保证在复杂背景上也能看清）、安全边距。\n\n最后提醒我：如果这张图里的文字是给人读的关键信息，那它就不该用生成的图。",
-    "tips": "第 1 步的判断能省掉大量返工——很多人反复生成十几次就是想让模型把中文字写对，那是白费功夫。"
+    "tips": "第 1 步的判断能省掉大量返工——很多人反复生成十几次就是想让模型把中文字写对，那是白费功夫。",
+    "en": {
+      "title": "Plan how text in an image gets handled",
+      "desc": "Generated images render text badly — plan for it before generating, not after.",
+      "vars": [
+        "Image purpose",
+        "Text that must appear",
+        "Dimensions"
+      ],
+      "prompt": "I need an image. Purpose: {{Image purpose}}, dimensions {{Dimensions}}.\nText that must appear on it: {{Text that must appear}}\n\nPlan how the text gets handled, focused on avoiding what models are bad at:\n\n1. **Decide what gets generated and what gets composited later.** Chinese text, exact figures, brand names, anything that must be exactly right — **all of that gets composited in post**. Explain why.\n2. **If the model really should render text** (an English phrase as a visual element), give the specific prompt wording and state the limits of that model's text rendering.\n3. **Plan the empty space.** Where does the composition need to stay clear so the text has room? Describe the region specifically — 'keep the upper-left third simple'.\n4. **What to exclude in the prompt.** Content for the negative prompt — 'no text, no letters, no watermark' — so the model does not add its own.\n5. **Compositing notes.** Font choice, outline or shadow so it reads over a busy background, safe margins.\n\nFinally, remind me: if the text carries information people must read, **this should not be a generated image at all**.",
+      "tips": "Step 1 saves enormous rework — plenty of people generate a dozen times trying to get Chinese characters right, which never works."
+    }
   },
   {
     "id": "p-prototype-spec",
