@@ -157,7 +157,7 @@ export function enTools(ctx, i18n, { activeCat = '' } = {}) {
 
   const title = cat ? catName(cat.id) : en['tools.title'];
   const desc = cat
-    ? `${list.length} tools in ${catName(cat.id)}.`
+    ? `${list.length} AI tools for ${catName(cat.id).toLowerCase()}: ${(ctx.categories.toolCategories.find((x) => x.id === cat.id) || {}).descEn || ''} Each entry notes pricing, China accessibility, an editor's note on when not to use it, and a side-by-side comparison within the category.`
     : en['tools.desc'];
 
   const crumbItems = cat
@@ -348,7 +348,7 @@ export function enModels(ctx, i18n, { activeKind = '' } = {}) {
     .join('');
 
   const title = kind ? kindName(kind.id) : en['models.title'];
-  const desc = kind ? `${list.length} model families in ${kindName(kind.id)}.` : en['models.desc'];
+  const desc = kind ? `${list.length} model families for ${kindName(kind.id).toLowerCase()} compared on stable dimensions: biggest strengths, what to watch, open or closed, and China accessibility. Every entry shows a verification month and links to the official model list.` : en['models.desc'];
 
   const crumbItems = kind
     ? [{ label: 'Home', href: '/en/' }, { label: 'Models', href: '/en/models/' }, { label: kindName(kind.id) }]

@@ -417,6 +417,46 @@ const playbookIds = new Set();
       else ok.push(`playbooks: ${rows.length} 篇手册全部达到 7 分以上（平均 ${(rows.reduce((a, b) => a + b.total, 0) / rows.length).toFixed(1)} 分）`);
     } catch { /* 体检脚本本身出错不影响主流程 */ }
 
+
+    /* 标题与描述的完整度。
+       中文一个字信息量约等于英文两个字符，所以按「加权长度」算（中文计 2）。
+       踩过的坑：英文分类页的描述是 "13 tools in 3D modelling."，
+       24 个字符，在搜索结果里等于什么都没说。 */
+    try {
+      const distDir = path.resolve(__dirname, '..', 'dist');
+      if (fs.existsSync(distDir)) {
+        const w = (s) => [...String(s || '')].reduce((n, ch) => n + (/[\u4e00-\u9fa5\u3000-\u303f\uff00-\uffef]/.test(ch) ? 2 : 1), 0);
+        const walkHtml = (d, a = []) => {
+          for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+            const f = path.join(d, e.name);
+            e.isDirectory() ? walkHtml(f, a) : e.name === 'index.html' && a.push(f);
+          }
+          return a;
+        };
+        const shortDesc = [];
+        const starDesc = [];
+        const descSeen = new Map();
+        const dupDesc = [];
+        for (const f of walkHtml(distDir)) {
+          const html = fs.readFileSync(f, 'utf8');
+          const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+          const rel = '/' + path.relative(distDir, f).replace(/\\/g, '/').replace(/\/index\.html$/, '').replace(/index\.html$/, '');
+          if (w(desc) < 55) shortDesc.push(rel + ' (' + w(desc) + ')');
+          if (/\*\*/.test(desc)) starDesc.push(rel);
+          if (desc) {
+            if (descSeen.has(desc)) dupDesc.push(rel + ' = ' + descSeen.get(desc));
+            else descSeen.set(desc, rel);
+          }
+        }
+        if (shortDesc.length) warns.push(`SEO: ${shortDesc.length} 个页面的描述过短 → ${shortDesc.slice(0, 8).join(', ')}${shortDesc.length > 8 ? ' …' : ''}`);
+        if (starDesc.length) errors.push(`SEO: ${starDesc.length} 个页面的描述里残留 markdown 星号 → ${starDesc.slice(0, 5).join(', ')}`);
+        if (dupDesc.length) warns.push(`SEO: ${dupDesc.length} 组重复描述 → ${dupDesc.slice(0, 3).join('; ')}`);
+        if (!shortDesc.length && !starDesc.length && !dupDesc.length) {
+          ok.push(`SEO: ${descSeen.size} 个页面的标题与描述都达标，无重复`);
+        }
+      }
+    } catch { /* 忽略 */ }
+
 /* ---- vercel.json 字段白名单校验 ----
    踩过一次：在 redirects 里写了个 `comment` 字段（本意是留说明），
    Vercel 校验很严，不认识这个字段就直接拒绝部署 —— 而且部署失败后

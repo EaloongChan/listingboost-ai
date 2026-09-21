@@ -159,6 +159,11 @@ export function layout(o) {
 <meta name="theme-color" content="#0d0d0b" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 ${robots ? `<meta name="robots" content="${esc(robots)}">` : ''}
+${/* 搜索引擎验证。token 存在 site.config.json 的 verify 段里，留空就不输出。 */''}
+${site.verify && site.verify.google ? `<meta name="google-site-verification" content="${esc(site.verify.google)}">` : ''}
+${site.verify && site.verify.bing ? `<meta name="msvalidate.01" content="${esc(site.verify.bing)}">` : ''}
+${site.verify && site.verify.baidu ? `<meta name="baidu-site-verification" content="${esc(site.verify.baidu)}">` : ''}
+${site.verify && site.verify.file ? `<meta name="google-site-verification" content="${esc(site.verify.file)}">` : ''}
 ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 <link rel="alternate" type="application/rss+xml" title="${esc(site.brand.name)}" href="/feed.xml">
 ${altPath ? `<link rel="alternate" hreflang="${esc(pageLang)}" href="${esc(canonical)}">

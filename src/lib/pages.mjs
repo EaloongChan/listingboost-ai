@@ -214,7 +214,7 @@ export function toolsPage(ctx, { activeCat = '', sort = '' } = {}) {
 
   const title = activeName ? `${activeName}工具` : 'AI 工具库';
   const desc = activeName
-    ? `「${activeName}」分类下的 ${list.length} 个 AI 工具。${(toolCatMap[activeCat] || {}).desc || ''}`
+    ? `「${activeName}」分类下的 ${list.length} 个 AI 工具：${(toolCatMap[activeCat] || {}).desc || ''}。每个都标注了价格、是否国内可直连，并附「什么时候别用」的编辑点评和同分类横向对比。选型要点：${((toolCatMap[activeCat] || {}).guide || '').replace(/\*\*/g, '').split('。')[0]}。`
     : `AI 工具库：收录 ${tools.length} 个常用 AI 工具，按用途分成 ${categories.toolCategories.length} 类，逐个标注是否国内直连、免费还是付费。每个工具都附一条「什么时候别选它」的编辑点评。`;
 
   const crumbItems = activeName
@@ -696,7 +696,7 @@ export function learnPage(ctx, { activeTrack = '' } = {}) {
 
   const title = activeName ? `${activeName} · 学习资源` : '学习资源';
   const desc = activeName
-    ? `${(trackMap[activeTrack] || {}).desc || ''} —— 该路径下共 ${list.length} 份材料，全部免费。`
+    ? `${(trackMap[activeTrack] || {}).desc || ''} 这条路径下有 ${list.length} 份免费材料，按「先看什么、后看什么」排好了顺序，每份都标注了语言、难度和大概要花多久。`
     : `AI 学习资源：${learn.length} 份精选教程、课程与书籍，从零基础到能动手做产品。全部标注免费与否和难度，按入门 / 动手做 / 提示词 / 商业四个方向分类。`;
 
   const crumbItems = activeName
@@ -1051,7 +1051,7 @@ ${toolGrid.length ? `<section class="section">
     site,
     path: `/playbooks/${pb.id}/`,
     title: pb.title,
-    description: pb.problem,
+    description: `${pb.problem} 共 ${(pb.steps || []).length} 步，预计 ${pb.time}。${pb.spec ? '产出：' + pb.spec.output + '。' : ''}`,
     pageType: 'article',
     body,
     jsonld: [
@@ -1060,7 +1060,7 @@ ${toolGrid.length ? `<section class="section">
         '@context': 'https://schema.org',
         '@type': 'HowTo',
         name: pb.title,
-        description: pb.problem,
+        description: `${pb.problem}${pb.spec ? ' 产出：' + pb.spec.output : ''}`,
         totalTime: pb.time,
         step: (pb.steps || []).map((s, i) => ({
           '@type': 'HowToStep', position: i + 1, text: s.text.replace(/\*\*/g, ''),
@@ -1088,7 +1088,7 @@ export function modelsPage(ctx, { activeKind = '' } = {}) {
 
   const title = activeName ? `${activeName}模型` : '模型选型库';
   const desc = activeName
-    ? `「${activeName}」类的 ${list.length} 个模型家族对比。`
+    ? `${activeName}方向的 ${list.length} 个模型家族对比：每个都标注了是否开源、国内能否直连、最强的地方和要注意的坑，并附官方模型列表链接。只对比稳定的维度，不含几个月就过期的参数。`
     : `把 ${models.items.length} 个模型家族按「最强的地方 / 主要注意 / 适合什么」摆在一起对比。刻意不写版本号和具体参数——那类信息几个月就过期。`;
 
   const crumbItems = activeName
