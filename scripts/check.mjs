@@ -457,6 +457,57 @@ const playbookIds = new Set();
       }
     } catch { /* 忽略 */ }
 
+
+    /* 英文页面的可见中文检测。
+       做英文优先之后这一条很关键：英文页面上出现中文，比缺内容更劝退读者。
+
+       注意要排除这几类，否则全是误报：
+         · data-name —— 给客户端筛选用的隐藏属性，用户和搜索引擎都看不到
+         · <script> / <style> —— 代码里本来就有中文字符串
+         · 品牌名「象」「AI 万象」—— 刻意保留的标识
+         · 标注了 · zh 的提示词名 —— 中文提示词模板，显式标注过的
+         · 语言切换按钮文字 —— 指向中文版，中文反而看得懂
+    */
+    try {
+      const distDir = path.resolve(__dirname, '..', 'dist', 'en');
+      if (fs.existsSync(distDir)) {
+        const walk = (d, a = []) => {
+          for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+            const f = path.join(d, e.name);
+            e.isDirectory() ? walk(f, a) : e.name === 'index.html' && a.push(f);
+          }
+          return a;
+        };
+        const leaks = [];
+        for (const f of walk(distDir)) {
+          let html = fs.readFileSync(f, 'utf8');
+          // 去掉不看的部分
+          html = html.replace(/<script[\s\S]*?<\/script>/gi, '')
+                     .replace(/<style[\s\S]*?<\/style>/gi, '')
+                     .replace(/data-name="[^"]*"/g, '')
+                     .replace(/data-cat="[^"]*"/g, '')
+                     .replace(/data-group="[^"]*"/g, '')
+                     .replace(/data-added="[^"]*"/g, '')
+                     .replace(/<title>[\s\S]*?<\/title>/gi, '')
+                     .replace(/content="[^"]*"/g, '')      // meta
+                     .replace(/<svg[\s\S]*?<\/svg>/gi, '');   // 图标
+          // 品牌名与语言切换是有意为之
+          html = html.replace(/象/g, '').replace(/AI 万象/g, '')
+                     .replace(/切换到中文|Switch to Chinese/g, '')
+                     .replace(/·\s*zh/g, '')
+                     .replace(/中文版/g, '');
+          const hits = [...new Set((html.match(/[\u4e00-\u9fa5]{2,}/g) || []))];
+          if (hits.length) leaks.push([f.replace(distDir, ''), hits]);
+        }
+        if (leaks.length) {
+          const total = leaks.reduce((n, [, h]) => n + h.length, 0);
+          warns.push(`i18n: ${leaks.length} 个英文页面上有可见中文（共 ${total} 处）→ ${leaks.slice(0, 3).map(([f, h]) => f + ': ' + h.slice(0, 4).join('/')).join('; ')}${leaks.length > 3 ? ' …' : ''}`);
+        } else {
+          ok.push('i18n: 英文页面没有可见中文残留');
+        }
+      }
+    } catch { /* 忽略 */ }
+
 /* ---- vercel.json 字段白名单校验 ----
    踩过一次：在 redirects 里写了个 `comment` 字段（本意是留说明），
    Vercel 校验很严，不认识这个字段就直接拒绝部署 —— 而且部署失败后

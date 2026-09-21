@@ -14,7 +14,7 @@ import {
   learnPage, glossaryPage, searchPage, aboutPage, changelogPage, notFoundPage,
   playbooksPage, playbookDetailPage, modelsPage, toolDetailPage, liveNewsPage, comparePage, savedPage,
 } from '../src/lib/pages.mjs';
-import { enHome, enTools, enToolDetail, enModels, enAbout } from '../src/lib/pages-en.mjs';
+import { enHome, enTools, enToolDetail, enModels, enAbout, enPlaybooks, enPlaybookDetail } from '../src/lib/pages-en.mjs';
 import { EN } from '../src/lib/labels.mjs';
 import { countBy, esc } from '../src/lib/utils.mjs';
 import { resetIcons } from '../src/lib/icons.mjs';
@@ -343,6 +343,18 @@ export function build({ quiet = false } = {}) {
   for (const c of categories.toolCategories) {
     emit(`en/tools/${c.id}/index.html`, () => enTools(ctx, i18n, { activeCat: c.id }), { title: `${i18n.en['cat.' + c.id] || c.id} · AI Tools`, type: 'tools-cat' });
   }
+
+  /* 英文场景手册：只生成有翻译的那几篇。没翻译的不生成页面，
+     而不是生成一个中文页面挂在 /en/ 下面（那比缺内容更糟）。
+     注意这个 emit 必须在分类循环**外面** —— 放进去会被每个分类重复执行一遍。 */
+  const pbEnList = playbooks.items.filter((p) => p.en && p.en.steps && p.en.steps.length);
+  if (pbEnList.length) {
+    emit('en/playbooks/index.html', () => enPlaybooks(ctx, i18n), { title: 'AI playbooks: end-to-end workflows', type: 'playbooks' });
+    for (const p of pbEnList) {
+      emit(`en/playbooks/${p.id}/index.html`, () => enPlaybookDetail(ctx, i18n, p), { title: `${p.en.title} · Playbook`, type: 'playbook-detail', item: p });
+    }
+  }
+
   for (const t of tools) {
     emit(`en/tools/${t.cat}/${t.id}/index.html`, () => enToolDetail(ctx, i18n, t), { title: `${t.name} · AI Tools`, type: 'tool-detail', item: t });
   }

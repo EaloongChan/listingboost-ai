@@ -105,6 +105,27 @@
         "output": "一份按业务价值排序、领导能一眼看出你做了什么的一页纸",
         "fail": "写成了工作量清单、数字和实际不符、全是「推进了」「跟进了」这类废话",
         "alt": "本周确实没什么可写的 → 如实写短一点，硬凑内容比写短更难看"
+      },
+      "en": {
+        "title": "Write a weekly report that isn't a laundry list",
+        "time": "15 minutes",
+        "level": "no setup",
+        "problem": "You write one every week, and your manager still can't tell what you actually accomplished.",
+        "spec": {
+          "input": "The week's raw material — commits, messages, task list — unsorted",
+          "output": "One page ordered by business value, where the contribution is obvious at a glance",
+          "fail": "It reads as a list of activity, the numbers don't match reality, or it's all 'progressed' and 'followed up'",
+          "alt": "A genuinely quiet week → write it short and honest. Padding is more conspicuous than brevity."
+        },
+        "steps": [
+          "Dump the week's fragments — chat logs, commit history, todos — in unsorted. **Don't summarise first**; summarising early loses the detail.",
+          "Use a structured prompt to sort by **business value rather than volume of activity**, and ask it to point out what doesn't belong in a report at all.",
+          "Feed the draft back in and ask it to **strip every adjective and every bit of self-promotion, leaving only facts and numbers**."
+        ],
+        "warnings": [
+          "Don't let it invent numbers. Any performance figure must be one you verified and entered yourself.",
+          "Write the 'problems and risks' section yourself — AI-written self-criticism reads like nobody wrote it, which makes the whole report feel synthetic."
+        ]
       }
     },
     {
@@ -162,6 +183,28 @@
         "output": "一页纪要 + 一份带责任人和截止时间的待办清单",
         "fail": "纪要全是「讨论了 XX」没有结论、待办没责任人、转写错误导致意思全反",
         "alt": "口头就能说清的短会 → 不用录音也不用 AI，会后直接发一句结论到群里"
+      },
+      "en": {
+        "title": "Turn a three-hour meeting into one page",
+        "time": "20 minutes",
+        "level": "no setup",
+        "problem": "Nobody will re-listen to the recording. The minutes read like a transcript and the action items always slip through.",
+        "spec": {
+          "input": "A recording you have consent to make, plus the attendee list",
+          "output": "One page of minutes, and an action list with owners and deadlines",
+          "fail": "Minutes full of 'we discussed X' with no decisions, action items with no owner, or transcription errors that invert the meaning",
+          "alt": "A short call whose conclusion is obvious → skip the recording. State the outcome in a message and move on."
+        },
+        "steps": [
+          "Get a transcript from the meeting tool itself — Feishu Minutes, Tencent Meeting, Tingwu and iFlytek all produce one directly.",
+          "Feed the transcript into a model with a fixed output shape: decisions / action items (with owner and date) / open questions / key numbers.",
+          "**Look hardest at the 'open questions' column.** Those are the things the meeting failed to settle, and they are usually why the project is stuck."
+        ],
+        "warnings": [
+          "**Get consent before recording.** This is a legal requirement in many jurisdictions and an explicit company rule in many others. Recording without it is far more trouble than not recording.",
+          "Read automated minutes but don't trust them wholesale. **Numbers, dates and names have the highest error rates** — check those by hand.",
+          "'We discussed it' and 'we decided it' are different things. Make the AI distinguish them, or in three months you'll believe something was agreed when it wasn't."
+        ]
       }
     },
     {
@@ -227,6 +270,30 @@
         "output": "一份能定位到原文位置的结构化摘要 + 你问题的答案",
         "fail": "关键条款被漏掉、摘要和原文对不上、把「可能」读成了「必须」",
         "alt": "合同、法律文书、医疗报告这类要担责任的 → AI 只用来定位，判断必须交给专业人士"
+      },
+      "en": {
+        "title": "Read a long document without reading all of it",
+        "time": "30-60 minutes",
+        "level": "no setup",
+        "problem": "Tens of pages of material. Reading it all takes too long, skimming risks missing the clause that matters.",
+        "spec": {
+          "input": "The document, plus the handful of questions you actually need answered",
+          "output": "A structured summary that points back to specific passages, plus answers to your questions",
+          "fail": "Missing a key clause, a summary that doesn't match the source, or reading 'may' as 'must'",
+          "alt": "Contracts, legal filings, medical reports where liability attaches → the AI only locates; the judgement belongs to a professional."
+        },
+        "steps": [
+          "Start with a structural pass: ask for the shape of the document only, no detail. The goal is a map, not a summary.",
+          "**Pick the tool by what you need.** To ask questions of one document, use NotebookLM — it only answers from what you uploaded and says so when it cannot, which matters. To compare across several documents, use a general long-context model. To cite an exact page, use a reading tool; general models often get the location wrong. The test is whether you want an answer or **an answer plus its source** — for the latter, do not use a general model.",
+          "Choose 3-5 sections you actually care about and interrogate them one at a time. **This beats feeding the whole document in one go**, and it is worth the extra turns.",
+          "For contracts, add a step: have it list the clauses **unfavourable to you** and the ones that are **vaguely worded**, quoting the source location for each."
+        ],
+        "warnings": [
+          "**Tables, formulas and charts are where these tools fail most.** Comparison tables in papers, amount tables in contracts — these routinely come out misaligned or with missing rows. Check them against the original.",
+          "Feeding in dozens of pages at once measurably reduces recall in the middle. **Read in sections and ask about each** — the cost is a few more turns.",
+          "Ask about key details near the start or end rather than the middle; recall is better there.",
+          "**Never take a legal conclusion on trust.** The AI is a way to find things faster, not a way to decide."
+        ]
       }
     },
     {
@@ -669,6 +736,31 @@
         "output": "一份你自己整理的项目地图 + 若干个已完成的小改动",
         "fail": "在跑通测试前大范围改代码、把它不知道的团队约定当成 bug 改掉、改完不知道哪里坏了",
         "alt": "只待两三天就要交接的临时项目 → 不用深挖，看文档和主流程就够"
+      },
+      "en": {
+        "title": "Take over an unfamiliar codebase",
+        "time": "1-3 days",
+        "level": "needs coding",
+        "problem": "You've joined a project. Thousands of lines, nobody to ask, and the documentation amounts to a stale README.",
+        "spec": {
+          "input": "A codebase that runs locally, plus an environment where you can run the tests",
+          "output": "A project map you built yourself, and a few small changes landed",
+          "fail": "Making wide changes before the tests pass, or 'fixing' team conventions because the AI didn't know they were deliberate",
+          "alt": "A project you'll hand back in two days → you don't need depth. Read the docs and the main flow and move on."
+        },
+        "steps": [
+          "Use an AI editor to build a global picture first: project structure, entry points, what the core modules are responsible for. **Do not change anything yet.**",
+          "Pick the three most central files and ask for a layered explanation: what problem it solves, how data flows through it, why it is designed this way.",
+          "**Pick the tool by granularity.** For overall structure, use something with repo-level indexing (Cursor, Sourcegraph Cody) — its search across a large codebase beats pasting files one by one. For deep reading of a single file, a long-context model is fine. For tracing a call chain across files, use a tool that can read the whole repo rather than a chat window. **The test is whether you can ask a cross-file question without manually pasting code** — if you can, it indexed the repo.",
+          "Ask it to identify **where a change would be most dangerous**. Those are the fragile points you need to know before touching anything.",
+          "Write tests before you edit. Have the AI generate tests for the module you're about to change; get them passing first, then change."
+        ],
+        "warnings": [
+          "**Get the tests passing before letting it modify code — no exceptions.** Without that safety net you cannot tell a correct change from one that merely hasn't crashed yet.",
+          "It will treat your project's historical baggage as bugs to fix. **Some odd-looking decisions are deliberate** — compatibility with old data, a platform workaround. Ask why before changing.",
+          "It doesn't know your team's unwritten conventions — naming, error handling, logging. The fastest fix is to show it existing code that already follows them.",
+          "Get the tests passing before letting the AI change code — no exceptions. Without that protection you cannot tell a correct change from one that merely has not crashed yet. Missing tests are common in older projects, so add them for the module you are about to touch."
+        ]
       }
     },
     {
@@ -748,6 +840,31 @@
         "output": "定位到根因的修复 + 一个能防止复发的测试",
         "fail": "一次改多处导致不知道哪处起作用、连续两轮没进展还在原方向打转、修好了表象没修根因",
         "alt": "报错信息本身就指向明确（比如缺个字段） → 直接改，不用走这套排查流程"
+      },
+      "en": {
+        "title": "Fix a bug you don't understand",
+        "time": "1-3 hours",
+        "level": "needs coding",
+        "problem": "The stack trace means nothing, searching finds nothing, and fixing one thing breaks another.",
+        "spec": {
+          "input": "The full error output, a minimal reproduction, and a note of what you already ruled out",
+          "output": "A fix targeting the root cause, plus a test that prevents the regression",
+          "fail": "Changing several places at once so you can't tell which mattered, or two rounds with no progress in the same wrong direction",
+          "alt": "The error already points at something concrete (a missing field) → just fix it. This process is for genuinely opaque failures."
+        },
+        "steps": [
+          "Give it the complete stack trace and the surrounding code, and ask explicitly for **hypotheses plus how to test each one** — not a patch.",
+          "**Pick the tool by stage.** When the error itself is unreadable, hand the full trace to a general model for translation — that is what it is best at. When you suspect a library, search its issues rather than asking the model, which is unreliable on specific versions. When you need to understand existing code, use something that indexes the whole repo rather than pasting fragments. **Don't merge 'translate the error' and 'find the root cause' into one step** — that is where most people get stuck and conclude the model is useless.",
+          "Eliminate the hypotheses one at a time, feeding each result back so the space narrows. That loop is the whole method.",
+          "Once you have a root cause, ask for the **smallest possible change** and what else it might affect.",
+          "Add a test that reproduces the bug, so it cannot come back quietly."
+        ],
+        "warnings": [
+          "**Confirm the bug reproduces reliably first.** Intermittent bugs are almost useless to debug this way — the hypotheses are built on a symptom that isn't stable. Make it reproducible before you start.",
+          "Don't let it change ten things at once. If it proposes multiple edits, apply them one at a time — otherwise you never learn which one worked.",
+          "After fixing, ask whether the same root cause appears elsewhere. **One cause often shows up at several call sites**, and patching only the one that crashed means another entry point fails next week.",
+          "Once it is fixed, ask whether the same root cause appears elsewhere. **One cause often shows up at several call sites** — patch only the one that crashed and another entry point fails a week later."
+        ]
       }
     },
     {
@@ -2457,7 +2574,34 @@
         "显存不够时不要硬上大模型。量化到 4bit 以下，模型的推理能力会明显退化，这时候还不如直接用云端的小模型。",
         "笔记本的显存和台式机同名不同命。移动端 GPU 的实际可用显存通常比标称少，留出 2GB 余量。",
         "下载模型文件动辄几十 GB，先确认磁盘空间和下载带宽。Hugging Face 在国内访问不稳定，提前准备镜像源。"
-      ]
+      ],
+      "en": {
+        "title": "Run an open model on your own machine",
+        "time": "half a day",
+        "level": "hands-on",
+        "problem": "You want your data to stay on your own hardware, or you don't want to pay per token. But you don't know where to start, or whether your GPU is up to it.",
+        "spec": {
+          "input": "A machine with a discrete GPU (or Apple Silicon) plus one clearly defined task",
+          "output": "A model running locally, a usable chat interface, and one real task measured end to end",
+          "fail": "VRAM exhausted, quality far below the hosted model, or an afternoon lost without a working setup",
+          "alt": "Curious rather than constrained → just use a hosted model. Setting up local inference costs far more than you save."
+        },
+        "steps": [
+          "Before installing anything, check your hardware. **Look at VRAM, not system RAM** — that is always the first wall. Task Manager → Performance → GPU → Dedicated GPU memory.",
+          "Pick a model size from your VRAM. Rough guide: 8GB runs a 7B quantised, 16GB a 14B, 24GB a 32B. **Don't reach for the biggest first** — get the small one working end to end.",
+          "Start with Ollama to prove the pipeline works. It is the fastest way in and runs with a single command. Once that works, consider a more serious deployment.",
+          "For a graphical interface, install LM Studio (desktop, download and go) or Open WebUI (browser-based, more capable). The first is easier; the second suits shared use.",
+          "**Do one real task** that matches what you actually need, not just a hello-world. Take the document or code you genuinely want to process and see how the speed and quality feel.",
+          "If quality falls short, go up a model size before you touch quantisation. **Dropping precision costs you comprehension, not just speed** — it is the last resort, not the first.",
+          "Only reach for vLLM or SGLang if you need to serve multiple users at high concurrency. For personal use they are unnecessary; they exist for production."
+        ],
+        "warnings": [
+          "**Check that your use case actually needs local inference.** Privacy-sensitive data, offline environments, very large batches, and long-term cost avoidance justify it. Curiosity does not — the setup cost dwarfs the money saved.",
+          "Don't force a large model onto insufficient VRAM. Below 4-bit quantisation, reasoning degrades noticeably — at that point a small hosted model is the better answer.",
+          "Laptop VRAM is not the same as desktop VRAM with the same name. Usable memory on mobile GPUs is usually below the advertised figure — leave 2GB of headroom.",
+          "Model files run to tens of gigabytes. Check disk space and bandwidth first. Hugging Face is unreliable from some regions, so line up a mirror before you start."
+        ]
+      }
     },
     {
       "id": "pb-build-agent",
@@ -2564,7 +2708,35 @@
         "多 Agent 协作听起来很美，实际常常是「互相干扰」。**先用单 Agent 跑通，真的遇到瓶颈再拆**。",
         "自托管（n8n、Dify）看起来省钱，但你有运维成本：升级、备份、权限、故障。团队没人管就别自托管。",
         "别用 Agent 做「规则明确」的事。格式转换、批量重命名、定时抓取——这些用脚本又快又稳又便宜，用 Agent 是不合理的。"
-      ]
+      ],
+      "en": {
+        "title": "Build an agent that actually does the work",
+        "time": "1-3 days",
+        "level": "needs coding",
+        "problem": "You want AI to do more than answer — to search, call APIs, edit files, run commands. But you don't know whether to start with a framework or a platform.",
+        "spec": {
+          "input": "A repetitive task with clearly defined steps and dependencies between them",
+          "output": "An agent that completes that task unattended, with retries and human checkpoints",
+          "fail": "The agent retries the same broken call, drifts off course unnoticed, or burns budget with nothing to show",
+          "alt": "Fixed steps needing no judgement → use a script or a conventional workflow. An agent only makes that slower and more fragile."
+        },
+        "steps": [
+          "**Write down the success criterion first**, before picking a framework. How will you know it is done? Without a verifiable endpoint, an agent just loops.",
+          "Mark which steps **require human confirmation**. **This matters more than the tech choice** — irreversible actions like sending mail, deleting files or paying money always need a gate.",
+          "If you would rather not code, try a low-code platform first: Coze or Dify cover most retrieve-organise-output flows with drag and drop.",
+          "To reach internal systems, use n8n (self-hosted) or Zapier (widest ecosystem). The first is cheaper but you run it; the second costs more and saves you the operations.",
+          "If you are coding, split into two paths: **fixed flow** → LangGraph (a state machine you can debug); **role division** → CrewAI or AutoGen. Don't start with a heavyweight framework.",
+          "Give the agent tools. **Use an official SDK rather than wrapping HTTP yourself** — a malformed tool schema is the single most common cause of agent failure.",
+          "Before production, add three things: **a step cap** (stops loops), **a cost cap** (stops runaway spend), and **logging** (so you can reconstruct what happened). Missing any one of the three, do not ship."
+        ],
+        "warnings": [
+          "**\"It runs\" and \"I trust it\" are different milestones.** In a demo the agent looks smart; in production it goes off course at step 37. Human checkpoints beat a smarter model.",
+          "Browser automation (Browser Use and friends) is extremely brittle to page changes. One redesign can break the whole flow — plan monitoring and a fallback.",
+          "Multi-agent collaboration sounds elegant and usually means agents interfering with each other. **Get one agent working first**; split only when you hit a real limit.",
+          "Self-hosting (n8n, Dify) looks cheaper until you count upgrades, backups, permissions and outages. If nobody owns it, don't self-host.",
+          "Don't point an agent at rule-based work. Format conversion, bulk renaming, scheduled scraping — a script is faster, stabler and cheaper. Using an agent there is a mistake."
+        ]
+      }
     },
     {
       "id": "pb-ai-video",
@@ -2676,7 +2848,35 @@
         "AI 生成的画面里如果要出现品牌 logo、产品型号这类精确信息，一定要后期叠加，不要指望模型生成对。",
         "平台压缩会把 AI 视频的瑕疵放大——生成时看起来还好，上传后变形会更明显。导出时提高码率能缓解一点。",
         "**如果需要一个真实的人讲述真实的事，用 AI 数字人是错的。** 观众能看出来，而且会因此不信任内容本身。"
-      ]
+      ],
+      "en": {
+        "title": "Generate a usable AI video from scratch",
+        "time": "half a day",
+        "level": "no setup",
+        "problem": "You tried a few generators and found hands warping and shots falling apart the moment the camera moves. Nothing you can actually use.",
+        "spec": {
+          "input": "A scene description or reference image, plus a clear purpose (ad, internal demo, concept piece)",
+          "output": "3-5 usable shots that cut together into a complete short film, with voiceover and captions",
+          "fail": "Warped people, shots that don't cut together, audio and picture out of sync, or the whole thing smeared by platform compression",
+          "alt": "You need a real person saying something real → shooting it is faster and cheaper. AI cannot give you that authenticity."
+        },
+        "steps": [
+          "**Nail down the purpose first.** Social ad, internal demo, concept film — each demands something different. A concept piece can run free; ad material has to survive compression and brand review.",
+          "Generate single shots, never a whole film at once. **The reliable unit is one 5-10 second shot**; longer pieces are assembled from them.",
+          "If you have a reference image, use image-to-video — far more controllable than text alone. **Anything that must stay consistent across shots needs a reference image.**",
+          "For voiceover, use ElevenLabs or MiniMax Speech. **Finalise the script before you record** — changing one word means re-recording the whole passage.",
+          "For voiceover, write the script to final before recording. **Change one word and the whole passage is re-recorded.**",
+          "Cut and caption in an editor. AI footage is inherently discontinuous — **editing is what turns it into a film**, not an optional polish.",
+          "If you need a person on camera but do not want to shoot, a digital presenter (HeyGen, Synthesia) covers talking-head work. **Viewers can spot these immediately**, so they suit internal training and product walkthroughs — anything that does not depend on feeling real."
+        ],
+        "warnings": [
+          "**Hands, fast motion and text inside the frame are still unreliable.** Design the shot list to avoid them rather than hoping to fix it afterwards.",
+          "Keeping one character consistent across shots is the hardest part. Use the same reference image and a fixed set of descriptors — don't re-describe every shot.",
+          "Any exact information in frame — a logo, a model number — must be composited in post. Don't expect the model to render it correctly.",
+          "Platform compression amplifies AI artefacts. It looks acceptable on your screen and worse after upload. Exporting at a higher bitrate helps a little.",
+          "**If you need a real person telling a true story, a digital avatar is the wrong tool.** Viewers can tell, and it costs you their trust in the content."
+        ]
+      }
     },
     {
       "id": "pb-3d-asset",
@@ -2861,7 +3061,34 @@
         "AI 摘要不等于你的理解。综述的价值在于你对文献之间关系的判断，这部分不能代劳，代劳了写出来的东西经不起追问。",
         "注意文献的时间分布。如果 AI 给你的都是几年前的工作，可能是因为最新的它不知道，而不是因为最新不重要。",
         "专用学术 AI 的覆盖范围有偏向（通常 CS 和生物医学最全，人文社科明显薄弱）。你的领域如果偏，要多用传统数据库兜底。"
-      ]
+      ],
+      "en": {
+        "title": "Run a literature review you can defend",
+        "time": "3-7 days",
+        "level": "hands-on",
+        "problem": "You search with AI, get a pile of plausible conclusions and citations, and when you check the citations some don't exist and others don't say what you claimed.",
+        "spec": {
+          "input": "A precise research question, plus database access",
+          "output": "A review with checkable citations, and a way to keep tracking the literature",
+          "fail": "Fabricated citations, missing seminal work, or a review that is really just stacked AI summaries",
+          "alt": "Just getting oriented in a new field → a normal search plus a couple of review articles. No need for the full process."
+        },
+        "steps": [
+          "**Search yourself first, then bring AI in.** Relying on AI to find literature has two fatal problems: it invents citations, and it doesn't know which work is foundational in your field.",
+          "Use academic-specific search rather than general search. Semantic Scholar and Connected Papers show the citation graph, which is far more effective than keyword matching — **following citations usually beats searching terms**.",
+          "Use Elicit or Consensus for structured extraction. The first is strong at pulling conclusions from many papers into one table; the second at aggregating what the field currently thinks.",
+          "**Check every citation against the original.** This step is not optional. Two things to verify: does the paper exist, and does it actually support the sentence you wrote? The second fails more often than the first.",
+          "Use Scite to see whether a paper is cited approvingly or critically. **Citation counts alone mislead** — a paper heavily cited for being wrong still has a high count.",
+          "If you need a draft, STORM can help generate one, **but treat it as a draft generator, not a product**. Every paragraph still goes through you.",
+          "Finally, set up a way to keep tracking. A citation network in Connected Papers plus journal alerts beats manually searching the same keywords every week."
+        ],
+        "warnings": [
+          "**Fabricated citations are the biggest trap here, and they look completely real** — plausible authors, journals, years — until you look them up. Verify every citation against the original. No exceptions.",
+          "An AI summary is not your understanding. The value of a review lies in your judgement about how the literature relates, and that can't be delegated without falling apart under questioning.",
+          "Check the date distribution. If every paper it gives you is several years old, that may be because it doesn't know the recent ones — not because the recent ones don't matter.",
+          "Specialist academic AI has coverage bias (usually strongest in CS and biomedicine, weak in the humanities). If your field is off-centre, lean on conventional databases."
+        ]
+      }
     },
     {
       "id": "pb-music-voice",
@@ -3351,7 +3578,35 @@
         "**终端 Agent 类工具会执行命令，这是能力也是风险。** 试点时要在独立分支或容器里跑，不要在主干上直接试。",
         "不要一次铺开多个工具。上下文切换的成本比你以为的高，团队会陷入「每个都不熟」。先定一个主工具。",
         "评估「模型可换性」。绑定单一厂商的工具在涨价或降级时会很被动，**支持自带 API key 的工具长期更安全**。"
-      ]
+      ],
+      "en": {
+        "title": "Choose an AI coding tool for your team",
+        "time": "3-5 days",
+        "level": "hands-on",
+        "problem": "Every AI coding tool claims to lead the benchmarks. You need one your team will use for years, and switching later is expensive.",
+        "spec": {
+          "input": "Team size, stack, code-privacy requirements, budget ceiling, and the main scenario (completion / refactoring / building from scratch)",
+          "output": "A clear decision, a trial report, and a migration plan",
+          "fail": "Choosing from benchmarks alone, missing a privacy requirement, or discovering after a full rollout that it does not fit",
+          "alt": "A solo developer → skip this process. Just try Cursor or Claude Code; the cost of being wrong is trivial."
+        },
+        "steps": [
+          "**Separate must-haves from nice-to-haves first.** Three questions usually eliminate most options: can code leave the network, must it use our own model, and does it have to work behind our proxy?",
+          "Trial three shapes, because they solve different problems rather than competing: **AI editors** (Cursor, Windsurf), **terminal agents** (Claude Code, Codex, Gemini CLI), **IDE plugins** (Copilot, Continue).",
+          "**Test with your own repository**, not benchmark questions. Give each candidate one realistic mid-sized task — write a test, fix a bug, document a module.",
+          "Watch how it behaves **on your codebase**, not how strong its model is. The messier and older the project, the wider the gap between tools.",
+          "**Work out the real cost.** Subscription is the visible part. Add overage charges, per-seat team pricing, and any licence needed to point it at your own model.",
+          "Read the data terms. **Check specifically whether your code trains their model** — that is on by default in many tools, switchable in settings or via an enterprise tier.",
+          "Pilot with a small group for two weeks before rolling out. **Pilot on a real project, not a toy one** — otherwise you learn that the demo works, not that production does."
+        ],
+        "warnings": [
+          "**Benchmark scores correlate weakly with your experience.** The same model behaves differently in different harnesses — possibly more differently than two models do. Test on your code.",
+          "Code privacy is a hard constraint. If policy forbids code leaving the network, only private-deployment options qualify (Tabnine, Continue with a local model). Don't compromise here.",
+          "**Terminal agents run commands — that is the capability and the risk.** Pilot on a throwaway branch or in a container, never straight on main.",
+          "Don't roll out several tools at once. Context switching costs more than you expect, and the team ends up fluent in none. Pick one primary.",
+          "Assess model portability. A tool locked to one vendor is exposed to price rises and silent downgrades. **Tools that accept your own API key age better.**"
+        ]
+      }
     },
     {
       "id": "pb-image-gen",

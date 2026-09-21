@@ -5,10 +5,12 @@
  * 场景手册 / 提示词 / 资讯 / 学习资源是长篇中文内容，不做翻译，
  * 在关于页里明确说明——两套长期并行维护的翻译成本远高于它能带来的价值。
  */
-import { esc, jsonEmbed, initials, accentStyle, hashColor } from './utils.mjs';
-import { pageHead, crumbs, toolCard, modelCard, catCard, PRICING } from './components.mjs';
+import { esc, jsonEmbed, initials, accentStyle, hashColor, accentTextStyle } from './utils.mjs';
+import { pageHead, crumbs, toolCard, modelCard, catCard, playbookCard, PRICING } from './components.mjs';
 import { EN, pick, tagList } from './labels.mjs';
+import { vendorEn, modelNameEn, toolNameEn } from './i18n-en-maps.mjs';
 import { layout } from './layout.mjs';
+import { icon } from './icons.mjs';
 import { breadcrumbLd, siteLd, shead } from './pages.mjs';
 
 /** 英文版导航 */
@@ -23,7 +25,24 @@ const sec = (title, sub = '', href = '', more = '') => `<div class="section-head
   ${href ? `<a class="section-more" href="${esc(href)}">${esc(more)} →</a>` : ''}
 </div>`;
 
+/* 英文站的场景分组名。中文分组名不能直接出现在英文页面上。 */
+const GROUP_EN = {
+  office: 'Office & admin',
+  content: 'Content',
+  media: 'Media production',
+  code: 'Engineering',
+  learn: 'Learning & research',
+  data: 'Data',
+  growth: 'Growth',
+};
+const enGroupMap = (groups) => Object.fromEntries(
+  groups.map((g) => [g.id, { ...g, name: GROUP_EN[g.id] || g.name }]),
+);
+/** 只有翻译好的手册才进英文站 —— 英文页上出现中文比缺内容更糟 */
+const enReady = (ctx) => ctx.playbooks.items.filter((p) => p.en && p.en.steps && p.en.steps.length);
+
 const enNav = [
+  { label: 'Playbooks', href: '/en/playbooks/' },
   { label: 'Tools', href: '/en/tools/' },
   { label: 'Models', href: '/en/models/' },
   { label: 'About', href: '/en/about/' },
@@ -46,13 +65,17 @@ function nameMaps(i18n) {
 /** 英文版工具卡：把分类名换成英文后再交给通用组件 */
 function ecard(t, i18n, extra = {}) {
   const { catName } = nameMaps(i18n);
-  return toolCard(t, { [t.cat]: { name: catName(t.cat), accent: hashColor(t.cat) }, ...extra }, EN);
+  // 中文工具名要换成英文写法，否则英文站上会露出「豆包」「通义千问」
+  const tEn = { ...t, name: toolNameEn(t.name) };
+  return toolCard(tEn, { [t.cat]: { name: catName(t.cat), accent: hashColor(t.cat) }, ...extra }, EN);
 }
 
 /** 英文版模型卡 */
 function mcard(m, i18n, kindMap) {
+  // 英文站显示英文厂商名与模型名，否则会露出「腾讯」「通义万相」
+  const mEn = { ...m, vendor: vendorEn(m.vendor), name: modelNameEn(m.name) };
   const { kindName } = nameMaps(i18n);
-  return modelCard(m, { ...kindMap, [m.kind]: { ...(kindMap[m.kind] || {}), name: kindName(m.kind) } }, i18n.en, EN);
+  return modelCard(mEn, { ...kindMap, [m.kind]: { ...(kindMap[m.kind] || {}), name: kindName(m.kind) } }, i18n.en, EN);
 }
 
 const shell = (o) =>
@@ -63,7 +86,19 @@ const shell = (o) =>
     navItems: enNav,
     footerLinks: enFooter,
     altLang: 'zh-CN',
-    altLabel: '切换到中文',
+    altLabel: 'Switch to Chinese',
+    navLabel: 'Main navigation',
+    skipLabel: 'Skip to content',
+    footerCopyright: '© 2026 AI Wanxiang — an AI tools and models directory',
+    footerLicense: 'Data is published as JSON under an open licence',
+    footerNavTitle: 'Site navigation',
+    footerMore: [{ label: '中文版', href: '/' }, { label: 'RSS (Chinese)', href: '/feed.xml' }],
+    footerData: [
+      { label: 'Open data', href: '/api/index.json' },
+      { label: 'Tools JSON', href: '/api/tools.json' },
+      { label: 'Search index', href: '/api/search.json' },
+    ],
+    crumbLabel: 'Breadcrumb',
     hideSearch: true,
     brandName: 'AI Wanxiang',
     brandSlogan: o.siteTagline || 'AI Tools & Models Directory',
@@ -107,7 +142,7 @@ export function enHome(ctx, i18n) {
     ${sec('Browse by category', "Every tool carries an editor's note on when not to use it — the part most directories leave out.")}
     <div class="grid grid-4">
       ${categories.toolCategories
-        .map((c) => catCard({ ...c, name: catName(c.id) }, tools.filter((t) => t.cat === c.id).length, `/en/tools/${c.id}/`))
+        .map((c) => catCard({ ...c, name: catName(c.id, EN) }, tools.filter((t) => t.cat === c.id).length, `/en/tools/${c.id}/`, EN))
         .join('')}
     </div>
   </div>
@@ -131,7 +166,7 @@ export function enHome(ctx, i18n) {
   <div class="container">
     ${sec('Model library', en['models.note'], '/en/models/', 'All models')}
     <div class="grid grid-6">
-      ${models.kinds.map((k) => catCard({ ...k, name: kindName(k.id) }, models.items.filter((m) => m.kind === k.id).length, `/en/models/${k.id}/`)).join('')}
+      ${models.kinds.map((k) => catCard({ ...k, name: kindName(k.id, EN) }, models.items.filter((m) => m.kind === k.id).length, `/en/models/${k.id}/`, EN)).join('')}
     </div>
   </div>
 </section>`;
@@ -165,7 +200,7 @@ export function enTools(ctx, i18n, { activeCat = '' } = {}) {
     : [{ label: 'Home', href: '/en/' }, { label: 'Tools' }];
 
   const body = `
-${crumbs(crumbItems)}
+${crumbs(crumbItems, 'Breadcrumb')}
 ${pageHead(title, desc, `<div class="ph-meta"><span class="label">Tools <b style="color:var(--fg)">${list.length}</b></span></div>`, 'TOOLS')}
 <div data-filter-root>
   <div class="toolbar">
@@ -237,17 +272,17 @@ export function enToolDetail(ctx, i18n, t) {
   const rows = compare.map((x) => {
     const cur = x.id === t.id;
     return `<tr class="${cur ? 'is-current' : ''}">
-      <td><a href="/en/tools/${esc(x.cat)}/${esc(x.id)}/">${esc(x.name)}</a>${cur ? `<span class="tag" style="margin-left:6px">current</span>` : ''}</td>
+      <td><a href="/en/tools/${esc(x.cat)}/${esc(x.id)}/">${esc(toolNameEn(x.name))}</a>${cur ? `<span class="tag" style="margin-left:6px">current</span>` : ''}</td>
       <td>${esc(EN.pricing[x.pricing] || x.pricing)}</td>
       <td>${x.cn ? 'Direct' : '—'}</td>
       <td>${x.official ? 'Official' : '—'}</td>
       <td>${x.hot ? 'Popular' : '—'}</td>
-      <td><a href="${esc(x.url)}" target="_blank" rel="noopener nofollow" class="table-link" aria-label="Visit ${esc(x.name)}">↗</a></td>
+      <td><a href="${esc(x.url)}" target="_blank" rel="noopener nofollow" class="table-link" aria-label="Visit ${esc(toolNameEn(x.name))}">↗</a></td>
     </tr>`;
   }).join('');
 
   const body = `
-${crumbs(crumbItems)}
+${crumbs(crumbItems, 'Breadcrumb')}
 <div class="container">
   <div class="tool-hero">
     <span class="avatar avatar-lg" style="${accentStyle(c)}" aria-hidden="true">${esc(initials(t.name))}</span>
@@ -357,7 +392,7 @@ export function enModels(ctx, i18n, { activeKind = '' } = {}) {
   const kindMap = Object.fromEntries(models.kinds.map((k) => [k.id, k]));
 
   const body = `
-${crumbs(crumbItems)}
+${crumbs(crumbItems, 'Breadcrumb')}
 ${pageHead(title, desc, '', 'MODELS')}
 <section class="section" style="padding-top:0">
   <div class="container">
@@ -397,7 +432,7 @@ ${pageHead(title, desc, '', 'MODELS')}
     altPath: activeKind ? `/models/${activeKind}/` : '/models/',
     jsonld: [
       breadcrumbLd(site, crumbItems),
-      { '@context': 'https://schema.org', '@type': 'ItemList', name: title, numberOfItems: list.length, itemListElement: list.map((m, i) => ({ '@type': 'ListItem', position: i + 1, name: `${m.name} (${m.vendor})`, description: (m.strengthsEn || m.strengths || []).join('; ') })) },
+      { '@context': 'https://schema.org', '@type': 'ItemList', name: title, numberOfItems: list.length, itemListElement: list.map((m, i) => ({ '@type': 'ListItem', position: i + 1, name: `${modelNameEn(m.name)} (${vendorEn(m.vendor)})`, description: (m.strengthsEn || m.strengths || []).join('; ') })) },
     ],
   });
 }
@@ -408,7 +443,7 @@ export function enAbout(ctx, i18n) {
   const en = i18n.en;
   const crumbItems = [{ label: 'Home', href: '/en/' }, { label: 'About' }];
   const body = `
-${crumbs(crumbItems)}
+${crumbs(crumbItems, 'Breadcrumb')}
 ${pageHead('About', '', '', 'ABOUT')}
 <section class="section" style="padding-top:0">
   <div class="container container-narrow">
@@ -441,7 +476,7 @@ ${pageHead('About', '', '', 'ABOUT')}
         The Chinese version carries substantially more: 30 step-by-step playbooks, 74 prompt templates,
         93 glossary terms, 45 learning resources and a live news feed.
       </p>
-      <a class="btn btn-primary" href="/">前往中文版 →</a>
+      <a class="btn btn-primary" href="/">View the Chinese version →</a>
     </div>
   </div>
 </section>`;
@@ -450,5 +485,189 @@ ${pageHead('About', '', '', 'ABOUT')}
     site, path: '/en/about/', title: 'About', description: en['about.scope'], body,
     brandDesc: en['siteDesc'], altPath: '/about/',
     jsonld: breadcrumbLd(site, crumbItems),
+  });
+}
+
+
+/* ============================ 场景手册（英文） ============================ */
+/* 英文版的覆盖面比中文窄：只收录已翻译的手册。
+   没翻译的不出现，而不是回退显示中文。 */
+
+export function enPlaybooks(ctx, i18n) {
+  const en = i18n.en;
+  const { site, playbooks } = ctx;
+  const groups = enGroupMap(playbooks.groups);
+  const list = enReady(ctx);
+  const crumbItems = [{ label: 'Home', href: '/en/' }, { label: 'Playbooks' }];
+
+  const byGroup = playbooks.groups
+    .map((g) => ({ g, items: list.filter((p) => p.group === g.id) }))
+    .filter((x) => x.items.length);
+
+  const body = `
+${crumbs(crumbItems, 'Breadcrumb')}
+${pageHead(
+  'Playbooks',
+  `${list.length} end-to-end workflows for doing real work with AI. Each states its input, its expected output, what counts as failure, and — the part most guides skip — when you should not use AI at all.`,
+  '', 'PLAYBOOKS / Workflows', 'Workflow list',
+)}
+${byGroup.map(({ g, items }) => `<section class="section">
+  <div class="container">
+    ${shead('', GROUP_EN[g.id] || g.name, `${items.length} workflows`)}
+    <div class="grid">${items.map((p) => playbookCard(p, groups, '/en/playbooks/', EN)).join('')}</div>
+  </div>
+</section>`).join('')}`;
+
+  return shell({
+    site,
+    path: '/en/playbooks/',
+    title: 'AI playbooks: end-to-end workflows',
+    description: `${list.length} end-to-end AI workflows. Each one states its input, expected output, what counts as failure, and when you should not use AI at all.`,
+    body,
+    brandDesc: en['siteDesc'],
+    altPath: '/playbooks/',
+    jsonld: [
+      breadcrumbLd(site, crumbItems),
+      {
+        '@context': 'https://schema.org', '@type': 'ItemList',
+        name: 'AI playbooks', numberOfItems: list.length, inLanguage: 'en',
+        itemListElement: list.map((p, i) => ({
+          '@type': 'ListItem', position: i + 1, name: p.en.title, url: `/en/playbooks/${p.id}/`,
+        })),
+      },
+    ],
+  });
+}
+
+export function enPlaybookDetail(ctx, i18n, pb) {
+  const en = i18n.en;
+  const { site, toolMap, promptMap } = ctx;
+  const groups = enGroupMap(ctx.playbooks.groups);
+  const g = groups[pb.group] || { name: pb.group, accent: '#1B4DFF', icon: 'target' };
+  const e = pb.en;
+
+  const others = ctx.playbooks.items.filter((x) => x.id !== pb.id && x.group === pb.group && x.en && x.en.steps).slice(0, 2);
+  const fallback = enReady(ctx).filter((x) => x.id !== pb.id && x.group !== pb.group).slice(0, Math.max(0, 3 - others.length));
+  const more = [...others, ...fallback].slice(0, 3);
+
+  const crumbItems = [
+    { label: 'Home', href: '/en/' },
+    { label: 'Playbooks', href: '/en/playbooks/' },
+    { label: e.title },
+  ];
+
+  /* 工具链到英文工具页；提示词只有中文版，所以显式标 · zh，不假装它是英文的 */
+  const toolChip = (id) => {
+    const t = toolMap[id];
+    if (!t) return '';
+    return `<a class="tag accent" href="/en/tools/${esc(t.cat)}/${esc(t.id)}/" style="${accentTextStyle(g.accent)}">${esc(toolNameEn(t.name))}${icon('arrow-up-right', 10)}</a>`;
+  };
+  const promptChip = (id) => {
+    const p = promptMap[id];
+    if (!p) return '';
+    return `<a class="tag accent" href="/prompts/${esc(p.cat)}/#${esc(p.id)}" style="${accentTextStyle(g.accent)}" title="Prompt template (Chinese only)">${icon('spark', 10)} ${esc(p.title)} <span style="opacity:.65">· zh</span></a>`;
+  };
+
+  const steps = (e.steps || []).map((text, i) => {
+    const zh = (pb.steps || [])[i] || {};
+    return `<div class="step">
+      <div class="step-num">${String(i + 1).padStart(2, '0')}</div>
+      <div class="step-body">
+        <p>${esc(text).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')}</p>
+        ${(zh.tools || []).length || (zh.prompts || []).length
+          ? `<div class="step-refs">${(zh.tools || []).map(toolChip).join('')}${(zh.prompts || []).map(promptChip).join('')}</div>`
+          : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  const specBlock = e.spec ? `<section class="section" style="padding-top:0">
+  <div class="container container-narrow">
+    <div class="pb-spec">
+      <div class="pbs-head">What you should end up with</div>
+      <dl>
+        <div><dt>Input</dt><dd>${esc(e.spec.input)}</dd></div>
+        <div><dt>Output</dt><dd>${esc(e.spec.output)}</dd></div>
+        <div><dt>Counts as failure</dt><dd>${esc(e.spec.fail)}</dd></div>
+        <div><dt>When not to use AI</dt><dd>${esc(e.spec.alt)}</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>` : '';
+
+  const warnBlock = (e.warnings || []).length ? `<section class="section" style="background:var(--surface-2)">
+  <div class="container container-narrow">
+    ${shead('02', 'What goes wrong', 'Failure modes we actually hit, not generic advice')}
+    <ul class="warn-list">
+      ${e.warnings.map((w) => `<li>${icon('alert', 14)}<span>${esc(w).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')}</span></li>`).join('')}
+    </ul>
+  </div>
+</section>` : '';
+
+  const tools = (pb.tools || []).map((id) => toolMap[id]).filter(Boolean);
+
+  const body = `
+${crumbs(crumbItems, 'Breadcrumb')}
+<div class="container container-narrow">
+  <header class="article-head">
+    <div class="news-meta">
+      <span class="tag accent" style="${accentTextStyle(g.accent)}">${esc(g.name)}</span>
+      <span>About ${esc(e.time)}</span>
+      <span class="dot-sep">/</span>
+      <span>${esc(e.level || '')}</span>
+      <span class="dot-sep">/</span>
+      <span>${(e.steps || []).length} steps</span>
+    </div>
+    <h1>${esc(e.title)}</h1>
+    <p style="color:var(--fg-2);font-size:1rem;line-height:1.75;max-width:66ch">${esc(e.problem)}</p>
+  </header>
+</div>
+
+${specBlock}
+
+<section class="section" style="padding-top:34px">
+  <div class="container container-narrow">
+    ${shead('01', 'The process', 'In order, with the tools for each step')}
+    <div class="steps">${steps}</div>
+  </div>
+</section>
+
+${warnBlock}
+
+${tools.length ? `<section class="section">
+  <div class="container">
+    ${shead('03', 'Tools used here', '', '/en/tools/', 'All tools')}
+    <div class="grid">${tools.slice(0, 8).map((t) => ecard(t, i18n)).join('')}</div>
+  </div>
+</section>` : ''}
+
+${more.length ? `<section class="section">
+  <div class="container">
+    ${shead('04', 'Other playbooks', '', '/en/playbooks/', 'All playbooks')}
+    <div class="grid">${more.map((p) => playbookCard(p, groups, '/en/playbooks/', EN)).join('')}</div>
+  </div>
+</section>` : ''}`;
+
+  return shell({
+    site,
+    path: `/en/playbooks/${pb.id}/`,
+    title: `${e.title} · Playbook`,
+    description: `${e.problem} ${(e.steps || []).length} steps, about ${e.time}.${e.spec ? ' Output: ' + e.spec.output : ''}`,
+    pageType: 'article',
+    body,
+    brandDesc: en['siteDesc'],
+    altPath: `/playbooks/${pb.id}/`,
+    jsonld: [
+      breadcrumbLd(site, crumbItems),
+      {
+        '@context': 'https://schema.org', '@type': 'HowTo',
+        name: e.title,
+        description: `${e.problem}${e.spec ? ' Output: ' + e.spec.output : ''}`,
+        totalTime: e.time, inLanguage: 'en',
+        step: (e.steps || []).map((text, i) => ({
+          '@type': 'HowToStep', position: i + 1, text: text.replace(/\*\*/g, ''),
+        })),
+      },
+    ],
   });
 }

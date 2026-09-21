@@ -45,6 +45,19 @@ export function layout(o) {
     brandName = '',
     brandSlogan = '',
     robots = '',
+    navLabel = '主导航',
+    skipLabel = '跳到主要内容',
+    footerNavTitle = '站内导航',
+    footerCopyright = '',
+    footerLicense = '',
+    footerMore = [{ label: 'AI 术语表', href: '/glossary/' }, { label: 'RSS 订阅', href: '/feed.xml' }],
+    footerData = [
+      { label: '全站数据', href: '/api/index.json' },
+      { label: '工具数据', href: '/api/tools.json' },
+      { label: '提示词数据', href: '/api/prompts.json' },
+      { label: '搜索索引', href: '/api/search.json' },
+    ],
+    crumbLabel = '面包屑',
   } = o;
 
   const bName = brandName || site.brand.name;
@@ -87,7 +100,7 @@ export function layout(o) {
     <a class="logo" href="${esc(brandHref)}" aria-label="${esc(site.brand.name)}">
       ${logoMark}${logoText}
     </a>
-    <nav class="nav" id="nav" aria-label="主导航">${nav}</nav>
+    <nav class="nav" id="nav" aria-label="${esc(navLabel)}">${nav}</nav>
     <div class="header-actions">
       ${hideSearch ? '' : `<a class="quick-search" href="${esc(searchHref)}" aria-label="${esc(searchLabel)}">
         ${icon('search', 14)}<span>${esc(searchText)}</span><kbd>/</kbd>
@@ -109,7 +122,7 @@ export function layout(o) {
         <a class="logo" href="${esc(brandHref)}">${logoMark}${logoText}</a>
         <p>${esc(brandDesc || site.brand.description)}</p>
       </div>
-      <h2 class="sr-only">${esc(site.footer?.navTitle || '站内导航')}</h2>
+      <h2 class="sr-only">${esc(site.footer?.navTitle || footerNavTitle)}</h2>
       <div class="footer-links">
         <div class="footer-col">
           <h3>${esc(site.footer?.browseTitle || '')}</h3>
@@ -118,21 +131,17 @@ export function layout(o) {
         <div class="footer-col">
           <h3>${esc(site.footer?.moreTitle || '')}</h3>
           ${footHtml}
-          <a href="/glossary/">AI 术语表</a>
-          <a href="/feed.xml">RSS 订阅</a>
+          ${footerMore.map((l) => `<a href="${esc(l.href)}">${esc(l.label)}</a>`).join('')}
         </div>
         <div class="footer-col">
           <h3>${esc(site.footer?.dataTitle || '')}</h3>
-          <a href="/api/index.json">全站数据</a>
-          <a href="/api/tools.json">工具数据</a>
-          <a href="/api/prompts.json">提示词数据</a>
-          <a href="/api/search.json">搜索索引</a>
+          ${footerData.map((l) => `<a href="${esc(l.href)}">${esc(l.label)}</a>`).join('')}
         </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>${esc(site.footer?.copyright || '')}</span>
-      <span>${site.footer?.icp ? esc(site.footer.icp) + ' · ' : ''}${esc(site.footer?.note || '数据以 JSON 开放，可自由取用')}</span>
+      <span>${esc(footerCopyright || site.footer?.copyright || '')}</span>
+      <span>${site.footer?.icp ? esc(site.footer.icp) + ' · ' : ''}${esc(footerLicense || site.footer?.note || '数据以 JSON 开放，可自由取用')}</span>
     </div>
   </div>
 </footer>`;
@@ -204,7 +213,7 @@ ${structured}
 
 ${sprite}
 
-<a href="#main" class="skip-link">${esc(site.skipLabel || '跳到主要内容')}</a>
+<a href="#main" class="skip-link">${esc(site.skipLabel || skipLabel)}</a>
 
 ${header}
 

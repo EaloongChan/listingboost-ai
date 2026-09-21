@@ -10,8 +10,8 @@ function accent(hex, fallback = '#1B4DFF') {
   return accentStyle(hex || fallback);
 }
 
-export function crumbs(items) {
-  return `<nav class="crumbs container" aria-label="面包屑">${items
+export function crumbs(items, crumbLabel = '面包屑') {
+  return `<nav class="crumbs container" aria-label="${esc(crumbLabel || '面包屑')}">${items
     .map((it, i) =>
       i === items.length - 1
         ? `<span style="opacity:1;color:var(--fg-2)">${esc(it.label)}</span>`
@@ -80,14 +80,14 @@ export function toolCard(t, catMap, L = ZH) {
       <span class="row" style="gap:5px">${badges}</span>
       <a class="btn btn-sm" href="${esc(t.url)}" target="_blank" rel="noopener nofollow">${L.visit} ${icon('arrow-up-right', 12)}</a>
     </div>
-    ${cardActions('tool', t.id, true)}
+    ${cardActions('tool', t.id, true, L)}
   </article>`;
 }
 
 /** 加入对比按钮（仅工具卡使用，状态由前端 localStorage 同步） */
-export function cmpButton(id) {
+export function cmpButton(id, L = ZH) {
   return `<button class="cmp-btn" type="button" data-cmp="${esc(id)}"
-    aria-pressed="false" aria-label="加入对比" title="加入对比">${icon('plus', 13)}</button>`;
+    aria-pressed="false" aria-label="${esc(L === EN ? 'Add to compare' : '加入对比')}" title="${esc(L === EN ? 'Add to compare' : '加入对比')}">${icon('plus', 13)}</button>`;
 }
 
 /**
@@ -96,23 +96,27 @@ export function cmpButton(id) {
  * @param {string} id    条目 id
  * @param {boolean} [withCompare] 是否显示对比按钮（只有工具用）
  */
-export function cardActions(type, id, withCompare = false) {
+export function cardActions(type, id, withCompare = false, L = ZH) {
+  // 按钮文案要能跟着语言走，否则英文页上读屏软件会念出中文
+  const saveText = L === EN ? 'Save' : '收藏';
   return `<div class="card-actions">
     <button class="act-btn act-save" type="button" data-save="${esc(type)}:${esc(id)}"
-      aria-pressed="false" aria-label="收藏" title="收藏">
+      aria-pressed="false" aria-label="${esc(saveText)}" title="${esc(saveText)}">
       ${icon('star', 14, 'ic-star')}
     </button>
-    ${withCompare ? cmpButton(id) : ''}
+    ${withCompare ? cmpButton(id, L) : ''}
   </div>`;
 }
 
 /** 分类卡 */
-export function catCard(cat, count, href) {
+export function catCard(cat, count, href, L = ZH) {
   const c = cat.accent || '#1B4DFF';
+  // 英文站必须用 descEn，否则分类卡上会露出中文描述
+  const d = L === EN ? (cat.descEn || '') : (cat.desc || '');
   return `<a class="cat-card reveal" href="${esc(href)}" style="${accent(c)}">
     <span class="ci">${icon(cat.icon || 'grid', 17)}</span>
     <h3>${esc(cat.name)} <span class="count">${count}</span></h3>
-    <p>${esc(cat.desc || '')}</p>
+    <p>${esc(d)}</p>
   </a>`;
 }
 
@@ -268,28 +272,36 @@ export function learnCard(l, trackMap) {
 }
 
 /** 场景手册卡片 */
-export function playbookCard(pb, groupMap) {
+export function playbookCard(pb, groupMap, base = '/playbooks/', L = ZH) {
   const g = groupMap[pb.group] || { name: pb.group, accent: '#1B4DFF', icon: 'target' };
+  const e = pb.en || {};
+  // 英文站要显示英文标题/问题；没有英文版的手册不会出现在英文站上，所以这里不用回退中文
+  const title = L === EN && e.title ? e.title : pb.title;
+  const problem = L === EN && e.problem ? e.problem : pb.problem;
+  const time = L === EN && e.time ? e.time : pb.time;
+  const level = L === EN && e.level ? e.level : (pb.level || '');
+  const stepsWord = L === EN ? 'steps' : '步';
+  const cta = L === EN ? 'View process' : '查看流程';
   return `<div class="card playbook-card reveal"
-    data-name="${esc((pb.title + ' ' + pb.problem + ' ' + g.name).toLowerCase())}"
+    data-name="${esc((pb.title + ' ' + pb.problem + ' ' + g.name + ' ' + (e.title || '')).toLowerCase())}"
     data-group="${esc(pb.group)}">
-    <a class="card-hit" href="/playbooks/${esc(pb.id)}/" aria-label="${esc(pb.title)}"></a>
+    <a class="card-hit" href="${base}${esc(pb.id)}/" aria-label="${esc(title)}"></a>
     <div class="card-top">
       <span class="avatar" style="${accent(g.accent)}" aria-hidden="true">${icon(g.icon, 16)}</span>
       <div style="min-width:0;flex:1">
-        <h3 class="card-title"><span class="name">${esc(pb.title)}</span></h3>
-        <div class="card-cat">${esc(g.name)} / ${esc(pb.time)}</div>
+        <h3 class="card-title"><span class="name">${esc(title)}</span></h3>
+        <div class="card-cat">${esc(g.name)} / ${esc(time)}</div>
       </div>
     </div>
-    <p class="card-desc">${esc(pb.problem)}</p>
+    <p class="card-desc">${esc(problem)}</p>
     <div class="card-foot spread">
       <span class="row" style="gap:5px">
-        <span class="tag">${esc(String((pb.steps || []).length))} 步</span>
-        <span class="tag">${esc(pb.level || '')}</span>
+        <span class="tag">${esc(String((pb.steps || []).length))} ${stepsWord}</span>
+        <span class="tag">${esc(level)}</span>
       </span>
-      <span class="label" style="color:var(--accent-text)">查看流程 ${icon('arrow-right', 11)}</span>
+      <span class="label" style="color:var(--accent-text)">${esc(cta)} ${icon('arrow-right', 11)}</span>
     </div>
-    ${cardActions('playbook', pb.id)}
+    ${cardActions('playbook', pb.id, false, L)}
   </div>`;
 }
 
@@ -320,8 +332,8 @@ export function modelCard(m, kindMap, tierLabels, L = ZH) {
     </div>
 
     <div class="model-flags">
-      ${m.open ? '<span class="badge-pill badge-open">开源可部署</span>' : '<span class="badge-pill" style="color:var(--fg-3)">闭源</span>'}
-      ${m.cn ? '<span class="badge-pill badge-cn">国内可直连</span>' : '<span class="badge-pill" style="color:var(--fg-3)">需境外访问</span>'}
+      ${m.open ? `<span class="badge-pill badge-open">${L.openDeployable}</span>` : `<span class="badge-pill" style="color:var(--fg-3)">${L.closedSource}</span>`}
+      ${m.cn ? `<span class="badge-pill badge-cn">${L.directAccess}</span>` : `<span class="badge-pill" style="color:var(--fg-3)">${L.needsOverseas}</span>`}
     </div>
 
     ${latestText(m, L) ? `<div class="model-latest">
@@ -348,7 +360,7 @@ export function modelCard(m, kindMap, tierLabels, L = ZH) {
         <a class="btn btn-sm" href="${esc(m.url)}" target="_blank" rel="noopener nofollow">${L.officialDoc} ${icon('arrow-up-right', 12)}</a>
       </span>
     </div>
-    ${cardActions('model', m.id)}
+    ${cardActions('model', m.id, false, L)}
   </article>`;
 }
 
