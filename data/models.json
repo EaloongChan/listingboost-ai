@@ -41,6 +41,18 @@
       "name": "向量嵌入",
       "icon": "layers",
       "accent": "#0F766E"
+    },
+    {
+      "id": "3d",
+      "name": "3D 生成",
+      "icon": "cube",
+      "accent": "#B45309"
+    },
+    {
+      "id": "doc",
+      "name": "文档解析",
+      "icon": "file",
+      "accent": "#7C2D12"
     }
   ],
   "tiers": {
@@ -49,7 +61,7 @@
     "light": "轻量/低成本",
     "open": "开源旗舰"
   },
-  "note": "这里按「模型家族」对比，不写具体版本号和参数——那类信息几个月就过期，需要精确数据请点右侧官方链接。带「开源」标记的可以下载权重自行部署。",
+  "note": "对比维度只保留稳定的东西（最强的地方 / 注意什么 / 适合什么 / 是否开源 / 国内能否直连 / 档位），因为这些不会几个月就过期。\n\n易变的信息单独放在每条上方的「时效」一行，并且**强制标注核验月份** —— 这样你能自己判断这条信息有多旧。版本号、价格、上下文长度刻意不写进对比维度，需要精确数据请看每条的官方模型列表链接。",
   "items": [
     {
       "id": "m-gpt",
@@ -87,7 +99,13 @@
         "General assistant work",
         "Production systems needing strict JSON output",
         "Agent development"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "旗舰 GPT-6 Astra（2026-09）；GPT-5.6 分 Sol / Terra / Luna 三档覆盖全价位"
+      },
+      "latestEn": "Flagship GPT-6 Astra (2026-09); the GPT-5.6 line splits into Sol / Terra / Luna across the price range",
+      "modelsUrl": "https://platform.openai.com/docs/models"
     },
     {
       "id": "m-o-series",
@@ -125,7 +143,13 @@
         "Hard problems",
         "Tasks needing rigorous derivation",
         "Research and algorithm design"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "推理能力已并入主线，GPT-5.6 的 Think 模式取代了独立 o 系列的定位"
+      },
+      "latestEn": "Reasoning is now folded into the main line — GPT-5.6 Think mode replaces the standalone o series",
+      "modelsUrl": "https://platform.openai.com/docs/models"
     },
     {
       "id": "m-claude",
@@ -163,7 +187,13 @@
         "Code and refactoring",
         "Long-form writing and editing",
         "Document analysis"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "旗舰 Claude Fable 5.1；Opus 5 是官方推荐的默认档，价格约为 Fable 的一半"
+      },
+      "latestEn": "Flagship Claude Fable 5.1; Opus 5 is the vendor-recommended default at roughly half the price",
+      "modelsUrl": "https://docs.anthropic.com/en/docs/about-claude/models/overview"
     },
     {
       "id": "m-gemini",
@@ -201,7 +231,13 @@
         "Multimodal tasks",
         "Audio and video understanding",
         "Teams already on Google Workspace"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Gemini 3.8 Flash（2026-09）主打速度与低价；3.1 Pro 是主力档"
+      },
+      "latestEn": "Gemini 3.8 Flash (2026-09) leads on speed and price; 3.1 Pro is the main workhorse tier",
+      "modelsUrl": "https://ai.google.dev/gemini-api/docs/models"
     },
     {
       "id": "m-llama",
@@ -239,7 +275,13 @@
         "Local deployment",
         "Secondary fine-tuning",
         "Scenarios where data cannot leave the network"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Meta 已把主线切到 Muse 家族，Llama 线更新放缓。新项目建议直接看 Muse"
+      },
+      "latestEn": "Meta has moved its main line to the Muse family; Llama releases have slowed. New projects should look at Muse",
+      "modelsUrl": "https://www.llama.com/models/"
     },
     {
       "id": "m-qwen",
@@ -277,7 +319,13 @@
         "Chinese-language applications",
         "On-device deployment",
         "Scenarios needing freedom to pick a size"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "旗舰 Qwen3.8-Max；Qwen3.8-27B 是 Apache 2.0 开源档，量化后可跑消费级显卡"
+      },
+      "latestEn": "Flagship Qwen3.8-Max; Qwen3.8-27B is the Apache 2.0 tier and runs quantised on a consumer GPU",
+      "modelsUrl": "https://qwen.ai/"
     },
     {
       "id": "m-deepseek",
@@ -315,7 +363,13 @@
         "Reasoning-heavy tasks",
         "Cost-sensitive production",
         "Code generation"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "V4 Pro 为旗舰（1M 上下文）；V4 Flash 是极低价档，V4.1 Flash 已原生多模态"
+      },
+      "latestEn": "V4 Pro is the flagship (1M context); V4 Flash is the extreme low-cost tier and V4.1 Flash adds native multimodal",
+      "modelsUrl": "https://api-docs.deepseek.com/quick_start/pricing"
     },
     {
       "id": "m-glm",
@@ -351,7 +405,13 @@
         "Chinese enterprise applications",
         "Agents and tool calling",
         "Private deployment"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "GLM-5.3（2026-08），官方称开始在推理系统优化上出现自我改进迹象"
+      },
+      "latestEn": "GLM-5.3 (2026-08); the vendor says it is showing early signs of self-improvement in its own inference system",
+      "modelsUrl": "https://docs.z.ai/guides/llm/glm-4.6"
     },
     {
       "id": "m-kimi",
@@ -387,7 +447,13 @@
         "Long-document processing",
         "Research collation",
         "Reading-intensive work"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Kimi K3（2026-07）为旗舰并开放权重；K2.5 是同族大参数开源档"
+      },
+      "latestEn": "Kimi K3 (2026-07) is the flagship with open weights; K2.5 is the large open sibling",
+      "modelsUrl": "https://platform.moonshot.cn/docs/intro"
     },
     {
       "id": "m-doubao",
@@ -423,7 +489,13 @@
         "High-frequency low-cost calls",
         "Voice applications",
         "Consumer products"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "豆包 / Seed 系列，另有 Seedance 视频线与即梦产品端"
+      },
+      "latestEn": "Doubao / Seed family, with Seedance for video and Jimeng as the consumer product",
+      "modelsUrl": "https://www.volcengine.com/docs/82379/1330310"
     },
     {
       "id": "m-hunyuan",
@@ -459,7 +531,13 @@
         "Chinese office scenarios",
         "Video generation",
         "3D content production"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "混元 Hy4 preview（2026-08）按 Apache 2.0 开放权重"
+      },
+      "latestEn": "Hunyuan Hy4 preview (2026-08) released with open weights under Apache 2.0",
+      "modelsUrl": "https://cloud.tencent.com/document/product/1729/97725"
     },
     {
       "id": "m-ernie",
@@ -493,7 +571,13 @@
       "useForEn": [
         "Chinese knowledge Q&A",
         "Chinese enterprise integration"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "文心 ERNIE 5.0，在 LMArena 中文榜登顶"
+      },
+      "latestEn": "ERNIE 5.0, currently top of the LMArena Chinese leaderboard",
+      "modelsUrl": "https://cloud.baidu.com/doc/WENXINWORKSHOP/index.html"
     },
     {
       "id": "m-spark",
@@ -529,7 +613,13 @@
         "Voice applications",
         "Education products",
         "Scenarios requiring domestic hardware"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "星火 X2.5，提供 1M 上下文的开源档"
+      },
+      "latestEn": "Spark X2.5 offers a 1M-context open-weight tier",
+      "modelsUrl": "https://www.xfyun.cn/doc/spark/Web.html"
     },
     {
       "id": "m-mistral",
@@ -567,7 +657,13 @@
         "Low-latency scenarios",
         "European business",
         "Edge deployment"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Mistral Medium 3.5 / Large 3 为当前主力档"
+      },
+      "latestEn": "Mistral Medium 3.5 and Large 3 are the current main tiers",
+      "modelsUrl": "https://docs.mistral.ai/getting-started/models/models_overview/"
     },
     {
       "id": "m-grok",
@@ -603,7 +699,13 @@
       "useForEn": [
         "Real-time trend tracking",
         "Scenarios needing looser output policy"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Grok 4.6（2026-08），推理已作为默认模式并可按强度调节"
+      },
+      "latestEn": "Grok 4.6 (2026-08); reasoning is now the default mode with adjustable effort",
+      "modelsUrl": "https://docs.x.ai/docs/models"
     },
     {
       "id": "m-minimax",
@@ -639,7 +741,13 @@
         "Voice cloning and dubbing",
         "Video generation",
         "Multimodal products"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "文本 / 语音 / 视频同族推进，海螺视频与语音合成是主要落地方向"
+      },
+      "latestEn": "Text, speech and video advance as one family; Hailuo video and speech synthesis are the main deployments",
+      "modelsUrl": "https://platform.minimaxi.com/document/Models"
     },
     {
       "id": "m-step",
@@ -671,7 +779,13 @@
       "useForEn": [
         "Image understanding",
         "Multimodal agents"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Step 5 Preview（2026-09）面向真实世界 Agentic 任务的旗舰基座"
+      },
+      "latestEn": "Step 5 Preview (2026-09) is the flagship base model for real-world agentic tasks",
+      "modelsUrl": "https://platform.stepfun.com/docs/overview/model-overview"
     },
     {
       "id": "m-gpt-image",
@@ -707,7 +821,13 @@
         "Design work needing precise control",
         "Images containing text",
         "Instruction-driven edits"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "GPT Image 线，指令跟随与图内文字最准"
+      },
+      "latestEn": "GPT Image line, the most accurate at instruction following and text inside images",
+      "modelsUrl": "https://platform.openai.com/docs/models/gpt-image-1"
     },
     {
       "id": "m-midjourney",
@@ -745,7 +865,13 @@
         "Concept and mood boards",
         "Artistic work",
         "Brand visual exploration"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Midjourney 已从 Discord 转向网页与移动端"
+      },
+      "latestEn": "Midjourney has moved from Discord to web and mobile apps",
+      "modelsUrl": "https://docs.midjourney.com/"
     },
     {
       "id": "m-nanobanana",
@@ -781,7 +907,13 @@
         "Series images with consistent characters",
         "Iterative image editing",
         "Product image compositing"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Nano Banana 线已接替 Imagen 成为 Google 图像主力"
+      },
+      "latestEn": "Nano Banana has taken over from Imagen as Google’s main image line",
+      "modelsUrl": "https://ai.google.dev/gemini-api/docs/image-generation"
     },
     {
       "id": "m-flux",
@@ -819,7 +951,13 @@
         "Local generation",
         "Custom style training",
         "Bulk production"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "FLUX 开源线，开放权重里质量领先"
+      },
+      "latestEn": "FLUX open line — leading quality among open weights",
+      "modelsUrl": "https://docs.bfl.ai/"
     },
     {
       "id": "m-seedream",
@@ -855,7 +993,13 @@
         "Chinese-language posters",
         "E-commerce assets",
         "Chinese teams"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Seedream 线，中文海报与图内文字表现好"
+      },
+      "latestEn": "Seedream line, strong on Chinese posters and text inside images",
+      "modelsUrl": "https://www.volcengine.com/docs/82379/1541523"
     },
     {
       "id": "m-wanxiang",
@@ -889,7 +1033,13 @@
       "useForEn": [
         "Commercial deployment in China",
         "Chinese-language content generation"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "通义万相线，图像与视频双线开源"
+      },
+      "latestEn": "Tongyi Wanxiang line, open source on both image and video",
+      "modelsUrl": "https://tongyi.aliyun.com/wanxiang/"
     },
     {
       "id": "m-sora",
@@ -925,7 +1075,13 @@
       "useForEn": [
         "High-quality concept films",
         "Complex physical scenes"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Sora 线持续迭代，配额与定价仍在高位"
+      },
+      "latestEn": "The Sora line keeps iterating; quota and pricing remain at the high end",
+      "modelsUrl": "https://platform.openai.com/docs/models/sora"
     },
     {
       "id": "m-veo",
@@ -959,7 +1115,13 @@
       "useForEn": [
         "Clips that need sound",
         "Advertising-grade footage"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Veo 线原生带同步音频，是它的主要差异点"
+      },
+      "latestEn": "The Veo line generates synchronised audio natively — that is its main differentiator",
+      "modelsUrl": "https://ai.google.dev/gemini-api/docs/video"
     },
     {
       "id": "m-kling",
@@ -995,7 +1157,13 @@
         "Human-centric video",
         "Dance and motion",
         "Chinese teams"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "可灵线持续迭代，人像运动与图生视频是强项"
+      },
+      "latestEn": "The Kling line keeps iterating, strongest on human motion and image-to-video",
+      "modelsUrl": "https://app.klingai.com/cn/"
     },
     {
       "id": "m-hailuo-video",
@@ -1029,7 +1197,13 @@
       "useForEn": [
         "Shorts with strong camera work",
         "Creative advertising"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "海螺视频线，镜头语言丰富、运动幅度大"
+      },
+      "latestEn": "Hailuo video: rich camera language and large motion range",
+      "modelsUrl": "https://platform.minimaxi.com/document/video_generation"
     },
     {
       "id": "m-hunyuan-video",
@@ -1063,7 +1237,13 @@
       "useForEn": [
         "Video generation where you control the stack",
         "Research"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "混元视频开源线，是开放权重里质量靠前的选择"
+      },
+      "latestEn": "Hunyuan video open line — among the better choices among open weights",
+      "modelsUrl": "https://huggingface.co/tencent/HunyuanVideo"
     },
     {
       "id": "m-runway",
@@ -1095,7 +1275,13 @@
       "useForEn": [
         "Professional video post-production",
         "Work needing fine control"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Runway Gen 线，工具箱最完整（局部重绘、运动笔刷等）"
+      },
+      "latestEn": "Runway Gen line, the most complete toolbox (inpainting, motion brush and more)",
+      "modelsUrl": "https://docs.dev.runwayml.com/"
     },
     {
       "id": "m-pixverse",
@@ -1129,7 +1315,13 @@
       "useForEn": [
         "Social media material",
         "Fast experimentation"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "PixVerse 线，特效模板为主打"
+      },
+      "latestEn": "PixVerse line, built around effect templates",
+      "modelsUrl": "https://platform.pixverse.ai/"
     },
     {
       "id": "m-luma",
@@ -1159,7 +1351,13 @@
       ],
       "useForEn": [
         "Shorts with demanding camera work"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Luma Ray 线，镜头运动自然、支持关键帧控制"
+      },
+      "latestEn": "Luma Ray line: natural camera movement with keyframe control",
+      "modelsUrl": "https://docs.lumalabs.ai/docs/api"
     },
     {
       "id": "m-whisper",
@@ -1195,7 +1393,13 @@
         "Local transcription",
         "Subtitle generation",
         "Speech data pre-processing"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Whisper 仍在广泛使用，但已不是最新一代语音识别方案"
+      },
+      "latestEn": "Whisper is still widely used but is no longer the newest generation of speech recognition",
+      "modelsUrl": "https://platform.openai.com/docs/guides/speech-to-text"
     },
     {
       "id": "m-elevenlabs",
@@ -1233,7 +1437,13 @@
         "Audiobooks and podcasts",
         "Multilingual dubbing",
         "High-standard TTS"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "ElevenLabs 线持续迭代，多语言配音仍是强项"
+      },
+      "latestEn": "ElevenLabs keeps iterating; multilingual dubbing remains the strength",
+      "modelsUrl": "https://elevenlabs.io/docs/models"
     },
     {
       "id": "m-cosyvoice",
@@ -1269,7 +1479,13 @@
         "Chinese speech synthesis",
         "Local deployment",
         "Cost-sensitive scenarios"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "CosyVoice 开源线，中文自然度高"
+      },
+      "latestEn": "CosyVoice open line with high Chinese naturalness",
+      "modelsUrl": "https://github.com/FunAudioLLM/CosyVoice"
     },
     {
       "id": "m-suno",
@@ -1305,7 +1521,13 @@
         "Background music",
         "Creative songs",
         "Short-video scores"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Suno 线，整曲生成与风格覆盖仍是领先"
+      },
+      "latestEn": "Suno line, still leading on full-song generation and style coverage",
+      "modelsUrl": "https://suno.com/"
     },
     {
       "id": "m-gptsovits",
@@ -1341,7 +1563,13 @@
         "Personal voice assistants",
         "Dubbing experiments",
         "Local TTS"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "GPT-SoVITS 社区版持续更新，少样本克隆仍是主要用法"
+      },
+      "latestEn": "The community edition keeps updating; few-shot cloning is still the main use",
+      "modelsUrl": "https://github.com/RVC-Boss/GPT-SoVITS"
     },
     {
       "id": "m-bge",
@@ -1377,7 +1605,13 @@
         "Chinese RAG",
         "Semantic search",
         "Local embedding"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "BGE 线持续迭代，中文检索仍是常见基线"
+      },
+      "latestEn": "The BGE line keeps iterating and remains a common Chinese retrieval baseline",
+      "modelsUrl": "https://huggingface.co/BAAI"
     },
     {
       "id": "m-openai-embed",
@@ -1411,7 +1645,13 @@
       "useForEn": [
         "General RAG",
         "Multilingual retrieval"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "OpenAI 向量线，生态兼容性最好"
+      },
+      "latestEn": "OpenAI embedding line, with the best ecosystem compatibility",
+      "modelsUrl": "https://platform.openai.com/docs/guides/embeddings"
     },
     {
       "id": "m-jina",
@@ -1445,7 +1685,13 @@
       "useForEn": [
         "Long-document retrieval",
         "Multilingual scenarios"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Jina 向量线，长文本直接嵌入是特色"
+      },
+      "latestEn": "Jina embedding line, distinctive for embedding long text directly",
+      "modelsUrl": "https://jina.ai/embeddings/"
     },
     {
       "id": "m-cohere-embed",
@@ -1479,7 +1725,1799 @@
       "useForEn": [
         "English retrieval",
         "Enterprise search"
-      ]
+      ],
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Cohere 向量与重排序线，企业检索场景成熟"
+      },
+      "latestEn": "Cohere embedding and reranking line, mature for enterprise search",
+      "modelsUrl": "https://docs.cohere.com/docs/cohere-embed"
+    },
+    {
+      "id": "m-muse",
+      "name": "Muse 系列",
+      "vendor": "Meta",
+      "kind": "chat",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "旗舰 Muse Spark 1.2（闭源，官方称将开放权重）；同族 Muse Glimmer 30B 已按 Apache 2.0 开源，可跑单张消费级显卡"
+      },
+      "strengths": [
+        "工具调用与失败自恢复专门训练过，适合长流程 Agent",
+        "同族有可本地跑的 30B 开源版本",
+        "Muse Glimmer 改用 Apache 2.0，比当年的 Llama 许可宽松得多"
+      ],
+      "cautions": [
+        "Meta 半年内两次改许可立场（Llama 限制性 → Muse 闭源 → 又回头开源），长期选型要评估这种不确定性",
+        "Muse 是全新的家族，生态与社区积累远不如 Llama 时代"
+      ],
+      "useFor": [
+        "本地部署的 Agent",
+        "数据不能出内网的场景",
+        "需要工具调用稳定性的流程"
+      ],
+      "evidence": [
+        "https://ai.meta.com/blog/"
+      ],
+      "modelsUrl": "https://ai.meta.com/blog/",
+      "strengthsEn": [
+        "Tool calling and failure recovery are explicitly trained for, suiting long agent flows",
+        "A 30B open-weight sibling runs locally",
+        "Muse Glimmer moved to Apache 2.0, far more permissive than the old Llama licence"
+      ],
+      "cautionsEn": [
+        "Meta has reversed its licensing stance twice in six months — assess that unpredictability for long-term bets",
+        "Muse is a brand-new family with nowhere near Llama's ecosystem"
+      ],
+      "useForEn": [
+        "Local agent deployment",
+        "Environments where data cannot leave the network",
+        "Flows needing reliable tool calling"
+      ],
+      "latestEn": "Flagship Muse Spark 1.2 (closed weights, with open weights promised); the sibling Muse Glimmer 30B already ships under Apache 2.0 and runs on a single consumer GPU",
+      "url": "https://ai.meta.com/blog/"
+    },
+    {
+      "id": "m-gemma",
+      "name": "Gemma 系列",
+      "vendor": "Google",
+      "kind": "chat",
+      "tier": "open",
+      "open": true,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Gemma 4 系列，31B 档为主力开源尺寸"
+      },
+      "strengths": [
+        "Google 的开源线，与 Gemini 同源但不是同一个模型",
+        "尺寸档位覆盖广，小尺寸可在笔记本跑",
+        "官方工具链与部署文档成熟"
+      ],
+      "cautions": [
+        "能力明显低于同代 Gemini 闭源版，别把两者混为一谈",
+        "中文表现不如同尺寸国产开源模型"
+      ],
+      "useFor": [
+        "本地部署",
+        "学习与实验",
+        "英文为主的应用"
+      ],
+      "evidence": [
+        "https://ai.google.dev/gemma"
+      ],
+      "modelsUrl": "https://ai.google.dev/gemma/docs",
+      "strengthsEn": [
+        "Google's open line — same lineage as Gemini but a different model",
+        "Broad size range, small variants run on a laptop",
+        "Mature official tooling and deployment docs"
+      ],
+      "cautionsEn": [
+        "Clearly weaker than the closed Gemini of the same era — don't conflate them",
+        "Chinese performance trails same-size domestic open models"
+      ],
+      "useForEn": [
+        "Local deployment",
+        "Learning and experimentation",
+        "English-first applications"
+      ],
+      "latestEn": "Gemma 4 family, with the 31B tier as the main open size",
+      "url": "https://ai.google.dev/gemma/docs"
+    },
+    {
+      "id": "m-nova",
+      "name": "Nova 系列",
+      "vendor": "Amazon",
+      "kind": "chat",
+      "tier": "main",
+      "open": false,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Nova 家族分 Pro / Lite / Micro 等多档，另有语音与图像专用线"
+      },
+      "strengths": [
+        "AWS 原生集成，Bedrock 上调用的延迟与权限体系顺畅",
+        "档位分得细，能按成本和延迟精确挑",
+        "语音与视频理解有原生支持"
+      ],
+      "cautions": [
+        "离开 AWS 生态后优势基本消失",
+        "在通用能力上不是第一梯队"
+      ],
+      "useFor": [
+        "已经在用 AWS 的团队",
+        "需要按成本精细分层调用",
+        "云原生应用的默认底座"
+      ],
+      "evidence": [
+        "https://aws.amazon.com/bedrock/"
+      ],
+      "modelsUrl": "https://docs.aws.amazon.com/nova/",
+      "strengthsEn": [
+        "Native AWS integration; latency and IAM on Bedrock are frictionless",
+        "Finely tiered so you can pick by cost and latency",
+        "Native speech and video understanding"
+      ],
+      "cautionsEn": [
+        "Most of the advantage disappears outside AWS",
+        "Not first tier on general capability"
+      ],
+      "useForEn": [
+        "Teams already on AWS",
+        "Fine-grained cost tiering",
+        "Cloud-native apps needing a default"
+      ],
+      "latestEn": "Nova splits into Pro / Lite / Micro and more, plus dedicated speech and image lines",
+      "url": "https://docs.aws.amazon.com/nova/"
+    },
+    {
+      "id": "m-phi",
+      "name": "Phi 系列",
+      "vendor": "Microsoft",
+      "kind": "chat",
+      "tier": "light",
+      "open": true,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Phi 小尺寸系列，主打「小参数量高密度能力」"
+      },
+      "strengths": [
+        "小尺寸下推理与数学表现突出，是同类里数据质量做得最好的之一",
+        "能在端侧和笔记本上跑",
+        "开放权重，许可宽松"
+      ],
+      "cautions": [
+        "小模型的通识广度天然受限，复杂多轮任务容易露短板",
+        "不适合当作主力模型，定位是补充"
+      ],
+      "useFor": [
+        "端侧与离线场景",
+        "低成本批量任务",
+        "手机 / 嵌入式里的推理"
+      ],
+      "evidence": [
+        "https://azure.microsoft.com/products/ai-foundry/"
+      ],
+      "modelsUrl": "https://huggingface.co/microsoft",
+      "strengthsEn": [
+        "Reasoning and maths punch well above their size — among the best data quality in class",
+        "Runs on-device and on laptops",
+        "Open weights with a permissive licence"
+      ],
+      "cautionsEn": [
+        "Small models are inherently narrow in general knowledge and fail on complex multi-turn work",
+        "A complement, not a primary model"
+      ],
+      "useForEn": [
+        "On-device and offline",
+        "Low-cost batch tasks",
+        "Inference inside phones and embedded systems"
+      ],
+      "latestEn": "The Phi small-size line, built around capability density per parameter",
+      "url": "https://huggingface.co/microsoft"
+    },
+    {
+      "id": "m-nemotron",
+      "name": "Nemotron 系列",
+      "vendor": "NVIDIA",
+      "kind": "chat",
+      "tier": "open",
+      "open": true,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Nemotron 开放家族，尺寸覆盖从端侧到超大规模"
+      },
+      "strengths": [
+        "针对自家 GPU 与推理栈深度优化，同硬件下吞吐好",
+        "许可与数据说明写得比多数开源模型清楚",
+        "大尺寸档在开源里属于第一梯队"
+      ],
+      "cautions": [
+        "优势依赖 NVIDIA 硬件，换平台收益明显下降",
+        "社区微调生态不如 Qwen / Llama 活跃"
+      ],
+      "useFor": [
+        "已有 NVIDIA 集群的团队",
+        "需要高吞吐自托管",
+        "对许可与数据来源要求严格的场景"
+      ],
+      "evidence": [
+        "https://www.nvidia.com/en-us/ai/"
+      ],
+      "modelsUrl": "https://huggingface.co/nvidia",
+      "strengthsEn": [
+        "Deeply tuned for NVIDIA GPUs and inference stacks — good throughput on the same hardware",
+        "Licence and data documentation is clearer than most open models",
+        "The large variants are first tier among open weights"
+      ],
+      "cautionsEn": [
+        "The advantage depends on NVIDIA hardware; it drops off elsewhere",
+        "Fine-tuning community is less active than Qwen or Llama"
+      ],
+      "useForEn": [
+        "Teams with NVIDIA clusters",
+        "Self-hosting at high throughput",
+        "Strict licence and data-provenance requirements"
+      ],
+      "latestEn": "The Nemotron open family, spanning on-device through very large sizes",
+      "url": "https://huggingface.co/nvidia"
+    },
+    {
+      "id": "m-command",
+      "name": "Command 系列",
+      "vendor": "Cohere",
+      "kind": "chat",
+      "tier": "main",
+      "open": true,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Command 对话线，与 Embed / Rerank 组成检索三件套"
+      },
+      "strengths": [
+        "检索增强场景下与自家 Embed、Rerank 配合得最紧",
+        "企业私有部署方案成熟，可完全离线",
+        "多语言与工具调用稳定"
+      ],
+      "cautions": [
+        "通用对话能力不是第一梯队，优势集中在检索与企业检索场景",
+        "中文表现一般"
+      ],
+      "useFor": [
+        "企业知识库与检索增强",
+        "私有化部署",
+        "RAG 全链路用同一家"
+      ],
+      "evidence": [
+        "https://cohere.com/"
+      ],
+      "modelsUrl": "https://docs.cohere.com/docs/models",
+      "strengthsEn": [
+        "Tightest integration with its own Embed and Rerank models in RAG",
+        "Mature private deployment, fully offline if needed",
+        "Stable multilingual and tool calling"
+      ],
+      "cautionsEn": [
+        "General chat isn't first tier — the edge is retrieval and enterprise search",
+        "Chinese is average"
+      ],
+      "useForEn": [
+        "Enterprise knowledge bases and RAG",
+        "Private deployment",
+        "One vendor for the whole RAG chain"
+      ],
+      "latestEn": "The Command chat line, forming a retrieval trio with Embed and Rerank",
+      "url": "https://docs.cohere.com/docs/models"
+    },
+    {
+      "id": "m-jamba",
+      "name": "Jamba 系列",
+      "vendor": "AI21",
+      "kind": "chat",
+      "tier": "main",
+      "open": true,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Jamba 混合架构系列，主打长上下文下的低显存"
+      },
+      "strengths": [
+        "Mamba 与 Transformer 混合架构，长上下文时显存增长远低于纯注意力模型",
+        "开放权重可自托管",
+        "长文档处理性价比突出"
+      ],
+      "cautions": [
+        "长文本的细节回忆稳定性不如同规格纯 Transformer",
+        "整体能力不在第一梯队",
+        "中文支持薄弱"
+      ],
+      "useFor": [
+        "超长文档批处理",
+        "显存受限的长上下文场景"
+      ],
+      "evidence": [
+        "https://www.ai21.com/"
+      ],
+      "modelsUrl": "https://www.ai21.com/models",
+      "strengthsEn": [
+        "Hybrid Mamba/Transformer architecture keeps memory growth far below pure attention at long context",
+        "Open weights, self-hostable",
+        "Excellent value for long-document work"
+      ],
+      "cautionsEn": [
+        "Detail recall over long text is less stable than a comparable pure Transformer",
+        "Not first tier overall",
+        "Weak Chinese support"
+      ],
+      "useForEn": [
+        "Very long document batching",
+        "Long context under tight VRAM"
+      ],
+      "latestEn": "The Jamba hybrid-architecture line, built for low VRAM at long context",
+      "url": "https://www.ai21.com/models"
+    },
+    {
+      "id": "m-yi",
+      "name": "Yi 系列",
+      "vendor": "零一万物",
+      "kind": "chat",
+      "tier": "main",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Yi 开放权重家族，含超长上下文档"
+      },
+      "strengths": [
+        "中文能力扎实，早期就在长上下文上做过专门优化",
+        "开放权重，可完全私有化",
+        "尺寸档位从端侧到旗舰都有"
+      ],
+      "cautions": [
+        "近两年更新节奏明显放缓，追赶第一梯队吃力",
+        "生态活跃度下降，第三方教程变少"
+      ],
+      "useFor": [
+        "中文私有化部署",
+        "对更新频率不敏感的稳定场景"
+      ],
+      "evidence": [
+        "https://www.lingyiwanwu.com/"
+      ],
+      "modelsUrl": "https://huggingface.co/01-ai",
+      "strengthsEn": [
+        "Solid Chinese, with early dedicated work on long context",
+        "Open weights, fully private if needed",
+        "Size range from on-device to flagship"
+      ],
+      "cautionsEn": [
+        "Release cadence has slowed noticeably; trailing the leaders",
+        "Ecosystem activity has declined, so fewer third-party guides"
+      ],
+      "useForEn": [
+        "Private Chinese deployment",
+        "Stable scenarios insensitive to update cadence"
+      ],
+      "latestEn": "The Yi open-weight family, including long-context tiers",
+      "url": "https://huggingface.co/01-ai"
+    },
+    {
+      "id": "m-minicpm",
+      "name": "MiniCPM 系列",
+      "vendor": "面壁智能",
+      "kind": "chat",
+      "tier": "light",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "MiniCPM 小尺寸多模态线"
+      },
+      "strengths": [
+        "小尺寸下多模态能力突出，能在手机端跑",
+        "中文优化到位",
+        "端侧部署文档完整"
+      ],
+      "cautions": [
+        "小尺寸导致复杂推理能力有限",
+        "定位是端侧，不适合当服务端主力"
+      ],
+      "useFor": [
+        "手机端与端侧多模态",
+        "离线中文问答",
+        "嵌入式场景"
+      ],
+      "evidence": [
+        "https://modelbest.cn/"
+      ],
+      "modelsUrl": "https://huggingface.co/openbmb",
+      "strengthsEn": [
+        "Standout multimodal ability at small sizes; runs on phones",
+        "Well optimised for Chinese",
+        "Complete on-device deployment docs"
+      ],
+      "cautionsEn": [
+        "Small size limits complex reasoning",
+        "On-device positioning — not a server-side primary"
+      ],
+      "useForEn": [
+        "Phones and edge multimodal",
+        "Offline Chinese Q&A",
+        "Embedded scenarios"
+      ],
+      "latestEn": "The MiniCPM small-size multimodal line",
+      "url": "https://huggingface.co/openbmb"
+    },
+    {
+      "id": "m-internlm",
+      "name": "书生系列",
+      "vendor": "上海人工智能实验室",
+      "kind": "chat",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "书生大模型系列，学术与工具链完整"
+      },
+      "strengths": [
+        "学术机构出品，训练与数据说明透明度高",
+        "配套工具链与评测体系完整",
+        "中文能力扎实，开源许可宽松"
+      ],
+      "cautions": [
+        "工程化与产品化程度不如大厂模型",
+        "迭代节奏受研究机构性质影响"
+      ],
+      "useFor": [
+        "科研与教学",
+        "需要可复现训练细节的场景",
+        "中文开源基线"
+      ],
+      "evidence": [
+        "https://internlm.intern-ai.org.cn/"
+      ],
+      "modelsUrl": "https://huggingface.co/internlm",
+      "strengthsEn": [
+        "Academic provenance, unusually transparent about training and data",
+        "Complete surrounding tooling and evaluation",
+        "Solid Chinese with a permissive licence"
+      ],
+      "cautionsEn": [
+        "Less productised than big-lab models",
+        "Research-institution release cadence"
+      ],
+      "useForEn": [
+        "Research and teaching",
+        "Reproducible training details",
+        "A Chinese open baseline"
+      ],
+      "latestEn": "The InternLM family, with complete academic tooling",
+      "url": "https://huggingface.co/internlm"
+    },
+    {
+      "id": "m-skywork",
+      "name": "天工系列",
+      "vendor": "昆仑万维",
+      "kind": "chat",
+      "tier": "main",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "天工开放家族，含推理与多模态线"
+      },
+      "strengths": [
+        "中文与长文本处理能力不错",
+        "开放权重且部分版本许可宽松",
+        "在国产开源里属于稳定可选项"
+      ],
+      "cautions": [
+        "产品生态与开发者社区规模有限",
+        "第一梯队的对比中不占优势"
+      ],
+      "useFor": [
+        "中文长文本处理",
+        "私有化部署的备选"
+      ],
+      "evidence": [
+        "https://www.tiangong.cn/"
+      ],
+      "modelsUrl": "https://huggingface.co/Skywork",
+      "strengthsEn": [
+        "Decent Chinese and long-text handling",
+        "Open weights, some versions permissively licensed",
+        "A stable option among Chinese open models"
+      ],
+      "cautionsEn": [
+        "Limited product ecosystem and developer community",
+        "Not advantaged against the first tier"
+      ],
+      "useForEn": [
+        "Chinese long-text processing",
+        "A fallback for private deployment"
+      ],
+      "latestEn": "The Skywork open family, including reasoning and multimodal lines",
+      "url": "https://huggingface.co/Skywork"
+    },
+    {
+      "id": "m-sensenova",
+      "name": "日日新系列",
+      "vendor": "商汤",
+      "kind": "chat",
+      "tier": "main",
+      "open": false,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "日日新多模态家族"
+      },
+      "strengths": [
+        "多模态与视觉理解是强项，与传统计算机视觉能力打通",
+        "在国产模型里综合表现均衡",
+        "企业侧落地案例多"
+      ],
+      "cautions": [
+        "开放权重少，基本只能用 API 或私有化交付",
+        "通用对话能力不是第一梯队"
+      ],
+      "useFor": [
+        "视觉理解类应用",
+        "国产企业集成",
+        "需要视觉与语言联合的场景"
+      ],
+      "evidence": [
+        "https://www.sensetime.com/"
+      ],
+      "modelsUrl": "https://www.sensetime.com/cn/product-detail/sensenova",
+      "strengthsEn": [
+        "Multimodal and vision understanding is the strength, connected to traditional CV capability",
+        "Balanced overall among Chinese models",
+        "Many enterprise deployments"
+      ],
+      "cautionsEn": [
+        "Few open weights — mostly API or private delivery",
+        "General chat isn't first tier"
+      ],
+      "useForEn": [
+        "Vision-understanding apps",
+        "Chinese enterprise integration",
+        "Combined vision and language"
+      ],
+      "latestEn": "The SenseNova multimodal family",
+      "url": "https://www.sensetime.com/cn/product-detail/sensenova"
+    },
+    {
+      "id": "m-grok-reason",
+      "name": "Grok 推理线",
+      "vendor": "xAI",
+      "kind": "reason",
+      "tier": "flagship",
+      "open": false,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Grok 旗舰已把推理作为默认模式，可按强度调节"
+      },
+      "strengths": [
+        "推理强度可调，简单任务不必付深度思考的成本",
+        "可直接读实时社交平台信息作为推理输入",
+        "部分版本开放权重"
+      ],
+      "cautions": [
+        "内容审核宽松，输出需要自己把关",
+        "极端的「实时」定位在某些任务上是噪音而非信号"
+      ],
+      "useFor": [
+        "需要实时信息的推理",
+        "对输出限制容忍度高的场景"
+      ],
+      "evidence": [
+        "https://x.ai/"
+      ],
+      "modelsUrl": "https://docs.x.ai/docs/models",
+      "strengthsEn": [
+        "Adjustable reasoning effort, so simple tasks don't pay for deep thinking",
+        "Can reason over real-time social platform data",
+        "Some versions ship open weights"
+      ],
+      "cautionsEn": [
+        "Loose moderation — filter the output yourself",
+        "The 'real-time' positioning is noise rather than signal for some tasks"
+      ],
+      "useForEn": [
+        "Reasoning that needs live information",
+        "Scenarios tolerant of fewer output restrictions"
+      ],
+      "latestEn": "Grok flagships now run reasoning by default with adjustable effort",
+      "url": "https://docs.x.ai/docs/models"
+    },
+    {
+      "id": "m-hunyuan3d",
+      "name": "Hunyuan3D 系列",
+      "vendor": "腾讯",
+      "kind": "3d",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "混元 3D 开源线，覆盖文生 3D 与贴图生成"
+      },
+      "strengths": [
+        "腾讯开源，链式覆盖从几何到贴图",
+        "许可宽松，商用无额外授权负担",
+        "中文提示理解好，国产硬件适配到位"
+      ],
+      "cautions": [
+        "推理需要的显存不低，消费级卡跑大尺寸档吃力",
+        "拓扑规整度离手工模型仍有距离，进引擎前多半要清理"
+      ],
+      "useFor": [
+        "本地做 3D 资产生成",
+        "游戏与电商的原型资产",
+        "需要商用授权的场景"
+      ],
+      "evidence": [
+        "https://3d-models.hunyuan.tencent.com/"
+      ],
+      "modelsUrl": "https://huggingface.co/tencent",
+      "strengthsEn": [
+        "Tencent open source, covering geometry through texturing",
+        "Permissive licence, no extra commercial authorisation",
+        "Good Chinese prompt understanding, tuned for domestic hardware"
+      ],
+      "cautionsEn": [
+        "Inference needs real VRAM; the large variants are hard on consumer cards",
+        "Topology is still far from hand-made models — expect cleanup before it goes into an engine"
+      ],
+      "useForEn": [
+        "Local 3D asset generation",
+        "Game and e-commerce prototypes",
+        "Scenarios needing a commercial licence"
+      ],
+      "latestEn": "Hunyuan 3D open line, covering text-to-3D through texturing",
+      "url": "https://huggingface.co/tencent"
+    },
+    {
+      "id": "m-trellis",
+      "name": "TRELLIS",
+      "vendor": "Microsoft",
+      "kind": "3d",
+      "tier": "open",
+      "open": true,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "结构化 3D 生成的代表性开源方案"
+      },
+      "strengths": [
+        "开源里生成质量最接近商业方案的之一",
+        "结构化解码，输出比早期方案规整",
+        "论文与代码完整，可复现"
+      ],
+      "cautions": [
+        "部署与调参需要一定研究能力，不是开箱即用",
+        "生成速度偏慢"
+      ],
+      "useFor": [
+        "研究性质的使用",
+        "对质量要求高于速度的场景"
+      ],
+      "evidence": [
+        "https://github.com/microsoft/TRELLIS"
+      ],
+      "modelsUrl": "https://huggingface.co/microsoft/TRELLIS",
+      "strengthsEn": [
+        "Among the best open-source quality, close to commercial options",
+        "Structured decoding yields cleaner output than earlier approaches",
+        "Complete paper and code, reproducible"
+      ],
+      "cautionsEn": [
+        "Deployment and tuning need research-level skill — not plug and play",
+        "Generation is slow"
+      ],
+      "useForEn": [
+        "Research use",
+        "Cases where quality matters more than speed"
+      ],
+      "latestEn": "A leading open-source approach to structured 3D generation",
+      "url": "https://huggingface.co/microsoft/TRELLIS"
+    },
+    {
+      "id": "m-tripo",
+      "name": "Tripo 系列",
+      "vendor": "VAST / 生数",
+      "kind": "3d",
+      "tier": "main",
+      "open": false,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Tripo 在线生成线，含自动骨骼绑定"
+      },
+      "strengths": [
+        "生成速度快，适合批量出原型资产",
+        "网页端直接可用，有中文界面",
+        "在 3D 资产的工作流串联上做得比较完整"
+      ],
+      "cautions": [
+        "闭源，只能走 API 或在线端",
+        "细节精度有限，适合占位与概念稿而非成品"
+      ],
+      "useFor": [
+        "快速原型与占位资产",
+        "中文团队",
+        "批量生成"
+      ],
+      "evidence": [
+        "https://www.tripo3d.ai/"
+      ],
+      "modelsUrl": "https://platform.tripo3d.ai/docs",
+      "strengthsEn": [
+        "Fast generation, good for bulk prototype assets",
+        "Usable straight from the web with a Chinese UI",
+        "A fairly complete 3D asset workflow"
+      ],
+      "cautionsEn": [
+        "Closed — API or web only",
+        "Detail precision is limited; suited to placeholders and concepts rather than finished assets"
+      ],
+      "useForEn": [
+        "Rapid prototyping and placeholders",
+        "Chinese-speaking teams",
+        "Batch generation"
+      ],
+      "latestEn": "The Tripo online generation line, including automatic rigging",
+      "url": "https://platform.tripo3d.ai/docs"
+    },
+    {
+      "id": "m-rodin",
+      "name": "Rodin",
+      "vendor": "Deemos",
+      "kind": "3d",
+      "tier": "main",
+      "open": false,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Rodin 高质量 3D 生成线"
+      },
+      "strengths": [
+        "几何与贴图质量在商业方案里靠前",
+        "支持图生 3D，参考图控制力不错",
+        "中文界面与支付路径顺畅"
+      ],
+      "cautions": [
+        "按次计费，批量生产时成本上升明显",
+        "闭源，无法私有化"
+      ],
+      "useFor": [
+        "对质量要求高的单品资产",
+        "电商与展示用途"
+      ],
+      "evidence": [
+        "https://hyper3d.ai/"
+      ],
+      "modelsUrl": "https://hyper3d.ai/",
+      "strengthsEn": [
+        "Geometry and texture quality rank well among commercial options",
+        "Image-to-3D with good reference control",
+        "Smooth Chinese UI and payment path"
+      ],
+      "cautionsEn": [
+        "Per-generation billing gets expensive at volume",
+        "Closed, cannot be self-hosted"
+      ],
+      "useForEn": [
+        "High-quality single assets",
+        "E-commerce and presentation use"
+      ],
+      "latestEn": "The Rodin high-quality 3D generation line",
+      "url": "https://hyper3d.ai/"
+    },
+    {
+      "id": "m-meshy-model",
+      "name": "Meshy 模型线",
+      "vendor": "Meshy",
+      "kind": "3d",
+      "tier": "main",
+      "open": false,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Meshy 在线生成线，含风格一致的批量输出"
+      },
+      "strengths": [
+        "风格一致性做得比较稳定，适合成套资产",
+        "网页端交互顺畅，预览即时",
+        "有 API 可接入流水线"
+      ],
+      "cautions": [
+        "闭源按量计费",
+        "生成拓扑不规整，进引擎要重拓扑"
+      ],
+      "useFor": [
+        "成套风格的资产",
+        "非专业 3D 用户"
+      ],
+      "evidence": [
+        "https://www.meshy.ai/"
+      ],
+      "modelsUrl": "https://docs.meshy.ai/",
+      "strengthsEn": [
+        "Style consistency is stable, good for asset sets",
+        "Smooth web interaction with instant preview",
+        "API available for pipelines"
+      ],
+      "cautionsEn": [
+        "Closed, metered",
+        "Topology is irregular — retopology needed for engines"
+      ],
+      "useForEn": [
+        "Cohesive asset sets",
+        "Non-specialist 3D users"
+      ],
+      "latestEn": "The Meshy online line, with consistent batch output",
+      "url": "https://docs.meshy.ai/"
+    },
+    {
+      "id": "m-mineru",
+      "name": "MinerU",
+      "vendor": "上海 AI Lab / OpenDataLab",
+      "kind": "doc",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "文档解析开源方案，公式、表格、多栏版面覆盖完整"
+      },
+      "strengths": [
+        "中文 PDF 解析是同类里做得最好的之一，公式与表格还原度高",
+        "开源可私有化，数据不出内网",
+        "输出结构化 Markdown，直接进 RAG 流水线"
+      ],
+      "cautions": [
+        "扫描件质量差时仍需人工校对",
+        "复杂跨页表格容易断开",
+        "推理资源占用偏高"
+      ],
+      "useFor": [
+        "中文论文与报告解析",
+        "知识库入库前的文档清洗",
+        "私有化文档流水线"
+      ],
+      "evidence": [
+        "https://github.com/opendatalab/MinerU"
+      ],
+      "modelsUrl": "https://huggingface.co/opendatalab",
+      "strengthsEn": [
+        "Among the best at Chinese PDF parsing — strong formula and table fidelity",
+        "Open source and self-hostable, so documents stay inside the network",
+        "Emits structured Markdown ready for a RAG pipeline"
+      ],
+      "cautionsEn": [
+        "Poor scans still need manual proofing",
+        "Complex cross-page tables break",
+        "Inference footprint is fairly heavy"
+      ],
+      "useForEn": [
+        "Chinese papers and reports",
+        "Document cleanup before knowledge-base ingestion",
+        "Private document pipelines"
+      ],
+      "latestEn": "Open-source document parsing with full coverage of formulas, tables and multi-column layouts",
+      "url": "https://huggingface.co/opendatalab"
+    },
+    {
+      "id": "m-dots-ocr",
+      "name": "dots.ocr",
+      "vendor": "小红书",
+      "kind": "doc",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "以视觉语言模型做 OCR 与版面解析"
+      },
+      "strengths": [
+        "用多模态模型直接做版面理解，公式与表格处理统一在一套模型里",
+        "中英混排效果好",
+        "开源可自托管"
+      ],
+      "cautions": [
+        "模型偏大，本地跑需要像样的显卡",
+        "对小字号和低清扫描仍会出错"
+      ],
+      "useFor": [
+        "中英混排文档",
+        "需要版面结构的解析",
+        "私有化 OCR"
+      ],
+      "evidence": [
+        "https://github.com/rednote-hilab/dots.ocr"
+      ],
+      "modelsUrl": "https://huggingface.co/rednote-hilab",
+      "strengthsEn": [
+        "A multimodal model doing layout understanding directly, unifying formulas and tables in one model",
+        "Strong on mixed Chinese/English",
+        "Open source and self-hostable"
+      ],
+      "cautionsEn": [
+        "Fairly large — needs a decent GPU locally",
+        "Still errs on small type and low-resolution scans"
+      ],
+      "useForEn": [
+        "Mixed Chinese/English documents",
+        "Parsing that needs layout structure",
+        "Private OCR"
+      ],
+      "latestEn": "OCR and layout parsing done with a vision-language model",
+      "url": "https://huggingface.co/rednote-hilab"
+    },
+    {
+      "id": "m-paddleocr-vl",
+      "name": "PaddleOCR-VL",
+      "vendor": "百度",
+      "kind": "doc",
+      "tier": "light",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "轻量级文档解析，主打小尺寸高性能"
+      },
+      "strengths": [
+        "参数很少但精度接近大模型，显存门槛低",
+        "中文识别率高，国产硬件适配好",
+        "Apache 许可，商用友好"
+      ],
+      "cautions": [
+        "复杂版面与手写体仍是弱项",
+        "相比通用 VLM，指令跟随能力有限，只能做解析"
+      ],
+      "useFor": [
+        "低成本大批量文档处理",
+        "显存受限的部署",
+        "纯 OCR 需求"
+      ],
+      "evidence": [
+        "https://github.com/PaddlePaddle/PaddleOCR"
+      ],
+      "modelsUrl": "https://huggingface.co/PaddlePaddle",
+      "strengthsEn": [
+        "Tiny parameter count with near-large-model accuracy; low VRAM bar",
+        "High Chinese recognition rate, well adapted to domestic hardware",
+        "Apache licence, commercially friendly"
+      ],
+      "cautionsEn": [
+        "Complex layouts and handwriting remain weak",
+        "Limited instruction following — parsing only"
+      ],
+      "useForEn": [
+        "Low-cost bulk document processing",
+        "VRAM-constrained deployment",
+        "Pure OCR needs"
+      ],
+      "latestEn": "Lightweight document parsing built around small size and high accuracy",
+      "url": "https://huggingface.co/PaddlePaddle"
+    },
+    {
+      "id": "m-docling",
+      "name": "Docling",
+      "vendor": "IBM",
+      "kind": "doc",
+      "tier": "open",
+      "open": true,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "IBM 开源文档转换工具链"
+      },
+      "strengths": [
+        "把多种格式统一转成结构化文档，接口干净",
+        "许可宽松，可嵌入商业产品",
+        "和主流 RAG 框架集成现成"
+      ],
+      "cautions": [
+        "本质是工具链 + 模型组合，不是单个模型，效果取决于拼装的组件",
+        "中文场景需要自己换更强的识别组件"
+      ],
+      "useFor": [
+        "多格式文档统一入库",
+        "RAG 前处理",
+        "工程化流水线"
+      ],
+      "evidence": [
+        "https://github.com/docling-project/docling"
+      ],
+      "modelsUrl": "https://docling-project.github.io/docling/",
+      "strengthsEn": [
+        "Converts many formats into a uniform structured document with a clean API",
+        "Permissive licence, embeddable in commercial products",
+        "Ready integrations with mainstream RAG frameworks"
+      ],
+      "cautionsEn": [
+        "A toolchain rather than a single model — quality depends on the components you assemble",
+        "Chinese scenarios need a stronger recognition component swapped in"
+      ],
+      "useForEn": [
+        "Unified ingestion across formats",
+        "RAG pre-processing",
+        "Production pipelines"
+      ],
+      "latestEn": "IBM’s open-source document conversion toolchain",
+      "url": "https://docling-project.github.io/docling/"
+    },
+    {
+      "id": "m-got-ocr",
+      "name": "GOT-OCR",
+      "vendor": "StepFun / 开源研究",
+      "kind": "doc",
+      "tier": "open",
+      "open": true,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "统一 OCR 架构，一个模型覆盖多种识别任务"
+      },
+      "strengths": [
+        "一个模型覆盖文本、公式、表格、图表等多种识别目标",
+        "端到端结构简单，部署门槛低",
+        "开放权重"
+      ],
+      "cautions": [
+        "中文长文档的表现不如专门的中文方案",
+        "更新节奏慢于业界"
+      ],
+      "useFor": [
+        "英文文档与公式识别",
+        "实验性验证",
+        "结构简单的 OCR 需求"
+      ],
+      "evidence": [
+        "https://github.com/Ucas-HaoranWei/GOT-OCR2.0"
+      ],
+      "modelsUrl": "https://huggingface.co/stepfun-ai",
+      "strengthsEn": [
+        "One model covers text, formulas, tables and charts",
+        "Simple end-to-end structure, low deployment bar",
+        "Open weights"
+      ],
+      "cautionsEn": [
+        "Long Chinese documents trail dedicated Chinese options",
+        "Slower release cadence than the field"
+      ],
+      "useForEn": [
+        "English documents and formulas",
+        "Experimental validation",
+        "Simple OCR needs"
+      ],
+      "latestEn": "A unified OCR architecture covering several recognition tasks in one model",
+      "url": "https://huggingface.co/stepfun-ai"
+    },
+    {
+      "id": "m-qwen-vl",
+      "name": "Qwen-VL 系列",
+      "vendor": "阿里巴巴",
+      "kind": "doc",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Qwen 视觉语言线，OCR 与文档理解是常见用法之一"
+      },
+      "strengths": [
+        "多模态能力全面，OCR 只是其中一项，能顺便做理解与问答",
+        "中文强，尺寸档位多",
+        "许可宽松"
+      ],
+      "cautions": [
+        "纯 OCR 精度不如专门方案（如 PaddleOCR-VL、MinerU）",
+        "大尺寸档显存要求高"
+      ],
+      "useFor": [
+        "既要识别又要理解的任务",
+        "中文多模态",
+        "需要按尺寸挑档位的场景"
+      ],
+      "evidence": [
+        "https://qwen.ai/"
+      ],
+      "modelsUrl": "https://huggingface.co/Qwen",
+      "strengthsEn": [
+        "Broad multimodal ability — OCR is one part, and it can also understand and answer",
+        "Strong Chinese, many size tiers",
+        "Permissive licence"
+      ],
+      "cautionsEn": [
+        "Pure OCR accuracy trails dedicated tools like PaddleOCR-VL or MinerU",
+        "Large tiers need plenty of VRAM"
+      ],
+      "useForEn": [
+        "Tasks needing both recognition and understanding",
+        "Chinese multimodal",
+        "Scenarios needing a size choice"
+      ],
+      "latestEn": "The Qwen vision-language line, where OCR is one common use among many",
+      "url": "https://huggingface.co/Qwen"
+    },
+    {
+      "id": "m-omniparser",
+      "name": "OmniParser",
+      "vendor": "Microsoft",
+      "kind": "doc",
+      "tier": "open",
+      "open": true,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "把界面截图解析成结构化元素，供 Agent 操作"
+      },
+      "strengths": [
+        "专为「让模型看懂界面」设计，输出可直接驱动点击与输入",
+        "开源可用，是 GUI Agent 的常见前置组件",
+        "不需要目标应用提供 API"
+      ],
+      "cautions": [
+        "只解决「看懂界面」，不含操作逻辑，要配 Agent 框架",
+        "动态界面与自定义控件容易识别失败",
+        "不是给人看的 OCR 工具"
+      ],
+      "useFor": [
+        "GUI 自动化 Agent",
+        "没有 API 的老系统操作",
+        "界面测试自动化"
+      ],
+      "evidence": [
+        "https://github.com/microsoft/OmniParser"
+      ],
+      "modelsUrl": "https://huggingface.co/microsoft/OmniParser",
+      "strengthsEn": [
+        "Purpose-built to let models read a UI, emitting structure that can drive clicks and typing",
+        "Open source, a common front-end component for GUI agents",
+        "Needs no API from the target application"
+      ],
+      "cautionsEn": [
+        "Only solves reading the UI — orchestration needs an agent framework",
+        "Dynamic interfaces and custom widgets often fail to parse",
+        "Not a human-facing OCR tool"
+      ],
+      "useForEn": [
+        "GUI automation agents",
+        "Operating legacy systems without APIs",
+        "UI test automation"
+      ],
+      "latestEn": "Parses UI screenshots into structured elements an agent can act on",
+      "url": "https://huggingface.co/microsoft/OmniParser"
+    },
+    {
+      "id": "m-sd",
+      "name": "Stable Diffusion 系列",
+      "vendor": "Stability AI",
+      "kind": "image",
+      "tier": "open",
+      "open": true,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "SD 3.x 开源线，生态以社区微调为主"
+      },
+      "strengths": [
+        "开源图像生成的地基，社区微调与 LoRA 生态最大",
+        "可完全本地跑，无内容审核限制",
+        "控制手段最丰富（ControlNet、IP-Adapter 等）"
+      ],
+      "cautions": [
+        "官方直出的美感不如 Midjourney 一类闭源方案，通常要配社区模型",
+        "许可条款分版本，商用前要看清具体版本的协议",
+        "自己搭工作流的门槛不低"
+      ],
+      "useFor": [
+        "需要精确控制与自定义风格的场景",
+        "本地批量出图",
+        "研究与风格训练"
+      ],
+      "evidence": [
+        "https://stability.ai/"
+      ],
+      "modelsUrl": "https://huggingface.co/stabilityai",
+      "strengthsEn": [
+        "The foundation of open image generation — the largest fine-tune and LoRA ecosystem",
+        "Fully local with no content filtering",
+        "The richest control surface: ControlNet, IP-Adapter and more"
+      ],
+      "cautionsEn": [
+        "Official output isn't as pretty as closed options like Midjourney — you'll use community models",
+        "Licence terms differ by version; check before commercial use",
+        "Building your own workflow has a real learning curve"
+      ],
+      "useForEn": [
+        "Scenarios needing precise control and custom styles",
+        "Local batch generation",
+        "Research and style training"
+      ],
+      "latestEn": "The SD 3.x open line, with the ecosystem driven mostly by community fine-tunes",
+      "url": "https://huggingface.co/stabilityai"
+    },
+    {
+      "id": "m-ideogram",
+      "name": "Ideogram",
+      "vendor": "Ideogram",
+      "kind": "image",
+      "tier": "main",
+      "open": false,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Ideogram 图像线，主打文字排版"
+      },
+      "strengths": [
+        "图片内文字排版是同类里最准的之一，海报与 logo 场景突出",
+        "风格偏设计感，出图即用比例高",
+        "网页端交互简洁"
+      ],
+      "cautions": [
+        "优势集中在文字渲染，图像本身的质感不占优",
+        "闭源且免费额度有限",
+        "中文文字渲染一般"
+      ],
+      "useFor": [
+        "海报与含文字的设计图",
+        "logo 提案",
+        "英文排版"
+      ],
+      "evidence": [
+        "https://ideogram.ai/"
+      ],
+      "modelsUrl": "https://docs.ideogram.ai/",
+      "strengthsEn": [
+        "Among the most accurate at text inside images — strong for posters and logos",
+        "A design-leaning aesthetic means a high hit rate straight out",
+        "Clean web interface"
+      ],
+      "cautionsEn": [
+        "The edge is text rendering; base image quality isn't the draw",
+        "Closed, with limited free quota",
+        "Chinese text rendering is average"
+      ],
+      "useForEn": [
+        "Posters and text-bearing designs",
+        "Logo proposals",
+        "English typography"
+      ],
+      "latestEn": "The Ideogram image line, built around typography",
+      "url": "https://docs.ideogram.ai/"
+    },
+    {
+      "id": "m-recraft",
+      "name": "Recraft",
+      "vendor": "Recraft",
+      "kind": "image",
+      "tier": "main",
+      "open": false,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Recraft 图像线，主打矢量输出与品牌一致性"
+      },
+      "strengths": [
+        "能直接输出矢量图，是同类里少见的",
+        "品牌风格一致性可训练并复用",
+        "图标与插画场景特别顺手"
+      ],
+      "cautions": [
+        "写实类质量明显弱于专攻写实的方案",
+        "闭源按量计费"
+      ],
+      "useFor": [
+        "图标与插画",
+        "需要矢量可缩放的素材",
+        "品牌视觉一致性"
+      ],
+      "evidence": [
+        "https://www.recraft.ai/"
+      ],
+      "modelsUrl": "https://www.recraft.ai/docs",
+      "strengthsEn": [
+        "Outputs vector graphics directly — rare in this category",
+        "Trainable brand-style consistency you can reuse",
+        "Particularly handy for icons and illustrations"
+      ],
+      "cautionsEn": [
+        "Photorealistic quality trails specialists",
+        "Closed and metered"
+      ],
+      "useForEn": [
+        "Icons and illustrations",
+        "Assets needing scalable vectors",
+        "Brand visual consistency"
+      ],
+      "latestEn": "The Recraft image line, built around vector output and brand consistency",
+      "url": "https://www.recraft.ai/docs"
+    },
+    {
+      "id": "m-qwen-image",
+      "name": "Qwen-Image",
+      "vendor": "阿里巴巴",
+      "kind": "image",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Qwen 图像生成开源线，中文文字渲染是招牌"
+      },
+      "strengths": [
+        "中文文字渲染能力在开源方案里最好，海报场景实用",
+        "开放权重可自托管",
+        "中文提示理解到位"
+      ],
+      "cautions": [
+        "整体美感仍不如头部的闭源商业方案",
+        "大尺寸档显存要求高"
+      ],
+      "useFor": [
+        "中文海报与含文字的设计",
+        "本地部署",
+        "中文团队"
+      ],
+      "evidence": [
+        "https://qwen.ai/"
+      ],
+      "modelsUrl": "https://huggingface.co/Qwen",
+      "strengthsEn": [
+        "Best Chinese text rendering among open options — practical for posters",
+        "Open weights, self-hostable",
+        "Solid Chinese prompt understanding"
+      ],
+      "cautionsEn": [
+        "Overall aesthetics still trail the leading closed options",
+        "Large tiers need plenty of VRAM"
+      ],
+      "useForEn": [
+        "Chinese posters and text-bearing designs",
+        "Local deployment",
+        "Chinese-speaking teams"
+      ],
+      "latestEn": "Qwen’s open image line, with Chinese text rendering as the headline",
+      "url": "https://huggingface.co/Qwen"
+    },
+    {
+      "id": "m-seedance",
+      "name": "Seedance",
+      "vendor": "字节跳动",
+      "kind": "video",
+      "tier": "main",
+      "open": false,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "字节视频生成线，与即梦同源"
+      },
+      "strengths": [
+        "运动自然度与镜头稳定性在国产方案里靠前",
+        "国内可直接用，支付与合规路径顺畅",
+        "有快慢多档，可按成本选"
+      ],
+      "cautions": [
+        "闭源只能走 API 或即梦产品端",
+        "长时长需要拼接，拼接处一致性要留意"
+      ],
+      "useFor": [
+        "短视频素材",
+        "电商与广告短片",
+        "国内团队"
+      ],
+      "evidence": [
+        "https://jimeng.jianying.com/"
+      ],
+      "modelsUrl": "https://www.volcengine.com/product/doubao",
+      "strengthsEn": [
+        "Natural motion and stable framing rank well among Chinese options",
+        "Directly usable in China with a smooth payment and compliance path",
+        "Multiple speed tiers to pick by cost"
+      ],
+      "cautionsEn": [
+        "Closed — API or the Jimeng product only",
+        "Long clips need stitching; watch consistency at the seams"
+      ],
+      "useForEn": [
+        "Short-video material",
+        "E-commerce and ad spots",
+        "Teams in China"
+      ],
+      "latestEn": "ByteDance’s video line, sharing lineage with Jimeng",
+      "url": "https://www.volcengine.com/product/doubao"
+    },
+    {
+      "id": "m-vidu",
+      "name": "Vidu",
+      "vendor": "生数科技",
+      "kind": "video",
+      "tier": "main",
+      "open": false,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Vidu 视频生成线，主打参考一致性与多主体"
+      },
+      "strengths": [
+        "多主体参考一致性做得不错，适合带角色的连续镜头",
+        "国内可直连",
+        "画面质感偏干净"
+      ],
+      "cautions": [
+        "复杂物理场景的连贯性不如头部的海外方案",
+        "闭源"
+      ],
+      "useFor": [
+        "带角色的连续镜头",
+        "动漫与二次元风格",
+        "国内团队"
+      ],
+      "evidence": [
+        "https://www.vidu.cn/"
+      ],
+      "modelsUrl": "https://platform.vidu.cn/docs",
+      "strengthsEn": [
+        "Good multi-subject reference consistency — suited to character-driven sequences",
+        "Directly accessible in China",
+        "Clean image quality"
+      ],
+      "cautionsEn": [
+        "Coherence in complex physical scenes trails the leading overseas options",
+        "Closed"
+      ],
+      "useForEn": [
+        "Character-driven sequences",
+        "Anime and stylised work",
+        "Teams in China"
+      ],
+      "latestEn": "The Vidu video line, built around reference consistency and multi-subject work",
+      "url": "https://platform.vidu.cn/docs"
+    },
+    {
+      "id": "m-pika",
+      "name": "Pika",
+      "vendor": "Pika Labs",
+      "kind": "video",
+      "tier": "main",
+      "open": false,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Pika 视频线，主打特效模板"
+      },
+      "strengths": [
+        "特效模板丰富，上手门槛低",
+        "短视频风格的趣味效果做得比较顺手",
+        "网页端交互简单"
+      ],
+      "cautions": [
+        "写实长镜头不是强项",
+        "模板痕迹明显，原创性低",
+        "免费额度有限"
+      ],
+      "useFor": [
+        "社交媒体的趣味短视频",
+        "快速试效果"
+      ],
+      "evidence": [
+        "https://pika.art/"
+      ],
+      "modelsUrl": "https://pika.art/",
+      "strengthsEn": [
+        "Rich effect templates with a low barrier",
+        "Handy for playful short-video styles",
+        "Simple web interface"
+      ],
+      "cautionsEn": [
+        "Realistic long takes aren't the strength",
+        "Template fingerprints are obvious — low originality",
+        "Limited free quota"
+      ],
+      "useForEn": [
+        "Fun social clips",
+        "Fast experimentation"
+      ],
+      "latestEn": "The Pika video line, built around effect templates",
+      "url": "https://pika.art/"
+    },
+    {
+      "id": "m-kokoro",
+      "name": "Kokoro",
+      "vendor": "开源社区",
+      "kind": "audio",
+      "tier": "light",
+      "open": true,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "轻量 TTS 开源方案，参数极少但自然度高"
+      },
+      "strengths": [
+        "参数量极小但语音自然度接近商业方案，性价比极高",
+        "CPU 就能跑，部署门槛几乎为零",
+        "Apache 许可，商用友好"
+      ],
+      "cautions": [
+        "中文支持弱，主要是英文与少量欧洲语言",
+        "不支持声音克隆",
+        "情感控制有限"
+      ],
+      "useFor": [
+        "英文语音合成",
+        "端侧与离线播报",
+        "低成本批量配音"
+      ],
+      "evidence": [
+        "https://huggingface.co/hexgrad/Kokoro-82M"
+      ],
+      "modelsUrl": "https://huggingface.co/hexgrad/Kokoro-82M",
+      "strengthsEn": [
+        "Tiny parameter count with near-commercial naturalness — outstanding value",
+        "Runs on CPU, so the deployment bar is almost zero",
+        "Apache licence, commercially friendly"
+      ],
+      "cautionsEn": [
+        "Weak Chinese — mainly English and a few European languages",
+        "No voice cloning",
+        "Limited emotional control"
+      ],
+      "useForEn": [
+        "English speech synthesis",
+        "On-device and offline narration",
+        "Low-cost batch voiceover"
+      ],
+      "latestEn": "A lightweight open TTS option — very few parameters, high naturalness",
+      "url": "https://huggingface.co/hexgrad/Kokoro-82M"
+    },
+    {
+      "id": "m-fish-audio",
+      "name": "Fish Audio",
+      "vendor": "Fish Audio",
+      "kind": "audio",
+      "tier": "main",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "中文语音合成与克隆线，开放权重版本可自托管"
+      },
+      "strengths": [
+        "中文语音自然度高，音色库丰富",
+        "零样本克隆只需要几秒参考音频",
+        "既有云端 API 也有开源权重"
+      ],
+      "cautions": [
+        "多语言表现不均，非中文语言要实测",
+        "克隆功能有明确的授权要求，用别人的声音必须获得同意"
+      ],
+      "useFor": [
+        "中文配音与播客",
+        "声音克隆（有授权）",
+        "本地部署的中文 TTS"
+      ],
+      "evidence": [
+        "https://fish.audio/"
+      ],
+      "modelsUrl": "https://huggingface.co/fishaudio",
+      "strengthsEn": [
+        "High Chinese naturalness with a broad voice library",
+        "Zero-shot cloning from a few seconds of reference audio",
+        "Both a cloud API and open weights"
+      ],
+      "cautionsEn": [
+        "Multilingual performance is uneven — test your target languages",
+        "Cloning carries explicit consent requirements; using someone's voice needs their permission"
+      ],
+      "useForEn": [
+        "Chinese dubbing and podcasts",
+        "Voice cloning (with consent)",
+        "Self-hosted Chinese TTS"
+      ],
+      "latestEn": "Chinese speech synthesis and cloning, with open weights for self-hosting",
+      "url": "https://huggingface.co/fishaudio"
+    },
+    {
+      "id": "m-qwen-embed",
+      "name": "Qwen Embedding 系列",
+      "vendor": "阿里巴巴",
+      "kind": "embedding",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Qwen 向量线，含多尺寸与重排序配套"
+      },
+      "strengths": [
+        "中英文检索表现都在第一梯队，多语言覆盖广",
+        "尺寸档位多，可按算力挑",
+        "许可宽松，配套重排序模型同族"
+      ],
+      "cautions": [
+        "指令式检索需要按官方格式写 query，用法不对效果会明显下降",
+        "大尺寸档推理开销高"
+      ],
+      "useFor": [
+        "中文 RAG",
+        "多语言检索",
+        "需要成套（向量+重排）的场景"
+      ],
+      "evidence": [
+        "https://qwen.ai/"
+      ],
+      "modelsUrl": "https://huggingface.co/Qwen",
+      "strengthsEn": [
+        "First-tier Chinese and English retrieval with broad multilingual coverage",
+        "Many size tiers to match your compute",
+        "Permissive licence with a same-family reranker"
+      ],
+      "cautionsEn": [
+        "Instruction-style retrieval needs the documented query format — getting it wrong visibly degrades results",
+        "Large tiers are expensive to run"
+      ],
+      "useForEn": [
+        "Chinese RAG",
+        "Multilingual retrieval",
+        "Cases needing vectors and reranking together"
+      ],
+      "latestEn": "The Qwen embedding line, with multiple sizes and a companion reranker",
+      "url": "https://huggingface.co/Qwen"
+    },
+    {
+      "id": "m-voyage",
+      "name": "Voyage AI 向量线",
+      "vendor": "Voyage AI (MongoDB)",
+      "kind": "embedding",
+      "tier": "main",
+      "open": false,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Voyage 检索向量与重排序线，已被 MongoDB 收购"
+      },
+      "strengths": [
+        "检索精度在第三方评测中长期靠前",
+        "按领域分了代码、法律、金融等专用模型",
+        "重排序模型质量高，常被用来补强其他向量模型"
+      ],
+      "cautions": [
+        "闭源只能走 API，数据要出内网",
+        "中文表现不如同价位国产方案",
+        "被收购后产品线整合方向需留意"
+      ],
+      "useFor": [
+        "英文检索精度优先的场景",
+        "代码与垂直领域检索",
+        "需要高质量重排序"
+      ],
+      "evidence": [
+        "https://www.voyageai.com/"
+      ],
+      "modelsUrl": "https://docs.voyageai.com/docs/embeddings",
+      "strengthsEn": [
+        "Retrieval accuracy has long ranked near the top in third-party evaluation",
+        "Domain-specific models for code, law and finance",
+        "High-quality rerankers often used to strengthen other embedding models"
+      ],
+      "cautionsEn": [
+        "Closed, API-only — data leaves your network",
+        "Chinese trails same-price domestic options",
+        "Watch how the product line consolidates post-acquisition"
+      ],
+      "useForEn": [
+        "English retrieval where accuracy leads",
+        "Code and vertical-domain retrieval",
+        "High-quality reranking"
+      ],
+      "latestEn": "The Voyage retrieval and reranking line, now part of MongoDB",
+      "url": "https://docs.voyageai.com/docs/embeddings"
+    },
+    {
+      "id": "m-qwen-coder",
+      "name": "Qwen Coder 系列",
+      "vendor": "阿里巴巴",
+      "kind": "coding",
+      "tier": "open",
+      "open": true,
+      "cn": true,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Qwen 代码专精线，含仓库级与 Agent 档"
+      },
+      "strengths": [
+        "开源代码模型里的第一梯队，仓库级任务表现突出",
+        "尺寸档位多，从本地小模型到旗舰都有",
+        "中文注释与中文文档理解好"
+      ],
+      "cautions": [
+        "通用对话能力弱于同尺寸的通用模型，别拿它当聊天模型",
+        "长上下文下的仓库理解仍会丢细节"
+      ],
+      "useFor": [
+        "本地代码助手",
+        "仓库级补全与重构",
+        "需要私有化的编码场景"
+      ],
+      "evidence": [
+        "https://qwen.ai/"
+      ],
+      "modelsUrl": "https://huggingface.co/Qwen",
+      "strengthsEn": [
+        "First tier among open code models, strong on repository-level tasks",
+        "Many size tiers from small local models to flagships",
+        "Good at Chinese comments and documentation"
+      ],
+      "cautionsEn": [
+        "Weaker at general conversation than a same-size general model — don't use it as a chatbot",
+        "Repository understanding still loses detail at long context"
+      ],
+      "useForEn": [
+        "Local coding assistants",
+        "Repository-level completion and refactoring",
+        "Private coding scenarios"
+      ],
+      "latestEn": "Qwen’s code-specialised line, including repository-level and agent tiers",
+      "url": "https://huggingface.co/Qwen"
+    },
+    {
+      "id": "m-codestral",
+      "name": "Codestral",
+      "vendor": "Mistral",
+      "kind": "coding",
+      "tier": "main",
+      "open": true,
+      "cn": false,
+      "latest": {
+        "asOf": "2026-09",
+        "text": "Mistral 代码专精线"
+      },
+      "strengths": [
+        "补全延迟低，适合 IDE 内联场景",
+        "支持的语言多，长上下文补全稳定",
+        "有开放权重版本"
+      ],
+      "cautions": [
+        "仓库级 Agent 任务不如头部代码模型",
+        "中文注释与中文语境弱"
+      ],
+      "useFor": [
+        "IDE 内联补全",
+        "低延迟代码助手",
+        "欧洲合规场景"
+      ],
+      "evidence": [
+        "https://mistral.ai/"
+      ],
+      "modelsUrl": "https://docs.mistral.ai/getting-started/models/",
+      "strengthsEn": [
+        "Low completion latency, well suited to inline IDE use",
+        "Many languages with stable long-context completion",
+        "An open-weight variant exists"
+      ],
+      "cautionsEn": [
+        "Repository-level agent work trails the leading code models",
+        "Weak on Chinese comments and Chinese context"
+      ],
+      "useForEn": [
+        "Inline IDE completion",
+        "Low-latency coding assistants",
+        "European compliance scenarios"
+      ],
+      "latestEn": "Mistral’s code-specialised line",
+      "url": "https://docs.mistral.ai/getting-started/models/"
     }
   ]
 }

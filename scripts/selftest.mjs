@@ -934,6 +934,53 @@ test('静态资源带内容哈希（防止用户被旧缓存卡住）', '/', asy
   return { ok: allHashed && loaded, detail: srcs.join(' , ') };
 });
 
+test('模型库：每条都标了时效与核验月份', '/models/', async (c) => {
+  const total = await c.eval(`document.querySelectorAll('.model-card').length`);
+  const withLatest = await c.eval(`document.querySelectorAll('.model-card .model-latest').length`);
+  const dates = await c.eval(`[...new Set([...document.querySelectorAll('.ml-tag')].map(x=>x.textContent.trim().split(' ').pop()))]`);
+  const hasObject = await c.eval(`document.body.innerHTML.indexOf('[object Object]') !== -1`);
+  return {
+    ok: total === withLatest && dates.length > 0 && hasObject === false,
+    detail: `${withLatest}/${total} 张卡带时效行；核验月份 [${dates.join(', ')}]；有无 [object Object]：${hasObject}`,
+  };
+});
+
+test('模型库：每条都有官方模型列表链接', '/models/', async (c) => {
+  const cards = await c.eval(`document.querySelectorAll('.model-card').length`);
+  const links = await c.eval(`[...document.querySelectorAll('.model-card a[href^="http"]')].map(a=>a.href)`);
+  const listLinks = await c.eval(`[...document.querySelectorAll('.model-card a')].filter(a=>/模型列表|Model list/.test(a.textContent)).map(a=>a.href)`);
+  const bad = listLinks.filter((h) => !/^https?:\/\//.test(h) || h.includes('undefined'));
+  return {
+    ok: listLinks.length === cards && bad.length === 0,
+    detail: `${cards} 张卡 / ${listLinks.length} 个模型列表链接（异常 ${bad.length} 个，全部外链 ${links.length} 个）`,
+  };
+});
+
+test('模型库：新增的 3D 与文档类型可用', '/models/3d/', async (c) => {
+  const t = await c.eval(`document.querySelectorAll('[data-facet="kind"][data-value="3d"]').length`);
+  const cards = await c.eval(`document.querySelectorAll('.model-card').length`);
+  const on = await c.eval(`!!document.querySelector('[data-facet="kind"][data-value="3d"].on')`);
+  return { ok: t === 1 && cards > 0 && on, detail: `3D 类型按钮 ${t} 个、卡片 ${cards} 张、默认选中=${on}` };
+});
+
+test('模型库：按版本号也能搜到（时效信息进了检索）', '/models/', async (c) => {
+  const probe = async (q) => {
+    await c.eval(`(function(){var i=document.querySelector('[data-query]');i.value=${JSON.stringify(q)};i.dispatchEvent(new Event('input',{bubbles:true}));return 0})()`);
+    await sleep(250);
+    return c.eval(`[...document.querySelectorAll('[data-list] > *')].filter(x=>!x.classList.contains('hidden')).length`);
+  };
+  const a = await probe('Muse');
+  const b = await probe('Fable');
+  const z = await probe('Muse 不存在的关键词');
+  return { ok: a > 0 && b > 0 && z === 0, detail: `「Muse」${a} 个、「Fable」${b} 个、无关键词组合 ${z} 个` };
+});
+
+test('工具分类页：筛选栏高亮的是当前分类，不是「全部」', '/tools/coding/', async (c) => {
+  const on = await c.eval(`[...document.querySelectorAll('[data-facet="cat"].on')].map(b=>b.getAttribute('data-value'))`);
+  const cards = await c.eval(`document.querySelectorAll('[data-list] > *').length`);
+  return { ok: on.length === 1 && on[0] === 'coding' && cards > 0, detail: `高亮 [${on.join(',')}]，卡片 ${cards} 张` };
+});
+
 test('打印样式表可访问（从首页拿带哈希的真实文件名）', '/', async (c) => {
   const href = await c.eval(`(document.querySelector('link[media="print"]')||{}).getAttribute?document.querySelector('link[media="print"]').getAttribute('href'):''`);
   if (!href) return { ok: false, detail: '首页没有引用打印样式表' };

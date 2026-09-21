@@ -1772,6 +1772,32 @@ a.tag { padding-top: 3px; padding-bottom: 3px; }
 .review-note p { font-size: 0.83rem; color: var(--fg-3); line-height: 1.7; margin: 0; }
 .review-note p a { color: var(--accent-text); }
 
+
+/* ---------- 29. 模型时效标注 ----------
+   对比维度刻意不含版本号（几个月就过期），但读者需要知道我们「知不知道最新的东西」。
+   所以单独开一行，并且强制把核验月份印出来，让读者能自行判断这条信息有多旧。 */
+.model-latest {
+  margin: 0 0 12px;
+  padding: 9px 12px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface-2);
+}
+.model-latest .ml-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--fg);
+  margin-bottom: 4px;
+}
+.model-latest p {
+  font-size: 0.79rem;
+  line-height: 1.6;
+  color: var(--fg-2);
+  margin: 0;
+}
+
 /* ---------- 20. 响应式 ---------- */
 @media (max-width: 960px) {
   .nav {

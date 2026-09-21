@@ -81,6 +81,9 @@ function pruneStale() {
 const today = () => new Date().toISOString().slice(0, 10);
 
 const CHANGELOG = [
+  { date: '2026-09-21', tag: 'CONTENT', title: '模型库从 40 扩到 78，新增 3D 与文档解析两个类型', desc: '补上 38 个缺失的模型家族：Meta Muse（Meta 已从 Llama 转向 Muse，库里之前完全没有）、Amazon Nova、Microsoft Phi、NVIDIA Nemotron、Cohere Command、AI21 Jamba、Gemma、Yi、MiniCPM、InternLM、天工、日日新，以及 3D 生成（Hunyuan3D / TRELLIS / Tripo / Rodin / Meshy）和文档解析（MinerU / dots.ocr / PaddleOCR-VL / Docling / GOT-OCR / Qwen-VL / OmniParser）两条完整线。' },
+  { date: '2026-09-21', tag: 'CONTENT', title: '每条模型都加了「时效」标注与官方模型列表链接', desc: '之前定的是「模型库不写版本号，因为几个月就过期」，但这样读者没法判断我们到底知不知道最新的东西。现在改成：稳定维度继续不写版本，另开一行时效说明并强制印出核验月份，同时每条都链到官方模型列表页——你点进去就能自己核对。' },
+  { date: '2026-09-21', tag: 'FIX', title: '修复分类页筛选栏高亮错位', desc: '打开 /models/3d/ 或 /tools/coding/ 时，筛选栏高亮的是「全部」而不是当前分类——因为筛选初始化只从 URL 参数读状态，而分类页是用路径区分的，服务端渲染好的 class 被脚本抹掉了。改为以服务端渲染结果为准。这个 bug 是靠新写的回归测试发现的。' },
   { date: '2026-09-20', tag: 'NEW', title: '新增英文版（工具库 + 模型库）', desc: '236 个工具的英文简介与编辑点评、40 个模型家族的英文对比、15 个分类与 7 个类型的英文名、207 条标签字典。带 hreflang 互指与语言切换。刻意不翻译场景手册 / 提示词 / 资讯 / 学习资源——两套长期并行维护的长文翻译成本远高于收益，关于页里说清了范围。' },
   { date: '2026-09-20', tag: 'CONTENT', title: '236 个工具全部补上「编辑点评」', desc: '每个工具一句「什么时候别选它」，平均 30 字，说的是它真实的短板而不是功能罗列。这是本站相对普通工具导航最核心的差异，已进入对比表维度与搜索索引，并成为新增工具的必填项（check 会点名）。' },
   { date: '2026-09-20', tag: 'A11Y', title: '无障碍问题从 161 处修到 0', desc: '深度与浅色双主题、中英文页面全部通过。修的关键问题：强调色当文字/按钮底色时对比度只有 3.2~3.7（不达标），拆成装饰/文字/底色三个变体；卡片标题与表格链接的点击区域不足 24px；英文页详情页出现多个 h1；提示词卡内的收藏按钮会连带展开卡片。' },

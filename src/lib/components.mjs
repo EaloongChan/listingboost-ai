@@ -1,5 +1,5 @@
 import { esc, hashColor, initials, highlightVars, accentStyle, accentTextStyle, fmtDate } from './utils.mjs';
-import { ZH, pick, tagList } from './labels.mjs';
+import { ZH, EN, pick, tagList } from './labels.mjs';
 import { icon } from './icons.mjs';
 
 const PRICING = ZH.pricing;
@@ -266,10 +266,20 @@ export function playbookCard(pb, groupMap) {
 }
 
 /** 模型家族卡片 */
+/**
+ * 时效说明的文字。
+ * 注意中文那份 `latest` 是个对象（含 asOf 与 text），英文那份 `latestEn` 是纯字符串，
+ * 所以不能直接用 pick() —— 那样中文会渲染成 [object Object]（踩过）。
+ */
+function latestText(m, L) {
+  if (!m.latest) return '';
+  return (L === EN && m.latestEn) || m.latest.text || '';
+}
+
 export function modelCard(m, kindMap, tierLabels, L = ZH) {
   const k = kindMap[m.kind] || { name: m.kind, accent: '#1B4DFF', icon: 'cpu' };
   return `<article class="card model-card reveal"
-    data-name="${esc((m.name + ' ' + m.vendor + ' ' + (m.strengths || []).join(' ') + ' ' + (m.strengthsEn || []).join(' ')).toLowerCase())}"
+    data-name="${esc((m.name + ' ' + m.vendor + ' ' + ((m.latest && m.latest.text) || '') + ' ' + ((m.latest && m.latest.asOf) || '') + ' ' + (m.strengths || []).join(' ') + ' ' + (m.strengthsEn || []).join(' ')).toLowerCase())}"
     data-kind="${esc(m.kind)}"
     data-open="${m.open ? '1' : '0'}"
     data-cn="${m.cn ? '1' : '0'}">
@@ -286,6 +296,11 @@ export function modelCard(m, kindMap, tierLabels, L = ZH) {
       ${m.cn ? '<span class="badge-pill badge-cn">国内可直连</span>' : '<span class="badge-pill" style="color:var(--fg-3)">需境外访问</span>'}
     </div>
 
+    ${latestText(m, L) ? `<div class="model-latest">
+      <span class="ml-tag">${L.versionAsOf} ${esc(m.latest.asOf)}</span>
+      <p>${esc(latestText(m, L))}</p>
+    </div>` : ''}
+
     <ul class="model-list model-list-pro">
       ${(pick(m, 'strengths', L) || []).map((s) => `<li>${icon('check', 13)}<span>${esc(s)}</span></li>`).join('')}
     </ul>
@@ -300,7 +315,10 @@ export function modelCard(m, kindMap, tierLabels, L = ZH) {
 
     <div class="card-foot spread">
       <span class="label">${esc(k.name)}</span>
-      <a class="btn btn-sm" href="${esc(m.url)}" target="_blank" rel="noopener nofollow">${L.officialDoc} ${icon('arrow-up-right', 12)}</a>
+      <span class="row" style="gap:6px">
+        ${m.modelsUrl ? `<a class="btn btn-sm btn-ghost" href="${esc(m.modelsUrl)}" target="_blank" rel="noopener nofollow">${L.modelList} ${icon('arrow-up-right', 12)}</a>` : ''}
+        <a class="btn btn-sm" href="${esc(m.url)}" target="_blank" rel="noopener nofollow">${L.officialDoc} ${icon('arrow-up-right', 12)}</a>
+      </span>
     </div>
     ${cardActions('model', m.id)}
   </article>`;

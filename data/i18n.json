@@ -4,11 +4,9 @@
     "siteName": "AI Wanxiang",
     "siteTagline": "AI Tools & Models Directory",
     "siteDesc": "A curated directory of AI tools and models, with an honest note on when not to use each one.",
-
     "nav.tools": "Tools",
     "nav.models": "Models",
     "nav.zh": "中文版",
-
     "label.category": "Category",
     "label.pricing": "Pricing",
     "label.china": "Access from China",
@@ -35,12 +33,10 @@
     "label.strengths": "Strengths",
     "label.cautions": "Watch out for",
     "label.bestFor": "Best for",
-
     "pricing.free": "Free",
     "pricing.freemium": "Freemium",
     "pricing.paid": "Paid",
     "pricing.open": "Open source",
-
     "meta.yes": "Yes",
     "meta.no": "No",
     "meta.direct": "Direct",
@@ -49,24 +45,19 @@
     "meta.thirdParty": "Third party / community",
     "meta.new": "NEW",
     "meta.hot": "Popular",
-
     "search.placeholder": "Search tools, models, categories…",
     "search.button": "Search",
     "search.count": "results",
     "search.empty": "No results",
     "search.emptyHint": "Try another keyword, or browse by category.",
-
     "filter.onlyOpen": "Open source only",
     "filter.onlyDirect": "Accessible from China",
-
     "tools.title": "AI Tools",
     "tools.desc": "A working directory of AI tools. Each entry comes with an honest note on when not to use it — the part most directories leave out.",
     "tools.countPrefix": "tools",
-
     "models.title": "Model Library",
     "models.desc": "AI models compared on the dimensions that stay stable: what they are best at, what to watch out for, and who they suit.",
     "models.note": "This is a comparison by model family, deliberately without version numbers or benchmark scores — those go stale within months. For exact specs, follow the official link on each card.",
-
     "cat.chat": "Chat assistants",
     "cat.coding": "Coding",
     "cat.image": "Image generation",
@@ -82,7 +73,6 @@
     "cat.marketing": "Marketing & growth",
     "cat.meeting": "Meetings",
     "cat.edu": "Learning & education",
-
     "kind.chat": "Chat / general",
     "kind.reason": "Reasoning",
     "kind.coding": "Code-focused",
@@ -90,18 +80,17 @@
     "kind.video": "Video",
     "kind.audio": "Speech & music",
     "kind.embedding": "Embeddings",
-
     "tier.flagship": "Flagship",
     "tier.main": "Mainstream",
     "tier.light": "Lightweight",
     "tier.open": "Open-source flagship",
-
     "about.title": "About",
     "about.scopeTitle": "What this English version covers",
     "about.scope": "This English section covers the two lookup-style modules: the tool directory and the model library. The playbooks, prompt library, news and learning resources are long-form Chinese content and are not translated — you can still browse them in the Chinese version.",
-
     "footer.zhSite": "Chinese version",
     "footer.data": "Open data",
-    "footer.langNote": "English section: tools and models only."
+    "footer.langNote": "English section: tools and models only.",
+    "kind.3d": "3D generation",
+    "kind.doc": "Document parsing"
   }
 }

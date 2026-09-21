@@ -238,7 +238,16 @@
       if (sp.get('q') && queryEl) { state.q = sp.get('q').toLowerCase(); queryEl.value = sp.get('q'); }
       Object.keys(facets).forEach(function (f) {
         var v = sp.get(f);
-        if (v && facets[f].some(function (b) { return b.getAttribute('data-value') === v; })) state.facets[f] = v;
+        if (v && facets[f].some(function (b) { return b.getAttribute('data-value') === v; })) {
+          state.facets[f] = v;
+          return;
+        }
+        // 没有 URL 参数时，采用服务端已经标好的那个。
+        // 踩过的坑：类型页 /models/3d/ 与分类页 /tools/coding/ 是用路径区分的，不带 ?kind= 参数，
+        // 所以这里原本会把激活状态重置成「全部」—— 服务端渲染的 class="on" 被抹掉，
+        // 用户看不出自己正在看哪个分类。以服务端渲染结果为准即可。
+        var pre = facets[f].filter(function (b) { return b.classList.contains('on'); })[0];
+        if (pre) state.facets[f] = pre.getAttribute('data-value');
       });
       if (sp.get('hot')) state.toggles.hot = true;
       if (sp.get('sort')) state.sort = sp.get('sort');

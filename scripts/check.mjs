@@ -329,6 +329,14 @@ const playbookIds = new Set();
   else ok.push(`脚本语法: ${files.length} 个文件全部通过 node --check`);
 }
 
+
+    /* 模型条的完整度：时效标注 + 官方模型列表链接。
+       这两个字段是「读者能不能自己核对时效」的关键，不能漏。 */
+    const noLatest = (() => { try { return JSON.parse(fs.readFileSync(path.join(DATA,'models.json'),'utf8')).items.filter(x=>!x.latest||!x.latest.asOf); } catch { return []; } })();
+    const noListUrl = (() => { try { return JSON.parse(fs.readFileSync(path.join(DATA,'models.json'),'utf8')).items.filter(x=>!x.modelsUrl); } catch { return []; } })();
+    if (noLatest.length) errors.push(`models: ${noLatest.length} 个模型缺时效标注（latest.asOf）→ ${noLatest.map(x=>x.id).join(', ')}`);
+    if (noListUrl.length) errors.push(`models: ${noListUrl.length} 个模型缺官方模型列表链接（modelsUrl）→ ${noListUrl.map(x=>x.id).join(', ')}`);
+
 /* ---- 英文版覆盖率 ----
    英文版范围刻意收窄到工具库 + 模型库，所以这里只校验这两块。
    新增工具/模型时如果漏了英文，英文版会出现中英混杂的卡片。 */
@@ -371,7 +379,7 @@ const playbookIds = new Set();
     if (missModel.length) warns.push(`models: ${missModel.length} 个模型缺英文内容 → ${missModel.join(', ')}`);
 
     if (!missTool.length && !missModel.length && !missCat.length) {
-      ok.push(`英文版: 15 个分类 + ${tools.length} 个工具 + 40 个模型的英文内容齐全`);
+      ok.push(`英文版: ${cat.toolCategories.length} 个分类 + ${tools.length} 个工具 + ${(() => { try { return JSON.parse(fs.readFileSync(path.join(DATA, 'models.json'), 'utf8')).items.length; } catch { return 0; } })()} 个模型的英文内容齐全`);
     }
   }
 }
