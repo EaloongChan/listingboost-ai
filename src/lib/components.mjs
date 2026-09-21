@@ -12,6 +12,25 @@ function accent(hex, fallback = '#1B4DFF') {
   return accentStyle(hex || fallback);
 }
 
+/**
+ * 拼 cards 的 `data-name` —— 页内筛选框（`Search the tools…`）唯一的匹配源。
+ *
+ * 必须是**页面上真正显示出来的那套文字**：卡片显示 descEn，索引里就得有 descEn。
+ * 踩过一次：data-name 一直拼原始字段（中文名 / 中文标签 / 中文简介），
+ * 而英文站卡片走 pick()/tagList() 显示的是英文 —— 结果英文工具库页上，
+ * 242 个看得见的英文标签里有 **189 个用页内搜索框搜不到**。
+ * 用户照着卡片上的「Open source」打字，一条都出不来，而且不报错。
+ *
+ * 规则：一律传 pick()/tagList() 取到的当前语言文本（它们返回数组也能直接被 flat）。
+ *
+ * 但**别把「点评 / 避坑 / 使用提示」也拼进来** —— 那是建议文本，不是身份信息。
+ * 试着拼过 caveat，结果在中英两边的工具页上搜「Midjourney」都会多出一张卡：
+ * 某个图像工具的「什么时候别用」里提到了它。用户想找的是 Midjourney 本身，
+ * 不是「警告里提到过 Midjourney」的工具。筛选框要的是精确，不是召回。
+ */
+const matchBlob = (L, ...groups) =>
+  esc(groups.flat().filter(Boolean).map(String).join(' ').toLowerCase());
+
 export function crumbs(items, crumbLabel = '面包屑') {
   return `<nav class="crumbs container" aria-label="${esc(crumbLabel || '面包屑')}">${items
     .map((it, i) =>
@@ -62,7 +81,7 @@ export function toolCard(t, catMap, L = ZH) {
   ].filter(Boolean).join('');
 
   return `<article class="card tool-card reveal"
-    data-name="${esc((t.name + ' ' + (t.tags || []).join(' ') + ' ' + t.desc).toLowerCase())}"
+    data-name="${matchBlob(L, t.name, tagList(t.tags, L), pick(t, 'desc', L))}"
     data-cat="${esc(t.cat)}"
     data-pricing="${esc(t.pricing)}"
     data-added="${esc(t.added || '')}"
@@ -142,7 +161,7 @@ export function promptCard(p, catMap, L = ZH) {
   const vars = (isEn ? e.vars : p.vars) || (isEn ? [] : p.vars) || [];
 
   return `<article class="card prompt-card reveal" id="${esc(p.id)}"
-    data-name="${esc((p.title + ' ' + (p.tags || []).join(' ') + ' ' + p.desc + ' ' + (e.title || '')).toLowerCase())}"
+    data-name="${matchBlob(L, title, tagList(p.tags, L), desc)}"
     data-cat="${esc(p.cat)}"
     data-vars="${esc(vars.join(','))}"
     data-hot="${p.hot ? '1' : '0'}">
@@ -245,8 +264,18 @@ export function glossItem(g, toolMap, pbMap, slugMap, L = ZH) {
   const toolHref = (t) => (isEn && t.descEn ? `/en/tools/${esc(t.cat)}/${esc(t.id)}/` : `/tools/${esc(t.cat)}/${esc(t.id)}/`);
   const pbHref = (p) => (isEn && p.en ? `/en/playbooks/${esc(p.id)}/` : `/playbooks/${esc(p.id)}/`);
 
+  /* data-name 是页内筛选框（`Search a term…`）的匹配源，必须是**当前语言**的文本。
+     踩过一次：这里不管语言一律拼 g.term + g.def，结果英文术语表页
+     塞了 92 条中文释义（约 22KB，整页 113KB，比中文页还重），
+     而英文读者反而搜不到英文释义 —— 索引里根本没有 defEn。
+     现在英文页换成「英文词条 + 缩写 + 英文释义」；中文词条保留（很短，
+     顺手让中英混输也能命中），最长的那段中文释义只在中文页出现。 */
+  const nameBlob = isEn
+    ? [g.en, g.term, g.abbr, g.defEn]
+    : [g.term, g.en, g.abbr, g.def];
+
   return `<div class="gloss-item reveal" id="term-${esc(slug)}"
-    data-name="${esc((g.term + ' ' + (g.en || '') + ' ' + (g.abbr || '') + ' ' + (g.def || '')).toLowerCase())}"
+    data-name="${esc(nameBlob.filter(Boolean).join(' ').toLowerCase())}"
     data-cat="${esc(g.cat)}">
     <div class="g-head">
       <b>${esc(shown)}</b>
@@ -313,7 +342,7 @@ export function playbookCard(pb, groupMap, base = '/playbooks/', L = ZH) {
   const stepsWord = L === EN ? 'steps' : '步';
   const cta = L === EN ? 'View process' : '查看流程';
   return `<div class="card playbook-card reveal"
-    data-name="${esc((pb.title + ' ' + pb.problem + ' ' + g.name + ' ' + (e.title || '')).toLowerCase())}"
+    data-name="${matchBlob(L, title, problem, g.name, level)}"
     data-group="${esc(pb.group)}">
     <a class="card-hit" href="${base}${esc(pb.id)}/" aria-label="${esc(title)}"></a>
     <div class="card-top">
@@ -349,7 +378,7 @@ function latestText(m, L) {
 export function modelCard(m, kindMap, tierLabels, L = ZH) {
   const k = kindMap[m.kind] || { name: m.kind, accent: '#1B4DFF', icon: 'cpu' };
   return `<article class="card model-card reveal"
-    data-name="${esc((m.name + ' ' + m.vendor + ' ' + ((m.latest && m.latest.text) || '') + ' ' + ((m.latest && m.latest.asOf) || '') + ' ' + (m.strengths || []).join(' ') + ' ' + (m.strengthsEn || []).join(' ')).toLowerCase())}"
+    data-name="${matchBlob(L, m.name, m.vendor, latestText(m, L), (m.latest && m.latest.asOf) || '', pick(m, 'strengths', L), pick(m, 'useFor', L))}"
     data-kind="${esc(m.kind)}"
     data-open="${m.open ? '1' : '0'}"
     data-cn="${m.cn ? '1' : '0'}">

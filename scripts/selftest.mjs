@@ -790,6 +790,7 @@ test('英文版首页：语言、导航、统计', '/en/', async (c) => {
 
 test('英文版工具列表：卡片是英文文案', '/en/tools/', async (c) => {
   await c.eval(`(function(){const i=document.querySelector('[data-query]');i.value='Midjourney';i.dispatchEvent(new Event('input',{bubbles:true}));return 0})()`);
+  await sleep(300);
   const shown = await c.eval(`[...document.querySelectorAll('[data-list] > *')].filter(x=>!x.classList.contains('hidden')).length`);
   const desc = await c.eval(`(document.querySelector('[data-list] > *:not(.hidden) .card-desc')||{}).textContent||''`);
   const caveat = await c.eval(`(document.querySelector('[data-list] > *:not(.hidden) .card-caveat span')||{}).textContent||''`);
@@ -801,6 +802,22 @@ test('英文版工具列表：卡片是英文文案', '/en/tools/', async (c) =>
     ok: shown === 1 && desc.length > 20 && caveat.length > 20 && hasCJK === false,
     detail: `命中 ${shown} 条；分类「${cat}」标签[${tags}]，简介 ${desc.length} 字符、点评 ${caveat.length} 字符，含中文=${hasCJK}`,
   };
+});
+
+test('英文版工具库：照着卡片上显示的标签能搜到东西', '/en/tools/', async (c) => {
+  /* 回归：data-name 以前不管语言一律拼中文名 + 中文标签 + 中文简介，
+     而卡片显示的是英文标签。结果 242 个看得见的英文标签里 189 个用页内搜索框搜不到 ——
+     「Midjourney」这种本来就是拉丁字母的名字能搜到，所以这个 bug 藏了很久。 */
+  const picked = await c.eval(`(function(){
+    const tags=[...document.querySelectorAll('[data-list] .tag')].map(x=>x.textContent.trim());
+    const t=tags.find(x=>x.length>4 && /^[\\x20-\\x7e]+$/.test(x)) || tags[0] || '';
+    const box=document.querySelector('[data-filter-root] [data-query]');
+    box.value=t; box.dispatchEvent(new Event('input',{bubbles:true}));
+    return t;
+  })()`);
+  await sleep(400);
+  const shown = await c.eval(`[...document.querySelectorAll('[data-list] > *')].filter(x=>!x.classList.contains('hidden')).length`);
+  return { ok: !!picked && shown > 0, detail: `搜卡片上显示的标签「${picked}」→ 命中 ${shown} 张卡` };
 });
 
 test('英文版工具详情：编辑点评与同类对比表', '/en/tools/coding/cursor/', async (c) => {
@@ -1038,6 +1055,20 @@ test('英文术语表：92 条、筛选可用、页面上没有可见中文', '/
   return {
     ok: items === 92 && anchors === 92 && toolLinks > 50 && zhToolLinks === 0 && pbLinks > 15 && filtered > 0 && filtered < 92,
     detail: `词条 ${items}（锚点 ${anchors}）· 英文工具链 ${toolLinks}、残留中文工具链 ${zhToolLinks} · 英文手册链 ${pbLinks} · 筛选「提示技术」后 ${filtered} 条`,
+  };
+});
+
+test('英文术语表：搜索框匹配的是英文释义，不是中文释义', '/en/glossary/', async (c) => {
+  // 回归：data-name 以前不管语言一律拼中文词条 + 中文释义，
+  // 英文读者拿释义里的词搜不到任何东西（而且 92 条中文释义白白带进了英文页）。
+  await c.eval(`(function(){const i=document.querySelector('[data-filter-root] [data-query]');i.value='retrieval';i.dispatchEvent(new Event('input',{bubbles:true}));return 0})()`);
+  await sleep(400);
+  const shown = await c.eval(`[...document.querySelectorAll('[data-list] > *')].filter(x=>!x.classList.contains('hidden')).length`);
+  // 只看结果区（页面整体的中文残留由 check.mjs 守；语言切换按钮本来就写着「中文」）
+  const cjk = await c.eval(`((document.querySelector('[data-list]')||{}).textContent||'').match(/[\\u4e00-\\u9fa5]/g)?.length||0`);
+  return {
+    ok: shown > 0 && shown < 92 && cjk === 0,
+    detail: `搜「retrieval」命中 ${shown} 条（共 92 条）；结果区可见中文 ${cjk} 字`,
   };
 });
 
