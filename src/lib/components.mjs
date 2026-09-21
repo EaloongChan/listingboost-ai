@@ -167,8 +167,12 @@ export function promptCard(p, catMap, L = ZH) {
       </div>
       ${p.tips ? `<div class="prompt-tip"><b>${L === EN ? 'How to use it:' : '使用提示：'}</b>${esc(tips)}</div>` : ''}
       ${(() => {
-      // 英文站要么显示英文标签，要么整行不显示 —— 不露出中文
-      const tags = L === EN ? (e.tags || []) : (p.tags || []);
+      /* 标签一律走受控词表（tagList），中英同一批组件共用。
+         踩过一次：这里读的是 e.tags（英文对象上的 tags），但 tags 字段在
+         prompt 自己身上，英文版上根本没有 —— 结果整行标签消失。
+         另一条防线：万一字典有漏网的中文标签（check.mjs 会拦），
+         这里也宁可这条不显示，不把中文露在英文页上。 */
+      const tags = tagList(p.tags, L).filter((g) => L !== EN || !/[\u4e00-\u9fa5]/.test(g));
       return tags.length ? `<div class="row" style="gap:5px;padding:0 18px 16px">${tags.map((g) => `<span class="tag">${esc(g)}</span>`).join('')}</div>` : '';
     })()}
     </div>

@@ -189,6 +189,27 @@ for (const file of htmlFiles) {
   }
 }
 
+/* C. 链接不能没有可见文字。
+      踩过一次：英文提示词页的分类浏览区把 `more` 标签漏传，11 个页面渲染成
+      `<a class="section-more" href="/en/prompts/"> →</a>` —— 屏幕阅读器只会念出「链接」，
+      对用户是个指向当前页的空链接，宽度还只有 7px（a11y 以「目标过小」报出来）。
+      a11y.mjs 也能抓，但只覆盖它清单里的那几页；这里静态扫全部产物，一个都不漏。 */
+const emptyLinks = [];   // [页面, 链接片段]
+for (const file of htmlFiles) {
+  const html = fs.readFileSync(file, 'utf8');
+  for (const m of html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)) {
+    const [, attrs, inner] = m;
+    if (/aria-label\s*=\s*"[^"]+"/i.test(attrs)) continue;          // 有 aria-label 就算有可访问名
+    if (/<img\b[^>]*\balt\s*=\s*"[^"]+"/i.test(inner)) continue;    // 图片链接靠 alt 提供文字
+    const text = inner
+      .replace(/<svg[\s\S]*?<\/svg>/gi, '')
+      .replace(/<[^>]+>/g, '')
+      .replace(/&[a-z]+;|&#\d+;/gi, '')
+      .replace(/[\s\u2192\u00b7\u2014\u2013\-–—]/g, '');
+    if (!text) emptyLinks.push([path.relative(DIST, file).replace(/\\/g, '/'), m[0].replace(/\s+/g, ' ').slice(0, 90)]);
+  }
+}
+
 /* ---------- 输出 ---------- */
 const line = '─'.repeat(56);
 console.log('');
@@ -272,6 +293,16 @@ if (unhashedAssets.size || missingAssets.size) {
   }
 } else {
   console.log(`  ✓ 静态资源都带内容哈希且文件存在`);
+}
+
+if (emptyLinks.length) {
+  problems += emptyLinks.length;
+  console.log('');
+  console.log(`  ✗ 没有可见文字的链接 ${emptyLinks.length} 个（读屏读不出、用户看到空框）：`);
+  emptyLinks.slice(0, 20).forEach(([f, s]) => console.log(`      ${f}\n        ${s}`));
+  if (emptyLinks.length > 20) console.log(`      … 还有 ${emptyLinks.length - 20} 个`);
+} else {
+  console.log(`  ✓ 所有链接都有可见文字`);
 }
 
 console.log('  ' + line);

@@ -346,8 +346,24 @@
     });
   }
 
-  /* ---------------- 全站搜索 ---------------- */
-  var TYPE_LABEL = { playbook: '场景', tool: '工具', prompt: '提示词', model: '模型', learn: '学习', glossary: '术语', news: '资讯' };
+  /* ---------------- 全站搜索 ----------------
+     界面文案从 window.__AIWX_UI__ 读，搜索页负责注入自己语言的那一份。
+     为什么不让英文站另写一套渲染：搜索的难点全在打分与分组（中文还多一层二元切分），
+     那些逻辑与语言无关。复制一份出来意味着以后每次改打分都要改两处，
+     迟早会分叉。这里只把「要显示什么字」参数化，逻辑保持唯一。 */
+  var UI = window.__AIWX_UI__ || {};
+  var TYPE_LABEL = UI.types || { playbook: '场景', tool: '工具', prompt: '提示词', model: '模型', learn: '学习', glossary: '术语', news: '资讯' };
+  var T = {
+    visit: UI.visit || '访问',
+    view: UI.view || '查看',
+    countPrefix: UI.countPrefix !== undefined ? UI.countPrefix : '共 ',
+    countSuffix: UI.countSuffix !== undefined ? UI.countSuffix : ' 条结果',
+    expandedPrefix: UI.expandedPrefix !== undefined ? UI.expandedPrefix : '（已按「',
+    expandedSuffix: UI.expandedSuffix !== undefined ? UI.expandedSuffix : '」扩展了等价说法）',
+    morePrefix: UI.morePrefix !== undefined ? UI.morePrefix : '还有 ',
+    moreMiddle: UI.moreMiddle !== undefined ? UI.moreMiddle : ' 条，点上方「',
+    moreSuffix: UI.moreSuffix !== undefined ? UI.moreSuffix : '」看全部',
+  };
   var TYPE_ICON = {
     playbook: '<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18h5.5a4 4 0 0 0 0-8h-4a4 4 0 0 1 0-8h5.5"/>',
     model: '<rect x="7" y="7" width="10" height="10" rx="2"/><path d="M9.5 3.5v3M14.5 3.5v3M9.5 17.5v3M14.5 17.5v3M3.5 9.5h3M3.5 14.5h3M17.5 9.5h3M17.5 14.5h3"/>',
@@ -359,8 +375,9 @@
   };
   var ARROW = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg>';
 
-  /* 结果的固定展示顺序：场景 → 工具 → 提示词 → 模型 → 学习 → 术语 → 资讯 */
-  var TYPE_ORDER = ['playbook', 'tool', 'prompt', 'model', 'learn', 'glossary', 'news'];
+  /* 结果的固定展示顺序：场景 → 工具 → 提示词 → 模型 → 学习 → 术语 → 资讯
+     英文站没有 learn / news（这两块刻意不翻），它的页面会通过 __AIWX_UI__.order 传自己的顺序。 */
+  var TYPE_ORDER = UI.order || ['playbook', 'tool', 'prompt', 'model', 'learn', 'glossary', 'news'];
   var GROUP_CAP = 12;
 
   /* ---------------- 检索的文本处理 ----------------
@@ -498,7 +515,7 @@
         '</div></div>' +
         '<p class="card-desc">' + escapeHtml(it.desc) + '</p>' +
         '<div class="card-foot">' +
-        '<a class="btn btn-sm" href="' + escapeHtml(it.url) + '"' + ext + '>' + (it.ext ? '访问' : '查看') + ' ' + ARROW + '</a>' +
+        '<a class="btn btn-sm" href="' + escapeHtml(it.url) + '"' + ext + '>' + (it.ext ? T.visit : T.view) + ' ' + ARROW + '</a>' +
         (it.tags || []).slice(0, 2).map(function (t) { return '<span class="tag">' + escapeHtml(t) + '</span>'; }).join('') +
         '</div></article>';
     }
@@ -544,7 +561,7 @@
       scored.sort(function (a, b) { return b.sc - a.sc; });
       var hits = scored.map(function (x) { return x.it; });
 
-      if (countEl) countEl.textContent = '共 ' + hits.length + ' 条结果' + (phraseHit ? '（已按「' + phraseHit + '」扩展了等价说法）' : '');
+      if (countEl) countEl.textContent = T.countPrefix + hits.length + T.countSuffix + (phraseHit ? T.expandedPrefix + phraseHit + T.expandedSuffix : '');
       if (noneEl) noneEl.classList.toggle('hidden', hits.length !== 0);
 
       if (type !== 'all') {
@@ -566,7 +583,7 @@
           '<span class="tag num">' + g.length + '</span>' +
           '</div>';
         var more = g.length > GROUP_CAP
-          ? '<div class="search-more">还有 ' + (g.length - GROUP_CAP) + ' 条，点上方「' + escapeHtml(TYPE_LABEL[t]) + '」看全部</div>'
+          ? '<div class="search-more">' + T.morePrefix + (g.length - GROUP_CAP) + T.moreMiddle + escapeHtml(TYPE_LABEL[t]) + T.moreSuffix + '</div>'
           : '';
         return '<section class="search-group">' + head +
           '<div class="grid">' + g.slice(0, GROUP_CAP).map(card).join('') + '</div>' + more + '</section>';
@@ -597,7 +614,8 @@
       if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
       e.preventDefault();
       var i = $('#globalSearch') || $('[data-query]');
-      if (i) i.focus(); else location.href = '/search/';
+      // 兜底跳转也要分语言，否则英文页上按 / 会跳到中文搜索页
+      if (i) i.focus(); else location.href = UI.searchPath || '/search/';
     });
   }
 

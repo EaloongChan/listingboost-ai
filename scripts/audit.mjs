@@ -37,6 +37,8 @@ const PAGES = [
   '/', '/playbooks/', '/tools/', '/prompts/', '/models/', '/news/', '/learn/', '/glossary/', '/search/', '/about/',
   '/news/live/', '/compare/', '/saved/', '/en/', '/en/tools/', '/en/tools/chat/chatgpt/', '/en/models/', '/en/about/', '/playbooks/pb-weekly-report/', '/playbooks/code/', '/models/chat/', '/tools/image/',
   '/tools/coding/cursor/', '/tools/chat/deepseek/', '/prompts/meta/', '/news/n-what-is-mcp/',
+  // 英文站新增的三大块，与 a11y.mjs 的清单保持一致，避免新页型漏审
+  '/en/prompts/', '/en/playbooks/', '/en/glossary/', '/en/search/',
 ];
 
 const VIEWPORTS = [

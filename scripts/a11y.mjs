@@ -42,6 +42,7 @@ const PAGES = [
   '/en/', '/en/tools/', '/en/tools/chat/chatgpt/', '/en/models/', '/en/about/',
   // 英文站新增的三大块，跟中文版一一对应地纳入审计
   '/en/prompts/', '/en/playbooks/', '/en/playbooks/pb-fix-unknown-bug/', '/en/glossary/',
+  '/en/search/',
 ];
 
 const get = (u) => new Promise((res, rej) => http.get(u, (r) => { let d = ''; r.on('data', (c) => (d += c)); r.on('end', () => res(d)); }).on('error', rej));

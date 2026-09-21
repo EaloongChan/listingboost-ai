@@ -14,8 +14,9 @@ import {
   learnPage, glossaryPage, searchPage, aboutPage, changelogPage, notFoundPage,
   playbooksPage, playbookDetailPage, modelsPage, toolDetailPage, liveNewsPage, comparePage, savedPage,
 } from '../src/lib/pages.mjs';
-import { enHome, enTools, enToolDetail, enModels, enAbout, enPlaybooks, enPlaybookDetail, enPrompts, enGlossary } from '../src/lib/pages-en.mjs';
-import { EN } from '../src/lib/labels.mjs';
+import { enHome, enTools, enToolDetail, enModels, enAbout, enPlaybooks, enPlaybookDetail, enPrompts, enGlossary, enSearch, GROUP_EN } from '../src/lib/pages-en.mjs';
+import { EN, tagList } from '../src/lib/labels.mjs';
+import { toolNameEn, vendorEn, modelNameEn } from '../src/lib/i18n-en-maps.mjs';
 import { countBy, esc } from '../src/lib/utils.mjs';
 import { resetIcons } from '../src/lib/icons.mjs';
 
@@ -286,11 +287,69 @@ export function build({ quiet = false } = {}) {
   }
 
   const updatedAt = today();
+
+  /* ---------- 2b. 英文站搜索索引 ----------
+     英文站已经有 244 个工具 + 78 个模型 + 92 条术语 + 86 条提示词 + 20 篇手册，
+     但没有搜索 —— 导航里的搜索按钮一直是隐藏的（当时英文站内容太少，不值得做）。
+     内容体量到这个程度，没有搜索就等于让读者一条条翻。
+
+     索引规则和中文一致，但**只收有英文版的条目**：
+     宁可少一条结果，也不要把读者送到中文页上。
+     类型标签、分类名都走英文命名空间（cat.* / pcat.* / kind.* / gcat.*），
+     和页面上的显示完全一致。 */
+  const enCatName = (id) => (i18n.en || {})[`cat.${id}`] || id;
+  const enPcatName = (id) => (i18n.en || {})[`pcat.${id}`] || id;
+  const enKindName = (id) => (i18n.en || {})[`kind.${id}`] || id;
+  const enGcatName = (id) => (i18n.en || {})[`gcat.${id}`] || id;
+
+  const enSearchIndex = [];
+  for (const t of tools) {
+    if (!t.descEn) continue;            // 没翻的工具不进英文索引
+    enSearchIndex.push({
+      t: 'tool', id: t.id, title: toolNameEn(t.name), sub: enCatName(t.cat),
+      desc: t.descEn, caveat: t.caveatEn || '', url: t.url, detail: `/en/tools/${t.cat}/${t.id}/`,
+      tags: tagList(t.tags, EN).filter((g) => !/[\u4e00-\u9fa5]/.test(g)),
+      ext: true, hot: !!t.hot,
+    });
+  }
+  for (const p of prompts) {
+    if (!p.en || !p.en.prompt) continue;
+    enSearchIndex.push({
+      t: 'prompt', id: p.id, title: p.en.title, sub: enPcatName(p.cat), desc: p.en.desc || '',
+      url: `/en/prompts/${p.cat}/#${p.id}`,
+      tags: tagList(p.tags, EN).filter((g) => !/[\u4e00-\u9fa5]/.test(g)), hot: !!p.hot,
+    });
+  }
+  for (const g of glossary) {
+    if (!g.defEn) continue;
+    enSearchIndex.push({
+      t: 'glossary', id: g.en || g.term, title: g.en || g.term, sub: enGcatName(g.cat),
+      desc: g.defEn, url: `/en/glossary/?q=${encodeURIComponent(g.en || g.term)}`,
+      tags: g.abbr ? [g.abbr] : [],
+    });
+  }
+  for (const p of playbooks.items) {
+    if (!p.en || !p.en.steps || !p.en.steps.length) continue;
+    enSearchIndex.push({
+      t: 'playbook', id: p.id, title: p.en.title, sub: GROUP_EN[p.group] || p.group,
+      desc: p.en.problem || '', url: `/en/playbooks/${p.id}/`,
+      tags: [p.en.time || p.time, p.en.level || p.level].filter(Boolean),
+    });
+  }
+  for (const m of models.items) {
+    if (!m.strengthsEn || !m.strengthsEn.length) continue;
+    enSearchIndex.push({
+      t: 'model', id: m.id, title: modelNameEn(m.name), sub: vendorEn(m.vendor),
+      desc: m.strengthsEn.join('; '), url: `/en/models/${m.kind}/`,
+      tags: [vendorEn(m.vendor), enKindName(m.kind), m.open ? 'Open source' : 'Closed'].filter(Boolean),
+    });
+  }
+
   const ctx = {
     site, categories, tools, prompts, news, learn, glossary, playbooks, models, i18n, queryMap, feed, feedHours: FEED_HOURS,
     toolCatMap, promptCatMap, topicMap, trackMap, groupMap, kindMap, toolMap, promptMap, playbookMap,
     counts, changelog: CHANGELOG,
-    searchIndex, updatedAt,
+    searchIndex, enSearchIndex, updatedAt,
   };
 
   /* ---------- 3. 生成页面 ---------- */
@@ -369,6 +428,11 @@ export function build({ quiet = false } = {}) {
     emit('en/glossary/index.html', () => enGlossary(ctx, i18n), { title: 'AI glossary', type: 'glossary' });
   }
 
+  /* 英文全站搜索：有内容才生成（内容为空时搜索页只是一张空壳） */
+  if (enSearchIndex.length) {
+    emit('en/search/index.html', () => enSearch(ctx, i18n), { title: 'Search', type: 'search' });
+  }
+
   for (const t of tools) {
     emit(`en/tools/${t.cat}/${t.id}/index.html`, () => enToolDetail(ctx, i18n, t), { title: `${t.name} · AI Tools`, type: 'tool-detail', item: t });
   }
@@ -415,6 +479,7 @@ export function build({ quiet = false } = {}) {
     'playbooks.json': playbooks,
     'models.json': models,
     'search.json': searchIndex,
+    'search-en.json': enSearchIndex,
     'query-map.json': queryMap,
     ...(feed ? { 'feed.json': feed } : {}),
   };
@@ -502,7 +567,7 @@ ${rssItems}
     console.log(`  术语        ${counts.glossary}`);
     console.log(`  学习资源    ${counts.learn}`);
     console.log(`  资讯        ${counts.news}`);
-    console.log(`  英文版      ${manifest.filter((m) => m.url.startsWith("/en/")).length} 页（工具库 + 模型库）`);
+    console.log(`  英文版      ${manifest.filter((m) => m.url.startsWith("/en/")).length} 页（工具 / 模型 / 手册 / 提示词 / 术语 / 搜索）`);
     console.log(`  实时动态    ${feed ? `${counts.live} 条（${feed.sources.filter((x) => x.ok).length}/${feed.sources.length} 源，抓取于 ${feed.updatedAt.slice(0, 16).replace('T', ' ')}）` : '无（未跑 fetch-news）'}`);
     console.log(`  搜索索引    ${searchIndex.length} 条`);
     console.log('  ' + '─'.repeat(48));

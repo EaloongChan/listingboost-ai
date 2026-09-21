@@ -546,6 +546,19 @@ ${pageHead(title, desc, `<div class="ph-meta">
 
 <section class="section">
   <div class="container">
+    ${shead('—', '按分类找提示词', '每个分类是一类任务，模板可以互相借用', '', '')}
+    <div class="grid grid-4">
+      ${categories.promptCategories.map((c) => catCard(
+        { ...c, desc: `${prompts.filter((p) => p.cat === c.id).length} 条模板` },
+        prompts.filter((p) => p.cat === c.id).length,
+        `/prompts/${c.id}/`,
+      )).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
     ${shead('—', '怎么用好这些提示词', '这四条规律比多背 100 个模板有用')}
     <div class="grid grid-2">
       <div class="card"><h3 class="card-title" style="margin-bottom:8px">${icon('sliders', 15)} 先填变量，别直接发</h3><p class="card-desc" style="margin:0">展开卡片用「变量填充」把 <span class="var-hl">{{变量}}</span> 换成你的真实情况，再复制。填得越具体，效果差得越明显。</p></div>
@@ -751,6 +764,15 @@ ${pageHead(title, desc, '', 'LEARNING / 学习路径', '学习资源列表与筛
 
 <section class="section">
   <div class="container">
+    ${shead('—', '四条学习路径', '不知道从哪开始，就按你的目标挑一条', '', '')}
+    <div class="grid grid-4">
+      ${categories.learnTracks.map((t) => catCard(t, learn.filter((l) => l.track === t.id).length, `/learn/${t.id}/`)).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
     ${shead('—', '一条不绕弯的学习路线', '顺序比努力更重要')}
     <div class="card" style="padding:32px 30px"><div class="timeline">
       <div class="tl-item"><div class="tl-date">STEP 01 / 建立直觉</div><h3>先看懂，别急着写代码</h3><p>用可视化课程建立对神经网络和大模型的基本感觉。这个阶段的目标是「能跟人聊明白」，不是「会训练模型」。</p></div>
@@ -879,6 +901,9 @@ ${pageHead('全站搜索', '一次搜索覆盖场景手册、工具、提示词�
     site, path: '/search/', title: '全站搜索',
     description: '全站搜索：一次搜遍 AI 工具、场景手册、提示词、模型、术语、学习资源与资讯，共 500 多条内容。数据在页面加载时已就绪，输入即出结果。',
     body,
+    altPath: '/en/search/',
+    altLang: 'en',
+    altLabel: 'Switch to English (search)',
     scripts: `<script>window.__AIWX_INDEX__=${jsonEmbed(ctx.searchIndex)};window.__AIWX_QUERY_MAP__=${jsonEmbed(ctx.queryMap || {})};</script>`,
     jsonld: breadcrumbLd(site, crumbItems),
   });

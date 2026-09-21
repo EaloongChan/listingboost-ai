@@ -25,8 +25,9 @@ const sec = (title, sub = '', href = '', more = '') => `<div class="section-head
   ${href ? `<a class="section-more" href="${esc(href)}">${esc(more)} →</a>` : ''}
 </div>`;
 
-/* 英文站的场景分组名。中文分组名不能直接出现在英文页面上。 */
-const GROUP_EN = {
+/* 英文站的场景分组名。中文分组名不能直接出现在英文页面上。
+   build.mjs 要用同一张表给搜索索引填分类名，所以导出。 */
+export const GROUP_EN = {
   office: 'Office & admin',
   content: 'Content',
   media: 'Media production',
@@ -101,7 +102,11 @@ const shell = (o) =>
       { label: 'Search index', href: '/api/search.json' },
     ],
     crumbLabel: 'Breadcrumb',
-    hideSearch: true,
+    // 英文站已经有 500 多条可搜内容，搜索入口不再隐藏
+    hideSearch: false,
+    searchHref: '/en/search/',
+    searchLabel: 'Search the site',
+    searchText: 'Search',
     brandName: 'AI Wanxiang',
     brandSlogan: o.siteTagline || 'AI Tools & Models Directory',
     themeLabel: 'Toggle light/dark theme',
@@ -254,6 +259,15 @@ export function enToolDetail(ctx, i18n, t) {
   const siblings = tools.filter((x) => x.cat === t.cat && x.id !== t.id);
   const compare = [t, ...siblings].slice(0, 12);
 
+  /* 这个工具出现在哪些（已翻译的）手册里 —— 中文工具详情页一直有这块，
+     英文版漏了。少了它有两个后果：读者看完工具不知道下一步做什么；
+     英文手册也少了最主要的入链来源（中文手册每篇能从工具页拿到好几条内链，
+     英文的只能靠 /en/playbooks/ 列表页一条）。 */
+  const usedIn = enReady(ctx).filter(
+    (p) => (p.tools || []).includes(t.id) || (p.en.steps || []).some((s) => (s.tools || []).includes(t.id)),
+  );
+  const pbGroups = enGroupMap(ctx.playbooks.groups);
+
   const crumbItems = [
     { label: 'Home', href: '/en/' },
     { label: 'Tools', href: '/en/tools/' },
@@ -323,6 +337,13 @@ ${pick(toolCat, 'guide', EN) ? `<section class="section" style="padding-top:30px
     <div class="card" style="padding:22px 24px;border-left:3px solid ${esc(c)}">
       <p style="font-size:.94rem;color:var(--fg-2);line-height:1.85;margin:0">${esc(pick(toolCat, 'guide', EN)).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')}</p>
     </div>
+  </div>
+</section>` : ''}
+
+${usedIn.length ? `<section class="section" style="padding-top:30px;padding-bottom:0">
+  <div class="container">
+    ${sec('Where this tool fits in', `Step-by-step workflows that use it (${usedIn.length})`, '/en/playbooks/', 'All playbooks')}
+    <div class="grid">${usedIn.map((p) => playbookCard(p, pbGroups, '/en/playbooks/', EN)).join('')}</div>
   </div>
 </section>` : ''}
 
@@ -401,9 +422,17 @@ export function enModels(ctx, i18n, { activeKind = '' } = {}) {
 
   const kindMap = Object.fromEntries(models.kinds.map((k) => [k.id, k]));
 
+  /* 类型链接行。中文模型页一直有（pageHead 的 ph-meta），英文版漏了 ——
+     没有它的话，9 个 /en/models/<kind>/ 页面只由英文首页链过去一次，
+     相当于藏在导航里。这类「分类页没有稳定入口」的问题不会报错，
+     只有主动数内链才看得出来（scripts/orphans.mjs）。 */
+  const summary = models.kinds
+    .map((k) => `<a class="tag" href="/en/models/${esc(k.id)}/">${esc(kindName(k.id))} <b class="num" style="color:var(--fg-2)">${counts[k.id] || 0}</b></a>`)
+    .join('');
+
   const body = `
 ${crumbs(crumbItems, 'Breadcrumb')}
-${pageHead(title, desc, '', 'MODELS')}
+${pageHead(title, desc, `<div class="ph-meta">${summary}</div>`, 'MODELS / Model library')}
 <section class="section" style="padding-top:0">
   <div class="container">
     <div class="card" style="padding:18px 22px;border-left:3px solid var(--accent);max-width:880px">
@@ -741,7 +770,22 @@ ${pageHead(
     <div class="grid" data-list>${shown.map((p) => promptCard(p, catMap, EN)).join('')}</div>
     <div class="hidden" data-empty>${emptyState('No prompts match', 'Try a different word.')}</div>
   </div>
-</div>`;
+</div>
+
+<section class="section">
+  <div class="container">
+    ${sec('Browse by category', 'Each category is one kind of task, with its own templates.')}
+    <div class="grid grid-4">
+      ${categories.promptCategories
+    .filter((c) => list.some((p) => p.cat === c.id))
+    .map((c) => catCard(
+      { ...c, name: pcatName(c.id), desc: '' },
+      list.filter((p) => p.cat === c.id).length,
+      `/en/prompts/${c.id}/`, EN,
+    )).join('')}
+    </div>
+  </div>
+</section>`;
 
   return shell({
     site,
@@ -764,6 +808,101 @@ ${pageHead(
       },
     ],
   });
+}
+
+/* ============================ 全站搜索（英文） ============================ */
+/* 英文站已经有 500 多条可搜内容（244 工具 / 78 模型 / 92 术语 / 86 提示词 / 20 手册），
+   没有搜索就等于让读者一条条翻。索引里的条目**全部有英文版**，
+   点进去不会撞到中文页。
+   渲染逻辑与中文搜索共用 app.js —— 界面文案通过 window.__AIWX_UI__ 传进去，
+   避免为了两种语言维护两套搜索结果渲染。 */
+export function enSearch(ctx, i18n) {
+  const { site } = ctx;
+  const list = [...(ctx.enSearchIndex || [])];
+  const crumbItems = [{ label: 'Home', href: '/en/' }, { label: 'Search' }];
+
+  const types = [
+    ['all', 'All'],
+    ['playbook', 'Playbooks'],
+    ['tool', 'Tools'],
+    ['prompt', 'Prompts'],
+    ['model', 'Models'],
+    ['glossary', 'Glossary'],
+  ];
+  const filters = types.map(([k, label], i) =>
+    `<button class="btn btn-sm${i === 0 ? ' btn-primary' : ''}" data-type="${k}" type="button">${esc(label)}</button>`).join('');
+
+  const body = `
+${crumbs(crumbItems, 'Breadcrumb')}
+${pageHead(
+  'Search',
+  `One query across all ${list.length} entries: playbooks, tools, prompt templates, models and glossary terms. The index is already in the page — results appear as you type, nothing is sent to a server.`,
+  '', 'SEARCH / Everything', 'Results and filters',
+)}
+
+<div class="container">
+  <form class="search-hero" style="max-width:100%;margin-bottom:24px" onsubmit="return false" role="search">
+    <span class="s-icon" aria-hidden="true">${icon('search', 17)}</span>
+    <input type="search" id="globalSearch" placeholder="e.g. RAG / video generation / local model / agent" autocomplete="off" autofocus aria-label="Search the site">
+  </form>
+
+  <div class="row" style="gap:6px;margin-bottom:22px" id="typeFilters">${filters}</div>
+
+  <div class="result-count" id="searchCount"></div>
+  <div class="grid" id="searchResults"></div>
+  <div class="hidden" id="searchEmpty">${emptyState('Type something to start', 'Try a tool name, a capability, or a term like RAG.')}</div>
+  <div class="hidden" id="searchNone">${emptyState('Nothing matched', 'Try another word, or browse the category pages.')}</div>
+</div>
+
+<section class="section">
+  <div class="container">
+    ${sec('Browse by task', `Not sure which tool to use? Start from what you are trying to do.`, '/en/playbooks/', 'All playbooks')}
+    <div class="grid grid-4">
+      ${ctx.playbooks.items.filter((p) => p.en).length ? Object.entries(GROUP_EN)
+    .filter(([gid]) => ctx.playbooks.items.some((p) => p.group === gid && p.en))
+    .map(([gid, name]) => `<a class="card reveal" href="/en/playbooks/" style="padding:16px 18px">
+        <div class="label label-accent">${esc(name)}</div>
+        <p style="margin:8px 0 0;font-size:.9rem;color:var(--fg-2)">${ctx.playbooks.items.filter((p) => p.group === gid && p.en).length} playbooks</p>
+      </a>`).join('') : ''}
+    </div>
+  </div>
+</section>`;
+
+  return shell({
+    site,
+    path: '/en/search/',
+    title: 'Search',
+    description: `Search all ${list.length} entries on the English site — ${countsLine(ctx)}. Results are computed in the browser, so typing is instant and nothing is sent anywhere.`,
+    body,
+    brandDesc: i18n.en['siteDesc'],
+    altPath: '/search/',
+    scripts: `<script>window.__AIWX_INDEX__=${jsonEmbed(list)};`
+      + `window.__AIWX_QUERY_MAP__={};`
+      + `window.__AIWX_UI__=${jsonEmbed({
+        types: { playbook: 'Playbook', tool: 'Tool', prompt: 'Prompt', model: 'Model', glossary: 'Term' },
+        order: ['playbook', 'tool', 'prompt', 'model', 'glossary'],
+        visit: 'Visit', view: 'View',
+        countPrefix: '', countSuffix: ' results',
+        expandedPrefix: ' (expanded from “', expandedSuffix: '”)',
+        morePrefix: '', moreMiddle: ' more — pick “', moreSuffix: '” above to see all',
+        searchPath: '/en/search/',
+      })};</script>`,
+    jsonld: [
+      breadcrumbLd(site, crumbItems),
+      {
+        '@context': 'https://schema.org', '@type': 'WebSite', inLanguage: 'en',
+        name: `${i18n.en.siteName} · Search`,
+        potentialAction: { '@type': 'SearchAction', target: `${(site.baseUrl || '').replace(/\/$/, '')}/en/search/?q={search_term_string}`, 'query-input': 'required name=search_term_string' },
+      },
+    ],
+  });
+}
+
+/** 搜索结果页描述里那句「包含哪些类型」的统计，用真实条数拼，不写死。 */
+function countsLine(ctx) {
+  const idx = ctx.enSearchIndex || [];
+  const n = (t) => idx.filter((x) => x.t === t).length;
+  return `${n('tool')} tools, ${n('model')} model families, ${n('glossary')} glossary terms, ${n('prompt')} prompt templates and ${n('playbook')} playbooks`;
 }
 
 /* ============================ 术语表（英文） ============================ */

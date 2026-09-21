@@ -776,9 +776,15 @@ test('英文版首页：语言、导航、统计', '/en/', async (c) => {
   const nav = await c.eval(`[...document.querySelectorAll('.nav a')].map(x=>x.textContent)`);
   const h1 = await c.eval(`(document.querySelector('h1')||{}).textContent||''`);
   const stats = await c.eval(`[...document.querySelectorAll('.stat span')].map(x=>x.textContent)`);
+  /* 断言「包含」而不是「等于固定列表」。
+     原来写的是 nav.join(',') === 'Tools,Models,About'，结果英文站陆续加了
+     Playbooks / Prompts / Glossary 之后这里就假失败 —— 导航变长是产品在推进，
+     不是回归。这类断言只该锁住「该有的都有」，不该锁住「就这些」。 */
+  const need = ['Playbooks', 'Prompts', 'Glossary', 'Tools', 'Models', 'About'];
+  const missing = need.filter((x) => !nav.includes(x));
   return {
-    ok: lang === 'en' && nav.join(',') === 'Tools,Models,About' && h1.indexOf('Not just') !== -1,
-    detail: `lang=${lang}，导航 [${nav}]，统计 [${stats}]`,
+    ok: lang === 'en' && missing.length === 0 && stats.length >= 3,
+    detail: `lang=${lang}，导航 [${nav}]${missing.length ? ' 缺 ' + missing.join('/') : ''}，统计 [${stats}]`,
   };
 });
 
@@ -835,14 +841,17 @@ test('语言互指：中文页有 hreflang 且切换按钮指向英文', '/tools
 test('语言互指：英文页 hreflang 指回中文，且中文页不显示英文切换外链', '/en/tools/', async (c) => {
   const alts = await c.eval(`[...document.querySelectorAll('link[rel="alternate"][hreflang]')].map(l=>l.getAttribute('hreflang')+':'+l.getAttribute('href'))`);
   const btn = await c.eval(`(document.querySelector('.lang-btn')||{}).getAttribute?document.querySelector('.lang-btn').getAttribute('href'):''`);
-  // 中文的 playbooks 页没有英文对应版本，不应出现语言切换按钮
-  await c.send('Page.navigate', { url: SERVE + '/playbooks/' });
+  /* 拿一个「按设计就没有英文版」的中文页来验。
+     原来是 /playbooks/，但英文手册后来做出来了，这一页现在**应该**有按钮 ——
+     断言就变成了假失败。学习资源和资讯是明确不翻的（关于页写明了范围），
+     用它们做样本不会随翻译进度反复失效。 */
+  await c.send('Page.navigate', { url: SERVE + '/learn/' });
   await sleep(700);
   const noBtn = await c.eval(`document.querySelectorAll('.lang-btn').length`);
   const noAlt = await c.eval(`document.querySelectorAll('link[rel="alternate"][hreflang]').length`);
   return {
     ok: alts.some((a) => a.startsWith('zh-CN:')) && btn === '/tools/' && noBtn === 0 && noAlt === 0,
-    detail: `英文页 hreflang [${alts.join(' | ')}]，切换 → ${btn}；无对应英文版的中文页按钮 ${noBtn} 个、hreflang ${noAlt} 条`,
+    detail: `英文页 hreflang [${alts.join(' | ')}]，切换 → ${btn}；无英文版的中文页（/learn/）按钮 ${noBtn} 个、hreflang ${noAlt} 条`,
   };
 });
 
@@ -1015,8 +1024,75 @@ test('术语表：词条能链到工具与手册，锚点不失效', '/glossary/
   };
 });
 
-test('工具分类页：列出了「这些工具怎么用」', '/tools/coding/', async (c) => {
-  const head = await c.eval(`(document.body.textContent.match(/这些.{0,8}工具怎么用/)||[''])[0]`);
+test('英文术语表：92 条、筛选可用、页面上没有可见中文', '/en/glossary/', async (c) => {
+  const items = await c.eval(`document.querySelectorAll('.gloss-item').length`);
+  const anchors = await c.eval(`document.querySelectorAll('.gloss-item[id]').length`);
+  // 英文站只链已有英文版的工具/手册，否则点了就是中文页
+  const toolLinks = await c.eval(`document.querySelectorAll('.g-rel-tools a[href^="/en/tools/"]').length`);
+  const zhToolLinks = await c.eval(`document.querySelectorAll('.g-rel-tools a[href^="/tools/"]').length`);
+  const pbLinks = await c.eval(`document.querySelectorAll('.g-rel-tools a[href^="/en/playbooks/"]').length`);
+  // 点一个分类筛选，卡片应该变少
+  await c.eval(`(function(){const b=[...document.querySelectorAll('[data-facet="cat"]')].find(x=>x.dataset.value==='提示技术');b.click();return 0})()`);
+  await sleep(400);
+  const filtered = await c.eval(`[...document.querySelectorAll('[data-list] > *')].filter(x=>!x.classList.contains('hidden')).length`);
+  return {
+    ok: items === 92 && anchors === 92 && toolLinks > 50 && zhToolLinks === 0 && pbLinks > 15 && filtered > 0 && filtered < 92,
+    detail: `词条 ${items}（锚点 ${anchors}）· 英文工具链 ${toolLinks}、残留中文工具链 ${zhToolLinks} · 英文手册链 ${pbLinks} · 筛选「提示技术」后 ${filtered} 条`,
+  };
+});
+
+test('英文提示词库：分类筛选用英文名，卡片标签是英文', '/en/prompts/', async (c) => {
+  const segs = await c.eval(`[...document.querySelectorAll('.seg [data-facet="cat"]')].map(x=>x.textContent)`);
+  const cjkSeg = segs.filter((x) => /[\u4e00-\u9fa5]/.test(x));
+  const tags = await c.eval(`[...new Set([...document.querySelectorAll('[data-list] .tag')].map(x=>x.textContent.trim()))]`);
+  const cjkTags = tags.filter((x) => /[\u4e00-\u9fa5]/.test(x));
+  return {
+    ok: segs.length === 11 && cjkSeg.length === 0 && tags.length > 0 && cjkTags.length === 0,
+    detail: `分类按钮 ${segs.length} 个 [${segs.slice(0, 4).join('/')}…]，含中文 ${cjkSeg.length}；标签 ${tags.length} 个，含中文 ${cjkTags.length}`,
+  };
+});
+
+test('英文手册：提示词链接全部指向英文提示词库（没有断头）', '/en/playbooks/pb-fix-unknown-bug/', async (c) => {
+  const en = await c.eval(`document.querySelectorAll('a[href^="/en/prompts/"]').length`);
+  const zh = await c.eval(`document.querySelectorAll('a[href^="/prompts/"]').length`);
+  const chips = await c.eval(`[...document.querySelectorAll('a[href^="/en/prompts/"]')].map(a=>a.getAttribute('href'))`);
+  return {
+    ok: en >= 2 && zh === 0,
+    detail: `英文提示词链 ${en} 条（${[...new Set(chips)].join(', ')}），指向中文提示词的 ${zh} 条`,
+  };
+});
+
+test('英文搜索：中文界面文案已换英文，且能搜到内容', '/en/search/', async (c) => {
+  await c.eval(`(function(){const i=document.querySelector('#globalSearch');i.value='rag';i.dispatchEvent(new Event('input',{bubbles:true}));return 0})()`);
+  await sleep(600);
+  const count = await c.eval(`(document.querySelector('#searchCount')||{}).textContent||''`);
+  const cats = await c.eval(`[...new Set([...document.querySelectorAll('#searchResults .card-cat')].map(x=>x.textContent.split(' / ')[0]))]`);
+  const btns = await c.eval(`[...new Set([...document.querySelectorAll('#searchResults .btn')].map(x=>x.textContent.trim().replace(/\\s+/g,' ')))].slice(0,4)`);
+  const groups = await c.eval(`[...document.querySelectorAll('#searchResults .search-group-head .label')].map(x=>x.textContent)`);
+  const hits = await c.eval(`document.querySelectorAll('#searchResults .card').length`);
+  // 结果里不能出现中文（类型名、按钮文案都必须是英文）
+  const txt = await c.eval(`(document.querySelector('#searchResults')||{}).textContent||''`);
+  const cjk = /[\u4e00-\u9fa5]/.test(txt);
+  return {
+    ok: hits > 0 && cjk === false && /results/.test(count) && groups.length >= 2,
+    detail: `搜「rag」→ ${count}，${hits} 张卡，分组 [${groups.join('/')}]，类型 [${cats.join('/')}]，按钮 [${btns.join(' ')}]，含中文=${cjk}`,
+  };
+});
+
+test('英文搜索：切到某一类型只出这一类', '/en/search/', async (c) => {
+  await c.eval(`(function(){const i=document.querySelector('#globalSearch');i.value='model';i.dispatchEvent(new Event('input',{bubbles:true}));return 0})()`);
+  await sleep(500);
+  const all = await c.eval(`document.querySelectorAll('#searchResults .card').length`);
+  await c.eval(`(function(){const b=[...document.querySelectorAll('[data-type]')].find(x=>x.dataset.type==='glossary');b.click();return 0})()`);
+  await sleep(400);
+  const only = await c.eval(`[...new Set([...document.querySelectorAll('#searchResults .card-cat')].map(x=>x.textContent.split(' / ')[0]))]`);
+  return {
+    ok: all > 0 && only.every((x) => x === 'Term'),
+    detail: `全部 ${all} 张；筛选「Glossary」后只剩类型 [${only.join('/')}]`,
+  };
+});
+
+test('工具分类页：列出了「这些工具怎么用」', '/tools/coding/', async (c) => {  const head = await c.eval(`(document.body.textContent.match(/这些.{0,8}工具怎么用/)||[''])[0]`);
   const pbs = await c.eval(`new Set([...document.querySelectorAll('a[href^="/playbooks/pb-"]')].map(a=>a.getAttribute('href'))).size`);
   return { ok: !!head && pbs >= 1, detail: `区块「${head}」，链到 ${pbs} 篇手册` };
 });
