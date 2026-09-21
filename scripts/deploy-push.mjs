@@ -79,18 +79,43 @@ async function main() {
   /* ---------- 1. 验证 SSH 密钥可用 ---------- */
   line('');
   line('  [1/3] 检查 SSH 授权');
+  /* 重试几次再下结论。
+     踩过一次：网络抖动导致 ssh -T 超时，脚本立刻判定「没配公钥」，
+     让用户去 GitHub 加 key —— 但 key 本来就是好的，再推一次就成功了。
+     **把瞬时故障说成配置问题，是比直接报错更糟的失败方式。** */
   let sshOk = false;
-  try {
-    const out = execFileSync('ssh', ['-T', 'git@github.com'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], timeout: 25000 });
-    sshOk = /successfully authenticated/i.test(out);
-  } catch (e) {
-    const out = ((e.stdout || '') + (e.stderr || '')).toString();
-    // ssh -T 在认证成功时也返回非 0，所以要靠输出判断
-    sshOk = /successfully authenticated/i.test(out);
+  let sshOut = '';
+  let attempts = 0;
+  for (; attempts < 3 && !sshOk; attempts++) {
+    if (attempts) { line(`      · 第 ${attempts} 次没通，重试…`); await new Promise((r) => setTimeout(r, 2000)); }
+    try {
+      const out = execFileSync('ssh', ['-T', 'git@github.com'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], timeout: 25000 });
+      sshOut = out;
+      sshOk = /successfully authenticated/i.test(out);
+    } catch (e) {
+      sshOut = ((e.stdout || '') + (e.stderr || '')).toString();
+      // ssh -T 认证成功时也返回非 0，所以靠输出判断
+      sshOk = /successfully authenticated/i.test(sshOut);
+      // 明确的鉴权拒绝才是真的缺公钥
+      if (/permission denied \(publickey\)/i.test(sshOut)) break;
+    }
   }
 
   if (!sshOk) {
-    line('  ✗ GitHub 说没认出这台机器。需要用一次公钥，之后永久免密。');
+    // 分清「网络不通」和「真的没配公钥」—— 两者的处理方式完全不同
+    const looksNetwork = !/permission denied \(publickey\)/i.test(sshOut);
+    if (looksNetwork) {
+      line('  ✗ 连不上 GitHub，但**看不出来是公钥的问题**（更像是网络/代理不通）。');
+      line('');
+      line('    你的公钥很可能本来就是好的，先直接试一次推送：');
+      line('      git push origin main');
+      line('');
+      line('    如果上面这条报 Permission denied (publickey)，再回来跑本脚本按提示加公钥。');
+      line('');
+      line('    原始输出：' + (sshOut.trim().split('\n').slice(-2).join(' | ') || '(空)'));
+      process.exit(1);
+    }
+    line('  ✗ GitHub 说没认出这台机器（公钥认证被拒）。需要用一次公钥，之后永久免密。');
     line('');
     line('    要加的公钥（这一整行，复制到 GitHub）:');
     line('');
