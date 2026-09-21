@@ -27,11 +27,24 @@ const limitArg = process.argv.indexOf('--limit');
 const LIMIT = limitArg !== -1 ? Number(process.argv[limitArg + 1]) : 0;
 
 const UA = 'Mozilla/5.0 (compatible; AIWanxiangLinkCheck/1.0)';
-const TIMEOUT = 15000;
-const DELAY = 200; // 对目标站点客气一点
+const TIMEOUT = Number(process.env.LINK_TIMEOUT || 6000);
+const DELAY = 120; // 对目标站点客气一点
+
+/* 熔断一：连续这么多次「网络层失败」就认为本机网络不可用，直接停下。
+   踩过一次：网络很差时每个链接都要等满超时，300 个链接跑了 15 分钟还没完，
+   而且结论毫无价值（全是超时）。检查开始前先判断前置条件是否成立。 */
+const BREAKER = 12;
+
+/* 熔断二：总时间预算。网络半通不通时（部分成功会重置上面的连续计数），
+   上面那个熔断不会触发，还是会一路磨下去。所以再加一道硬天花板：
+   超时就停下，把已经查到的部分如实报告为「部分结果」。 */
+const MAX_MS = Number(process.env.LINK_MAX_MS || 240000); // 默认 4 分钟
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const read = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f), 'utf8'));
+
+/** 网络层失败（不是对方返回 4xx，而是根本没连上） */
+const isNetworkError = (r) => !!r.error && !/^HTTP /.test(r.error);
 
 /* ---------- 收集要检查的 URL ---------- */
 function collect() {
@@ -118,11 +131,43 @@ async function main() {
   const softFail = [];   // 第一次失败
   const hardFail = [];   // 连续两次失败 → 待核验
   const moved = [];      // 有效但有跳转
+  let netErrors = 0;     // 连续网络层失败计数，用于熔断
+  const t0 = Date.now();
+  let timedOut = false;
 
   for (let i = 0; i < all.length; i++) {
+    // ---- 熔断二：总时间预算 ----
+    if (Date.now() - t0 > MAX_MS) {
+      timedOut = true;
+      console.log('');
+      console.log(`  ! 已用满 ${Math.round(MAX_MS / 1000)} 秒时间预算，停在 ${i} / ${all.length}。`);
+      console.log('    下面是**部分结果**。要完整的就放到 GitHub Actions 上跑（那边网络通畅），');
+      console.log('    或本地用 --limit N 只抽查一部分。');
+      break;
+    }
+
     const it = all[i];
     const r = await probe(it.url);
     const ok = r.status && r.status >= 200 && r.status < 400;
+
+    // ---- 熔断判断 ----
+    if (isNetworkError(r)) {
+      netErrors++;
+      if (netErrors >= BREAKER) {
+        console.log('');
+        console.log('  ' + '─'.repeat(60));
+        console.log(`  ✗ 连续 ${BREAKER} 个链接都是网络层失败（不是对方返回错误，是根本连不上）。`);
+        console.log('    本机网络当前访问外网不可用，继续跑下去只会耗时间而且结论没有意义。');
+        console.log(`    已检查 ${i + 1} / ${all.length}，结果未写入（避免用错误数据覆盖上次的好结果）。`);
+        console.log('');
+        console.log('    这个检查本来就设计成在 GitHub Actions 上跑（那边网络通畅，结果才可信）：');
+        console.log('    https://github.com/EaloongChan/listingboost-ai/actions');
+        console.log('');
+        process.exit(2);
+      }
+    } else {
+      netErrors = 0; // 只要有一个请求成功过（哪怕对方 404），就重置计数
+    }
 
     next[it.id] = {
       name: it.name,
@@ -170,9 +215,9 @@ async function main() {
     if (moved.length > 20) console.log(`    … 还有 ${moved.length - 20} 个`);
   }
 
-  if (DRY) {
+  if (DRY || timedOut) {
     console.log('');
-    console.log('  --dry：未写入 data/outbound-health.json');
+    console.log(DRY ? '  --dry：未写入 data/outbound-health.json' : '  部分结果未写盘（不覆盖上次的完整结果）');
     console.log('');
     return;
   }

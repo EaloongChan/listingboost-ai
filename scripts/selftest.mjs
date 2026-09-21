@@ -970,9 +970,9 @@ test('模型库：按版本号也能搜到（时效信息进了检索）', '/mod
     return c.eval(`[...document.querySelectorAll('[data-list] > *')].filter(x=>!x.classList.contains('hidden')).length`);
   };
   const a = await probe('Muse');
-  const b = await probe('Fable');
+  const b = await probe('Opus');
   const z = await probe('Muse 不存在的关键词');
-  return { ok: a > 0 && b > 0 && z === 0, detail: `「Muse」${a} 个、「Fable」${b} 个、无关键词组合 ${z} 个` };
+  return { ok: a > 0 && b > 0 && z === 0, detail: `「Muse」${a} 个、「Opus」${b} 个、无关键词组合 ${z} 个` };
 });
 
 test('工具分类页：筛选栏高亮的是当前分类，不是「全部」', '/tools/coding/', async (c) => {

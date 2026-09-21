@@ -82,7 +82,7 @@
   {
     "id": "kimi",
     "name": "Kimi",
-    "url": "https://kimi.moonshot.cn",
+    "url": "https://www.kimi.com/",
     "cat": "chat",
     "desc": "月之暗面出品，超长上下文与文件解析见长。",
     "tags": [
@@ -292,7 +292,7 @@
   {
     "id": "windsurf",
     "name": "Windsurf",
-    "url": "https://windsurf.com",
+    "url": "https://devin.ai/",
     "cat": "coding",
     "desc": "以 Cascade 为核心的 Agentic IDE。",
     "tags": [
@@ -304,7 +304,7 @@
     "hot": false,
     "official": true,
     "added": "2026-02-01",
-    "caveat": "编辑器生态和插件兼容性不如 VS Code，重度依赖特定插件的人会不适应。",
+    "caveat": "已被 Cognition（Devin 的公司）收购，产品线正在并入 Devin。选它之前先确认官方目前把编辑器放在什么位置——接受一家刚被收购的产品做长期投入要谨慎。",
     "descEn": "An agentic IDE with a well-designed flow between you and the AI.",
     "caveatEn": "Its editor ecosystem and plugin compatibility lag VS Code — heavy users of specific extensions will feel the gap."
   },
@@ -482,7 +482,7 @@
   {
     "id": "flux",
     "name": "FLUX",
-    "url": "https://blackforestlabs.ai",
+    "url": "https://bfl.ai/",
     "cat": "image",
     "desc": "Black Forest Labs 开源图像模型，可自部署。",
     "tags": [
@@ -501,7 +501,7 @@
   {
     "id": "comfyui",
     "name": "ComfyUI",
-    "url": "https://www.comfy.org",
+    "url": "https://comfy.org/",
     "cat": "image",
     "desc": "节点式图像生成工作流，自由度最高。",
     "tags": [
@@ -4512,5 +4512,173 @@
     "caveat": "免费讲题与批改好用，但不要把它当权威答案——理科计算题务必自己复核。",
     "descEn": "ByteDance's learning assistant — photo-based problem explanation and essay marking, free.",
     "caveatEn": "Free and convenient, but don't treat it as an authority. Always re-check science and maths calculations yourself."
+  },
+  {
+    "id": "gemini-cli",
+    "name": "Gemini CLI / Antigravity CLI",
+    "url": "https://github.com/google-gemini/gemini-cli",
+    "cat": "coding",
+    "pricing": "freemium",
+    "cn": false,
+    "official": true,
+    "hot": true,
+    "added": "2026-09-21",
+    "desc": "Google 的终端编程 Agent。开源、上下文大，是免费额度最慷慨的一档。",
+    "caveat": "2026-06-18 起 Google 把消费版入口迁到了新工具 Antigravity CLI —— 你现在装的可能是要换的那个。用之前先确认自己该用哪个。",
+    "tags": [
+      "CLI",
+      "Agent",
+      "开源",
+      "长上下文"
+    ],
+    "descEn": "Google's terminal coding agent. Open source, large context, and the most generous free tier in this category.",
+    "caveatEn": "Since 18 Jun 2026 Google has been moving consumer access to a new tool called Antigravity CLI — the one you install today may not be the one you should. Check which you want first."
+  },
+  {
+    "id": "grok-build",
+    "name": "Grok Build",
+    "url": "https://x.ai/cli",
+    "cat": "coding",
+    "pricing": "paid",
+    "cn": false,
+    "official": true,
+    "added": "2026-09-21",
+    "desc": "xAI 的终端编程 Agent，可并行开多个子 Agent，上下文窗口是同类里最长的。",
+    "caveat": "目前只对 SuperGrok 高阶档开放，价格是同类里最贵的。并行开多个 Agent 的收益在复杂任务上才明显，日常改几个文件用不上。",
+    "tags": [
+      "CLI",
+      "Agent",
+      "并行"
+    ],
+    "descEn": "xAI's terminal coding agent. Runs multiple parallel subagents, with the longest context window in this category.",
+    "caveatEn": "Currently gated to the top SuperGrok tier and the priciest option here. Parallel subagents only pay off on complex work — overkill for editing a few files."
+  },
+  {
+    "id": "qwen-code",
+    "name": "Qwen Code",
+    "url": "https://github.com/QwenLM/qwen-code",
+    "cat": "coding",
+    "pricing": "open",
+    "cn": true,
+    "official": true,
+    "added": "2026-09-21",
+    "desc": "阿里的开源终端编程 Agent，对接 Qwen 与任意兼容 OpenAI 协议的服务。",
+    "caveat": "定位是「模型无关」的壳，能力取决于你自己接哪个模型；接了小模型效果会明显打折。国内直连方便，但官方文档以英文为主。",
+    "tags": [
+      "CLI",
+      "Agent",
+      "开源",
+      "国产"
+    ],
+    "descEn": "Alibaba's open-source terminal agent, working with Qwen or any OpenAI-compatible endpoint.",
+    "caveatEn": "A model-agnostic shell — quality depends entirely on what you plug in, and small models visibly disappoint. Convenient in China, but docs lean English."
+  },
+  {
+    "id": "opencode-cli",
+    "name": "OpenCode",
+    "url": "https://opencode.ai",
+    "cat": "coding",
+    "pricing": "open",
+    "cn": false,
+    "official": true,
+    "added": "2026-09-21",
+    "desc": "开源终端 Agent，支持 75+ 家模型提供商，也能接本地模型。",
+    "caveat": "支持的提供商越多，配置项越多，第一次上手要花时间选模型和调参数。它不提供托管服务，模型费用要自己另外算。",
+    "tags": [
+      "CLI",
+      "Agent",
+      "开源",
+      "多模型"
+    ],
+    "descEn": "Open-source terminal agent supporting 75+ providers, including local models.",
+    "caveatEn": "More providers means more configuration — expect to spend time on model choice and parameters. No hosted offering, so model costs are separate."
+  },
+  {
+    "id": "kilo-cli",
+    "name": "Kilo CLI",
+    "url": "https://kilo.ai",
+    "cat": "coding",
+    "pricing": "open",
+    "cn": false,
+    "official": true,
+    "added": "2026-09-21",
+    "desc": "开源多模型终端 Agent，能串起 CLI、VS Code、JetBrains 与云端任务。",
+    "caveat": "它的优势是「到处都能接」，如果你只用命令行或只用 IDE，这些额外集成就是多余的复杂度。平台本身免费，模型另计费。",
+    "tags": [
+      "CLI",
+      "Agent",
+      "开源",
+      "多模型"
+    ],
+    "descEn": "Open-source multi-model terminal agent connecting CLI, VS Code, JetBrains and cloud tasks.",
+    "caveatEn": "Its strength is reaching everywhere. If you only use the terminal or only an IDE, those extra integrations are needless complexity. The platform is free; models are billed separately."
+  },
+  {
+    "id": "kimi-cli",
+    "name": "Kimi Code CLI",
+    "url": "https://github.com/MoonshotAI/kimi-cli",
+    "cat": "coding",
+    "pricing": "open",
+    "cn": true,
+    "official": true,
+    "added": "2026-09-21",
+    "desc": "月之暗面的开源终端编程 Agent，配合 Kimi 的开放权重模型使用。",
+    "caveat": "社区规模明显小于同类开源项目，遇到问题能找到的第三方资料少。「开源 + 可接自家模型」是卖点，但配套生态还在早期。",
+    "tags": [
+      "CLI",
+      "Agent",
+      "开源",
+      "国产"
+    ],
+    "descEn": "Moonshot's open-source terminal coding agent, built to pair with Kimi's open-weight models.",
+    "caveatEn": "The community is markedly smaller than comparable open projects, so third-party troubleshooting material is scarce. Open source plus first-party models is the pitch, but the ecosystem is early."
+  },
+  {
+    "id": "weknora",
+    "name": "WeKnora",
+    "url": "https://github.com/Tencent/WeKnora",
+    "cat": "agent",
+    "pricing": "open",
+    "cn": true,
+    "official": true,
+    "added": "2026-09-21",
+    "desc": "腾讯开源的知识平台：文档 → 可检索 RAG → 会动手的 Agent → 自维护 Wiki。",
+    "caveat": "功能铺得很开（RAG / Agent / Wiki 三套），意味着部署与配置比单一用途方案重，团队要有运维能力。适合已有文档沉淀的场景，空手起家价值有限。",
+    "tags": [
+      "知识库",
+      "RAG",
+      "Agent",
+      "开源",
+      "国产"
+    ],
+    "descEn": "Tencent's open-source knowledge platform: documents into queryable RAG, an acting agent, and a self-maintaining wiki.",
+    "caveatEn": "It spans three products (RAG, agent, wiki), so deployment and configuration are heavier than a single-purpose tool — your team needs ops capability. Best where documents already exist; less value from scratch.",
+    "review": {
+      "status": "source-verified",
+      "reviewedAt": "2026-09-21"
+    },
+    "evidence": [
+      "https://github.com/Tencent/WeKnora"
+    ]
+  },
+  {
+    "id": "mica-voice",
+    "name": "mica-voice",
+    "url": "https://github.com/lets-mica/mica-voice",
+    "cat": "audio",
+    "pricing": "open",
+    "cn": true,
+    "official": false,
+    "added": "2026-09-21",
+    "desc": "Java 生态的语音 AI 套件：一行代码接入识别、合成、声纹、降噪等七项能力。",
+    "caveat": "面向 Java 后端开发者，非 Java 技术栈基本用不上。它是封装层，底层跑的是通用的语音模型，效果取决于底层而非这个库本身。",
+    "tags": [
+      "TTS",
+      "ASR",
+      "开源",
+      "国产"
+    ],
+    "descEn": "A speech AI suite for the Java ecosystem: recognition, synthesis, voiceprint and denoising in one line of code.",
+    "caveatEn": "Aimed at Java backend developers — useless outside that stack. It is a wrapper, so quality comes from the underlying speech models, not this library."
   }
 ]

@@ -1,5 +1,5 @@
 {
-  "note": "英文版的界面文案。内容型翻译（工具简介、编辑点评、模型对比）放在各自的数据文件里，字段后缀 En。",
+  "note": "时效信息由公开资料整理，会滞后。每条都链到官方模型列表，需要精确的版本、价格、上下文长度请以官方页为准。",
   "en": {
     "siteName": "AI Wanxiang",
     "siteTagline": "AI Tools & Models Directory",
@@ -57,7 +57,7 @@
     "tools.countPrefix": "tools",
     "models.title": "Model Library",
     "models.desc": "AI models compared on the dimensions that stay stable: what they are best at, what to watch out for, and who they suit.",
-    "models.note": "This is a comparison by model family, deliberately without version numbers or benchmark scores — those go stale within months. For exact specs, follow the official link on each card.",
+    "models.note": "The comparison dimensions keep only what stays stable — biggest strength, what to watch, best for, open or closed, accessible from China, tier. These do not go stale in a few months.\n\nFast-moving information sits on its own \"As of\" line on each card, with the verification month printed, so you can judge how old it is.\n\nThat line is compiled from public sources and lags reality; version numbers frequently conflict between sources, so we removed the ones we could not confirm. For accurate versions, pricing and context length, use the \"Model list\" link at the bottom of each card and check the official page.",
     "cat.chat": "Chat assistants",
     "cat.coding": "Coding",
     "cat.image": "Image generation",

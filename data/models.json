@@ -61,7 +61,7 @@
     "light": "轻量/低成本",
     "open": "开源旗舰"
   },
-  "note": "对比维度只保留稳定的东西（最强的地方 / 注意什么 / 适合什么 / 是否开源 / 国内能否直连 / 档位），因为这些不会几个月就过期。\n\n易变的信息单独放在每条上方的「时效」一行，并且**强制标注核验月份** —— 这样你能自己判断这条信息有多旧。版本号、价格、上下文长度刻意不写进对比维度，需要精确数据请看每条的官方模型列表链接。",
+  "note": "对比维度只保留稳定的东西（最强的地方 / 注意什么 / 适合什么 / 是否开源 / 国内能否直连 / 档位）—— 这些不会几个月就过期。\n\n易变的信息单独放在每条上方的「时效」一行，并且强制标注核验月份，让你能自己判断这条信息有多旧。\n\n时效信息由公开资料整理，会滞后；各家来源的版本号也常有冲突（我们已经把确认不了的精确版本号删掉了）。需要准确的版本、价格、上下文长度，请点每条底部的「模型列表」直接看官方页。",
   "items": [
     {
       "id": "m-gpt",
@@ -102,9 +102,9 @@
       ],
       "latest": {
         "asOf": "2026-09",
-        "text": "旗舰 GPT-6 Astra（2026-09）；GPT-5.6 分 Sol / Terra / Luna 三档覆盖全价位"
+        "text": "主线已到 GPT-6 一代，5.6 分三个价位档覆盖日常到重度"
       },
-      "latestEn": "Flagship GPT-6 Astra (2026-09); the GPT-5.6 line splits into Sol / Terra / Luna across the price range",
+      "latestEn": "The main line has reached the GPT-6 generation, with 5.6 covering everyday through heavy work across three price tiers.",
       "modelsUrl": "https://platform.openai.com/docs/models"
     },
     {
@@ -190,9 +190,9 @@
       ],
       "latest": {
         "asOf": "2026-09",
-        "text": "旗舰 Claude Fable 5.1；Opus 5 是官方推荐的默认档，价格约为 Fable 的一半"
+        "text": "新一代旗舰走「高价高智力 + 半价默认档」双线策略，Opus 档是官方推荐的日常默认"
       },
-      "latestEn": "Flagship Claude Fable 5.1; Opus 5 is the vendor-recommended default at roughly half the price",
+      "latestEn": "The current generation runs a two-track strategy: a top-price intelligence tier plus a half-price default. The Opus tier is the vendor-recommended everyday default.",
       "modelsUrl": "https://docs.anthropic.com/en/docs/about-claude/models/overview"
     },
     {
@@ -450,9 +450,9 @@
       ],
       "latest": {
         "asOf": "2026-09",
-        "text": "Kimi K3（2026-07）为旗舰并开放权重；K2.5 是同族大参数开源档"
+        "text": "K 系列持续迭代并开放权重；K2.5 是规模较大的同族选择"
       },
-      "latestEn": "Kimi K3 (2026-07) is the flagship with open weights; K2.5 is the large open sibling",
+      "latestEn": "The K line keeps iterating with open weights; K2.5 is the larger sibling in the family.",
       "modelsUrl": "https://platform.moonshot.cn/docs/intro"
     },
     {
@@ -702,9 +702,9 @@
       ],
       "latest": {
         "asOf": "2026-09",
-        "text": "Grok 4.6（2026-08），推理已作为默认模式并可按强度调节"
+        "text": "推理已作为默认模式并可按强度调节。具体版本号各家报道不一致，请以官方模型列表为准"
       },
-      "latestEn": "Grok 4.6 (2026-08); reasoning is now the default mode with adjustable effort",
+      "latestEn": "Reasoning is now the default mode with adjustable effort. Reported version numbers conflict across sources — check the official model list.",
       "modelsUrl": "https://docs.x.ai/docs/models"
     },
     {
