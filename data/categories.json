@@ -6,7 +6,8 @@
       "icon": "chat",
       "desc": "通用大模型对话与推理",
       "accent": "#1B4DFF",
-      "guide": "选型的核心不是「哪个最强」，而是「哪个能一直用上」。如果只是日常问答和写作，国产免费的就够；如果要做开发、需要严格的格式化输出或长链推理，才值得为旗舰模型付费。另外注意「安全策略松紧」——过度保守的模型会让你的产品体验变得莫名其妙。"
+      "guide": "选型的核心不是「哪个最强」，而是「哪个能一直用上」。日常问答、写作、翻译——国产免费档完全够；只有做开发、需要严格结构化输出或长链推理时，才值得为旗舰付费。另外三个容易忽略的点：①**安全策略松紧**，过度保守的模型会把正常请求也软化掉，做产品时体验会很怪；②**上下文长度**，要处理长文档就看这一项，别的指标再好也没用；③**能不能换**，绑死一家的模型在涨价或降级时很被动。什么时候别用对话助手：需要精确计算、需要查最新事实、需要访问你的内部数据——这三类它都会给你一个自信但错误的答案。",
+      "guideEn": "The question is not which model is strongest, but which one you can keep using. For everyday Q&A, writing and translation, the free domestic tiers are plenty; only pay for a flagship when you need serious coding, strict structured output, or long-chain reasoning. Three things people overlook: **how tight the safety policy is** (an over-cautious model softens legitimate requests and makes your product feel broken), **context length** (if you handle long documents, nothing else matters as much), and **whether you can switch** (a single-vendor lock-in leaves you exposed to price rises and silent downgrades). When not to use one: precise calculation, current facts, or anything needing your internal data — it will answer confidently and wrongly."
     },
     {
       "id": "coding",
@@ -14,7 +15,8 @@
       "icon": "code",
       "desc": "代码补全、AI IDE、Agent 编程",
       "accent": "#00875A",
-      "guide": "先分清你要的是哪种：补全（加速打字）、AI IDE（按需求改多个文件）、还是编程 Agent（自己跑命令看报错迭代）。三者能力边界完全不同，选错了会觉得「AI 编程不过如此」。共同前提是项目结构要清晰——代码库越乱，AI 越容易改错地方。"
+      "guide": "先分清你要的是哪一种，三者能力边界完全不同：**补全**（加速打字，IDE 插件类）、**AI 编辑器**（按需求改多个文件，看懂项目上下文）、**编程 Agent**（自己跑命令、看报错、迭代到跑通）。选错了会觉得「AI 编程不过如此」——用补全工具去做跨文件重构，当然不行。共同前提是项目结构要清晰，代码库越乱，AI 越容易改错地方，而且错得很自信。**终端 Agent 类工具会执行命令，试点时务必在独立分支或容器里跑。**什么时候别用：改一个你自己都说不清逻辑的老代码、或者在没有测试保护的情况下做大范围重构——先补测试。",
+      "guideEn": "First work out which of three things you want, because their limits are completely different: **completion** (types faster, an IDE plugin), **AI editors** (multi-file changes with project context), and **coding agents** (run commands, read errors, iterate until it passes). Pick the wrong shape and you will conclude AI coding is overrated — of course a completion tool can't do cross-file refactors. All of them depend on a legible codebase: the messier the project, the more confidently the AI edits the wrong place. **Terminal agents execute commands**, so trial them on a throwaway branch or in a container. When not to use: refactoring code whose logic nobody can explain, or making wide changes with no test coverage — write the tests first."
     },
     {
       "id": "image",
@@ -22,7 +24,8 @@
       "icon": "image",
       "desc": "文生图、改图、设计素材",
       "accent": "#FF3B00",
-      "guide": "两条路线：云端闭源（出图快、审美稳、按次付费）和本地开源（免费无限跑、可训自己的风格、但要显卡和折腾）。判断标准很简单——如果你要反复调同一套风格、批量出图，本地开源更划算；如果只是偶尔出几张，云端更省事。"
+      "guide": "两条路线，先选路线再选工具：**云端闭源**（出图快、审美稳、按次付费，代表是 Midjourney、GPT Image、即梦）和**本地开源**（免费无限跑、能训自己的风格、但要显卡和折腾，代表是 FLUX、SD、ComfyUI）。判断标准很简单——要反复调同一套风格、要批量出图、要把作品沉淀成自己的资产，本地更划算；只是偶尔出几张、或者要的是「开箱就好看」，云端省事得多。**图里要出现文字就别指望生成**，尤其是中文，后期叠加是唯一可靠的路。什么时候别用：需要精确排版的海报、名片、表格——这些用设计工具手工排更快，AI 生成的文字不可靠。",
+      "guideEn": "Choose the route before the tool. **Hosted closed models** (Midjourney, GPT Image, Jimeng) are fast and reliably good-looking on a per-image bill. **Local open models** (FLUX, SD, ComfyUI) are free to run forever and trainable on your own style, but want a GPU and patience. The test is simple: if you will iterate on one style, batch-generate, or build an asset library, local pays off; if you generate a few images occasionally or just want something pretty out of the box, hosted is far less trouble. **Do not expect generated text to be correct**, especially Chinese — compositing it afterwards is the only reliable path. When not to use: posters, business cards, tables, anything needing precise typography — a layout tool is faster and the model will not get the text right."
     },
     {
       "id": "video",
@@ -30,7 +33,8 @@
       "icon": "video",
       "desc": "文生视频、图生视频、剪辑",
       "accent": "#7C3AED",
-      "guide": "先明确用途：概念片追求画面质感，口播/数字人追求效率和一致性，短视频切片追求速度和模板。这三类各有所长。另外一定要看清商用授权范围和生成内容的标识要求。"
+      "guide": "先明确用途，三类工具各有所长：**概念片**追求画面质感（Sora、Veo、可灵），**口播与数字人**追求效率和一致性（HeyGen、Synthesia），**短视频切片**追求速度和模板（OpusClip、剪映）。**目前 AI 视频的可靠单位是「一个镜头 5-10 秒」**，长片靠拼，分镜阶段就要避开做不到的镜头（手部动作、快速运动、画面内文字、多人物互动）。商用前一定看清授权范围，以及平台对 AI 生成内容的标识要求。什么时候别用：需要真实的人讲述真实的事——观众能看出是 AI，而且会因此不信任内容本身；素材本身就没有几个可独立成篇的观点时也别硬切。",
+      "guideEn": "Decide the purpose first, because the three families differ completely: **concept films** chase image quality (Sora, Veo, Kling), **talking heads and digital presenters** chase efficiency and consistency (HeyGen, Synthesia), **short-form cutdowns** chase speed and templates (OpusClip, CapCut). **The reliable unit today is one 5-10 second shot**; longer pieces are assembled. Plan the shot list to avoid what models still fail at — hands, fast motion, text inside the frame, multiple people interacting. Check commercial licensing and AI-disclosure requirements before you ship. When not to use: when a real person needs to tell a real story — viewers can tell, and it costs you their trust; or when the source material simply has no self-contained moments worth cutting."
     },
     {
       "id": "audio",
@@ -38,7 +42,8 @@
       "icon": "audio",
       "desc": "配音、音乐生成、语音识别",
       "accent": "#0E7490",
-      "guide": "语音合成看两个指标：自然度和音色控制。中文场景国产方案往往更自然。音乐生成要特别注意版权条款——生成的曲子能不能商用、归谁，各家规定差别很大。音色克隆务必取得本人授权。"
+      "guide": "拆成三件事分别选，别指望一个工具全包：**语音合成**看自然度和音色控制，中文场景国产方案（Fish Audio、MiniMax、CosyVoice）往往更自然，多语言配音 ElevenLabs 覆盖最全；**音乐生成**（Suno、海绵音乐）要特别看清版权条款——生成的曲子能不能商用、归谁，各家差别很大；**语音识别**（Whisper 类）中文场景优先选国产，方言和口音支持更好。**音色克隆务必获得本人明确授权**，这不只是道德问题，未授权克隆在多数地区构成侵权。实操提醒：先定文案再配音，改一个字就要重配整段；AI 生成音频的响度通常不一致，进剪辑软件要做音量平衡。",
+      "guideEn": "Split this into three separate purchases rather than expecting one tool to do everything. **Speech synthesis**: judge naturalness and voice control — for Chinese, domestic options (Fish Audio, MiniMax, CosyVoice) usually sound more natural, while ElevenLabs has the widest language coverage. **Music generation** (Suno, Haimian): read the licence carefully — whether output can be used commercially and who owns it varies sharply. **Transcription**: for Chinese, pick a domestic service; dialect and accent support is better. **Voice cloning requires explicit consent from the person whose voice it is** — that is a legal requirement in most jurisdictions, not just a courtesy. Two practical notes: finalise the script before recording, because changing one word means re-recording the whole passage; and generated audio varies in loudness, so level it in the editor."
     },
     {
       "id": "writing",
@@ -46,7 +51,8 @@
       "icon": "pen",
       "desc": "文档、PPT、翻译、润色",
       "accent": "#E5337B",
-      "guide": "这类工具的核心差异在于「懂不懂你的语境」。通用模型什么都能写但什么都不精；垂直工具（翻译、校对、PPT）在专项上更可靠。实操建议：长文档写作和润色用通用旗舰模型，格式化的活（PPT、翻译）用垂直工具。"
+      "guide": "核心差异在于「懂不懂你的语境」。通用模型什么都能写但什么都不精；垂直工具在专项上更可靠。**实操分工**：长文档写作、润色、改写用通用旗舰模型（它能理解上下文和语气）；格式化的活——PPT、翻译、校对、摘要——用垂直工具（Gamma、DeepL、Grammarly），它们在专项上的稳定性明显更好。翻译长文档前**先建术语表**，否则同一个词会在不同位置译成不同说法，比译错更伤专业感。注意「过度润色」：模型倾向于把有棱角的表达磨平，如果你的文案靠态度取胜，润色反而会削弱它。什么时候别用：法律条文、医疗建议、财务数据——这几类要担责任，必须人工审。",
+      "guideEn": "The real difference is whether the tool understands your context. General models write anything but master nothing; vertical tools are more reliable within their niche. **The practical split**: long-form writing, editing and rewriting go to a general flagship (it tracks tone and context); formatted jobs — slides, translation, proofreading, summarising — go to vertical tools (Gamma, DeepL, Grammarly), where stability is visibly better. **Build a glossary before translating any long document**, or the same term will render differently in different places, which damages credibility more than a plain mistranslation. Watch for over-polishing: models sand down sharp edges, so if your copy wins on attitude, polishing weakens it. When not to use: legal clauses, medical advice, financial figures — anything carrying liability needs human review."
     },
     {
       "id": "research",
@@ -54,7 +60,8 @@
       "icon": "search",
       "desc": "AI 搜索、文献、深度研究",
       "accent": "#B45309",
-      "guide": "区分三种需求：找答案（答案式搜索）、读文献（学术工具）、做深研（多轮检索的 Agent）。学术场景尤其要看它能不能给出可验证的引用——不能给出处的「研究」等于没研究。"
+      "guide": "区分三种需求，工具完全不同：**找答案**（答案式搜索，Perplexity、秘塔）、**读文献**（学术工具，Semantic Scholar、Elicit、Connected Papers）、**做深研**（多轮检索的 Agent，STORM、GPT Researcher）。学术场景**尤其要看它能不能给出可验证的引用**——不能给出处的「研究」等于没研究，而且 AI 编造的引用非常像真的：作者、期刊、年份都合理，只有去查才发现不存在。顺着引用网络走往往比搜关键词收获大。什么时候别用：需要一手数据、需要访谈、需要看实物——这些它给不了；另外模型对具体公司的事实记忆过期很快，竞品信息必须自己核实。",
+      "guideEn": "Separate three needs, because the tools do not overlap: **finding an answer** (answer engines such as Perplexity), **reading the literature** (Semantic Scholar, Elicit, Connected Papers), and **deep research** (multi-round agents such as STORM). In academic work, **check whether it can give verifiable citations** — research without sources is not research, and fabricated references look entirely convincing: plausible authors, journals and years, until you search for them. Following the citation graph usually beats keyword search. When not to use: primary data, interviews, physical inspection — it has none of those; and note that models go stale fast on specific companies, so competitor facts must be verified yourself."
     },
     {
       "id": "agent",
@@ -62,7 +69,8 @@
       "icon": "bot",
       "desc": "工作流、智能体、自动化编排",
       "accent": "#4F46E5",
-      "guide": "先想清楚：你是要做**工作流**（步骤固定、可控可调试）还是**自主 Agent**（自己决定下一步）。多数业务场景其实适合工作流，稳定且便宜。自主 Agent 适合步骤不确定、需要试错的任务。别一上来就上多智能体，分工设计不好只会互相干扰。"
+      "guide": "先想清楚你要做**工作流**（步骤固定、可控可调试）还是**自主 Agent**（自己决定下一步、需要试错）。多数业务场景其实适合工作流——稳定、便宜、出问题能定位。自主 Agent 只适合步骤不确定的任务，而且必须加三样东西：**步数上限**（防无限循环）、**成本上限**（防烧钱）、**日志**（出问题能复盘）。**不可逆的动作必须留人工闸门**——发消息、删数据、付款、对外发布，这几类不能让 Agent 自动过。别一上来就上多智能体，分工设计不好只会互相干扰；先用单 Agent 跑通，真遇到瓶颈再拆。什么时候别用：规则明确、不需要判断的事（格式转换、批量重命名、定时抓取）——用脚本又快又稳又便宜。",
+      "guideEn": "Decide first whether you are building a **workflow** (fixed steps, controllable, debuggable) or an **autonomous agent** (decides its own next step, needs trial and error). Most business cases suit a workflow — stable, cheap, and you can find the fault when it breaks. Autonomous agents only fit genuinely uncertain tasks, and they need three things without exception: **a step cap** (to stop loops), **a cost cap** (to stop runaway spend), and **logging** (so you can reconstruct what happened). **Irreversible actions need a human gate** — sending messages, deleting data, payments, publishing — never let those pass automatically. Do not start with multi-agent designs; poor role splits just interfere with each other. When not to use: anything rule-based and predictable (format conversion, bulk renaming, scheduled scraping) — a script is faster, stabler and cheaper."
     },
     {
       "id": "design",
@@ -70,7 +78,8 @@
       "icon": "palette",
       "desc": "UI、海报、品牌视觉",
       "accent": "#F5A524",
-      "guide": "AI 在设计流程里最有价值的不是「生成好看的图」，而是加速探索阶段：快速试配色、出多版方案、把草图变原型。最终的视觉细节和一致性判断仍然要人来做。"
+      "guide": "AI 在设计流程里最有价值的**不是「生成好看的图」，而是加速探索阶段**：快速试配色方向、一次出多版方案、把草图变成能点的原型、把模糊需求翻译成可执行简报。真正的判断——视觉细节、一致性、品牌调性——仍然要人来做。**配色有两个硬约束常被忽略**：正文对比度至少 4.5:1（否则实际用起来看不清）、深色模式下要重新检查（直接反色通常会崩）。什么时候别用：需要精确控制的排版（名片、表格、需要严格对齐的物料）；以及品牌的核心标识——AI 生成的 logo 有很强的模板感，放在同类产品里认不出来，而且部分司法辖区因缺乏人类独创性而难以获得商标保护。",
+      "guideEn": "AI's value in design is **not generating pretty pictures — it is accelerating the exploration stage**: testing colour directions, producing several options at once, turning sketches into clickable prototypes, translating vague briefs into executable ones. The judgement — visual detail, consistency, brand feel — stays with you. **Two hard constraints get ignored**: body text needs at least 4.5:1 contrast (or it becomes unreadable in practice), and dark mode must be re-checked rather than assumed (a straight inversion usually breaks). When not to use: precise layout work (cards, tables, anything needing strict alignment), and the core brand mark — generated logos carry a template feel, do not stand out among competitors, and in some jurisdictions cannot be trademarked for lack of human authorship."
     },
     {
       "id": "data",
@@ -78,7 +87,8 @@
       "icon": "chart",
       "desc": "表格分析、BI、洞察",
       "accent": "#0F766E",
-      "guide": "注意区分「算数」和「给建议」。表格计算用 AI 没问题，但因果推断和业务建议务必自己判断——模型最容易犯的错就是把相关当因果，而且说得非常自信。"
+      "guide": "注意区分**「算数」和「给建议」**，这两件事的可靠性差一个数量级。表格计算、格式转换、SQL 生成——用 AI 没问题，错了也能验证。但因果推断和业务建议务必自己判断：**模型最容易犯的错是把相关当因果，而且说得非常自信**（「用户流失率上升是因为改版」——它没有依据这么说）。一个实用技巧：让它先输出「客观描述」，再单独输出「可能解释」，分开看能有效减少它编故事。**数据口径要先统一再分析**，同一个「活跃用户」在部门间可能指完全不同的东西，口径不统一时分析越深结论越离谱。什么时候别用：几十行数据、看一眼就明白的——自己看更快。",
+      "guideEn": "Separate **arithmetic from advice**, because their reliability differs by an order of magnitude. Table maths, format conversion, SQL generation — fine, and verifiable. Causal inference and business recommendations — judge those yourself: **the model's most common error is treating correlation as causation, stated with total confidence** (\"churn rose because of the redesign\" — it has no basis for that). One useful trick: ask for an objective description first and possible explanations separately; reading them apart cuts down storytelling. **Agree on definitions before analysing** — \"active user\" can mean different things in different teams, and the deeper you go with mismatched definitions, the more absurd the conclusion. When not to use: a few dozen rows you can read at a glance."
     },
     {
       "id": "3d",
@@ -86,7 +96,8 @@
       "icon": "cube",
       "desc": "文生 3D、贴图、场景",
       "accent": "#A21CAF",
-      "guide": "目前文生 3D 还没到「直接可用」的程度，生成的模型普遍需要重拓扑或清理。更现实的用法是做概念探索和占位资产，或者从已有模型出发做变体。追求直接进引擎的资产，还是得靠手工或扫描。"
+      "guide": "目前文生 3D 还没到「直接可用」的程度，生成的模型普遍需要重拓扑或清理。**更现实的定位是概念探索和占位资产**，或者从已有模型出发做变体。真要进引擎（游戏、产品展示），还是得手工建模或扫描。流程上有两个顺序不能反：**先定面数预算再生成**（AI 默认几十万面，不改就等着返工）、**先重拓扑再调贴图**（生成的网格是「看起来对」的三角面乱序，直接做动画会崩）。导入引擎前检查三件事：法线朝向、原点位置、单位尺度——这三个错了会以各种奇怪的方式表现出来。什么时候别用：资产要反复使用、需要动画、需要 LOD——这些场景返工成本远高于一开始就手工做。",
+      "guideEn": "Text-to-3D is not yet plug-and-play: generated meshes almost always need retopology or cleanup. **The realistic use is concept exploration and placeholder assets**, or variations built from an existing model. Anything that has to go into an engine properly — games, product display — still means hand modelling or scanning. Two steps whose order cannot be reversed: **set a polygon budget before generating** (the default output is hundreds of thousands of triangles; skip this and you will redo everything), and **retopologise before texturing** (generated topology is unordered triangles that look right but break in animation). Before importing, check three things: normal direction, origin position, and unit scale — get these wrong and the symptoms show up in strange places. When not to use: assets that will be reused, animated, or need LODs — rework costs far more than modelling it properly the first time."
     },
     {
       "id": "local",
@@ -94,7 +105,8 @@
       "icon": "server",
       "desc": "本地跑模型、开源框架、微调",
       "accent": "#57534E",
-      "guide": "本地部署真正的门槛是显存和运维。判断方法：参数量 × 每参数字节数（4bit 量化约 0.5 字节）再留 1.5-2 倍余量。它的不可替代价值是数据不出内网，以及「调用免费」带来的自由——当成本为零时，你才敢让模型做大量重复的脏活。"
+      "guide": "真正的门槛是**显存和运维**，不是技术难度。判断方法：参数量 × 每参数字节数（4bit 量化约 0.5 字节）+ KV cache，再留 1.5-2 倍余量；8GB 显存对应 7B 量化版、16GB 对应 14B、24GB 对应 32B，别一上来冲最大的。**它的不可替代价值是数据不出内网**，以及「调用免费」带来的自由——当成本为零时你才敢让模型做大量重复的脏活。个人自用 Ollama + LM Studio 就够，vLLM / SGLang 是给高并发生产环境准备的，别提前上。什么时候别用：只是「想试试」、或者任务需要很强推理——折腾成本远超省下的钱，这时候用云端更明智。",
+      "guideEn": "The real barrier is **VRAM and operations**, not technical difficulty. To size it: parameters × bytes per parameter (roughly 0.5 at 4-bit) plus KV cache, then leave 1.5-2× headroom. As a rule of thumb, 8GB runs a 7B quantised, 16GB a 14B, 24GB a 32B — do not reach for the biggest first. **The irreplaceable value is that data never leaves your network**, plus the freedom of free inference: at zero marginal cost you dare let a model grind through repetitive dirty work. For personal use, Ollama plus LM Studio is enough; vLLM and SGLang exist for high-concurrency production and should not be rushed in. When not to use: idle curiosity, or tasks needing strong reasoning — setup costs far exceed what you save, and a hosted model is the better call."
     },
     {
       "id": "marketing",
@@ -102,7 +114,8 @@
       "icon": "megaphone",
       "desc": "SEO、广告素材、社媒与投放数据",
       "accent": "#BE123C",
-      "guide": "这类工具的价值取决于数据源。SEO/电商数据类工具的核心竞争力是数据准确度和更新频率，值得为头部付费；内容生成类工具差异不大，用通用模型也够。注意区分「给你数据」和「替你做决定」——后者仍需要人判断。"
+      "guide": "这类工具的价值**取决于数据源，不取决于 AI 能力**。SEO、电商、社媒数据类工具的核心竞争力是数据准确度和更新频率（Ahrefs、Semrush、蝉妈妈值得为头部付费）；内容生成类工具之间差异不大，用通用模型也够。注意区分**「给你数据」和「替你做决定」**——后者仍然需要人判断。投放素材类工具（AdCreative 这类）适合批量出变体做 A/B 测试，但**创意方向仍要人来定**，AI 出的是组合不是洞察。什么时候别用：受众还很窄、产品还没验证时——数据的意义建立在有一定量级之上，几百次曝光算不出任何统计显著。",
+      "guideEn": "The value of these tools **comes from the data source, not the AI**. In SEO, e-commerce and social analytics, the edge is data accuracy and refresh frequency (Ahrefs, Semrush, Chanmama justify their price); content-generation tools differ little and a general model is fine. Distinguish **tools that give you data from tools that make decisions for you** — the latter still needs your judgement. Ad creative tools that mass-produce variants suit A/B testing, but **the creative direction is still yours**: AI produces combinations, not insight. When not to use: while the audience is small and the product unvalidated — data only means something at volume, and a few hundred impressions demonstrate no statistical significance."
     },
     {
       "id": "meeting",
@@ -110,7 +123,8 @@
       "icon": "user",
       "desc": "转录、纪要、待办提取",
       "accent": "#0369A1",
-      "guide": "核心指标是**转写准确率**和**说话人分离**。中文会议、带口音、多人抢话是三个最容易翻车的场景，选型时优先测这三点。另外会议记录涉及他人隐私，用之前要确认合规要求。"
+      "guide": "核心指标是**转写准确率**和**说话人分离**，中文会议、带口音、多人抢话是三个最容易翻车的场景，选型时优先测这三点。**自带集成的工具优势被低估**——飞书妙记、腾讯会议 AI 能自动关联参会人和日程，省掉手动填的环节，比单独买个转写工具再用起来顺。生成的纪要**尤其要核对数字、日期、人名**，这三类错误率最高。另外「会上讨论了」和「会上决定了」是两回事，让 AI 明确区分，否则三个月后你会以为某件事已经定了。什么时候别用：只有一两个人、结论当场就定的短会——会后直接发一句结论，不用录音也不用 AI。录音前必须征得参会人同意。",
+      "guideEn": "Judge on **transcription accuracy** and **speaker separation**. Chinese meetings, strong accents and people talking over each other are the three failure modes, so test those first. **The advantage of built-in integrations is underrated** — Feishu Minutes and Tencent Meeting AI associate attendees and calendar entries automatically, saving manual entry, and they fit the workflow better than bolting on a separate transcriber. **Check numbers, dates and names especially** — those are the highest-error categories. Also: \"we discussed it\" and \"we decided it\" are different things; make the AI distinguish them or you will assume something was agreed three months from now. When not to use: a short call with one or two people where the conclusion is obvious — state it in a message and skip the recording. And always get consent before recording."
     },
     {
       "id": "edu",
@@ -118,7 +132,8 @@
       "icon": "book-open",
       "desc": "讲题、备考、备课与语言学习",
       "accent": "#65A30D",
-      "guide": "教育类工具要区分「给答案」和「教方法」。给答案的工具短期省事但长期有害，真正有价值的是引导式提问和分层讲解。另外 AI 出的题和计算结果有一定错误率，尤其理科计算题，务必复核。"
+      "guide": "教育类工具要区分**「给答案」和「教方法」**，这是唯一重要的分类标准。给答案的工具短期省事但长期有害——真正的价值在引导式提问和分层讲解（Khanmigo 这类刻意不给答案的设计就是为此）。学语言的陪练也一样，要明确要求它只纠正不代劳。**AI 出的题和计算结果有一定错误率**，尤其理科计算题和复杂证明，务必复核；遇到答案和你算的不一致，让它重新算并展示步骤，不要直接信它。什么时候别用：只是查一个事实、问一个定义——直接搜更快，不必走辅导流程。另外别让孩子在没有引导的情况下单独用，AI 会非常乐意直接给答案。",
+      "guideEn": "The only distinction that matters is **giving answers versus teaching method**. Answer-giving tools save time now and cost you later; the real value lies in guided questioning and layered explanation (Khanmigo deliberately withholding answers is the point, not a limitation). Language practice is the same — require it to correct rather than do the work. **AI-generated questions and calculations carry a real error rate**, especially in maths and longer proofs, so check them; when its answer disagrees with yours, ask it to recompute and show the steps rather than deferring to it. When not to use: looking up a single fact or definition — a search is faster and the tutoring flow adds nothing. And do not leave children unsupervised with these tools; the AI will happily just hand over the answer."
     }
   ],
   "promptCategories": [

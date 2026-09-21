@@ -162,6 +162,7 @@ async function main() {
   const onlyArg = process.argv.find((a) => a.startsWith('--only'));
   const only = onlyArg ? (process.argv[process.argv.indexOf(onlyArg) + 1] || '').split(',').filter(Boolean) : null;
   const dry = process.argv.includes('--dry');
+  const force = process.argv.includes('--force'); // 强制覆盖（抓到的量骤降但确认没问题时用）
 
   const list = cfg.sources.filter((s) => s.enabled !== false && (!only || only.includes(s.id)));
 
@@ -218,12 +219,54 @@ async function main() {
   console.log('  ' + '─'.repeat(60));
   console.log(`  成功 ${okCount}/${results.length} 个源  去重后共 ${items.length} 条`);
 
+  /* ---------- 保护：抓不到东西时不要覆盖已有的好数据 ----------
+     踩过一次：某次抓取只拿到 0 条（网络或源的问题），脚本照样把 feed.json 覆盖成空的，
+     把之前 140 条有效数据抹掉了，而且构建照常通过、检查才发现。
+     这和「外链检查用部分结果覆盖完整结果」是同一类错误：**破坏性写入没有前置判断**。
+
+     规则：只有拿到东西才写。拿到 0 条就直接退出并保留原文件，
+     同时用退出码 2 让上游（工作流 / 定时任务）知道这次没成功。 */
+  const prevPath = path.join(DATA, 'feed.json');
+  let prevCount = 0;
+  try { prevCount = (JSON.parse(fs.readFileSync(prevPath, 'utf8')).items || []).length; } catch { /* 文件不存在或坏了 */ }
+
+  /* 保护 0：--only 是「单独验证某个源」的安全模式，默认不该动 feed.json。
+     只抓 1 个源却写盘，会把其余 17 个源的数据整体抹掉——即使总量守卫没触发
+     （比如源数少、或 maxTotal 尚未填满），这也是一次破坏性写入。 */
+  if (only && !force && !dry && only.length < cfg.sources.filter((s) => s.enabled !== false).length) {
+    console.error('');
+    console.error(`  --only 只抓了 ${only.length} 个源，**不覆盖** data/feed.json（这是验证模式）。`);
+    console.error(`    要真的写入请跑全量抓取，或加 --force 明确表示「就是要用这 ${items.length} 条覆盖」。`);
+    console.error('');
+    process.exit(2);
+  }
+
+  if (!items.length) {
+    console.error('');
+    console.error('  ✗ 这次一条都没抓到，**不覆盖** data/feed.json。');
+    if (prevCount) console.error(`    保留了原有的 ${prevCount} 条数据。`);
+    console.error('    排查：网络是否可用、各源是否改了地址（见上面的逐源结果）。');
+    console.error('    想看看抓到什么可以加 --dry（只打印不写盘）。');
+    console.error('');
+    process.exit(2);
+  }
+
+  // 抓到的量骤降也要警惕：可能大部分源都挂了，写进去会悄悄丢内容
+  // --only 是「只测某几个源」的用法，条数天然就少，不适用降幅保护
+  if (!only && prevCount >= 20 && items.length < prevCount * 0.4) {
+    console.error('');
+    console.error(`  ! 这次只抓到 ${items.length} 条，而原有 ${prevCount} 条 —— 降幅超过六成，**不覆盖**。`);
+    console.error(`    成功源 ${okCount}/${results.length}。如果确认是这个量没问题，加 --force 强制写入。`);
+    console.error('');
+    if (!force) process.exit(2);
+  }
+
   if (dry) {
     console.log('  --dry：未写入文件');
     console.log('');
     return;
   }
-  fs.writeFileSync(path.join(DATA, 'feed.json'), JSON.stringify(out, null, 2) + '\n', 'utf8');
+  fs.writeFileSync(prevPath, JSON.stringify(out, null, 2) + '\n', 'utf8');
   console.log(`  已写入 data/feed.json`);
   console.log('');
 }

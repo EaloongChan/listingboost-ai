@@ -2387,7 +2387,9 @@
         {
           "text": "按显存选模型尺寸。粗略的经验值：8GB 显存对应 7B 量化版、16GB 对应 14B、24GB 对应 32B。**别一上来就冲最大的那个**，先跑通小的。",
           "tools": [],
-          "prompts": []
+          "prompts": [
+            "p-hardware-check"
+          ]
         },
         {
           "text": "用 Ollama 起一个模型验证链路通不通。它是目前最快的上手方式，一行命令就能跑。能跑通再考虑换更专业的部署方式。",
@@ -2414,7 +2416,9 @@
           "tools": [
             "huggingface"
           ],
-          "prompts": []
+          "prompts": [
+            "p-model-pick"
+          ]
         },
         {
           "text": "要对外提供服务（多人用、要高并发）才需要上 vLLM 或 SGLang。个人自用完全不需要，它们是给生产环境准备的。",
@@ -2444,7 +2448,9 @@
         "textgen-webui"
       ],
       "prompts": [
-        "p-chain-thought"
+        "p-chain-thought",
+        "p-hardware-check",
+        "p-model-pick"
       ],
       "warnings": [
         "**先确认你的场景真的需要本地部署。** 隐私敏感、断网环境、超大批量、要长期免费——这四种值得。只是「想试试」不值得，折腾成本远超省下的钱。",
@@ -2478,7 +2484,8 @@
           "text": "拆步骤时标记出哪些步骤「必须人工确认」。**这一步比技术选型重要**——发邮件、删文件、付款这类不可逆动作，一定要留人工闸门。",
           "tools": [],
           "prompts": [
-            "p-chain-prompt"
+            "p-chain-prompt",
+            "p-agent-design"
           ]
         },
         {
@@ -2487,7 +2494,9 @@
             "coze",
             "dify"
           ],
-          "prompts": []
+          "prompts": [
+            "p-agent-design"
+          ]
         },
         {
           "text": "需要连公司内部系统就用 n8n（可自托管）或 Zapier（生态最全）。前者省钱但要自己运维，后者贵但省事。",
@@ -2546,7 +2555,8 @@
         "p-chain-prompt",
         "p-system-prompt",
         "p-eval-prompts",
-        "p-plan-project"
+        "p-plan-project",
+        "p-agent-design"
       ],
       "warnings": [
         "**「能跑」和「能信」是两件事。** 演示阶段 Agent 看起来很聪明，生产环境里它会在第 37 步突然跑偏。留人工确认点比提高模型能力更有效。",
@@ -2583,7 +2593,9 @@
             "veo",
             "runway"
           ],
-          "prompts": []
+          "prompts": [
+            "p-video-shotlist"
+          ]
         },
         {
           "text": "有参考图就用图生视频，比纯文字描述可控得多。**人物、商品这类需要保持一致的，一定要用参考图**。",
@@ -2655,7 +2667,8 @@
       ],
       "prompts": [
         "p-image-prompt",
-        "p-story-hook"
+        "p-story-hook",
+        "p-video-shotlist"
       ],
       "warnings": [
         "**人物的手、快速运动、文字出现在画面里——这三件事目前还不可靠。** 尽量在分镜阶段就避开，而不是指望生成后能修好。",
@@ -2682,7 +2695,9 @@
         {
           "text": "**先定面数预算再生成。** 手游角色通常 5k-15k 面，场景道具更低。AI 生成默认动辄几十万面，不先定预算后面全是返工。",
           "tools": [],
-          "prompts": []
+          "prompts": [
+            "p-3d-spec"
+          ]
         },
         {
           "text": "用文字或图片生成初稿。有参考图一定用图生，纯文字描述得到的形状往往偏离预期很多。",
@@ -2742,7 +2757,9 @@
         "blender-mcp",
         "tripo-brush"
       ],
-      "prompts": [],
+      "prompts": [
+        "p-3d-spec"
+      ],
       "warnings": [
         "**AI 生成的 3D 资产目前只适合占位和概念。** 需要它反复出现在产品里、需要动画、需要 LOD——这些场景请手工建模或购买现成资产，返工成本远高于一开始就做对。",
         "生成的模型要商用，**先看清许可**。不同平台对生成内容的商用授权差别很大，有些要求署名，有些禁止再分发。",
@@ -2784,7 +2801,8 @@
             "consensus"
           ],
           "prompts": [
-            "p-extract-json"
+            "p-extract-json",
+            "p-literature-matrix"
           ]
         },
         {
@@ -2835,7 +2853,8 @@
       "prompts": [
         "p-abstract",
         "p-struct-write",
-        "p-extract-json"
+        "p-extract-json",
+        "p-literature-matrix"
       ],
       "warnings": [
         "**AI 编造引用是这个场景最大的坑，而且编得非常像真的**——作者、期刊、年份都合理，只有去查才发现不存在。任何引用都要核对原文，没有例外。",
@@ -2899,7 +2918,9 @@
         {
           "text": "**先定稿文案再配音。** 改一个字就要重配整段——这个顺序搞反会浪费大量时间。",
           "tools": [],
-          "prompts": []
+          "prompts": [
+            "p-voiceover-script"
+          ]
         },
         {
           "text": "生成的音轨要进剪辑软件做音量平衡。**AI 生成的音频响度通常不一致**，直接拼在一起会出现忽大忽小。",
@@ -2926,7 +2947,9 @@
         "adobe-podcast",
         "capcut"
       ],
-      "prompts": [],
+      "prompts": [
+        "p-voiceover-script"
+      ],
       "warnings": [
         "**声音克隆必须获得本人明确同意。** 这不是道德建议，是法律要求——未经授权克隆他人声音在多数司法辖区构成侵权。",
         "商用前务必确认授权条款。有些平台免费档生成的音乐不能商用，有些可以但要署名。**这条踩了要赔钱的，不要凭印象。**",
@@ -2962,7 +2985,8 @@
             "khroma"
           ],
           "prompts": [
-            "p-design-system"
+            "p-design-system",
+            "p-color-audit"
           ]
         },
         {
@@ -3024,7 +3048,8 @@
       "prompts": [
         "p-design-brief",
         "p-design-system",
-        "p-visual-critique"
+        "p-visual-critique",
+        "p-color-audit"
       ],
       "warnings": [
         "**AI 生成的 logo 有很强的「模板感」**——放在一堆同类产品里认不出来。如果你的品牌需要被记住，这一步不要省。",
@@ -3145,7 +3170,8 @@
           "text": "**先建术语表。** 这是整个流程里最值钱的一步——产品名、专有名词、行业术语一旦定下来就不许变，否则译文会前后打架。",
           "tools": [],
           "prompts": [
-            "p-sop-write"
+            "p-sop-write",
+            "p-glossary-build"
           ]
         },
         {
@@ -3214,7 +3240,8 @@
       "prompts": [
         "p-translate-pro",
         "p-polish",
-        "p-sop-write"
+        "p-sop-write",
+        "p-glossary-build"
       ],
       "warnings": [
         "**术语不统一比翻译错误更伤专业感。** 「用户」一会儿是 user 一会儿是 customer，读者会怀疑整份文档的严谨度。",
@@ -3241,7 +3268,8 @@
           "text": "**先把「必须满足」和「最好有」分开。** 代码能不能出内网、能不能接公司自有模型、走不走公司网络——这三条通常直接筛掉一大半选项。",
           "tools": [],
           "prompts": [
-            "p-decision"
+            "p-decision",
+            "p-tool-eval"
           ]
         },
         {
@@ -3314,7 +3342,8 @@
       "prompts": [
         "p-decision",
         "p-code-review",
-        "p-sop-write"
+        "p-sop-write",
+        "p-tool-eval"
       ],
       "warnings": [
         "**评测分数和你们的实际体验相关性很弱。** 同一个模型在不同工具里的表现差异，可能比不同模型之间的差异还大。必须用真实代码库测。",
@@ -3366,7 +3395,9 @@
             "jimeng",
             "tongyi-wanxiang"
           ],
-          "prompts": []
+          "prompts": [
+            "p-image-text-plan"
+          ]
         },
         {
           "text": "需要多张图风格统一时，先把一张满意的定为基准，后面的都拿它当参考图。**纯靠文字描述维持风格一致是不现实的**。",
@@ -3419,7 +3450,8 @@
       ],
       "prompts": [
         "p-image-prompt",
-        "p-design-brief"
+        "p-design-brief",
+        "p-image-text-plan"
       ],
       "warnings": [
         "**图里的文字不要指望 AI 生成。** 除了少数专攻文字渲染的模型，大部分会把字写错。需要文字就直接用设计工具叠加，这是最省事的路。",
@@ -3554,7 +3586,8 @@
           "text": "写清楚这一条链路的每一步。**这一步做不好，生成出来的东西就是一堆好看但没用的页面**。",
           "tools": [],
           "prompts": [
-            "p-design-brief"
+            "p-design-brief",
+            "p-prototype-spec"
           ]
         },
         {
@@ -3610,7 +3643,8 @@
         "p-decision",
         "p-design-brief",
         "p-user-persona",
-        "p-plan-project"
+        "p-plan-project",
+        "p-prototype-spec"
       ],
       "warnings": [
         "**生成的代码是原型质量，不是生产质量。** 拿它去接真实用户和真实数据会有安全事故和性能问题，想清楚这一步的用途。",

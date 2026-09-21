@@ -248,6 +248,26 @@ const playbookIds = new Set();
   }
 }
 
+
+    /* 术语表：slug 必须唯一，英文名不能重复。
+       踩过一次：「知识蒸馏」和「蒸馏」两条英文名都是 Distillation，
+       锚点撞车、内容重复，两件事一起暴露出来。 */
+    try {
+      const gl = JSON.parse(fs.readFileSync(path.join(DATA, 'glossary.json'), 'utf8'));
+      const seen = {};
+      const dupSlug = [];
+      gl.forEach((x) => {
+        const s = String(x.en || x.term).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'term';
+        if (seen[s]) dupSlug.push(`${seen[s]} / ${x.term}（锚点都是 #term-${s}）`);
+        else seen[s] = x.term;
+      });
+      const enSeen = {};
+      const dupEn = [];
+      gl.forEach((x) => { if (x.en) { if (enSeen[x.en]) dupEn.push(`${enSeen[x.en]} / ${x.term}（都叫 ${x.en}）`); else enSeen[x.en] = x.term; } });
+      if (dupSlug.length) errors.push(`glossary: 锚点重复 → ${dupSlug.join('; ')}`);
+      if (dupEn.length) warns.push(`glossary: 英文名重复，可能是重复收录 → ${dupEn.join('; ')}`);
+    } catch { /* 忽略 */ }
+
 /* ---- 实时动态数据（feed.json + feeds.json） ---- */
 {
   const fp = path.join(DATA, 'feeds.json');

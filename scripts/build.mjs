@@ -81,6 +81,11 @@ function pruneStale() {
 const today = () => new Date().toISOString().slice(0, 10);
 
 const CHANGELOG = [
+  { date: '2026-09-21', tag: 'CONTENT', title: '提示词库 74 → 86 条，补齐 3D / 本地部署 / 视频分镜等领域', desc: '新场景里 3D 资产和配乐配音原来一条专属提示词都没有。补齐 12 条，每条都针对那个场景的真实难点：硬件评估会追问「你这个任务用本地模型是不是本来就划不来」、Agent 设计会把「哪些步骤必须人工确认」单列、视频分镜表会用「风险」列标出 AI 大概率做不好的镜头。' },
+  { date: '2026-09-21', tag: 'CONTENT', title: '15 个分类的选型要点全部重写，平均 95 字 → 276 字', desc: '原来的要点太短、也不提具体工具，读完还是不知道该怎么选。重写后每篇都有决策框架、什么时候该走哪条路、什么时候别用 AI、以及常被忽略的坑（比如正文对比度要到 4.5:1、深色模式不能直接反色）。英文版原来缺这一块，一并补上。' },
+  { date: '2026-09-21', tag: 'FIX', title: '术语表不再是孤岛：接上 77 个工具链接与 25 篇场景手册', desc: '92 个术语原来是死路——词条之间只是标签不是链接，也不通往任何工具。现在每个词条都有锚点可直达，「相关」变成真链接，有对应工具和场景的直接列出来。顺带发现「知识蒸馏」和「蒸馏」是重复收录，已合并。' },
+  { date: '2026-09-21', tag: 'FIX', title: '工具分类页增加「这些工具怎么用」', desc: '分类页原来只列工具卡片，读者看完还是不知道拿它们做什么。现在按「该分类的工具在某篇手册里出现几次」排序，列出最相关的三篇——出现两次以上才算真相关，只出现一次多半只是顺带提了一句。' },
+  { date: '2026-09-21', tag: 'FIX', title: '修复抓取失败时用空数据覆盖已有内容', desc: '某次抓取只拿到 0 条，脚本照样把 feed.json 覆盖成空的，把之前 140 条有效数据抹掉了。现在抓不到东西就不写盘、保留原文件并返回错误码；抓到的量骤降超过六成也不写，除非显式加 --force。原则是：宁可这次不更新，也不要拿更差的数据覆盖好的。' },
   { date: '2026-09-21', tag: 'CONTENT', title: '全部 43 篇手册按 10 分标准重写加固', desc: '用一张客观评分卡体检（输入产出 / 失败模式 / 工具取舍 / AI 边界 / 可验证产出），发现 23 篇不及格——普遍问题是避坑只写两条、步骤里只说「用 X」不解释「为什么用 X 而不是 Y」。补齐后 43 篇全部达到 7 分以上，平均 7.9 分。评分卡已固化进自动检查，以后不会再退化。' },
   { date: '2026-09-21', tag: 'TOOLING', title: '新增场景手册质量体检脚本', desc: '把「这篇手册是不是假装有用」从主观判断变成可量化的检查。它看五件事：有没有明确输入与完成标准、有没有真实的失败模式、有没有解释工具之间的取舍、有没有划出「不该用 AI」的边界、产出是不是可验证。低于 7 分会直接报错拦住。' },
   { date: '2026-09-21', tag: 'CONTENT', title: '场景手册 30 → 43 篇，工具覆盖率从 31% 提到 87%', desc: '之前 244 个工具里有 169 个从没出现在任何场景里——读者只知道它们存在，不知道什么时候该用。新增 13 篇覆盖最大缺口：本地跑模型、搭 Agent、AI 视频、3D 资产、文献综述、配乐配音、品牌视觉、会议自动化、翻译流水线、选编程工具、生成配图、学习辅导、做应用原型。' },
@@ -210,6 +215,7 @@ export function build({ quiet = false } = {}) {
   const topicMap = Object.fromEntries(categories.newsTopics.map((t) => [t.id, t]));
   const trackMap = Object.fromEntries(categories.learnTracks.map((t) => [t.id, t]));
   const groupMap = Object.fromEntries(playbooks.groups.map((g) => [g.id, g]));
+  const playbookMap = Object.fromEntries(playbooks.items.map((p) => [p.id, p]));
   const kindMap = Object.fromEntries(models.kinds.map((k) => [k.id, k]));
   const toolMap = Object.fromEntries(tools.map((t) => [t.id, t]));
   const promptMap = Object.fromEntries(prompts.map((p) => [p.id, p]));
@@ -282,7 +288,7 @@ export function build({ quiet = false } = {}) {
   const updatedAt = today();
   const ctx = {
     site, categories, tools, prompts, news, learn, glossary, playbooks, models, i18n, queryMap, feed, feedHours: FEED_HOURS,
-    toolCatMap, promptCatMap, topicMap, trackMap, groupMap, kindMap, toolMap, promptMap,
+    toolCatMap, promptCatMap, topicMap, trackMap, groupMap, kindMap, toolMap, promptMap, playbookMap,
     counts, changelog: CHANGELOG,
     searchIndex, updatedAt,
   };

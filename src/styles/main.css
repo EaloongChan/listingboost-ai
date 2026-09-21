@@ -1836,6 +1836,21 @@ a.tag { padding-top: 3px; padding-bottom: 3px; }
   .pb-spec dl > div { grid-template-columns: 1fr; gap: 2px; }
 }
 
+
+/* 术语表的可点击标签：把孤岛接上内链 */
+.tag-link {
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-2);
+  transition: border-color .12s, color .12s;
+}
+.tag-link:hover { color: var(--accent-text); border-bottom-color: var(--accent); }
+.g-rel-tools {
+  margin-top: 8px !important;
+  padding-top: 8px;
+  border-top: var(--bw-thin) dashed var(--line-2);
+}
+.tag-pb { display: inline-flex; align-items: center; gap: 4px; }
+
 /* ---------- 20. 响应式 ---------- */
 @media (max-width: 960px) {
   .nav {

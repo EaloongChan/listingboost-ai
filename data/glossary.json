@@ -108,7 +108,12 @@
     "related": [
       "LoRA",
       "预训练"
-    ]
+    ],
+    "tools": [
+      "huggingface",
+      "textgen-webui"
+    ],
+    "playbook": "pb-local-model"
   },
   {
     "term": "指令微调",
@@ -141,7 +146,12 @@
     "related": [
       "微调",
       "量化"
-    ]
+    ],
+    "tools": [
+      "huggingface",
+      "textgen-webui"
+    ],
+    "playbook": "pb-local-model"
   },
   {
     "term": "量化",
@@ -152,18 +162,29 @@
     "related": [
       "GGUF",
       "本地部署"
-    ]
+    ],
+    "tools": [
+      "ollama",
+      "lmstudio",
+      "llamacpp",
+      "gpt4all"
+    ],
+    "playbook": "pb-local-model"
   },
   {
     "term": "知识蒸馏",
     "abbr": "",
     "en": "Distillation",
     "cat": "训练技术",
-    "def": "让小的「学生模型」学习大的「教师模型」的输出分布，从而以小博大。",
+    "def": "让小的「学生模型」学习大的「教师模型」的输出分布，从而以小博大。很多号称「小钢炮」的模型都是这么来的。",
     "related": [
       "微调",
       "参数"
-    ]
+    ],
+    "tools": [
+      "ollama"
+    ],
+    "playbook": "pb-local-model"
   },
   {
     "term": "思维链",
@@ -185,6 +206,12 @@
     "related": [
       "向量数据库",
       "Embedding"
+    ],
+    "tools": [
+      "ragflow",
+      "fastgpt",
+      "weknora",
+      "dify"
     ]
   },
   {
@@ -218,6 +245,10 @@
     "related": [
       "Agent",
       "MCP"
+    ],
+    "tools": [
+      "composio",
+      "openai-agents"
     ]
   },
   {
@@ -229,7 +260,15 @@
     "related": [
       "函数调用",
       "MCP"
-    ]
+    ],
+    "tools": [
+      "coze",
+      "dify",
+      "n8n",
+      "manus",
+      "openhands"
+    ],
+    "playbook": "pb-build-agent"
   },
   {
     "term": "模型上下文协议",
@@ -240,6 +279,10 @@
     "related": [
       "Agent",
       "函数调用"
+    ],
+    "tools": [
+      "composio",
+      "flowise"
     ]
   },
   {
@@ -349,6 +392,10 @@
     "related": [
       "视觉语言模型",
       "文生图"
+    ],
+    "tools": [
+      "notebooklm",
+      "gpt-image"
     ]
   },
   {
@@ -359,7 +406,8 @@
     "def": "能看懂图像并与之对话的模型，常用于截图问答、图表理解、文档解析。",
     "related": [
       "多模态"
-    ]
+    ],
+    "playbook": "pb-image-gen"
   },
   {
     "term": "文生图",
@@ -370,7 +418,16 @@
     "related": [
       "扩散模型",
       "提示词工程"
-    ]
+    ],
+    "tools": [
+      "midjourney",
+      "gpt-image",
+      "flux",
+      "comfyui",
+      "jimeng",
+      "ideogram"
+    ],
+    "playbook": "pb-image-gen"
   },
   {
     "term": "文生视频",
@@ -381,7 +438,16 @@
     "related": [
       "扩散模型",
       "多模态"
-    ]
+    ],
+    "tools": [
+      "sora",
+      "kling",
+      "veo",
+      "runway",
+      "hailuo",
+      "vidu"
+    ],
+    "playbook": "pb-ai-video"
   },
   {
     "term": "语音合成",
@@ -391,7 +457,15 @@
     "def": "把文字转成语音。现代方案可做到音色克隆与情感控制，多语言配音已相当自然。",
     "related": [
       "语音克隆"
-    ]
+    ],
+    "tools": [
+      "elevenlabs",
+      "fish-audio",
+      "minimax-audio",
+      "voice-clone-cosyvoice",
+      "murf"
+    ],
+    "playbook": "pb-music-voice"
   },
   {
     "term": "B 端 / C 端",
@@ -413,7 +487,13 @@
     "related": [
       "本地部署",
       "Llama"
-    ]
+    ],
+    "tools": [
+      "huggingface",
+      "ollama",
+      "lmstudio"
+    ],
+    "playbook": "pb-local-model"
   },
   {
     "term": "AI 生成内容标识",
@@ -424,7 +504,8 @@
     "related": [
       "合规",
       "深度伪造"
-    ]
+    ],
+    "playbook": "pb-ai-video"
   },
   {
     "term": "深度伪造",
@@ -435,7 +516,14 @@
     "related": [
       "AI 生成内容标识",
       "语音合成"
-    ]
+    ],
+    "tools": [
+      "heygen",
+      "synthesia",
+      "d-id",
+      "hedra"
+    ],
+    "playbook": "pb-ai-video"
   },
   {
     "term": "涌现能力",
@@ -695,7 +783,8 @@
     "related": [
       "函数调用",
       "JSON Schema"
-    ]
+    ],
+    "playbook": "pb-build-agent"
   },
   {
     "term": "分块",
@@ -706,6 +795,10 @@
     "related": [
       "RAG",
       "向量检索"
+    ],
+    "tools": [
+      "ragflow",
+      "fastgpt"
     ]
   },
   {
@@ -717,6 +810,9 @@
     "related": [
       "向量检索",
       "RAG"
+    ],
+    "tools": [
+      "ragflow"
     ]
   },
   {
@@ -739,6 +835,10 @@
     "related": [
       "嵌入",
       "向量数据库"
+    ],
+    "tools": [
+      "ragflow",
+      "fastgpt"
     ]
   },
   {
@@ -761,7 +861,14 @@
     "related": [
       "智能体",
       "多智能体"
-    ]
+    ],
+    "tools": [
+      "n8n",
+      "dify",
+      "coze",
+      "zapier"
+    ],
+    "playbook": "pb-build-agent"
   },
   {
     "term": "多智能体",
@@ -772,7 +879,13 @@
     "related": [
       "智能体",
       "工作流编排"
-    ]
+    ],
+    "tools": [
+      "crewai",
+      "autogen",
+      "langgraph"
+    ],
+    "playbook": "pb-build-agent"
   },
   {
     "term": "流式输出",
@@ -880,7 +993,13 @@
     "related": [
       "Token",
       "上下文缓存"
-    ]
+    ],
+    "tools": [
+      "vllm",
+      "sglang",
+      "lmdeploy"
+    ],
+    "playbook": "pb-local-model"
   },
   {
     "term": "首字延迟",
@@ -901,7 +1020,15 @@
     "related": [
       "开源权重",
       "本地部署"
-    ]
+    ],
+    "tools": [
+      "ollama",
+      "lmstudio",
+      "vllm",
+      "anythingllm",
+      "openwebui"
+    ],
+    "playbook": "pb-local-model"
   },
   {
     "term": "端侧模型",
@@ -912,7 +1039,15 @@
     "related": [
       "量化",
       "本地部署"
-    ]
+    ],
+    "tools": [
+      "ollama",
+      "llamacpp",
+      "jan",
+      "gpt4all",
+      "llamafile"
+    ],
+    "playbook": "pb-local-model"
   },
   {
     "term": "模型许可协议",
@@ -923,7 +1058,11 @@
     "related": [
       "开源权重",
       "合规"
-    ]
+    ],
+    "tools": [
+      "huggingface"
+    ],
+    "playbook": "pb-3d-asset"
   },
   {
     "term": "深度合成标识",
@@ -934,7 +1073,8 @@
     "related": [
       "深度伪造",
       "合规"
-    ]
+    ],
+    "playbook": "pb-ai-video"
   },
   {
     "term": "对齐税",
@@ -956,6 +1096,9 @@
     "related": [
       "智能体",
       "评测"
+    ],
+    "tools": [
+      "openhands"
     ]
   },
   {
@@ -967,7 +1110,8 @@
     "related": [
       "工作流编排",
       "智能体"
-    ]
+    ],
+    "playbook": "pb-build-agent"
   },
   {
     "term": "人在回路",
@@ -978,7 +1122,8 @@
     "related": [
       "工作流编排",
       "智能体"
-    ]
+    ],
+    "playbook": "pb-build-agent"
   },
   {
     "term": "护栏",
@@ -989,7 +1134,8 @@
     "related": [
       "对齐",
       "提示注入"
-    ]
+    ],
+    "playbook": "pb-build-agent"
   },
   {
     "term": "知识图谱",
@@ -1000,17 +1146,6 @@
     "related": [
       "RAG",
       "向量检索"
-    ]
-  },
-  {
-    "term": "蒸馏",
-    "abbr": "",
-    "en": "Distillation",
-    "cat": "训练技术",
-    "def": "让小的「学生模型」学习大的「教师模型」的输出分布，以小博大。很多号称「小钢炮」的模型都是这么来的。",
-    "related": [
-      "参数",
-      "微调"
     ]
   }
 ]

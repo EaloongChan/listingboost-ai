@@ -34,6 +34,8 @@ jobs:
           node-version: '22'
 
       # 本项目零依赖，不需要 npm install
+      # 抓取脚本自带保护：一条都没抓到（或条数骤降）时会保留原文件并返回退出码 2，
+      # 这一步就会失败、后面的提交不会执行 —— 宁可这次不更新，也不要拿空数据覆盖。
       - name: 抓取资讯源
         run: node scripts/fetch-news.mjs
 

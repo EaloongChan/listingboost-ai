@@ -1,4 +1,4 @@
-import { esc, hashColor, initials, highlightVars, accentStyle, accentTextStyle, fmtDate } from './utils.mjs';
+import { esc, hashColor, initials, highlightVars, accentStyle, accentTextStyle, fmtDate, termSlug } from './utils.mjs';
 import { ZH, EN, pick, tagList } from './labels.mjs';
 import { icon } from './icons.mjs';
 
@@ -196,16 +196,44 @@ export function sourceRow(s, topicMap) {
   </a>`;
 }
 
-/** 术语条目 */
-export function glossItem(g) {
-  return `<div class="gloss-item reveal" data-name="${esc((g.term + ' ' + (g.en || '') + ' ' + (g.abbr || '')).toLowerCase())}" data-cat="${esc(g.cat)}">
+/**
+ * 术语条目。
+ *
+ * 内链设计：术语表原本是个「孤岛」——93 个词条之间只是标签不是链接，
+ * 也不通往任何工具。读者看完「什么是 RAG」之后无处可去，只能自己再去搜。
+ * 现在三处都接上了：
+ *   · 词条自带锚点 id，`related` 变成指向对应词条的链接
+ *   · 有对应工具的词条，列出工具并链到详情页
+ *   · 有对应场景的词条，链到那篇手册
+ */
+export function glossItem(g, toolMap, pbMap, slugMap) {
+  const slug = termSlug(g);
+  const tools = (g.tools || []).map((id) => toolMap[id]).filter(Boolean);
+  const pb = g.playbook && pbMap ? pbMap[g.playbook] : null;
+
+  return `<div class="gloss-item reveal" id="term-${esc(slug)}"
+    data-name="${esc((g.term + ' ' + (g.en || '') + ' ' + (g.abbr || '') + ' ' + (g.def || '')).toLowerCase())}"
+    data-cat="${esc(g.cat)}">
     <div class="g-head">
       <b>${esc(g.term)}</b>
       ${g.abbr ? `<span class="g-abbr">${esc(g.abbr)}</span>` : ''}
       <span class="g-en">${esc(g.en || '')}</span>
     </div>
     <p>${esc(g.def)}</p>
-    ${(g.related || []).length ? `<div class="g-rel">${g.related.map((r) => `<span class="tag">${esc(r)}</span>`).join('')}</div>` : ''}
+    ${(g.related || []).length ? `<div class="g-rel">
+      <span class="label">相关</span>
+      ${g.related.map((r) => {
+        // 用「词条名 → slug」表解析，而不是在这里再算一遍 —— 两边规则不一致会链空
+        const rs = slugMap && slugMap[r];
+        return rs
+          ? `<a class="tag tag-link" href="#term-${esc(rs)}">${esc(r)}</a>`
+          : `<span class="tag">${esc(r)}</span>`;
+      }).join('')}
+    </div>` : ''}
+    ${tools.length || pb ? `<div class="g-rel g-rel-tools">
+      ${tools.length ? `<span class="label">对应工具</span>${tools.map((t) => `<a class="tag tag-link" href="/tools/${esc(t.cat)}/${esc(t.id)}/">${esc(t.name)}</a>`).join('')}` : ''}
+      ${pb ? `<a class="tag tag-link tag-pb" href="/playbooks/${esc(pb.id)}/">${icon('target', 10)} 场景：${esc(pb.title)}</a>` : ''}
+    </div>` : ''}
   </div>`;
 }
 

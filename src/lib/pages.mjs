@@ -1,4 +1,4 @@
-import { esc, jsonEmbed, fmtDateCN, initials, accentStyle, accentTextStyle } from './utils.mjs';
+import { esc, jsonEmbed, fmtDateCN, initials, accentStyle, accentTextStyle , termSlug } from './utils.mjs';
 import { icon } from './icons.mjs';
 import { layout } from './layout.mjs';
 import {
@@ -10,7 +10,7 @@ import {
 const BASE = (site) => (site.baseUrl || '').replace(/\/$/, '');
 
 /** 带编号的章节头。n 为数字时补零，为字符串（如 '—' / '!'）时原样输出 */
-function shead(n, title, sub, moreHref, moreLabel) {
+export function shead(n, title, sub, moreHref, moreLabel) {
   const tag = typeof n === 'number' ? String(n).padStart(2, '0') : String(n);
   return `<div class="section-head">
     <div class="sh-main">
@@ -260,7 +260,30 @@ ${pageHead(title, desc, `<div class="ph-meta">
     <div class="grid" data-list>${list.map((t) => toolCard(t, toolCatMap)).join('')}</div>
     <div class="hidden" data-empty>${emptyState()}</div>
   </div>
-</div>`;
+</div>
+
+${activeCat ? (() => {
+  /* 分类页原本只列工具卡片，读者看完还是不知道拿这些工具做什么。
+     这里按「该分类的工具在某篇手册里出现了几次」排序——出现 ≥2 次才算真的相关，
+     只出现一次多半只是顺带提了一句。 */
+  const catTools = new Set(list.map((t) => t.id));
+  const related = ctx.playbooks.items
+    .map((pb) => {
+      const ids = new Set([...(pb.tools || [])]);
+      (pb.steps || []).forEach((s) => (s.tools || []).forEach((t) => ids.add(t)));
+      return { pb, hits: [...ids].filter((t) => catTools.has(t)).length };
+    })
+    .filter((x) => x.hits >= 2)
+    .sort((a, b) => b.hits - a.hits)
+    .slice(0, 3)
+    .map((x) => x.pb);
+  return related.length ? `<section class="section">
+  <div class="container">
+    ${shead('01', `这些${activeName}工具怎么用`, '按「你想做的事」组织的完整流程', '/playbooks/', '全部场景')}
+    <div class="grid">${related.map((pb) => playbookCard(pb, ctx.groupMap)).join('')}</div>
+  </div>
+</section>` : '';
+})() : ''}`;
 
   return layout({
     altPath: activeCat ? `/en/tools/${activeCat}/` : '/en/tools/',
@@ -374,7 +397,7 @@ ${t.caveat ? `<section class="section" style="padding-top:30px;padding-bottom:0"
   <div class="container">
     ${shead('01', '这个分类怎么挑', `${cat.name} 的选型要点`)}
     <div class="card" style="padding:22px 24px;border-left:3px solid ${esc(c)}">
-      <p style="font-size:.94rem;color:var(--fg-2);line-height:1.85;margin:0">${esc(cat.guide || cat.desc || '')}</p>
+      <p style="font-size:.94rem;color:var(--fg-2);line-height:1.85;margin:0">${esc(cat.guide || cat.desc || '').replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')}</p>
     </div>
   </div>
 </section>
@@ -725,7 +748,9 @@ ${pageHead(title, desc, '', 'LEARNING / 学习路径', '学习资源列表与筛
 
 /* ============================ 术语表 ============================ */
 export function glossaryPage(ctx) {
-  const { site, glossary } = ctx;
+  const { site, glossary, toolMap, playbookMap } = ctx;
+  // 词条名 → 锚点 slug。related 用这张表解析，保证和锚点用同一套规则。
+  const slugMap = Object.fromEntries(glossary.map((g) => [g.term, termSlug(g)]));
   const cats = [...new Set(glossary.map((g) => g.cat))];
   const crumbItems = [{ label: '首页', href: '/' }, { label: 'AI 术语表' }];
 
@@ -753,7 +778,7 @@ ${pageHead('AI 术语表', `收录 ${glossary.length} 个 AI 领域常用名词�
   </div>
   <div class="container">
     <div class="result-count" data-count></div>
-    <div class="grid grid-2" data-list>${glossary.map(glossItem).join('')}</div>
+    <div class="grid grid-2" data-list>${glossary.map((g) => glossItem(g, toolMap, playbookMap, slugMap)).join('')}</div>
     <div class="hidden" data-empty>${emptyState('没有找到这个术语', '换个说法试试，或者去资讯页看看相关解读。')}</div>
   </div>
 </div>`;

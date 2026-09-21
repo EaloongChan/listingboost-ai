@@ -241,3 +241,19 @@ export function pct(a, b) {
   if (!b) return 0;
   return Math.round((a / b) * 100);
 }
+
+/**
+ * 术语锚点的 slug。
+ *
+ * 踩过一次：目标锚点用 `en || term` 算 slug，而引用处用词条名算 ——
+ * 「LoRA」的 en 是「Low-Rank Adaptation」，两边算出的 slug 不同，
+ * 于是链到了不存在的锚点，13 条链接静默失效。
+ * **算 slug 的规则只能有一份**，所以抽到这里共用。
+ */
+export function termSlug(g) {
+  const s = String((g && (g.en || g.term)) || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+  return s || 'term';
+}

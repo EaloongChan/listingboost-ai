@@ -1002,6 +1002,33 @@ test('场景手册：新补的 13 篇都能打开且引用有效', '/playbooks/'
   return { ok: bad.length === 0, detail: bad.length ? '打不开或结构异常：' + bad.join(', ') : ids.length + ' 篇全部正常' };
 });
 
+test('术语表：词条能链到工具与手册，锚点不失效', '/glossary/', async (c) => {
+  const anchors = await c.eval(`[...document.querySelectorAll('.gloss-item[id]')].map(x=>x.id)`);
+  const toolLinks = await c.eval(`document.querySelectorAll('.g-rel-tools a[href^="/tools/"]').length`);
+  const pbLinks = await c.eval(`document.querySelectorAll('.g-rel-tools a[href^="/playbooks/"]').length`);
+  const relRefs = await c.eval(`[...new Set([...document.querySelectorAll('.g-rel a[href^="#term-"]')].map(a=>a.getAttribute('href').slice(1)))]`);
+  const set = new Set(anchors);
+  const broken = relRefs.filter((r) => !set.has(r));
+  return {
+    ok: anchors.length > 80 && toolLinks > 50 && pbLinks > 15 && broken.length === 0,
+    detail: `锚点 ${anchors.length} · 工具链 ${toolLinks} · 手册链 ${pbLinks} · 互链失效 ${broken.length}`,
+  };
+});
+
+test('工具分类页：列出了「这些工具怎么用」', '/tools/coding/', async (c) => {
+  const head = await c.eval(`(document.body.textContent.match(/这些.{0,8}工具怎么用/)||[''])[0]`);
+  const pbs = await c.eval(`new Set([...document.querySelectorAll('a[href^="/playbooks/pb-"]')].map(a=>a.getAttribute('href'))).size`);
+  return { ok: !!head && pbs >= 1, detail: `区块「${head}」，链到 ${pbs} 篇手册` };
+});
+
+test('工具详情页：英文版也有「这个分类怎么挑」', '/en/tools/coding/cursor/', async (c) => {
+  const head = await c.eval(`/How to choose in this category/.test(document.body.textContent)`);
+  const bold = await c.eval(`document.querySelectorAll('.card b').length`);
+  // 用 fromCharCode 拼 ** 而不是写正则 —— 正则在这里要穿三层字符串会被转义搞坏
+  const raw = await c.eval(`document.body.textContent.split(String.fromCharCode(42, 42)).length > 1`);
+  return { ok: head && bold > 0 && !raw, detail: `区块=${head} 加粗=${bold} 残留星号=${raw}` };
+});
+
 test('打印样式表可访问（从首页拿带哈希的真实文件名）', '/', async (c) => {
   const href = await c.eval(`(document.querySelector('link[media="print"]')||{}).getAttribute?document.querySelector('link[media="print"]').getAttribute('href'):''`);
   if (!href) return { ok: false, detail: '首页没有引用打印样式表' };

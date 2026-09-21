@@ -9,7 +9,7 @@ import { esc, jsonEmbed, initials, accentStyle, hashColor } from './utils.mjs';
 import { pageHead, crumbs, toolCard, modelCard, catCard, PRICING } from './components.mjs';
 import { EN, pick, tagList } from './labels.mjs';
 import { layout } from './layout.mjs';
-import { breadcrumbLd, siteLd } from './pages.mjs';
+import { breadcrumbLd, siteLd, shead } from './pages.mjs';
 
 /** 英文版导航 */
 /** 二级章节头（h2）。注意 pageHead 渲染的是 h1，只能用于页面主标题 */
@@ -207,6 +207,7 @@ export function enToolDetail(ctx, i18n, t) {
   const en = i18n.en;
   const { catName } = nameMaps(i18n);
   const c = hashColor(t.cat);
+  const toolCat = (ctx.categories?.toolCategories || []).find((x) => x.id === t.cat) || {};
   const siblings = tools.filter((x) => x.cat === t.cat && x.id !== t.id);
   const compare = [t, ...siblings].slice(0, 12);
 
@@ -269,6 +270,15 @@ ${pick(t, 'caveat', EN) ? `<section class="section" style="padding-top:30px;padd
     <div class="caveat-box">
       <div class="cb-head">⚠ <span>${esc(EN.editorNote)} · ${esc(EN.whenNotToUse)}</span></div>
       <p>${esc(pick(t, 'caveat', EN))}</p>
+    </div>
+  </div>
+</section>` : ''}
+
+${pick(toolCat, 'guide', EN) ? `<section class="section" style="padding-top:30px;padding-bottom:0">
+  <div class="container">
+    ${shead('01', 'How to choose in this category', esc(catName(t.cat)))}
+    <div class="card" style="padding:22px 24px;border-left:3px solid ${esc(c)}">
+      <p style="font-size:.94rem;color:var(--fg-2);line-height:1.85;margin:0">${esc(pick(toolCat, 'guide', EN)).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')}</p>
     </div>
   </div>
 </section>` : ''}

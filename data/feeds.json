@@ -83,7 +83,17 @@
       "url": "https://deepmind.google/blog/rss.xml",
       "lang": "English",
       "topic": "model",
-      "enabled": true
+      "enabled": true,
+      "note": "源本身正常（curl 实测 200 + 合法 RSS）。本机偶发 TLS 层失败：Client network socket disconnected before secure TLS connection was established（deepmind.google 主机在国内网络不稳定）。同日重跑即恢复（19/19 成功，12 条），故保持启用，**属偶发不要禁用**。"
+    },
+    {
+      "id": "blog-google-ai",
+      "name": "Google · AI Blog",
+      "url": "https://blog.google/technology/ai/rss/",
+      "lang": "English",
+      "topic": "model",
+      "enabled": true,
+      "note": "2026-09 新增，补 Google 官方 AI 动态。实测稳定（0.6~1.6s，20 条）。"
     },
     {
       "id": "arxiv-ai",
