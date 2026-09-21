@@ -316,7 +316,7 @@ export function toolDetailPage(ctx, t) {
   /* 外链健康提示：只有 check-outbound.mjs 用 GET 确认过 404/410 才会出现。
      措辞必须是「本次检查访问不到」，不是「官网已关闭」——
      后者是我们给不了保证的判断，而且上线=打停在 CDN/地区层面的正常产品。 */
-  const dead = typeof ctx.deadLink === 'function' ? ctx.deadLink(t.id) : null;
+  const dead = typeof ctx.deadLink === 'function' ? ctx.deadLink(t.id, t.url) : null;
   const deadNote = dead
     ? `<p class="dead-link">${icon('alert', 14)}<span>最近一次自动检查（${esc(String(dead.checkedAt || '').slice(0, 10))}）访问这个地址返回 <b>${esc(String(dead.status || '404'))}</b>。
        可能已经下线、换了域名，或者只是屏蔽了我们的检查。链接仍然保留，点之前有个数。</span></p>`
@@ -934,7 +934,10 @@ ${pageHead('全站搜索', '一次搜索覆盖场景手册、工具、提示词�
     altPath: '/en/search/',
     altLang: 'en',
     altLabel: 'Switch to English (search)',
-    scripts: `<script>window.__AIWX_INDEX__=${jsonEmbed(ctx.searchIndex)};window.__AIWX_QUERY_MAP__=${jsonEmbed(ctx.queryMap || {})};</script>`,
+    scripts: `<script src="/assets/${esc(site.asset.icons)}"></script>`
+      + `<script>window.__AIWX_INDEX__=${jsonEmbed(ctx.searchIndex)};window.__AIWX_QUERY_MAP__=${jsonEmbed(ctx.queryMap || {})};</script>`
+      // 搜索逻辑按需加载：defer 保证排在 app.js 之后执行，而 app.js 已经不再认得它
+      + `<script src="/assets/${esc(site.asset.search)}" defer></script>`,
     jsonld: breadcrumbLd(site, crumbItems),
   });
 }
@@ -1539,7 +1542,9 @@ ${pageHead(
     title: '我的收藏',
     description: '我的收藏：把 AI 工具、提示词、场景手册、模型和学习资源收在一处，按类型分组。数据只存在本机浏览器里，不上传、不跟踪，也不需要注册账号。',
     body,
-    scripts: `<script>window.__AIWX_INDEX__=${jsonEmbed(ctx.searchIndex)};</script>`,
+    // 收藏页要渲染带类型图标的卡片，图标表由 type-icons.js 提供（普通 script，先于 defer 执行）
+    scripts: `<script src="/assets/${esc(site.asset.icons)}"></script>`
+      + `<script>window.__AIWX_INDEX__=${jsonEmbed(ctx.searchIndex)};</script>`,
     jsonld: breadcrumbLd(site, crumbItems),
   });
 }

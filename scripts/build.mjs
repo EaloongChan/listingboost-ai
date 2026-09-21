@@ -176,6 +176,12 @@ export function build({ quiet = false } = {}) {
     css: `main.${hash7(srcFile('styles/main.css'))}.css`,
     print: `print.${hash7(srcFile('styles/print.css'))}.css`,
     js: `app.${hash7(srcFile('scripts/app.js'))}.js`,
+    /* 搜索逻辑只在 /search/ 用得上，单独一个文件由搜索页按需引入，
+       不跟 app.js 一起下（其余 691 个页面只是白白的体积与解析开销）。 */
+    search: `search.${hash7(srcFile('scripts/search.js'))}.js`,
+    /* 类型图标：搜索卡与收藏页共用，必须单抽出来源源。
+       不带 defer，以保证在 defer 的 app.js / search.js 之前执行。 */
+    icons: `card-svg.${hash7(srcFile('scripts/card-svg.js'))}.js`,
   };
 
   /* ---------- 1. 载入数据 ---------- */
@@ -206,8 +212,16 @@ export function build({ quiet = false } = {}) {
   } catch {
     outbound = {};
   }
-  /** 只在确凿失效时返回该条目的结论 */
-  const deadLink = (id) => (outbound[id] && outbound[id].verdict === 'dead' ? outbound[id] : null);
+  /** URL 归一化：只有记录里的地址和当前数据的地址一致，这条健康记录才算数 */
+  const normUrl = (u) => String(u || '').trim().replace(/\/+$/, '');
+  /** 只在确凿失效时返回该条目的结论。
+     注意这里比对了 URL —— 改过 url 但没重跑 check-outbound 时，旧记录会指向旧地址，
+     拿它去标注新地址等于告诉用户「你眼前这个链接是死的」，而它根本没被检查过。 */
+  const deadLink = (id, currentUrl) => {
+    const it = outbound[id];
+    if (!it || it.verdict !== 'dead') return null;
+    return normUrl(it.url) === normUrl(currentUrl) ? it : null;
+  };
   // 标签字典挂到英文标签表上，供卡片渲染时翻译受控词表
   EN.tagDict = readJSON('tags-en.json');
   delete queryMap.note;
@@ -288,8 +302,18 @@ export function build({ quiet = false } = {}) {
   for (const l of learn) {
     searchIndex.push({ t: 'learn', id: l.id, title: l.title, sub: (trackMap[l.track] || {}).name || '', desc: l.desc, url: l.url, tags: l.tags || [], ext: true });
   }
+  /* 术语条目额外带 en（英文说法）和 rel（相关术语）——
+     只有定义类查询会用到它们（搜索页顶部那张「答案卡」）。
+     92 条 × 几十字节，代价可接受；换来的是问「什么叫 X」时
+     能直接把答案和相关词条一起给出来，而不是扔一张普通卡片。 */
   for (const g of glossary) {
-    searchIndex.push({ t: 'glossary', id: g.term, title: g.term, sub: g.cat, desc: g.def, url: `/glossary/?q=${encodeURIComponent(g.term)}`, detail: `/glossary/?q=${encodeURIComponent(g.term)}`, tags: g.abbr ? [g.abbr] : [] });
+    searchIndex.push({
+      t: 'glossary', id: g.term, title: g.term, sub: g.cat, desc: g.def,
+      url: `/glossary/?q=${encodeURIComponent(g.term)}`, detail: `/glossary/?q=${encodeURIComponent(g.term)}`,
+      tags: g.abbr ? [g.abbr] : [],
+      // 中文版的答案卡要显示中文相关词条，不做英文名映射
+      en: g.en || '', abbr: g.abbr || '', rel: (g.related || []).slice(0, 3),
+    });
   }
   for (const n of news.items) {
     searchIndex.push({ t: 'news', id: n.id, title: n.title, sub: (topicMap[n.topic] || {}).name || '', desc: n.summary, url: `/news/${n.id}/`, detail: `/news/${n.id}/`, tags: n.tags || [] });
@@ -344,6 +368,9 @@ export function build({ quiet = false } = {}) {
       tags: tagList(p.tags, EN).filter((g) => !/[\u4e00-\u9fa5]/.test(g)), hot: !!p.hot,
     });
   }
+  /* 英文答案卡的「相关词条」要显示英文说法，而 data 里的 related 存的是中文术语，
+     所以这里按 term 反查每个词条的英文（查不到就退回中文，好过留空）。 */
+  const termEn = new Map(glossary.map((g) => [g.term, g.en || g.term]));
   for (const g of glossary) {
     if (!g.defEn) continue;
     enSearchIndex.push({
@@ -351,6 +378,7 @@ export function build({ quiet = false } = {}) {
       desc: g.defEn, url: `/en/glossary/?q=${encodeURIComponent(g.en || g.term)}`,
       detail: `/en/glossary/?q=${encodeURIComponent(g.en || g.term)}`,
       tags: g.abbr ? [g.abbr] : [],
+      en: g.en || '', abbr: g.abbr || '', rel: (g.related || []).slice(0, 3).map((t) => termEn.get(t) || t),
     });
   }
   for (const p of playbooks.items) {
@@ -487,6 +515,8 @@ export function build({ quiet = false } = {}) {
   write('assets/' + ASSET.css, fs.readFileSync(path.join(SRC, 'styles', 'main.css'), 'utf8'));
   write('assets/' + ASSET.print, fs.readFileSync(path.join(SRC, 'styles', 'print.css'), 'utf8'));
   write('assets/' + ASSET.js, fs.readFileSync(path.join(SRC, 'scripts', 'app.js'), 'utf8'));
+  write('assets/' + ASSET.search, fs.readFileSync(path.join(SRC, 'scripts', 'search.js'), 'utf8'));
+  write('assets/' + ASSET.icons, fs.readFileSync(path.join(SRC, 'scripts', 'card-svg.js'), 'utf8'));
   copyDir(path.join(ROOT, 'public'), DIST);
 
   /* ---------- 5. 开放数据 ---------- */

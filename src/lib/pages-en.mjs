@@ -326,7 +326,7 @@ export function enToolDetail(ctx, i18n, t) {
 
   /* 与中文版同一套措辞逻辑：只报「上次自动检查访问不到」，
      不报「这个产品没了」——后者是我们给不了保证的判断（见 pages.mjs 的注释）。 */
-  const dead = typeof ctx.deadLink === 'function' ? ctx.deadLink(t.id) : null;
+  const dead = typeof ctx.deadLink === 'function' ? ctx.deadLink(t.id, t.url) : null;
   const deadNote = dead
     ? `<p class="dead-link">${icon('alert', 14)}<span>Our last automated check (${esc(String(dead.checkedAt || '').slice(0, 10))}) got <b>${esc(String(dead.status || '404'))}</b> from this URL. It may have shut down, moved, or simply blocked our crawler. The link is kept as-is — just go in knowing that.</span></p>`
     : '';
@@ -920,7 +920,8 @@ ${pageHead(
     body,
     brandDesc: i18n.en['siteDesc'],
     altPath: '/search/',
-    scripts: `<script>window.__AIWX_INDEX__=${jsonEmbed(list)};`
+    scripts: `<script src="/assets/${esc(site.asset.icons)}"></script>`
+      + `<script>window.__AIWX_INDEX__=${jsonEmbed(list)};`
       + `window.__AIWX_QUERY_MAP__={};`
       + `window.__AIWX_UI__=${jsonEmbed({
         types: { playbook: 'Playbook', tool: 'Tool', prompt: 'Prompt', model: 'Model', glossary: 'Term' },
@@ -930,7 +931,11 @@ ${pageHead(
         expandedPrefix: ' (expanded from “', expandedSuffix: '”)',
         morePrefix: '', moreMiddle: ' more — pick “', moreSuffix: '” above to see all',
         searchPath: '/en/search/',
-      })};</script>`,
+        // 答案卡（定义类查询）：路径必须指向英文术语表，不能沿用中文默认值
+        answerRelated: 'Related terms', answerMore: 'Open in the glossary',
+        glossPath: '/en/glossary/?q=',
+      })};</script>`
+      + `<script src="/assets/${esc(site.asset.search)}" defer></script>`,
     jsonld: [
       breadcrumbLd(site, crumbItems),
       {

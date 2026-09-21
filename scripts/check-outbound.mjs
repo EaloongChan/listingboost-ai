@@ -150,11 +150,22 @@ async function main() {
   console.log('');
   console.log('  外链健康检查');
   console.log('  ' + '─'.repeat(60));
-  console.log(`  共 ${all.length} 个链接${ONLY ? `（限定 ${ONLY}）` : ''}`);
+  console.log(`  共 ${all.length} 个链接${ONLY ? `（限定 ${ONLY}）` : ''}${kept ? `，另有 ${kept} 条沿用上次结果（本轮未重查）` : ''}`);
   if (state.checkedAt) console.log(`  上次检查 ${String(state.checkedAt).slice(0, 16).replace('T', ' ')}`);
   console.log('');
 
   const next = {};
+  /* 局部检查（--only / --limit）必须保留没被选中的旧记录。
+     踩过一次：`next` 一律从空对象开始，一次 `--only tools` 就把 learn / 资讯源
+     / RSS 的检查结果整批抹掉，而周报会照着这份残缺数据说话 —— 看起来像"其他链接都健康"。
+     全量跑时 selected 覆盖全部条目，自然没有任何旧数据被留下（下线的内容会被清理）。 */
+  const selected = new Set(all.map((x) => x.id));
+  let kept = 0;
+  if (ONLY || LIMIT) {
+    for (const [id, v] of Object.entries(prev)) {
+      if (!selected.has(id)) { next[id] = v; kept++; }
+    }
+  }
   const okList = [];
   const softFail = [];   // 第一次失败
   const hardFail = [];   // 连续两次失败 → 待核验

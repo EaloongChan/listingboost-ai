@@ -3,6 +3,12 @@ name: 每周外链健康检查
 # 为什么放在 GitHub 上而不是本地跑：
 #   本机在境内，很多海外工具会返回「区域不可用」，
 #   被误判成链接失效。GitHub 的 runner 是美国 IP，结果才可信。
+#
+# 结果有三个去处，缺一个这套东西就等于没做：
+#   1. data/outbound-health.json —— 构建时读它，在工具页给用户提示「可能已失效」
+#   2. 运行摘要 —— 顺手能看，不用翻日志
+#   3. GitHub Issue —— 需要人处理的那几条（失效 / 换域名），会一直挂着直到清零
+# 第 3 条是重点：写在日志里的结论等于没有结论，没人会去翻一周前的运行记录。
 
 on:
   schedule:
@@ -12,6 +18,11 @@ on:
 
 permissions:
   contents: write
+  issues: write
+
+concurrency:
+  group: weekly-link-check
+  cancel-in-progress: false
 
 jobs:
   check:
@@ -26,7 +37,20 @@ jobs:
       - name: 检查全部外链
         run: node scripts/check-outbound.mjs
 
-      # 结果写进 data/outbound-health.json，提交后前端与后续检查都能用到
+      # 判定逻辑全在脚本里（能在本地跑、能测），workflow 只管搬运
+      - name: 生成巡检报告
+        id: report
+        run: |
+          node scripts/link-health-report.mjs --out /tmp/link-health.md
+          node scripts/link-health-report.mjs --summary
+          echo "dead=$(node scripts/link-health-report.mjs --dead-count)" >> "$GITHUB_OUTPUT"
+          echo "### 外链巡检" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          node scripts/link-health-report.mjs --summary >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          cat /tmp/link-health.md >> "$GITHUB_STEP_SUMMARY"
+
+      # 结果写进 data/outbound-health.json，提交后构建与页面都能用到
       - name: 提交检查结果
         run: |
           git config user.name  "github-actions[bot]"
@@ -39,28 +63,45 @@ jobs:
             git push
           fi
 
-      # 需要人工关注的失败链接，直接贴进运行摘要
-      - name: 输出待核验清单
-        if: always()
+      # 有失效就挂一个 issue，之后每周把新结果作为评论追加。
+      # 用同一个 issue 而不是每周新开一个：这样它是一个「待办清单」，
+      # 而不是一堆没人看的周报。清零时自动关掉。
+      - name: 有失效则开/更新 issue
+        if: steps.report.outputs.dead != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          node -e "
-            const fs = require('fs');
-            if (!fs.existsSync('data/outbound-health.json')) process.exit(0);
-            const s = JSON.parse(fs.readFileSync('data/outbound-health.json', 'utf8'));
-            const items = Object.entries(s.items || {});
-            const bad = items.filter(([, v]) => (v.failCount || 0) >= 2);
-            const moved = items.filter(([, v]) => v.status && v.finalUrl && v.finalUrl.replace(/\/$/, '') !== v.url.replace(/\/$/, ''));
-            const lines = [];
-            lines.push('### 外链健康检查');
-            lines.push('');
-            lines.push('- 检查总数：' + items.length);
-            lines.push('- 正常：' + items.filter(([, v]) => v.status).length);
-            lines.push('- 连续失败待核验：' + bad.length);
-            lines.push('- 有跳转：' + moved.length);
-            if (bad.length) {
-              lines.push('');
-              lines.push('#### 连续两次失败（需要人工确认）');
-              bad.slice(0, 30).forEach(([, v]) => lines.push('- ' + v.name + ' — ' + (v.error || ('HTTP ' + v.status)) + ' — ' + v.url));
-            }
-            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
-          "
+          set -e
+          gh label create link-health --color B60205 \
+            --description "外链巡检自动生成的待处理事项" --force || true
+
+          NUM=$(gh issue list --label link-health --state open --json number --jq '.[0].number // empty')
+          TITLE="外链巡检：$(node scripts/link-health-report.mjs --dead-count) 个链接疑似失效"
+
+          if [ -z "$NUM" ]; then
+            gh issue create --title "$TITLE" --label link-health --body-file /tmp/link-health.md
+            echo "已新建 issue。"
+          else
+            gh issue edit "$NUM" --title "$TITLE"
+            {
+              echo "### 本周巡检 $(date -u +%Y-%m-%d)"
+              echo ""
+              cat /tmp/link-health.md
+            } > /tmp/comment.md
+            gh issue comment "$NUM" --body-file /tmp/comment.md
+            echo "已更新 issue #$NUM。"
+          fi
+
+      - name: 失效清零则关闭 issue
+        if: steps.report.outputs.dead == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NUM=$(gh issue list --label link-health --state open --json number --jq '.[0].number // empty')
+          if [ -n "$NUM" ]; then
+            gh issue comment "$NUM" --body "本轮巡检失效数已清零，自动关闭。$(date -u +%Y-%m-%d)"
+            gh issue close "$NUM"
+            echo "已关闭 issue #$NUM。"
+          else
+            echo "没有待处理的 issue。"
+          fi

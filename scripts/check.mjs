@@ -10,7 +10,10 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, '..');
 const DATA = path.resolve(__dirname, '..', 'data');
+const DIST = path.resolve(__dirname, '..', 'dist');
+const SRC_DIR = path.resolve(__dirname, '..', 'src');
 const read = (f) => JSON.parse(fs.readFileSync(path.join(DATA, f), 'utf8'));
 
 const errors = [];
@@ -122,6 +125,56 @@ const glossary = read('glossary.json');
   ok.push(`query-map: ${keys.length} 条意图映射，格式合法`);
 }
 
+/* ---- GitHub Actions 工作流（结构级体检） ----
+   这类文件的坑是「提交时不报错、之后一整周不干活」：YAML 里混进一个 Tab、
+   漏了 on:、或者 steps 缩进错位，GitHub 只是安静地不跑，没人会知道。
+   本地没有 YAML 解析器（零依赖），所以只做能确定判死的三条：
+   Tab 字符、必须有 on:、必须有 jobs:。缩进类错误交给 push 后那次运行暴露。 */
+{
+  const wfDir = path.join(path.resolve(__dirname, '..'), '.github', 'workflows');
+  if (fs.existsSync(wfDir)) {
+    const files = fs.readdirSync(wfDir).filter((f) => /\.ya?ml$/.test(f));
+    let wfBad = 0;
+    for (const f of files) {
+      const src = fs.readFileSync(path.join(wfDir, f), 'utf8');
+      let bad = 0;
+      if (src.includes('\t')) { errors.push(`workflow ${f}: 含 Tab 字符（YAML 只允许空格缩进，会直接解析失败）`); bad++; }
+      if (!/^on:/m.test(src)) { errors.push(`workflow ${f}: 找不到 on: 触发器`); bad++; }
+      if (!/^jobs:/m.test(src)) { errors.push(`workflow ${f}: 找不到 jobs:`); bad++; }
+      wfBad += bad;
+    }
+    // 有问题的文件已经单独报错了，这里不能再报「全部完整」——
+    // 否则同一份输出里既有 ✗ 又有 ✓，读的人会以为只是提醒。
+    if (!wfBad) ok.push(`GitHub Actions: ${files.length} 个工作流结构完整（无 Tab、有 on/jobs）`);
+  }
+}
+
+/* ---- card-svg 共享碎片 ----
+   搜索结果卡与「我的收藏」页都要画类型图标，这两套渲染分别在 search.js / app.js 里。
+   图标表统一放在 card-svg.js（页面用不带 defer 的 <script> 最先引入），
+   绕过了 CSS/JS 之外的任何检查：漏引不会报错，只会变成空图标这种"看起来还行"的降级。
+   所以这里既查页面有没有带上它，也查两个 bundle 有没有偷偷各定义一份（那样会漂移）。 */
+{
+  const need = ['saved/index.html', 'search/index.html', 'en/search/index.html'];
+  const miss = [];
+  let ran = true;
+  for (const p of need) {
+    const f = path.join(DIST, p);
+    if (!fs.existsSync(f)) { ran = false; continue; }   // 没构建过不算错，build 之后再来
+    if (!fs.readFileSync(f, 'utf8').includes('card-svg')) miss.push(p);
+  }
+  if (miss.length) errors.push(`card-svg: 这些页面要渲染卡片却没引入共享 SVG → ${miss.join('、')}`);
+  for (const f of ['scripts/app.js', 'scripts/search.js']) {
+    const fp = path.join(SRC_DIR, f);
+    if (!fs.existsSync(fp)) continue;
+    const s = fs.readFileSync(fp, 'utf8');
+    if (/var\s+TYPE_ICON\s*=\s*\{/.test(s) || /var\s+ARROW\s*=\s*'<svg/.test(s)) {
+      errors.push(`${f}: 又自己定义了一份类型图标/箭头 —— 会和 card-svg.js 悄悄不一致`);
+    }
+  }
+  if (ran && !miss.length) ok.push('card-svg: 搜索页与收藏页都引入了共享图标，两个 bundle 也没有重复定义');
+}
+
 /* ---- outbound-health（外链健康）—— 只提醒，不阻断 ----
    它由独立的检查脚本产出，没跑过就是空壳，那不是代码错误，不该让 check 失败。
    但「明确失效」的条目一旦出现，就必须被人看到：这是我们答应给用户的信息。 */
@@ -144,7 +197,20 @@ const glossary = read('glossary.json');
     if (isFinite(ago) && ago > 21 * 864e5) {
       warns.push(`外链健康数据已过期（${String(h.checkedAt).slice(0, 10)}，超过 21 天），页面上的失效提示可能不准`);
     }
-    warns.push(`外链健康：检查 ${rows.length} 条 → 失效 ${dead.length}（已在工具页提示）· 换了域名 ${moved.length} · 未能验证 ${unknown.length}`);
+    const stale = [];
+    const toolUrls = new Map(tools.map((t) => [t.id, t.url]));
+    for (const [id, v] of rows) {
+      const now = toolUrls.get(id);
+      // 只有工具类有当前 URL 可比；改过 url 却没重跑检查，这条记录说的其实是旧地址
+      if (now && String(v.url || '').replace(/\/+$/, '') !== String(now).replace(/\/+$/, '')) {
+        stale.push(`${id}（记录 ${v.url} → 现 ${now}）`);
+      }
+    }
+    if (stale.length) {
+      warns.push(`外链健康：${stale.length} 条记录的地址已经和数据不一致（改过 url 没重跑检查）→ ${stale.slice(0, 5).join('、')}${stale.length > 5 ? ' …' : ''}；这些不会再用于页面提示，但要跑一次 check-outbound.mjs 更新`);
+    }
+    const movedNow = moved.filter(([id, v]) => !stale.some((s) => s.startsWith(id + '（')));
+    warns.push(`外链健康：检查 ${rows.length} 条 → 失效 ${dead.length}（已在工具页提示）· 换了域名 ${movedNow.length} · 未能验证 ${unknown.length}`);
     for (const [, v] of dead) warns.push(`  ↳ 失效待处理：${v.name} （${v.url}）`);
   }
 }

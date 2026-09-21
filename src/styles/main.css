@@ -1227,6 +1227,26 @@ select.filter-input {
 }
 
 /* 搜索结果分组：保证每类内容都能被看到，不被高数量类型淹没 */
+/* ---------- 搜索答案卡（定义类查询） ----------
+   问「什么叫 X」时把术语定义单独提到结果最前。视觉上比普通卡片重一档：
+   实心底色 + 强调色左边框（而不是全包围边框），让它读起来是「答案」不是「另一张卡」。 */
+.answer-card {
+  border: var(--bw-thin) solid var(--line-2);
+  border-left: 4px solid var(--accent-btn);
+  background: var(--surface);
+  box-shadow: 4px 4px 0 var(--pop);
+  padding: 18px 20px;
+  margin-bottom: 26px;
+}
+.answer-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.answer-term { margin: 0; font-size: 1.15rem; letter-spacing: -0.01em; }
+.answer-def { margin: 10px 0 0; font-size: 0.95rem; line-height: 1.75; color: var(--fg); max-width: 68ch; }
+.answer-meta { margin: 8px 0 0; font-size: 0.8rem; color: var(--fg-2); }
+.answer-meta .mono { font-family: var(--font-mono); }
+.answer-rel { margin: 10px 0 14px; font-size: 0.8rem; color: var(--fg-2); }
+.answer-rel a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; }
+.answer-rel .dot-sep { margin: 0 6px; color: var(--fg-3); }
+
 #searchResults.search-grouped { display: block; }
 .search-group { margin-bottom: 38px; }
 .search-group:last-child { margin-bottom: 0; }

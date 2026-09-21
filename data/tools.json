@@ -614,7 +614,7 @@
   {
     "id": "kling",
     "name": "可灵 Kling",
-    "url": "https://klingai.kuaishou.com",
+    "url": "https://klingai.com",
     "cat": "video",
     "desc": "快手视频生成，人物动作自然。",
     "tags": [
@@ -651,7 +651,7 @@
   {
     "id": "runway",
     "name": "Runway",
-    "url": "https://runwayml.com",
+    "url": "https://runway.com",
     "cat": "video",
     "desc": "老牌 AI 视频平台，工具箱最全。",
     "tags": [
@@ -800,7 +800,7 @@
   {
     "id": "minimax-audio",
     "name": "MiniMax 语音",
-    "url": "https://www.minimaxi.com",
+    "url": "https://www.minimax.cn",
     "cat": "audio",
     "desc": "国产语音合成与音乐生成 API。",
     "tags": [
@@ -1218,7 +1218,7 @@
   {
     "id": "magnific",
     "name": "Magnific",
-    "url": "https://magnific.ai",
+    "url": "https://www.magnific.com",
     "cat": "design",
     "desc": "图像超分与细节增强，放大不糊。",
     "tags": [
@@ -1522,7 +1522,7 @@
   {
     "id": "baichuan",
     "name": "百小应",
-    "url": "https://ying.baichuan-ai.com",
+    "url": "https://yi.baichuan-ai.com",
     "cat": "chat",
     "desc": "百川智能的 AI 助手，医疗与健康问答有专门优化。",
     "tags": [
@@ -1730,22 +1730,22 @@
   },
   {
     "id": "roo-code",
-    "name": "Roo Code",
-    "url": "https://roocode.com",
+    "name": "Roomote",
+    "url": "https://roomote.dev",
     "cat": "coding",
-    "desc": "Cline 分叉而来，支持自定义模式与多 Agent 协作。",
+    "desc": "原 Roo Code 团队转型的云端编程 Agent，从 Slack 派活，交回来的是 PR。",
     "tags": [
-      "开源",
-      "VS Code"
+      "代码",
+      "自动化"
     ],
-    "pricing": "open",
+    "pricing": "freemium",
     "cn": true,
     "hot": false,
     "official": true,
     "added": "2026-06-01",
-    "caveat": "模式配置灵活也意味着配置复杂，不花时间调就发挥不出优势。",
-    "descEn": "A Cline fork with custom modes and multi-agent collaboration.",
-    "caveatEn": "Flexible mode configuration also means complex configuration. You won't get the benefit without investing time in tuning it."
+    "caveat": "VS Code 扩展已于 2026 年 5 月归档停更，想在编辑器里继续用可以转社区分支 ZooCode 或回到 Cline。",
+    "descEn": "Cloud coding agent from the team behind Roo Code. Dispatch it from Slack, get a reviewable PR back.",
+    "caveatEn": "The VS Code extension was archived in May 2026 and no longer maintained. To stay in the editor, move to the community fork ZooCode, or back to Cline."
   },
   {
     "id": "aider",
@@ -2530,22 +2530,22 @@
   },
   {
     "id": "riffusion",
-    "name": "Riffusion",
-    "url": "https://www.riffusion.com",
+    "name": "Google Flow Music",
+    "url": "https://www.flowmusic.app",
     "cat": "audio",
-    "desc": "用扩散模型做音乐，擅长风格迁移与循环片段。",
+    "desc": "原 Riffusion，被 Google 收购后重做。像聊天一样反复改歌，能拆轨。",
     "tags": [
       "音乐",
-      "开源"
+      "多模态"
     ],
-    "pricing": "free",
-    "cn": false,
+    "pricing": "freemium",
+    "cn": true,
     "hot": false,
     "official": true,
     "added": "2026-06-01",
-    "caveat": "偏实验性，音乐结构完整度不够，不适合直接商用。",
-    "descEn": "Music generation with diffusion models, strong at style transfer and looping segments.",
-    "caveatEn": "Experimental in character. Musical structure isn't complete enough to use commercially as-is."
+    "caveat": "前身 Riffusion 已并入 Google Flow 系列，独立版本不再存在。输出嵌 SynthID 水印，商用前先看平台条款。",
+    "descEn": "Formerly Riffusion, rebuilt by Google after the acquisition. Iterate on a track by chatting, with stem splitting.",
+    "caveatEn": "Riffusion as a standalone product no longer exists — it became ProducerAI, then part of Google Flow. Output is SynthID-watermarked; read the platform terms before commercial use."
   },
   {
     "id": "haimian",
@@ -3073,7 +3073,7 @@
   {
     "id": "vercel-ai-sdk",
     "name": "Vercel AI SDK",
-    "url": "https://sdk.vercel.ai",
+    "url": "https://ai-sdk.dev",
     "cat": "agent",
     "desc": "前端友好的 AI 应用 SDK，流式输出与工具调用开箱即用。",
     "tags": [

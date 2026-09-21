@@ -24,3 +24,7 @@ Thumbs.db
 # 搜索召回测试用的 Chrome profile（临时，已在脚本里改到系统临时目录）
 .chrome-recall/
 .chrome-probe/
+
+# 一次性调试脚本（用 Write 建、跑完就删；不进仓库）
+.tmp-*.mjs
+.tmp-*.txt

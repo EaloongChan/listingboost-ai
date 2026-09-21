@@ -121,6 +121,11 @@ const CASES = [
   // 中文：术语与提示词
   { q: '什么叫 prompt', expect: ['glossary'] },
   { q: 'mcp 是什么', expect: ['glossary'] },
+  // 定义类查询要出「答案卡」：断言写法 answer:XXX，测的是卡片本身有没有答对
+  { q: '幻觉是什么', expect: ['answer:幻觉'] },
+  // 用户输入的是缩写 RAG，答案卡的标题是正式名「检索增强生成」—— 这正是期望的行为
+  { q: '什么是 rag', expect: ['answer:检索增强生成'] },
+  { q: 'token 是什么意思', expect: ['answer:Token'] },
   // 英文
   { lang: 'en', q: 'run models locally', expect: ['ollama', 'pb-local-model'] },
   { lang: 'en', q: 'meeting notes', expect: ['tingwu', 'pb-meeting-minutes'] },
@@ -129,6 +134,8 @@ const CASES = [
   { lang: 'en', q: 'turn long article into social posts', expect: ['pb-repurpose-content'] },
   { lang: 'en', q: 'write weekly report', expect: ['pb-weekly-report'] },
   { lang: 'en', q: 'notes app with ai', expect: ['notion-ai'] },
+  { lang: 'en', q: 'what is a token', expect: ['answer:Token'] },
+  { lang: 'en', q: 'what is rag', expect: ['answer:Retrieval-Augmented Generation', 'answer:RAG'] },
 ];
 
 /* 在真实页面上执行一次查询并返回结果 */
@@ -141,9 +148,23 @@ const EVAL = (q) => `(function(){
   if (!list) return { error: '找不到结果容器' };
   var arts = Array.from(list.querySelectorAll('article'));
   var countEl = document.querySelector('[data-count]') || null;
+  /* 答案卡（.answer-card，定义类查询才有）不是 <article>，要单独取。
+     断言写法用 "answer:术语名"，这样能明确测到「答案卡出现了且答对了」，
+     而不是「这条术语恰好在结果列表里」。 */
+  var ac = document.querySelector('.answer-card');
+  var answer = null;
+  if (ac) {
+    var rels = Array.from(ac.querySelectorAll('.answer-rel a')).map(function (a) { return a.getAttribute('href'); });
+    answer = {
+      term: ((ac.querySelector('.answer-term') || {}).textContent || '').trim(),
+      href: (ac.querySelector('a.btn') || {}).getAttribute ? ac.querySelector('a.btn').getAttribute('href') : '',
+      rels: rels,
+    };
+  }
   return {
     count: arts.length,
     countText: countEl ? countEl.textContent.trim() : '',
+    answer: answer ? 'answer:' + answer.term + ' :: ' + answer.href + ' :: ' + answer.rels.join(' ') : '',
     items: arts.slice(0, ${TOP_N}).map(function (a) {
       var link = a.querySelector('h3 a');
       return {
@@ -191,7 +212,7 @@ async function run() {
         const got = r.result?.value || {};
         if (got.error) { console.log(`  ✗ ${cs.q} → ${got.error}`); failed++; failures.push(cs.q); continue; }
 
-        const hay = (got.items || []).join(' | ');
+        const hay = (got.items || []).join(' | ') + ' | ' + (got.answer || '');
         let ok;
         if (!cs.expect.length) ok = got.count === 0;          // 陷阱用例：期望零结果
         else ok = cs.expect.some((e) => hay.includes(e));

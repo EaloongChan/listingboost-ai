@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-21T13:47:22.425Z",
+  "checkedAt": "2026-09-21T14:36:20.758Z",
   "items": {
     "chatgpt": {
       "name": "ChatGPT",
@@ -8,18 +8,18 @@
       "finalUrl": "https://chatgpt.com",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:33:10.302Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:25:46.707Z",
+      "failCount": 4
     },
     "claude": {
       "name": "Claude",
       "url": "https://claude.ai",
-      "status": 200,
-      "finalUrl": "https://claude.com/app-unavailable-in-region",
-      "error": "",
-      "verdict": "moved",
-      "checkedAt": "2026-09-21T13:33:12.441Z",
-      "failCount": 0
+      "status": 0,
+      "finalUrl": "https://claude.ai",
+      "error": "超时",
+      "verdict": "unknown",
+      "checkedAt": "2026-09-21T14:25:52.831Z",
+      "failCount": 1
     },
     "gemini": {
       "name": "Gemini",
@@ -28,8 +28,8 @@
       "finalUrl": "https://gemini.google.com",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:33:18.566Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:25:58.954Z",
+      "failCount": 4
     },
     "deepseek": {
       "name": "DeepSeek",
@@ -38,7 +38,7 @@
       "finalUrl": "https://chat.deepseek.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:33:18.911Z",
+      "checkedAt": "2026-09-21T14:25:59.298Z",
       "failCount": 0
     },
     "kimi": {
@@ -48,7 +48,7 @@
       "finalUrl": "https://www.kimi.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:33:19.307Z",
+      "checkedAt": "2026-09-21T14:25:59.694Z",
       "failCount": 0
     },
     "doubao": {
@@ -58,7 +58,7 @@
       "finalUrl": "https://www.doubao.com/chat/",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:33:20.634Z",
+      "checkedAt": "2026-09-21T14:26:00.819Z",
       "failCount": 0
     },
     "qwen": {
@@ -68,7 +68,7 @@
       "finalUrl": "https://tongyi.aliyun.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:33:21.038Z",
+      "checkedAt": "2026-09-21T14:26:01.222Z",
       "failCount": 0
     },
     "grok": {
@@ -76,10 +76,10 @@
       "url": "https://grok.com",
       "status": 0,
       "finalUrl": "https://grok.com",
-      "error": "超时",
+      "error": "fetch failed",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:33:27.161Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:26:08.393Z",
+      "failCount": 4
     },
     "copilot": {
       "name": "Microsoft Copilot",
@@ -88,8 +88,8 @@
       "finalUrl": "https://copilot.microsoft.com",
       "error": "fetch failed",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:33:27.438Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:26:08.796Z",
+      "failCount": 4
     },
     "lechat": {
       "name": "Le Chat",
@@ -98,8 +98,8 @@
       "finalUrl": "https://chat.mistral.ai",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:33:33.563Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:26:14.920Z",
+      "failCount": 4
     },
     "zhipu": {
       "name": "智谱清言",
@@ -108,7 +108,7 @@
       "finalUrl": "https://chatglm.cn/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:33:33.825Z",
+      "checkedAt": "2026-09-21T14:26:15.255Z",
       "failCount": 0
     },
     "minimax-chat": {
@@ -118,7 +118,7 @@
       "finalUrl": "https://hailuoai.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:33:34.347Z",
+      "checkedAt": "2026-09-21T14:26:15.746Z",
       "failCount": 0
     },
     "cursor": {
@@ -128,18 +128,18 @@
       "finalUrl": "https://cursor.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:33:34.724Z",
+      "checkedAt": "2026-09-21T14:26:20.587Z",
       "failCount": 0
     },
     "claude-code": {
       "name": "Claude Code",
       "url": "https://www.anthropic.com/claude-code",
-      "status": 0,
-      "finalUrl": "https://www.anthropic.com/claude-code",
-      "error": "超时",
-      "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:33:40.848Z",
-      "failCount": 2
+      "status": 200,
+      "finalUrl": "https://claude.com/product/claude-code",
+      "error": "",
+      "verdict": "moved",
+      "checkedAt": "2026-09-21T14:26:22.802Z",
+      "failCount": 0
     },
     "copilot-code": {
       "name": "GitHub Copilot",
@@ -148,7 +148,7 @@
       "finalUrl": "https://github.com/features/copilot",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:33:41.705Z",
+      "checkedAt": "2026-09-21T14:26:23.682Z",
       "failCount": 0
     },
     "windsurf": {
@@ -158,7 +158,7 @@
       "finalUrl": "https://devin.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:33:42.065Z",
+      "checkedAt": "2026-09-21T14:26:24.695Z",
       "failCount": 0
     },
     "trae": {
@@ -168,7 +168,7 @@
       "finalUrl": "https://www.trae.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:33:42.923Z",
+      "checkedAt": "2026-09-21T14:26:25.576Z",
       "failCount": 0
     },
     "v0": {
@@ -178,7 +178,7 @@
       "finalUrl": "https://v0.app/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:33:43.252Z",
+      "checkedAt": "2026-09-21T14:26:26.625Z",
       "failCount": 0
     },
     "bolt": {
@@ -188,28 +188,28 @@
       "finalUrl": "https://bolt.new/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:33:44.275Z",
+      "checkedAt": "2026-09-21T14:26:27.617Z",
       "failCount": 0
     },
     "codex": {
       "name": "OpenAI Codex",
       "url": "https://openai.com/codex",
-      "status": 0,
-      "finalUrl": "https://openai.com/codex",
-      "error": "超时",
-      "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:33:50.401Z",
-      "failCount": 1
+      "status": 200,
+      "finalUrl": "https://openai.com/codex/",
+      "error": "",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:26:33.740Z",
+      "failCount": 0
     },
     "replit": {
       "name": "Replit",
       "url": "https://replit.com",
-      "status": 0,
-      "finalUrl": "https://replit.com",
-      "error": "超时",
-      "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:33:56.527Z",
-      "failCount": 2
+      "status": 200,
+      "finalUrl": "https://replit.com/",
+      "error": "",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:26:35.421Z",
+      "failCount": 0
     },
     "qoder": {
       "name": "Qoder",
@@ -218,7 +218,7 @@
       "finalUrl": "https://qoder.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:33:56.802Z",
+      "checkedAt": "2026-09-21T14:26:35.678Z",
       "failCount": 0
     },
     "midjourney": {
@@ -228,8 +228,8 @@
       "finalUrl": "https://www.midjourney.com/",
       "error": "",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:34:02.053Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:26:37.729Z",
+      "failCount": 4
     },
     "gpt-image": {
       "name": "GPT Image",
@@ -238,18 +238,18 @@
       "finalUrl": "https://chatgpt.com",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:34:08.185Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:26:43.852Z",
+      "failCount": 4
     },
     "nano-banana": {
       "name": "Nano Banana",
       "url": "https://gemini.google.com",
       "status": 0,
       "finalUrl": "https://gemini.google.com",
-      "error": "fetch failed",
+      "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:34:15.351Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:26:49.980Z",
+      "failCount": 4
     },
     "flux": {
       "name": "FLUX",
@@ -258,7 +258,7 @@
       "finalUrl": "https://bfl.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:34:15.729Z",
+      "checkedAt": "2026-09-21T14:26:50.992Z",
       "failCount": 0
     },
     "comfyui": {
@@ -268,7 +268,7 @@
       "finalUrl": "https://comfy.org/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:34:20.250Z",
+      "checkedAt": "2026-09-21T14:26:52.182Z",
       "failCount": 0
     },
     "jimeng": {
@@ -278,7 +278,7 @@
       "finalUrl": "https://jimeng.jianying.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:34:20.594Z",
+      "checkedAt": "2026-09-21T14:26:52.455Z",
       "failCount": 0
     },
     "ideogram": {
@@ -288,8 +288,8 @@
       "finalUrl": "https://ideogram.ai",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:34:26.720Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:26:58.585Z",
+      "failCount": 4
     },
     "recraft": {
       "name": "Recraft",
@@ -298,7 +298,7 @@
       "finalUrl": "https://www.recraft.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:34:27.073Z",
+      "checkedAt": "2026-09-21T14:26:59.398Z",
       "failCount": 0
     },
     "krea": {
@@ -308,8 +308,8 @@
       "finalUrl": "https://www.krea.ai",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:34:33.199Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:27:05.519Z",
+      "failCount": 4
     },
     "sora": {
       "name": "Sora",
@@ -318,17 +318,17 @@
       "finalUrl": "https://sora.com",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:34:39.320Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:27:11.651Z",
+      "failCount": 4
     },
     "kling": {
       "name": "可灵 Kling",
-      "url": "https://klingai.kuaishou.com",
+      "url": "https://klingai.com",
       "status": 200,
-      "finalUrl": "https://klingai.com/app/",
+      "finalUrl": "https://klingai.com/",
       "error": "",
-      "verdict": "moved",
-      "checkedAt": "2026-09-21T13:34:40.206Z",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:27:12.026Z",
       "failCount": 0
     },
     "veo": {
@@ -338,17 +338,17 @@
       "finalUrl": "https://deepmind.google/models/veo/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:34:43.475Z",
+      "checkedAt": "2026-09-21T14:27:14.528Z",
       "failCount": 0
     },
     "runway": {
       "name": "Runway",
-      "url": "https://runwayml.com",
+      "url": "https://runway.com",
       "status": 200,
       "finalUrl": "https://runway.com/",
       "error": "",
-      "verdict": "moved",
-      "checkedAt": "2026-09-21T13:34:44.174Z",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:27:15.605Z",
       "failCount": 0
     },
     "hailuo": {
@@ -358,7 +358,7 @@
       "finalUrl": "https://hailuoai.video/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:34:45.390Z",
+      "checkedAt": "2026-09-21T14:27:18.097Z",
       "failCount": 0
     },
     "vidu": {
@@ -368,7 +368,7 @@
       "finalUrl": "https://www.vidu.cn/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:34:45.772Z",
+      "checkedAt": "2026-09-21T14:27:18.550Z",
       "failCount": 0
     },
     "pika": {
@@ -378,8 +378,8 @@
       "finalUrl": "https://pika.art",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:34:51.895Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:27:24.681Z",
+      "failCount": 4
     },
     "suno": {
       "name": "Suno",
@@ -388,8 +388,8 @@
       "finalUrl": "https://suno.com",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:34:58.017Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:27:30.807Z",
+      "failCount": 4
     },
     "elevenlabs": {
       "name": "ElevenLabs",
@@ -398,7 +398,7 @@
       "finalUrl": "https://elevenlabs.io/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:34:59.111Z",
+      "checkedAt": "2026-09-21T14:27:32.519Z",
       "failCount": 0
     },
     "udio": {
@@ -408,7 +408,7 @@
       "finalUrl": "https://www.udio.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:34:59.860Z",
+      "checkedAt": "2026-09-21T14:27:34.058Z",
       "failCount": 0
     },
     "fish-audio": {
@@ -418,17 +418,17 @@
       "finalUrl": "https://fish.audio",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:35:05.986Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:27:40.183Z",
+      "failCount": 4
     },
     "minimax-audio": {
       "name": "MiniMax 语音",
-      "url": "https://www.minimaxi.com",
+      "url": "https://www.minimax.cn",
       "status": 200,
       "finalUrl": "https://www.minimax.cn/",
       "error": "",
-      "verdict": "moved",
-      "checkedAt": "2026-09-21T13:35:06.559Z",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:27:40.444Z",
       "failCount": 0
     },
     "notion-ai": {
@@ -438,7 +438,7 @@
       "finalUrl": "https://www.notion.com/product/ai",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:08.450Z",
+      "checkedAt": "2026-09-21T14:27:42.009Z",
       "failCount": 0
     },
     "gamma": {
@@ -448,8 +448,8 @@
       "finalUrl": "https://gamma.app",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:35:14.573Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:27:48.135Z",
+      "failCount": 4
     },
     "grammarly": {
       "name": "Grammarly",
@@ -458,7 +458,7 @@
       "finalUrl": "https://www.grammarly.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:15.607Z",
+      "checkedAt": "2026-09-21T14:27:50.360Z",
       "failCount": 0
     },
     "metaso-write": {
@@ -468,7 +468,7 @@
       "finalUrl": "https://xiezuocat.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:15.951Z",
+      "checkedAt": "2026-09-21T14:27:50.708Z",
       "failCount": 0
     },
     "wps-ai": {
@@ -478,7 +478,7 @@
       "finalUrl": "https://ai.wps.cn/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:16.338Z",
+      "checkedAt": "2026-09-21T14:27:51.105Z",
       "failCount": 0
     },
     "tencent-docs-ai": {
@@ -488,7 +488,7 @@
       "finalUrl": "https://docs.qq.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:16.551Z",
+      "checkedAt": "2026-09-21T14:27:51.462Z",
       "failCount": 0
     },
     "perplexity": {
@@ -498,8 +498,8 @@
       "finalUrl": "https://www.perplexity.ai",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:35:22.674Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:27:57.585Z",
+      "failCount": 4
     },
     "metaso": {
       "name": "秘塔 AI 搜索",
@@ -508,7 +508,7 @@
       "finalUrl": "https://metaso.cn/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:23.046Z",
+      "checkedAt": "2026-09-21T14:27:57.953Z",
       "failCount": 0
     },
     "notebooklm": {
@@ -518,8 +518,8 @@
       "finalUrl": "https://notebooklm.google.com",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:35:29.170Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:28:04.074Z",
+      "failCount": 4
     },
     "elicit": {
       "name": "Elicit",
@@ -528,7 +528,7 @@
       "finalUrl": "https://elicit.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:31.279Z",
+      "checkedAt": "2026-09-21T14:28:05.028Z",
       "failCount": 0
     },
     "consensus": {
@@ -538,7 +538,7 @@
       "finalUrl": "https://consensus.app/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:34.437Z",
+      "checkedAt": "2026-09-21T14:28:06.344Z",
       "failCount": 0
     },
     "tiangong": {
@@ -548,7 +548,7 @@
       "finalUrl": "https://www.tiangong.cn/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:34.811Z",
+      "checkedAt": "2026-09-21T14:28:06.706Z",
       "failCount": 0
     },
     "manus": {
@@ -558,7 +558,7 @@
       "finalUrl": "https://manus.im/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:35.380Z",
+      "checkedAt": "2026-09-21T14:28:08.144Z",
       "failCount": 0
     },
     "coze": {
@@ -568,7 +568,7 @@
       "finalUrl": "https://www.coze.cn/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:35.794Z",
+      "checkedAt": "2026-09-21T14:28:08.394Z",
       "failCount": 0
     },
     "dify": {
@@ -578,7 +578,7 @@
       "finalUrl": "https://dify.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:36.932Z",
+      "checkedAt": "2026-09-21T14:28:09.168Z",
       "failCount": 0
     },
     "n8n": {
@@ -588,7 +588,7 @@
       "finalUrl": "https://n8n.io/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:42.678Z",
+      "checkedAt": "2026-09-21T14:28:09.936Z",
       "failCount": 0
     },
     "zapier": {
@@ -598,7 +598,7 @@
       "finalUrl": "https://zapier.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:43.140Z",
+      "checkedAt": "2026-09-21T14:28:10.453Z",
       "failCount": 0
     },
     "langchain": {
@@ -608,7 +608,7 @@
       "finalUrl": "https://www.langchain.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:45.038Z",
+      "checkedAt": "2026-09-21T14:28:11.467Z",
       "failCount": 0
     },
     "flowise": {
@@ -618,7 +618,7 @@
       "finalUrl": "https://flowiseai.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:45.440Z",
+      "checkedAt": "2026-09-21T14:28:13.205Z",
       "failCount": 0
     },
     "figma-ai": {
@@ -628,27 +628,27 @@
       "finalUrl": "https://www.figma.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:45.753Z",
+      "checkedAt": "2026-09-21T14:28:13.993Z",
       "failCount": 0
     },
     "canva-ai": {
       "name": "Canva AI",
       "url": "https://www.canva.com",
-      "status": 0,
-      "finalUrl": "https://www.canva.com",
-      "error": "超时",
+      "status": 403,
+      "finalUrl": "https://www.canva.com/",
+      "error": "",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:35:54.681Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:28:16.414Z",
+      "failCount": 4
     },
     "magnific": {
       "name": "Magnific",
-      "url": "https://magnific.ai",
+      "url": "https://www.magnific.com",
       "status": 200,
       "finalUrl": "https://www.magnific.com/",
       "error": "",
-      "verdict": "moved",
-      "checkedAt": "2026-09-21T13:35:57.086Z",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:28:17.225Z",
       "failCount": 0
     },
     "gaoding": {
@@ -658,7 +658,7 @@
       "finalUrl": "https://www.gaoding.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:35:57.512Z",
+      "checkedAt": "2026-09-21T14:28:17.592Z",
       "failCount": 0
     },
     "julius": {
@@ -668,8 +668,8 @@
       "finalUrl": "https://julius.ai/",
       "error": "",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:35:59.531Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:28:19.444Z",
+      "failCount": 4
     },
     "hex": {
       "name": "Hex",
@@ -678,7 +678,7 @@
       "finalUrl": "https://hex.tech/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:36:01.826Z",
+      "checkedAt": "2026-09-21T14:28:21.700Z",
       "failCount": 0
     },
     "meshy": {
@@ -688,8 +688,8 @@
       "finalUrl": "https://www.meshy.ai",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:36:07.951Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:28:27.825Z",
+      "failCount": 4
     },
     "tripo": {
       "name": "Tripo AI",
@@ -698,8 +698,8 @@
       "finalUrl": "https://www.tripo3d.ai",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:36:14.078Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:28:33.947Z",
+      "failCount": 4
     },
     "rodin": {
       "name": "Rodin",
@@ -708,7 +708,7 @@
       "finalUrl": "https://hyper3d.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:36:16.931Z",
+      "checkedAt": "2026-09-21T14:28:34.961Z",
       "failCount": 0
     },
     "ollama": {
@@ -718,7 +718,7 @@
       "finalUrl": "https://ollama.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:36:19.861Z",
+      "checkedAt": "2026-09-21T14:28:35.966Z",
       "failCount": 0
     },
     "lmstudio": {
@@ -728,7 +728,7 @@
       "finalUrl": "https://lmstudio.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:36:21.880Z",
+      "checkedAt": "2026-09-21T14:28:36.983Z",
       "failCount": 0
     },
     "openwebui": {
@@ -738,7 +738,7 @@
       "finalUrl": "https://openwebui.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:36:25.602Z",
+      "checkedAt": "2026-09-21T14:28:41.247Z",
       "failCount": 0
     },
     "vllm": {
@@ -748,7 +748,7 @@
       "finalUrl": "https://docs.vllm.ai/en/latest/",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:36:28.314Z",
+      "checkedAt": "2026-09-21T14:28:43.533Z",
       "failCount": 0
     },
     "huggingface": {
@@ -758,18 +758,18 @@
       "finalUrl": "https://huggingface.co",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:36:34.435Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:28:49.658Z",
+      "failCount": 4
     },
     "llamacpp": {
       "name": "llama.cpp",
       "url": "https://github.com/ggml-org/llama.cpp",
-      "status": 200,
+      "status": 0,
       "finalUrl": "https://github.com/ggml-org/llama.cpp",
-      "error": "",
-      "verdict": "ok",
-      "checkedAt": "2026-09-21T13:36:35.580Z",
-      "failCount": 0
+      "error": "超时",
+      "verdict": "unknown",
+      "checkedAt": "2026-09-21T14:28:55.787Z",
+      "failCount": 1
     },
     "yuanbao": {
       "name": "腾讯元宝",
@@ -778,17 +778,17 @@
       "finalUrl": "https://yuanbao.tencent.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:36:35.800Z",
+      "checkedAt": "2026-09-21T14:28:56.000Z",
       "failCount": 0
     },
     "ernie": {
       "name": "文心一言",
-      "url": "https://yiyan.baidu.com",
+      "url": "https://wenxin.baidu.com",
       "status": 200,
-      "finalUrl": "https://wenxin.baidu.com/?enter_type=yiyan_site",
+      "finalUrl": "https://wenxin.baidu.com/",
       "error": "",
-      "verdict": "moved",
-      "checkedAt": "2026-09-21T13:36:36.364Z",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:28:56.394Z",
       "failCount": 0
     },
     "spark": {
@@ -798,17 +798,17 @@
       "finalUrl": "https://xinghuo.xfyun.cn/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:36:36.705Z",
+      "checkedAt": "2026-09-21T14:28:56.745Z",
       "failCount": 0
     },
     "baichuan": {
       "name": "百小应",
-      "url": "https://ying.baichuan-ai.com",
+      "url": "https://yi.baichuan-ai.com",
       "status": 200,
       "finalUrl": "https://yi.baichuan-ai.com/",
       "error": "",
-      "verdict": "moved",
-      "checkedAt": "2026-09-21T13:36:37.314Z",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:28:57.100Z",
       "failCount": 0
     },
     "yuewen": {
@@ -818,8 +818,8 @@
       "finalUrl": "https://yuewen.cn",
       "error": "fetch failed",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:36:37.774Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:28:57.415Z",
+      "failCount": 4
     },
     "qwen-chat": {
       "name": "Qwen Chat",
@@ -828,7 +828,7 @@
       "finalUrl": "https://chat.qwen.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:36:38.178Z",
+      "checkedAt": "2026-09-21T14:28:57.693Z",
       "failCount": 0
     },
     "sensetime": {
@@ -838,7 +838,7 @@
       "finalUrl": "https://chat.sensetime.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:36:38.567Z",
+      "checkedAt": "2026-09-21T14:28:58.094Z",
       "failCount": 0
     },
     "360zhinao": {
@@ -848,7 +848,7 @@
       "finalUrl": "https://ai.360.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:36:38.871Z",
+      "checkedAt": "2026-09-21T14:28:58.424Z",
       "failCount": 0
     },
     "poe": {
@@ -858,8 +858,8 @@
       "finalUrl": "https://poe.com",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:36:44.995Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:29:04.546Z",
+      "failCount": 4
     },
     "character-ai": {
       "name": "Character.AI",
@@ -868,8 +868,8 @@
       "finalUrl": "https://character.ai",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:36:51.122Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:29:10.672Z",
+      "failCount": 4
     },
     "meta-ai": {
       "name": "Meta AI",
@@ -878,8 +878,8 @@
       "finalUrl": "https://www.meta.ai",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:36:57.249Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:29:16.796Z",
+      "failCount": 4
     },
     "huggingchat": {
       "name": "HuggingChat",
@@ -888,8 +888,8 @@
       "finalUrl": "https://huggingface.co/chat",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:37:03.373Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:29:22.921Z",
+      "failCount": 4
     },
     "openrouter": {
       "name": "OpenRouter",
@@ -898,7 +898,7 @@
       "finalUrl": "https://openrouter.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:05.500Z",
+      "checkedAt": "2026-09-21T14:29:26.815Z",
       "failCount": 0
     },
     "cline": {
@@ -908,17 +908,17 @@
       "finalUrl": "https://cline.bot/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:05.840Z",
+      "checkedAt": "2026-09-21T14:29:28.182Z",
       "failCount": 0
     },
     "roo-code": {
-      "name": "Roo Code",
-      "url": "https://roocode.com",
+      "name": "Roomote",
+      "url": "https://roomote.dev",
       "status": 200,
       "finalUrl": "https://roomote.dev/",
       "error": "",
-      "verdict": "moved",
-      "checkedAt": "2026-09-21T13:37:06.774Z",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:29:29.457Z",
       "failCount": 0
     },
     "aider": {
@@ -928,7 +928,7 @@
       "finalUrl": "https://aider.chat/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:07.994Z",
+      "checkedAt": "2026-09-21T14:29:31.197Z",
       "failCount": 0
     },
     "continue": {
@@ -938,7 +938,7 @@
       "finalUrl": "https://continue.dev/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:09.354Z",
+      "checkedAt": "2026-09-21T14:29:32.081Z",
       "failCount": 0
     },
     "cody": {
@@ -948,8 +948,8 @@
       "finalUrl": "https://sourcegraph.com/cody",
       "error": "",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:37:11.479Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:29:34.981Z",
+      "failCount": 4
     },
     "tabnine": {
       "name": "Tabnine",
@@ -958,8 +958,8 @@
       "finalUrl": "https://www.tabnine.com/",
       "error": "",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:37:17.039Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:29:37.560Z",
+      "failCount": 4
     },
     "amazon-q": {
       "name": "Amazon Q Developer",
@@ -968,7 +968,7 @@
       "finalUrl": "https://aws.amazon.com/q/developer/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:18.160Z",
+      "checkedAt": "2026-09-21T14:29:39.707Z",
       "failCount": 0
     },
     "jetbrains-ai": {
@@ -978,18 +978,18 @@
       "finalUrl": "https://www.jetbrains.com/ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:18.731Z",
+      "checkedAt": "2026-09-21T14:29:41.937Z",
       "failCount": 0
     },
     "zed": {
       "name": "Zed",
       "url": "https://zed.dev",
-      "status": 200,
-      "finalUrl": "https://zed.dev/",
-      "error": "",
-      "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:20.027Z",
-      "failCount": 0
+      "status": 0,
+      "finalUrl": "https://zed.dev",
+      "error": "超时",
+      "verdict": "unknown",
+      "checkedAt": "2026-09-21T14:29:48.059Z",
+      "failCount": 1
     },
     "devin": {
       "name": "Devin",
@@ -998,7 +998,7 @@
       "finalUrl": "https://devin.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:20.354Z",
+      "checkedAt": "2026-09-21T14:29:48.869Z",
       "failCount": 0
     },
     "lovable": {
@@ -1008,8 +1008,8 @@
       "finalUrl": "https://lovable.dev/",
       "error": "",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:37:24.833Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:29:53.440Z",
+      "failCount": 4
     },
     "firebase-studio": {
       "name": "Firebase Studio",
@@ -1018,7 +1018,7 @@
       "finalUrl": "https://firebase.studio/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:26.180Z",
+      "checkedAt": "2026-09-21T14:29:54.337Z",
       "failCount": 0
     },
     "augment-code": {
@@ -1028,7 +1028,7 @@
       "finalUrl": "https://www.augmentcode.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:26.820Z",
+      "checkedAt": "2026-09-21T14:29:55.162Z",
       "failCount": 0
     },
     "lingma": {
@@ -1038,7 +1038,7 @@
       "finalUrl": "https://lingma.aliyun.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:27.229Z",
+      "checkedAt": "2026-09-21T14:29:55.670Z",
       "failCount": 0
     },
     "comate": {
@@ -1048,7 +1048,7 @@
       "finalUrl": "https://comate.baidu.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:27.490Z",
+      "checkedAt": "2026-09-21T14:29:55.897Z",
       "failCount": 0
     },
     "codegeex": {
@@ -1058,7 +1058,7 @@
       "finalUrl": "https://codegeex.cn/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:27.811Z",
+      "checkedAt": "2026-09-21T14:29:56.215Z",
       "failCount": 0
     },
     "stable-diffusion": {
@@ -1068,7 +1068,7 @@
       "finalUrl": "https://stability.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:28.699Z",
+      "checkedAt": "2026-09-21T14:29:58.101Z",
       "failCount": 0
     },
     "firefly": {
@@ -1078,7 +1078,7 @@
       "finalUrl": "https://firefly.adobe.com/denied.html",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:37:29.231Z",
+      "checkedAt": "2026-09-21T14:29:59.479Z",
       "failCount": 0
     },
     "leonardo": {
@@ -1088,8 +1088,8 @@
       "finalUrl": "https://leonardo.ai",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:37:35.354Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:30:05.600Z",
+      "failCount": 4
     },
     "civitai": {
       "name": "Civitai",
@@ -1098,8 +1098,8 @@
       "finalUrl": "https://civitai.com",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:37:41.479Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:30:11.724Z",
+      "failCount": 4
     },
     "liblib": {
       "name": "LiblibAI",
@@ -1108,7 +1108,7 @@
       "finalUrl": "https://www.liblib.art/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:41.780Z",
+      "checkedAt": "2026-09-21T14:30:12.031Z",
       "failCount": 0
     },
     "tongyi-wanxiang": {
@@ -1118,7 +1118,7 @@
       "finalUrl": "https://tongyi.aliyun.com/wan",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:37:42.287Z",
+      "checkedAt": "2026-09-21T14:30:12.548Z",
       "failCount": 0
     },
     "yige": {
@@ -1128,7 +1128,7 @@
       "finalUrl": "https://wenxin.baidu.com/?enter_type=yiyan_site",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:37:43.223Z",
+      "checkedAt": "2026-09-21T14:30:13.451Z",
       "failCount": 0
     },
     "wujie": {
@@ -1138,7 +1138,7 @@
       "finalUrl": "https://www.wujieai.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:43.506Z",
+      "checkedAt": "2026-09-21T14:30:13.716Z",
       "failCount": 0
     },
     "bing-image": {
@@ -1148,8 +1148,8 @@
       "finalUrl": "https://cn.bing.com/images/create",
       "error": "",
       "verdict": "dead",
-      "checkedAt": "2026-09-21T13:37:44.670Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:30:14.870Z",
+      "failCount": 4
     },
     "removebg": {
       "name": "remove.bg",
@@ -1158,7 +1158,7 @@
       "finalUrl": "https://www.remove.bg/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:48.409Z",
+      "checkedAt": "2026-09-21T14:30:18.525Z",
       "failCount": 0
     },
     "upscayl": {
@@ -1168,7 +1168,7 @@
       "finalUrl": "https://upscayl.org/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:37:51.614Z",
+      "checkedAt": "2026-09-21T14:30:19.698Z",
       "failCount": 0
     },
     "photoroom": {
@@ -1178,8 +1178,8 @@
       "finalUrl": "https://www.photoroom.com",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:37:57.737Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:30:25.824Z",
+      "failCount": 4
     },
     "luma-dream": {
       "name": "Luma Dream Machine",
@@ -1188,8 +1188,8 @@
       "finalUrl": "https://lumalabs.ai/dream-machine",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:38:03.870Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:30:31.948Z",
+      "failCount": 4
     },
     "hunyuan-video": {
       "name": "腾讯混元视频",
@@ -1198,8 +1198,8 @@
       "finalUrl": "https://video.hunyuan.tencent.com",
       "error": "fetch failed",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:38:04.007Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:30:32.081Z",
+      "failCount": 4
     },
     "pixverse": {
       "name": "PixVerse",
@@ -1208,7 +1208,7 @@
       "finalUrl": "https://pixverse.ai/zh",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:38:06.619Z",
+      "checkedAt": "2026-09-21T14:30:34.942Z",
       "failCount": 0
     },
     "heygen": {
@@ -1218,8 +1218,8 @@
       "finalUrl": "https://www.heygen.com",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:38:12.742Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:30:41.066Z",
+      "failCount": 4
     },
     "synthesia": {
       "name": "Synthesia",
@@ -1228,7 +1228,7 @@
       "finalUrl": "https://www.synthesia.io/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:38:13.972Z",
+      "checkedAt": "2026-09-21T14:30:42.297Z",
       "failCount": 0
     },
     "d-id": {
@@ -1238,7 +1238,7 @@
       "finalUrl": "https://www.d-id.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:38:14.283Z",
+      "checkedAt": "2026-09-21T14:30:43.860Z",
       "failCount": 0
     },
     "capcut": {
@@ -1248,7 +1248,7 @@
       "finalUrl": "https://www.capcut.cn/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:38:14.674Z",
+      "checkedAt": "2026-09-21T14:30:44.233Z",
       "failCount": 0
     },
     "descript": {
@@ -1258,7 +1258,7 @@
       "finalUrl": "https://www.descript.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:38:17.423Z",
+      "checkedAt": "2026-09-21T14:30:49.023Z",
       "failCount": 0
     },
     "opus-clip": {
@@ -1268,7 +1268,7 @@
       "finalUrl": "https://www.opus.pro/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:38:20.637Z",
+      "checkedAt": "2026-09-21T14:30:51.024Z",
       "failCount": 0
     },
     "hedra": {
@@ -1276,10 +1276,10 @@
       "url": "https://www.hedra.com",
       "status": 0,
       "finalUrl": "https://www.hedra.com",
-      "error": "fetch failed",
+      "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:38:30.508Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:30:57.149Z",
+      "failCount": 4
     },
     "adobe-podcast": {
       "name": "Adobe Podcast",
@@ -1288,7 +1288,7 @@
       "finalUrl": "https://podcast.adobe.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:38:30.874Z",
+      "checkedAt": "2026-09-21T14:30:58.492Z",
       "failCount": 0
     },
     "murf": {
@@ -1298,7 +1298,7 @@
       "finalUrl": "https://murf.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:38:31.185Z",
+      "checkedAt": "2026-09-21T14:30:59.418Z",
       "failCount": 0
     },
     "playht": {
@@ -1308,8 +1308,8 @@
       "finalUrl": "https://play.ht",
       "error": "fetch failed",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:38:31.318Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:30:59.556Z",
+      "failCount": 4
     },
     "whisper": {
       "name": "Whisper",
@@ -1318,27 +1318,27 @@
       "finalUrl": "https://github.com/openai/whisper",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:38:37.445Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:31:05.681Z",
+      "failCount": 2
     },
     "stable-audio": {
       "name": "Stable Audio",
       "url": "https://stableaudio.com",
-      "status": 200,
-      "finalUrl": "https://stableaudio.com/",
-      "error": "",
-      "verdict": "ok",
-      "checkedAt": "2026-09-21T13:38:43.466Z",
-      "failCount": 0
+      "status": 0,
+      "finalUrl": "https://stableaudio.com",
+      "error": "超时",
+      "verdict": "unknown",
+      "checkedAt": "2026-09-21T14:31:11.802Z",
+      "failCount": 1
     },
     "riffusion": {
-      "name": "Riffusion",
-      "url": "https://www.riffusion.com",
+      "name": "Google Flow Music",
+      "url": "https://www.flowmusic.app",
       "status": 200,
       "finalUrl": "https://www.flowmusic.app/",
       "error": "",
-      "verdict": "moved",
-      "checkedAt": "2026-09-21T13:38:46.507Z",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:31:13.450Z",
       "failCount": 0
     },
     "haimian": {
@@ -1348,7 +1348,7 @@
       "finalUrl": "https://www.haimian.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:38:46.894Z",
+      "checkedAt": "2026-09-21T14:31:13.752Z",
       "failCount": 0
     },
     "krisp": {
@@ -1358,7 +1358,7 @@
       "finalUrl": "https://krisp.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:38:48.334Z",
+      "checkedAt": "2026-09-21T14:31:14.593Z",
       "failCount": 0
     },
     "voice-clone-cosyvoice": {
@@ -1368,8 +1368,8 @@
       "finalUrl": "https://github.com/FunAudioLLM/CosyVoice",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:38:54.459Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:31:20.717Z",
+      "failCount": 2
     },
     "gpt-sovits": {
       "name": "GPT-SoVITS",
@@ -1378,8 +1378,8 @@
       "finalUrl": "https://github.com/RVC-Boss/GPT-SoVITS",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:39:00.583Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:31:26.842Z",
+      "failCount": 2
     },
     "feishu-ai": {
       "name": "飞书智能伙伴",
@@ -1388,18 +1388,18 @@
       "finalUrl": "https://www.feishu.cn/product/feishuai",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:39:01.131Z",
+      "checkedAt": "2026-09-21T14:31:27.364Z",
       "failCount": 0
     },
     "deepl": {
       "name": "DeepL",
       "url": "https://www.deepl.com",
-      "status": 0,
-      "finalUrl": "https://www.deepl.com",
-      "error": "超时",
-      "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:39:07.256Z",
-      "failCount": 1
+      "status": 200,
+      "finalUrl": "https://www.deepl.com/en",
+      "error": "",
+      "verdict": "moved",
+      "checkedAt": "2026-09-21T14:31:30.917Z",
+      "failCount": 0
     },
     "immersive-translate": {
       "name": "沉浸式翻译",
@@ -1408,8 +1408,8 @@
       "finalUrl": "https://immersivetranslate.com/",
       "error": "",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:39:09.456Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:31:33.401Z",
+      "failCount": 4
     },
     "quillbot": {
       "name": "QuillBot",
@@ -1418,8 +1418,8 @@
       "finalUrl": "https://quillbot.com/",
       "error": "",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:39:15.298Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:31:37.000Z",
+      "failCount": 4
     },
     "jasper": {
       "name": "Jasper",
@@ -1428,7 +1428,7 @@
       "finalUrl": "https://www.jasper.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:39:20.719Z",
+      "checkedAt": "2026-09-21T14:31:42.349Z",
       "failCount": 0
     },
     "copyai": {
@@ -1438,7 +1438,7 @@
       "finalUrl": "https://www.copy.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:39:21.633Z",
+      "checkedAt": "2026-09-21T14:31:44.666Z",
       "failCount": 0
     },
     "tome": {
@@ -1448,8 +1448,8 @@
       "finalUrl": "https://tome.app/",
       "error": "",
       "verdict": "dead",
-      "checkedAt": "2026-09-21T13:39:22.190Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:31:46.653Z",
+      "failCount": 4
     },
     "napkin": {
       "name": "Napkin AI",
@@ -1458,7 +1458,7 @@
       "finalUrl": "https://www.napkin.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:39:24.508Z",
+      "checkedAt": "2026-09-21T14:31:49.940Z",
       "failCount": 0
     },
     "zhiwen": {
@@ -1468,7 +1468,7 @@
       "finalUrl": "https://zhiwen.xfyun.cn/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:39:24.814Z",
+      "checkedAt": "2026-09-21T14:31:50.251Z",
       "failCount": 0
     },
     "youdao-ai": {
@@ -1478,7 +1478,7 @@
       "finalUrl": "https://ai.youdao.com/new/",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:39:25.374Z",
+      "checkedAt": "2026-09-21T14:31:50.789Z",
       "failCount": 0
     },
     "semantic-scholar": {
@@ -1488,7 +1488,7 @@
       "finalUrl": "https://www.semanticscholar.org/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:39:26.556Z",
+      "checkedAt": "2026-09-21T14:31:52.589Z",
       "failCount": 0
     },
     "connected-papers": {
@@ -1498,7 +1498,7 @@
       "finalUrl": "https://www.connectedpapers.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:39:27.633Z",
+      "checkedAt": "2026-09-21T14:31:53.425Z",
       "failCount": 0
     },
     "scispace": {
@@ -1508,8 +1508,8 @@
       "finalUrl": "https://typeset.io",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:39:33.758Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:31:59.559Z",
+      "failCount": 4
     },
     "scite": {
       "name": "Scite",
@@ -1518,8 +1518,8 @@
       "finalUrl": "https://scite.ai",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:39:39.881Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:32:05.680Z",
+      "failCount": 4
     },
     "storm": {
       "name": "STORM",
@@ -1528,7 +1528,7 @@
       "finalUrl": "https://storm.genie.stanford.edu/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:39:40.212Z",
+      "checkedAt": "2026-09-21T14:32:07.736Z",
       "failCount": 0
     },
     "gpt-researcher": {
@@ -1538,8 +1538,8 @@
       "finalUrl": "https://github.com/assafelovic/gpt-researcher",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:39:46.336Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:32:13.858Z",
+      "failCount": 2
     },
     "exa": {
       "name": "Exa",
@@ -1548,7 +1548,7 @@
       "finalUrl": "https://exa.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:39:46.682Z",
+      "checkedAt": "2026-09-21T14:32:15.153Z",
       "failCount": 0
     },
     "tavily": {
@@ -1558,7 +1558,7 @@
       "finalUrl": "https://www.tavily.com/",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:39:48.223Z",
+      "checkedAt": "2026-09-21T14:32:16.891Z",
       "failCount": 0
     },
     "langgraph": {
@@ -1568,7 +1568,7 @@
       "finalUrl": "https://www.langchain.com/langgraph",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:39:49.134Z",
+      "checkedAt": "2026-09-21T14:32:20.336Z",
       "failCount": 0
     },
     "crewai": {
@@ -1578,7 +1578,7 @@
       "finalUrl": "https://crewai.com/",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:39:50.224Z",
+      "checkedAt": "2026-09-21T14:32:23.604Z",
       "failCount": 0
     },
     "autogen": {
@@ -1588,7 +1588,7 @@
       "finalUrl": "https://microsoft.github.io/autogen/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:39:52.812Z",
+      "checkedAt": "2026-09-21T14:32:25.510Z",
       "failCount": 0
     },
     "openai-agents": {
@@ -1598,7 +1598,7 @@
       "finalUrl": "https://openai.github.io/openai-agents-python/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:39:54.864Z",
+      "checkedAt": "2026-09-21T14:32:27.659Z",
       "failCount": 0
     },
     "llamaindex": {
@@ -1608,28 +1608,28 @@
       "finalUrl": "https://www.llamaindex.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:39:55.198Z",
+      "checkedAt": "2026-09-21T14:32:28.707Z",
       "failCount": 0
     },
     "vercel-ai-sdk": {
       "name": "Vercel AI SDK",
-      "url": "https://sdk.vercel.ai",
+      "url": "https://ai-sdk.dev",
       "status": 200,
       "finalUrl": "https://ai-sdk.dev/",
       "error": "",
-      "verdict": "moved",
-      "checkedAt": "2026-09-21T13:39:55.752Z",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:32:29.547Z",
       "failCount": 0
     },
     "browser-use": {
       "name": "Browser Use",
       "url": "https://github.com/browser-use/browser-use",
-      "status": 0,
+      "status": 200,
       "finalUrl": "https://github.com/browser-use/browser-use",
-      "error": "超时",
-      "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:40:01.875Z",
-      "failCount": 1
+      "error": "",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:32:30.537Z",
+      "failCount": 0
     },
     "openhands": {
       "name": "OpenHands",
@@ -1638,8 +1638,8 @@
       "finalUrl": "https://github.com/All-Hands-AI/OpenHands",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:40:07.996Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:32:36.662Z",
+      "failCount": 2
     },
     "ragflow": {
       "name": "RAGFlow",
@@ -1648,7 +1648,7 @@
       "finalUrl": "https://ragflow.io/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:08.325Z",
+      "checkedAt": "2026-09-21T14:32:37.432Z",
       "failCount": 0
     },
     "fastgpt": {
@@ -1658,7 +1658,7 @@
       "finalUrl": "https://fastgpt.cn/",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:40:10.696Z",
+      "checkedAt": "2026-09-21T14:32:38.716Z",
       "failCount": 0
     },
     "composio": {
@@ -1668,7 +1668,7 @@
       "finalUrl": "https://composio.dev/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:13.307Z",
+      "checkedAt": "2026-09-21T14:32:39.578Z",
       "failCount": 0
     },
     "mastra": {
@@ -1678,18 +1678,18 @@
       "finalUrl": "https://mastra.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:13.616Z",
+      "checkedAt": "2026-09-21T14:32:41.822Z",
       "failCount": 0
     },
     "uizard": {
       "name": "Uizard",
       "url": "https://uizard.io",
-      "status": 0,
-      "finalUrl": "https://uizard.io",
-      "error": "超时",
-      "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:40:19.741Z",
-      "failCount": 1
+      "status": 200,
+      "finalUrl": "https://uizard.io/",
+      "error": "",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:32:43.032Z",
+      "failCount": 0
     },
     "framer": {
       "name": "Framer",
@@ -1698,7 +1698,7 @@
       "finalUrl": "https://www.framer.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:20.046Z",
+      "checkedAt": "2026-09-21T14:32:44.101Z",
       "failCount": 0
     },
     "looka": {
@@ -1708,8 +1708,8 @@
       "finalUrl": "https://looka.com/",
       "error": "",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:40:21.939Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:32:46.219Z",
+      "failCount": 4
     },
     "huemint": {
       "name": "Huemint",
@@ -1718,7 +1718,7 @@
       "finalUrl": "https://huemint.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:25.966Z",
+      "checkedAt": "2026-09-21T14:32:47.993Z",
       "failCount": 0
     },
     "visily": {
@@ -1728,7 +1728,7 @@
       "finalUrl": "https://www.visily.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:26.276Z",
+      "checkedAt": "2026-09-21T14:32:48.527Z",
       "failCount": 0
     },
     "motiff": {
@@ -1738,7 +1738,7 @@
       "finalUrl": "https://miaoduo.com/",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:40:27.239Z",
+      "checkedAt": "2026-09-21T14:32:49.444Z",
       "failCount": 0
     },
     "jsdesign": {
@@ -1748,7 +1748,7 @@
       "finalUrl": "https://js.design/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:27.541Z",
+      "checkedAt": "2026-09-21T14:32:49.734Z",
       "failCount": 0
     },
     "khroma": {
@@ -1758,7 +1758,7 @@
       "finalUrl": "https://www.khroma.co/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:27.864Z",
+      "checkedAt": "2026-09-21T14:32:50.556Z",
       "failCount": 0
     },
     "rows": {
@@ -1768,7 +1768,7 @@
       "finalUrl": "https://rows.com/product",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:40:29.911Z",
+      "checkedAt": "2026-09-21T14:32:53.578Z",
       "failCount": 0
     },
     "quadratic": {
@@ -1778,7 +1778,7 @@
       "finalUrl": "https://www.quadratichq.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:30.249Z",
+      "checkedAt": "2026-09-21T14:32:55.593Z",
       "failCount": 0
     },
     "deepnote": {
@@ -1788,18 +1788,18 @@
       "finalUrl": "https://deepnote.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:31.603Z",
+      "checkedAt": "2026-09-21T14:32:57.523Z",
       "failCount": 0
     },
     "akkio": {
       "name": "Akkio",
       "url": "https://www.akkio.com",
-      "status": 0,
-      "finalUrl": "https://www.akkio.com",
-      "error": "超时",
-      "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:40:37.728Z",
-      "failCount": 2
+      "status": 200,
+      "finalUrl": "https://www.akkio.com/",
+      "error": "",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:33:01.906Z",
+      "failCount": 0
     },
     "wrenai": {
       "name": "Wren AI",
@@ -1808,7 +1808,7 @@
       "finalUrl": "https://www.getwren.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:39.055Z",
+      "checkedAt": "2026-09-21T14:33:02.682Z",
       "failCount": 0
     },
     "vanna": {
@@ -1818,18 +1818,18 @@
       "finalUrl": "https://vanna.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:40.397Z",
+      "checkedAt": "2026-09-21T14:33:04.038Z",
       "failCount": 0
     },
     "powerbi-copilot": {
       "name": "Power BI Copilot",
       "url": "https://powerbi.microsoft.com",
-      "status": 0,
-      "finalUrl": "https://powerbi.microsoft.com",
-      "error": "超时",
-      "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:40:46.518Z",
-      "failCount": 1
+      "status": 200,
+      "finalUrl": "https://www.microsoft.com/en-us/power-platform/products/power-bi/",
+      "error": "",
+      "verdict": "moved",
+      "checkedAt": "2026-09-21T14:33:06.395Z",
+      "failCount": 0
     },
     "tableau-pulse": {
       "name": "Tableau Pulse",
@@ -1838,7 +1838,7 @@
       "finalUrl": "https://www.tableau.com/products/tableau-pulse",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:40:50.343Z",
+      "checkedAt": "2026-09-21T14:33:10.996Z",
       "failCount": 0
     },
     "luma-genie": {
@@ -1848,8 +1848,8 @@
       "finalUrl": "https://lumalabs.ai/genie",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:40:56.467Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:33:17.122Z",
+      "failCount": 4
     },
     "spline": {
       "name": "Spline",
@@ -1858,7 +1858,7 @@
       "finalUrl": "https://spline.design/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:56.788Z",
+      "checkedAt": "2026-09-21T14:33:18.191Z",
       "failCount": 0
     },
     "kaedim": {
@@ -1868,7 +1868,7 @@
       "finalUrl": "https://www.kaedim3d.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:40:57.606Z",
+      "checkedAt": "2026-09-21T14:33:19.228Z",
       "failCount": 0
     },
     "csm": {
@@ -1878,8 +1878,8 @@
       "finalUrl": "https://www.csm.ai",
       "error": "fetch failed",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:41:00.015Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:33:20.755Z",
+      "failCount": 4
     },
     "alpha3d": {
       "name": "Alpha3D",
@@ -1888,7 +1888,7 @@
       "finalUrl": "https://www.alpha3d.io/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:41:01.686Z",
+      "checkedAt": "2026-09-21T14:33:22.611Z",
       "failCount": 0
     },
     "hunyuan3d": {
@@ -1898,7 +1898,7 @@
       "finalUrl": "https://3d.hunyuan.tencent.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:41:01.903Z",
+      "checkedAt": "2026-09-21T14:33:22.851Z",
       "failCount": 0
     },
     "sloyd": {
@@ -1908,7 +1908,7 @@
       "finalUrl": "https://www.sloyd.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:41:03.025Z",
+      "checkedAt": "2026-09-21T14:33:25.457Z",
       "failCount": 0
     },
     "trellis": {
@@ -1918,8 +1918,8 @@
       "finalUrl": "https://github.com/microsoft/TRELLIS",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:41:09.151Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:33:31.581Z",
+      "failCount": 2
     },
     "blender-mcp": {
       "name": "Blender MCP",
@@ -1928,8 +1928,8 @@
       "finalUrl": "https://github.com/ahujasid/blender-mcp",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:41:15.273Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:33:37.702Z",
+      "failCount": 2
     },
     "tripo-brush": {
       "name": "Tripo 3D 生成工作流",
@@ -1938,8 +1938,8 @@
       "finalUrl": "https://www.tripo3d.ai",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:41:21.397Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:33:43.829Z",
+      "failCount": 4
     },
     "jan": {
       "name": "Jan",
@@ -1948,8 +1948,8 @@
       "finalUrl": "https://jan.ai",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:41:27.524Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:33:49.955Z",
+      "failCount": 4
     },
     "gpt4all": {
       "name": "GPT4All",
@@ -1958,7 +1958,7 @@
       "finalUrl": "https://www.nomic.ai/gpt4all",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:41:28.112Z",
+      "checkedAt": "2026-09-21T14:33:51.289Z",
       "failCount": 0
     },
     "anythingllm": {
@@ -1968,7 +1968,7 @@
       "finalUrl": "https://anythingllm.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:41:28.965Z",
+      "checkedAt": "2026-09-21T14:33:52.106Z",
       "failCount": 0
     },
     "textgen-webui": {
@@ -1978,8 +1978,8 @@
       "finalUrl": "https://github.com/oobabooga/text-generation-webui",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:41:35.086Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:33:58.229Z",
+      "failCount": 2
     },
     "localai": {
       "name": "LocalAI",
@@ -1988,7 +1988,7 @@
       "finalUrl": "https://localai.io/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:41:36.100Z",
+      "checkedAt": "2026-09-21T14:33:59.992Z",
       "failCount": 0
     },
     "sglang": {
@@ -1998,8 +1998,8 @@
       "finalUrl": "https://github.com/sgl-project/sglang",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:41:42.224Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:34:06.112Z",
+      "failCount": 2
     },
     "llamafile": {
       "name": "llamafile",
@@ -2008,8 +2008,8 @@
       "finalUrl": "https://github.com/Mozilla-Ocho/llamafile",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:41:48.345Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:34:12.237Z",
+      "failCount": 2
     },
     "pinokio": {
       "name": "Pinokio",
@@ -2018,8 +2018,8 @@
       "finalUrl": "https://pinokio.computer",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:41:54.466Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:34:18.361Z",
+      "failCount": 4
     },
     "xinference": {
       "name": "Xinference",
@@ -2028,8 +2028,8 @@
       "finalUrl": "https://github.com/xorbitsai/inference",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:42:00.587Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:34:24.487Z",
+      "failCount": 2
     },
     "lmdeploy": {
       "name": "LMDeploy",
@@ -2038,8 +2038,8 @@
       "finalUrl": "https://github.com/InternLM/lmdeploy",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:42:06.710Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:34:30.609Z",
+      "failCount": 2
     },
     "ahrefs": {
       "name": "Ahrefs",
@@ -2048,7 +2048,7 @@
       "finalUrl": "https://ahrefs.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:09.339Z",
+      "checkedAt": "2026-09-21T14:34:31.961Z",
       "failCount": 0
     },
     "semrush": {
@@ -2058,18 +2058,18 @@
       "finalUrl": "https://www.semrush.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:14.187Z",
+      "checkedAt": "2026-09-21T14:34:34.358Z",
       "failCount": 0
     },
     "surfer": {
       "name": "Surfer SEO",
       "url": "https://surferseo.com",
-      "status": 200,
-      "finalUrl": "https://surferseo.com/",
-      "error": "",
-      "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:15.156Z",
-      "failCount": 0
+      "status": 0,
+      "finalUrl": "https://surferseo.com",
+      "error": "超时",
+      "verdict": "unknown",
+      "checkedAt": "2026-09-21T14:34:40.482Z",
+      "failCount": 1
     },
     "buffer": {
       "name": "Buffer",
@@ -2078,7 +2078,7 @@
       "finalUrl": "https://buffer.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:17.897Z",
+      "checkedAt": "2026-09-21T14:34:41.451Z",
       "failCount": 0
     },
     "later": {
@@ -2088,28 +2088,28 @@
       "finalUrl": "https://later.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:19.469Z",
+      "checkedAt": "2026-09-21T14:34:42.393Z",
       "failCount": 0
     },
     "adcreative": {
       "name": "AdCreative.ai",
       "url": "https://www.adcreative.ai",
-      "status": 0,
-      "finalUrl": "https://www.adcreative.ai",
-      "error": "超时",
-      "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:42:25.592Z",
-      "failCount": 1
+      "status": 200,
+      "finalUrl": "https://www.adcreative.ai/",
+      "error": "",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:34:45.079Z",
+      "failCount": 0
     },
     "pencil": {
       "name": "Pencil",
       "url": "https://www.trypencil.com",
-      "status": 200,
-      "finalUrl": "https://trypencil.com/",
-      "error": "",
-      "verdict": "moved",
-      "checkedAt": "2026-09-21T13:42:27.685Z",
-      "failCount": 0
+      "status": 0,
+      "finalUrl": "https://www.trypencil.com",
+      "error": "超时",
+      "verdict": "unknown",
+      "checkedAt": "2026-09-21T14:34:51.206Z",
+      "failCount": 1
     },
     "oceanengine": {
       "name": "巨量创意",
@@ -2118,7 +2118,7 @@
       "finalUrl": "https://cc.oceanengine.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:28.233Z",
+      "checkedAt": "2026-09-21T14:34:51.510Z",
       "failCount": 0
     },
     "chanmama": {
@@ -2128,7 +2128,7 @@
       "finalUrl": "https://www.chanmama.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:28.506Z",
+      "checkedAt": "2026-09-21T14:34:51.790Z",
       "failCount": 0
     },
     "newrank": {
@@ -2138,7 +2138,7 @@
       "finalUrl": "https://www.newrank.cn/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:28.802Z",
+      "checkedAt": "2026-09-21T14:34:52.091Z",
       "failCount": 0
     },
     "mailchimp": {
@@ -2148,7 +2148,7 @@
       "finalUrl": "https://mailchimp.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:30.061Z",
+      "checkedAt": "2026-09-21T14:34:53.406Z",
       "failCount": 0
     },
     "hubspot": {
@@ -2158,7 +2158,7 @@
       "finalUrl": "https://www.hubspot.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:35.986Z",
+      "checkedAt": "2026-09-21T14:34:56.058Z",
       "failCount": 0
     },
     "feishu-minutes": {
@@ -2168,7 +2168,7 @@
       "finalUrl": "https://www.feishu.cn/product/minutes",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:36.314Z",
+      "checkedAt": "2026-09-21T14:34:56.339Z",
       "failCount": 0
     },
     "tencent-meeting-ai": {
@@ -2178,7 +2178,7 @@
       "finalUrl": "https://meeting.tencent.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:36.510Z",
+      "checkedAt": "2026-09-21T14:34:56.533Z",
       "failCount": 0
     },
     "tingwu": {
@@ -2188,7 +2188,7 @@
       "finalUrl": "https://tingwu.aliyun.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:36.832Z",
+      "checkedAt": "2026-09-21T14:34:56.864Z",
       "failCount": 0
     },
     "iflyrec": {
@@ -2198,7 +2198,7 @@
       "finalUrl": "https://www.iflyrec.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:37.152Z",
+      "checkedAt": "2026-09-21T14:34:57.103Z",
       "failCount": 0
     },
     "otter": {
@@ -2208,7 +2208,7 @@
       "finalUrl": "https://otter.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:38.334Z",
+      "checkedAt": "2026-09-21T14:34:59.492Z",
       "failCount": 0
     },
     "fireflies": {
@@ -2218,7 +2218,7 @@
       "finalUrl": "https://fireflies.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:39.149Z",
+      "checkedAt": "2026-09-21T14:35:00.596Z",
       "failCount": 0
     },
     "tldv": {
@@ -2228,7 +2228,7 @@
       "finalUrl": "https://tldv.io/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:39.960Z",
+      "checkedAt": "2026-09-21T14:35:01.609Z",
       "failCount": 0
     },
     "granola": {
@@ -2238,7 +2238,7 @@
       "finalUrl": "https://www.granola.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:40.606Z",
+      "checkedAt": "2026-09-21T14:35:03.448Z",
       "failCount": 0
     },
     "fathom": {
@@ -2248,8 +2248,8 @@
       "finalUrl": "https://fathom.video",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:42:46.732Z",
-      "failCount": 2
+      "checkedAt": "2026-09-21T14:35:09.583Z",
+      "failCount": 3
     },
     "dingtalk-ai": {
       "name": "钉钉 AI 助理",
@@ -2258,18 +2258,18 @@
       "finalUrl": "https://www.dingtalk.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:47.027Z",
+      "checkedAt": "2026-09-21T14:35:09.889Z",
       "failCount": 0
     },
     "khanmigo": {
       "name": "Khanmigo",
       "url": "https://www.khanmigo.ai",
-      "status": 0,
-      "finalUrl": "https://www.khanmigo.ai",
-      "error": "超时",
-      "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:42:53.165Z",
-      "failCount": 1
+      "status": 200,
+      "finalUrl": "https://www.khanmigo.ai/",
+      "error": "",
+      "verdict": "ok",
+      "checkedAt": "2026-09-21T14:35:10.798Z",
+      "failCount": 0
     },
     "duolingo-max": {
       "name": "Duolingo Max",
@@ -2278,7 +2278,7 @@
       "finalUrl": "https://www.duolingo.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:42:54.170Z",
+      "checkedAt": "2026-09-21T14:35:12.270Z",
       "failCount": 0
     },
     "quizlet": {
@@ -2288,8 +2288,8 @@
       "finalUrl": "https://quizlet.com/",
       "error": "",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:42:56.614Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:35:17.347Z",
+      "failCount": 4
     },
     "socratic": {
       "name": "Socratic",
@@ -2298,8 +2298,8 @@
       "finalUrl": "https://socratic.org",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:43:02.744Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:35:23.478Z",
+      "failCount": 4
     },
     "photomath": {
       "name": "Photomath",
@@ -2308,7 +2308,7 @@
       "finalUrl": "https://photomath.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:43:04.440Z",
+      "checkedAt": "2026-09-21T14:35:26.313Z",
       "failCount": 0
     },
     "gauth": {
@@ -2318,7 +2318,7 @@
       "finalUrl": "https://www.gauthmath.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:43:06.936Z",
+      "checkedAt": "2026-09-21T14:35:28.621Z",
       "failCount": 0
     },
     "magicschool": {
@@ -2328,7 +2328,7 @@
       "finalUrl": "https://www.magicschool.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:43:07.795Z",
+      "checkedAt": "2026-09-21T14:35:30.119Z",
       "failCount": 0
     },
     "curipod": {
@@ -2338,7 +2338,7 @@
       "finalUrl": "https://curipod.com/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:43:09.043Z",
+      "checkedAt": "2026-09-21T14:35:31.544Z",
       "failCount": 0
     },
     "jiuzhang": {
@@ -2348,8 +2348,8 @@
       "finalUrl": "https://www.zhihuizhuxue.com",
       "error": "fetch failed",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:43:09.842Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:35:32.138Z",
+      "failCount": 4
     },
     "doubao-learn": {
       "name": "豆包爱学",
@@ -2358,7 +2358,7 @@
       "finalUrl": "https://www.doubao.com/chat",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:43:10.868Z",
+      "checkedAt": "2026-09-21T14:35:33.106Z",
       "failCount": 0
     },
     "gemini-cli": {
@@ -2368,8 +2368,8 @@
       "finalUrl": "https://github.com/google-gemini/gemini-cli",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:43:16.994Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:35:39.232Z",
+      "failCount": 2
     },
     "grok-build": {
       "name": "Grok Build",
@@ -2378,8 +2378,8 @@
       "finalUrl": "https://x.ai/cli",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:43:23.115Z",
-      "failCount": 3
+      "checkedAt": "2026-09-21T14:35:45.358Z",
+      "failCount": 4
     },
     "qwen-code": {
       "name": "Qwen Code",
@@ -2388,8 +2388,8 @@
       "finalUrl": "https://github.com/QwenLM/qwen-code",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:43:29.236Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:35:51.479Z",
+      "failCount": 2
     },
     "opencode-cli": {
       "name": "OpenCode",
@@ -2398,7 +2398,7 @@
       "finalUrl": "https://opencode.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:43:33.144Z",
+      "checkedAt": "2026-09-21T14:35:52.763Z",
       "failCount": 0
     },
     "kilo-cli": {
@@ -2408,7 +2408,7 @@
       "finalUrl": "https://kilo.ai/",
       "error": "",
       "verdict": "ok",
-      "checkedAt": "2026-09-21T13:43:33.817Z",
+      "checkedAt": "2026-09-21T14:35:55.633Z",
       "failCount": 0
     },
     "kimi-cli": {
@@ -2418,8 +2418,8 @@
       "finalUrl": "https://github.com/MoonshotAI/kimi-cli",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:43:39.942Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:36:01.758Z",
+      "failCount": 2
     },
     "weknora": {
       "name": "WeKnora",
@@ -2428,8 +2428,8 @@
       "finalUrl": "https://github.com/Tencent/WeKnora",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:43:46.069Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:36:07.886Z",
+      "failCount": 2
     },
     "mica-voice": {
       "name": "mica-voice",
@@ -2438,8 +2438,8 @@
       "finalUrl": "https://github.com/lets-mica/mica-voice",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:43:52.193Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:36:14.009Z",
+      "failCount": 2
     },
     "zcode": {
       "name": "ZCode",
@@ -2448,7 +2448,7 @@
       "finalUrl": "https://zcode.z.ai/cn",
       "error": "",
       "verdict": "moved",
-      "checkedAt": "2026-09-21T13:43:52.799Z",
+      "checkedAt": "2026-09-21T14:36:14.502Z",
       "failCount": 0
     },
     "minimax-code-cli": {
@@ -2458,8 +2458,8 @@
       "finalUrl": "https://github.com/MiniMax-AI/minimax-code",
       "error": "超时",
       "verdict": "unknown",
-      "checkedAt": "2026-09-21T13:43:58.923Z",
-      "failCount": 1
+      "checkedAt": "2026-09-21T14:36:20.636Z",
+      "failCount": 2
     },
     "l-3b1b-nn": {
       "name": "3Blue1Brown：神经网络系列",

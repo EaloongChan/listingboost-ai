@@ -23,6 +23,8 @@ const BUDGET = {
   // 硬预算
   'assets/main.css': 24,
   'assets/app.js': 16,
+  // 按需加载的软预算（不是每个页面都要下，超标只提醒）
+  'assets/search.js': 9,
   // 软预算
   'index.html': 24,
   'prompts/index.html': 64,
@@ -56,11 +58,18 @@ const resolveAsset = (base, ext) => {
   return hit ? `assets/${hit}` : null;
 };
 
+const SOFT_ASSET = 'assets/search.js';
 const KEY_FILE = {
   'assets/main.css': resolveAsset('main', 'css'),
   'assets/app.js': resolveAsset('app', 'js'),
   'assets/print.css': resolveAsset('print', 'css'),
+  [SOFT_ASSET]: resolveAsset('search', 'js'),
 };
+if (!KEY_FILE[SOFT_ASSET]) {
+  // 找不到就报错：这东西如果静默消失，说明拆分/哈希规则变了而本脚本没跟上
+  console.error('  ✗ 找不到 search.js 的构建产物（拆分改名了？请同步 perf.mjs）');
+  process.exit(1);
+}
 if (!KEY_FILE['assets/main.css'] || !KEY_FILE['assets/app.js']) {
   console.error('  ✗ 找不到 main.css / app.js 的构建产物（命名规则变了？请同步 perf.mjs）');
   process.exit(1);
@@ -106,6 +115,22 @@ for (const key of ['assets/main.css', 'assets/app.js', 'assets/print.css']) {
   console.log(`    ${key.padEnd(22)} ${fmt(raw(p)).padStart(9)} → ${fmt(g).padStart(9)}${budget ? `  (预算 ${budget}KB)${over ? '  ✗ 超了' : '  ✓'}` : ''}  ${path.basename(rel)}`);
 }
 console.log(`    ${'首屏 CSS+JS 合计'.padEnd(20)} ${fmt(criticalRaw).padStart(9)} → ${fmt(gz(path.join(DIST, KEY_FILE['assets/main.css'])) + gz(path.join(DIST, KEY_FILE['assets/app.js']))).padStart(9)}`);
+
+/* ---------- 按需加载的资源（软预算） ----------
+   search.js 只有 /search/ 两个页面要下，其余 696 页根本碰不到它，
+   所以不能算硬预算（硬预算的意义是「每个用户每次访问都要付」）。
+   但它仍然要有个数：曾经这套搜索代码就是塞在 app.js 里、平摊给所有页面的。 */
+console.log('');
+console.log('  按需加载（软预算）');
+{
+  const rel = KEY_FILE[SOFT_ASSET];
+  const p = path.join(DIST, rel);
+  const g = gz(p);
+  const budget = BUDGET[SOFT_ASSET];
+  const over = budget && kb(g) > budget;
+  if (over) budgetHit++;
+  console.log(`    ${SOFT_ASSET.padEnd(22)} ${fmt(raw(p)).padStart(9)} → ${fmt(g).padStart(9)}  (预算 ${budget}KB)${over ? '  ✗ 超了' : '  ✓'}  ${path.basename(rel)}`);
+}
 
 /* ---------- 最大的页面 ---------- */
 console.log('');
