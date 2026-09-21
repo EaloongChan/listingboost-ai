@@ -804,6 +804,16 @@ test('英文版工具列表：卡片是英文文案', '/en/tools/', async (c) =>
   };
 });
 
+test('英文版工具库：工具卡链到英文详情页，不是中文详情页', '/en/tools/', async (c) => {
+  // 回归：详情页链接写死成 /tools/<cat>/<id>/，231 张卡全部指向中文版。
+  const total = await c.eval(`document.querySelectorAll('[data-list] .card-title a.name').length`);
+  const bad = await c.eval(`[...document.querySelectorAll('[data-list] .card-title a.name')].filter(a=>!/^\\/en\\/tools\\//.test(a.getAttribute('href'))).map(a=>a.getAttribute('href'))`);
+  return {
+    ok: total > 0 && bad.length === 0,
+    detail: `${total} 张工具卡，链到中文版的 ${bad.length} 张${bad.length ? `，例如 ${bad[0]}` : ''}`,
+  };
+});
+
 test('英文版工具库：照着卡片上显示的标签能搜到东西', '/en/tools/', async (c) => {
   /* 回归：data-name 以前不管语言一律拼中文名 + 中文标签 + 中文简介，
      而卡片显示的是英文标签。结果 242 个看得见的英文标签里 189 个用页内搜索框搜不到 ——
@@ -1083,13 +1093,17 @@ test('英文提示词库：分类筛选用英文名，卡片标签是英文', '/
   };
 });
 
-test('英文手册：提示词链接全部指向英文提示词库（没有断头）', '/en/playbooks/pb-fix-unknown-bug/', async (c) => {
-  const en = await c.eval(`document.querySelectorAll('a[href^="/en/prompts/"]').length`);
-  const zh = await c.eval(`document.querySelectorAll('a[href^="/prompts/"]').length`);
+test('英文手册：提示词与工具链接都指向英文版（没有断头）', '/en/playbooks/pb-fix-unknown-bug/', async (c) => {
+  const enPrompts = await c.eval(`document.querySelectorAll('a[href^="/en/prompts/"]').length`);
+  const zhPrompts = await c.eval(`document.querySelectorAll('a[href^="/prompts/"]').length`);
+  // 回归：工具卡的详情页链接曾写死成 /tools/<cat>/<id>/，
+  // 英文手册页里 8 个工具全部链到中文详情页 —— 读者点进去满屏中文。
+  const enTools = await c.eval(`document.querySelectorAll('a[href^="/en/tools/"]').length`);
+  const zhTools = await c.eval(`document.querySelectorAll('a[href^="/tools/"]').length`);
   const chips = await c.eval(`[...document.querySelectorAll('a[href^="/en/prompts/"]')].map(a=>a.getAttribute('href'))`);
   return {
-    ok: en >= 2 && zh === 0,
-    detail: `英文提示词链 ${en} 条（${[...new Set(chips)].join(', ')}），指向中文提示词的 ${zh} 条`,
+    ok: enPrompts >= 2 && zhPrompts === 0 && enTools >= 1 && zhTools === 0,
+    detail: `英文提示词链 ${enPrompts}（${[...new Set(chips)].join(', ')}）/ 中文 ${zhPrompts}；英文工具链 ${enTools} / 中文 ${zhTools}`,
   };
 });
 

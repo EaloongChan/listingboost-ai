@@ -28,6 +28,17 @@ function accent(hex, fallback = '#1B4DFF') {
  * 某个图像工具的「什么时候别用」里提到了它。用户想找的是 Midjourney 本身，
  * 不是「警告里提到过 Midjourney」的工具。筛选框要的是精确，不是召回。
  */
+/**
+ * 站内链接的语言前缀：英文站所有页面都在 /en/ 下。
+ *
+ * 为什么不让调用方传 base（手册卡 playbookCard 用的就是那个做法）：
+ * 工具卡的详情页链接曾写死成 `/tools/<cat>/<id>/`，结果 281 个英文页面
+ * 上的 2574 条工具链接全部指向中文详情页 —— 英文读者点进去满屏中文。
+ * **从一个 shared 组件漏出去的问题，会被引用它的每个页面放大。**
+ * 从 L 推导，调用方就没有机会写漏。
+ */
+const siteRoot = (L) => (L === EN ? '/en' : '');
+
 const matchBlob = (L, ...groups) =>
   esc(groups.flat().filter(Boolean).map(String).join(' ').toLowerCase());
 
@@ -90,7 +101,7 @@ export function toolCard(t, catMap, L = ZH) {
     <div class="card-top">
       <span class="avatar" style="${accent(c)}" aria-hidden="true">${esc(initials(t.name))}</span>
       <div style="min-width:0;flex:1">
-        <h3 class="card-title"><a class="name" href="/tools/${esc(t.cat)}/${esc(t.id)}/">${esc(t.name)}</a></h3>
+        <h3 class="card-title"><a class="name" href="${siteRoot(L)}/tools/${esc(t.cat)}/${esc(t.id)}/">${esc(t.name)}</a></h3>
         <div class="card-cat">${esc(cat.name)}</div>
       </div>
     </div>

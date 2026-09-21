@@ -210,6 +210,29 @@ for (const file of htmlFiles) {
   }
 }
 
+/* D. 英文页不能把读者送到「明明有英文版、却链了中文页」的地方。
+      踩过一次：工具卡的详情页链接写死成 `/tools/<cat>/<id>/`，
+      英文站 231 张工具卡全部指向中文详情页 —— 英文读者点进去满屏中文。
+      它还会随着SHARED组件被更多页面引用而自我放大（实测扩散到 2834 处）。
+      只管已经有英文版的区段；语言切换按钮（class 含 lang-btn）本来就要跳中文版，排除。 */
+const EN_SECTIONS = new Set(['tools', 'models', 'playbooks', 'prompts', 'glossary', 'search']);
+const zhTargets = new Map();   // 页面 → Set(链接)
+for (const file of htmlFiles) {
+  const rel = path.relative(DIST, file).replace(/\\/g, '/');
+  if (!rel.startsWith('en/')) continue;
+  const html = fs.readFileSync(file, 'utf8');
+  for (const m of html.matchAll(/<a\b([^>]*)>/gi)) {
+    const attrs = m[1];
+    if (/lang-btn/.test(attrs)) continue;          // 本来就是「切到中文版」
+    const href = (attrs.match(/href="(\/[^"]*)"/) || [])[1];
+    if (!href) continue;
+    const sec = (href.match(/^\/([a-z]+)/) || [])[1];
+    if (!EN_SECTIONS.has(sec)) continue;
+    if (!zhTargets.has(rel)) zhTargets.set(rel, new Set());
+    zhTargets.get(rel).add(href);
+  }
+}
+
 /* ---------- 输出 ---------- */
 const line = '─'.repeat(56);
 console.log('');
@@ -303,6 +326,19 @@ if (emptyLinks.length) {
   if (emptyLinks.length > 20) console.log(`      … 还有 ${emptyLinks.length - 20} 个`);
 } else {
   console.log(`  ✓ 所有链接都有可见文字`);
+}
+
+if (zhTargets.size) {
+  problems += zhTargets.size;
+  const totalLinks = [...zhTargets.values()].reduce((s, v) => s + v.size, 0);
+  console.log('');
+  console.log(`  ✗ 英文页把读者链到中文版 ${zhTargets.size} 个页面 / ${totalLinks} 条链接：`);
+  [...zhTargets.entries()].slice(0, 12).forEach(([f, set]) => {
+    console.log(`      ${f}  ${set.size} 条，例如 ${[...set][0]}`);
+  });
+  if (zhTargets.size > 12) console.log(`      … 还有 ${zhTargets.size - 12} 个页面`);
+} else {
+  console.log(`  ✓ 英文页没有把读者链到中文版`);
 }
 
 console.log('  ' + line);
