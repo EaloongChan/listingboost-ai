@@ -935,6 +935,34 @@
         "output": "一个能自动跑、失败了会告警的流程",
         "fail": "静默失败没人知道、规则明确的事也用模型导致又慢又贵又不稳、出问题时无法追溯",
         "alt": "这件事一个月才做一次 → 不值得自动化，投入产出不划算"
+      },
+      "en": {
+        "title": "Automate the repetitive chores",
+        "time": "1-2 days",
+        "level": "hands-on",
+        "problem": "Every week you tidy spreadsheets by hand, forward messages, export data. Pure waste of time, but automating it never quite gets done.",
+        "spec": {
+          "input": "A repeated procedure written down, plus roughly how long it takes each week",
+          "output": "A process that runs itself and alerts you when it fails",
+          "fail": "Silent failure nobody notices, using a model for rule-based work, nothing to trace when it breaks",
+          "alt": "Something you do once a month → not worth automating. The investment never pays back."
+        },
+        "steps": [
+          "**Record yourself doing the task once, start to finish, before automating anything.** Most people think they know the procedure and discover three hidden exceptions on the recording — and those exceptions are exactly where automation breaks.",
+          "Split the procedure into **rule-based steps** and **judgement steps**. Rule-based steps get a script; judgement steps can use a model. Getting this split right is most of the work.",
+          "For scheduling, use a built-in scheduler or a small cron job before reaching for an orchestration platform. **Most chores need a trigger plus a script, nothing more.**",
+          "Where the flow crosses between tools, n8n (self-hosted) or Zapier handle the plumbing. Only add this layer if you actually need to connect systems.",
+          "**Add failure alerting from day one.** A silent failure is worse than doing it by hand — you believe it ran, so you stop checking.",
+          "Log each run: what it processed, what it skipped, how long it took. **When something looks wrong three weeks later, this is the only way to find out when it started.**",
+          "Write down how to switch it off before you switch it on. Automation without an off-switch is a liability."
+        ],
+        "warnings": [
+          "The most common design mistake is **letting the model do everything**. Rule-based bulk conversion belongs in a script — cheaper, faster and far more stable.",
+          "Automation must alert on failure. **Silent failure is worse than manual work**, because you stop watching it.",
+          "Don't automate a process you are about to change. Automating a workflow that gets redesigned next month is wasted effort.",
+          "Beware of partial runs. A job that processed half the rows and then died is harder to recover from than one that failed outright — design for idempotency.",
+          "If nobody owns the automation, it will rot. Name a person, or write the procedure into the README next to it."
+        ]
       }
     },
     {
@@ -1019,6 +1047,34 @@
         "output": "一张领域地图：核心概念、主要分歧、哪些是共识哪些还在争",
         "fail": "关键概念是 AI 编的、只学到表面名词不知道边界、分不清共识和争议",
         "alt": "只需要一个具体事实的答案 → 直接搜，不用建领域地图"
+      },
+      "en": {
+        "title": "Get oriented in a new field in two weeks",
+        "time": "2 weeks",
+        "level": "no setup",
+        "problem": "You need to understand a field you know nothing about, and you don't know where to start or what actually matters.",
+        "spec": {
+          "input": "The field, plus the decision you need to make with it",
+          "output": "A map of the field: core concepts, live disagreements, what's settled and what isn't",
+          "fail": "Key concepts are AI-fabricated, you learn vocabulary without boundaries, you can't tell consensus from dispute",
+          "alt": "You just need one factual answer → search directly. A field map is for deciding things."
+        },
+        "steps": [
+          "**Write down the decision you need to make.** 'Understand machine learning' produces a reading list; 'decide whether to fine-tune or use RAG for our support bot' produces the right reading list. The constraint is what makes it tractable.",
+          "Have the model sketch the field's outline first — main schools of thought, key concepts, the questions people argue about. Then have it **mark which parts it is confident about and which are its own guess**.",
+          "**Verify every proper noun, date and number with a search.** Models fabricate confidently in unfamiliar territory, and a fabricated author or paper looks entirely plausible.",
+          "Ask it to **list what is contested rather than settled**. Consensus is easy to find; the live arguments are where understanding actually lives, and where you can go wrong.",
+          "Have it quiz you before it explains more. **Getting the order wrong is the usual mistake** — teaching first means you spend time on things you already know.",
+          "Read one primary source end to end: a survey paper, an official spec, a foundational blog post. AI summaries give you vocabulary; only the source gives you the boundaries.",
+          "**Set yourself an output** — 'explain the three main approaches to a non-expert' by Friday. Without an output, the feeling of having learned something is unreliable."
+        ],
+        "warnings": [
+          "**AI fabricates confidently in unfamiliar fields.** Key concepts must be cross-checked against search, especially names, dates and figures.",
+          "Have it **ask you questions before it lectures** — add 'don't give me the answer until I have tried'. This single change roughly doubles retention.",
+          "A reading list is not understanding. Without an output you can point at, you cannot tell whether you learned anything.",
+          "Beware of fluent summaries that flatten the disagreements. If everything sounds settled, you are reading a simplification rather than the field.",
+          "Two weeks buys you orientation, not expertise. Know which decisions you are still not qualified to make."
+        ]
       }
     },
     {
@@ -1164,6 +1220,33 @@
         "output": "一份客观描述 + 可能的原因 + 一个可执行的动作建议",
         "fail": "把相关性说成因果、数据口径没核对就下结论、建议宏大但落不了地",
         "alt": "数据量只有几十行、看一眼就能明白 → 自己看，分析流程是给复杂数据准备的"
+      },
+      "en": {
+        "title": "Answer a business question with data",
+        "time": "2-4 hours",
+        "level": "no setup",
+        "problem": "You have a pile of data and can't say what it shows, let alone what to do about it.",
+        "spec": {
+          "input": "The raw data, plus one specific business question",
+          "output": "An objective description, plausible explanations, and one actionable recommendation",
+          "fail": "Treating correlation as causation, drawing conclusions before definitions are aligned, recommendations too grand to act on",
+          "alt": "A few dozen rows you can read at a glance → read them yourself. This process is for data that genuinely needs it."
+        },
+        "steps": [
+          "**Agree on definitions before analysing.** 'Active user' can mean different things in different teams, and mismatched definitions make the analysis more wrong the deeper it goes.",
+          "Ask for an **objective description first and possible explanations separately**. Reading them apart cuts down storytelling substantially.",
+          "Have it state what the data cannot tell you. **This is the most valuable output** and the one AI omits by default.",
+          "Check whether the movement is real or an artefact — seasonality, a tracking change, a spike in one segment. **Most 'trends' are one of these three.**",
+          "Only then discuss causes. For each candidate explanation, ask what evidence would confirm or rule it out.",
+          "End by landing on an action with an owner and a deadline. **An insight without a next step is trivia.**"
+        ],
+        "warnings": [
+          "**The biggest risk is correlation read as causation.** A model will happily say 'churn rose because of the redesign' with no basis. Those conclusions are yours to make.",
+          "Align definitions before analysing. Two teams computing the same metric differently is worse than having no dashboard.",
+          "Don't let it fill gaps. If the data is missing a period or a segment, that limitation belongs in the conclusion.",
+          "Check whether a tracking change explains the movement before it becomes a strategy insight.",
+          "AI summary is not analysis. The judgement about what matters is the job, not a step that can be delegated."
+        ]
       }
     },
     {
@@ -1242,6 +1325,33 @@
         "output": "一份能指导「我们该怎么打」的分析，重点是对方的结构性限制",
         "fail": "做成了功能对照表、竞品信息是过期的或编的、结论是「他们很强打不过」",
         "alt": "只是想知道竞品有没有某个功能 → 直接去看，不用做完整分析"
+      },
+      "en": {
+        "title": "Produce a competitive analysis that changes what you do",
+        "time": "1-2 days",
+        "level": "no setup",
+        "problem": "Your analysis turns into a feature comparison table, and after reading it you still don't know how to compete.",
+        "spec": {
+          "input": "Your positioning, the competitor list, and the public information you can actually obtain",
+          "output": "An analysis that tells you how to attack, focused on their structural constraints",
+          "fail": "A feature grid, stale or invented competitor facts, the conclusion 'they're strong, we can't win'",
+          "alt": "You only want to know whether a competitor has a feature → just go look, no analysis required"
+        },
+        "steps": [
+          "Have the model list the information dimensions worth collecting, with **'what they cannot do' as a first-class dimension** rather than a feature inventory.",
+          "Match the tool to the source: **product changes** → release notes and the site itself (don't ask a model); **team direction** → job postings and personnel moves; **business health** → filings and data tools; **market reaction** → app store reviews and community complaints. Models are useful for organising this, not for supplying it.",
+          "Do a **structural disadvantage** analysis: what their business model or organisational shape makes impossible. Those are the durable gaps.",
+          "Ask what they would do if they were you — the answers are usually more specific than your own list.",
+          "Converge on a play you can actually run with your current resources, and how long they would need to respond.",
+          "**Write down what would change your mind.** What would you have to observe to conclude this analysis is wrong? Without that, it is a document rather than a hypothesis."
+        ],
+        "warnings": [
+          "**Don't let a model guess at a competitor's strategy.** It will produce a plausible 'they are probably betting on X' — that is speculation, not fact. Anything in your conclusions needs a public source.",
+          "Models go stale fast on specific companies. **Every fact about a competitor — funding, headcount, features — must be verified with search.**",
+          "Don't analyse only what they do well. **That produces 'they're strong, we can't win'**, which is both demoralising and useless.",
+          "The output must land on 'what we do next month'. **If you finish without knowing, the analysis failed** — however thorough it looks.",
+          "Distinguish what a competitor cannot do from what they have not done yet. The second is a temporary gap and will close."
+        ]
       }
     },
     {
@@ -1855,6 +1965,34 @@
         "output": "一份接手的人能看懂的文档 + 写清意图和坑的注释",
         "fail": "注释是「把代码翻译一遍」毫无价值、补文档时顺带改了代码、过段时间又没人维护",
         "alt": "代码即将废弃、只剩几个月寿命 → 不值得补文档，写个「这块别动」的说明就够"
+      },
+      "en": {
+        "title": "Document a codebase nobody wrote down",
+        "time": "1-3 days",
+        "level": "needs coding",
+        "problem": "You inherited code with no documentation. Six months from now even you won't understand it.",
+        "spec": {
+          "input": "The codebase, plus whatever business context you can gather about why it exists",
+          "output": "Documentation a newcomer can follow, and comments that explain intent and traps",
+          "fail": "Comments that just restate the code, changing code while documenting, nobody maintaining it afterwards",
+          "alt": "Code that is being retired within months → not worth documenting. Write a 'don't touch this' note and stop."
+        },
+        "steps": [
+          "**Start with the business context, not the code.** What problem was this built to solve, and when? Two paragraphs of context make the code half as confusing.",
+          "Have the model produce a structure map first: modules, entry points, data flow. **Verify it by reading the code** — it will confidently invent relationships that don't exist.",
+          "Generate docs module by module, not in one pass. **One pass over a large codebase produces plausible generalities** with no specifics.",
+          "For comments, require **why, not what**. 'Loops over the array' is worthless; 'sorted here because the upstream API returns unordered IDs' is not.",
+          "Ask it to flag code that looks wrong but might be deliberate. **Those are the traps** — the ones where the next person 'fixes' a workaround and breaks production.",
+          "Add a short section on how to run and test it. **Days are lost to undocumented setup runs**, and this is the cheapest thing to write down.",
+          "**Check the documentation into the repository**, next to the code, and link it from the README. Docs living elsewhere rot immediately."
+        ],
+        "warnings": [
+          "**Don't change code while documenting it.** Mixed commits make it impossible to tell which part caused a regression.",
+          "Verify everything the model claims about the codebase. **It will describe behaviour that isn't there**, phrased exactly like the parts that are.",
+          "Documentation must be maintained or it becomes worse than nothing — actively misleading. Assign an owner or automate the check.",
+          "Don't document every function. Prioritise the surprising, the fragile and the historically painful.",
+          "If the code is going to be rewritten next quarter, write a design note instead of reference documentation."
+        ]
       }
     },
     {
@@ -1943,6 +2081,33 @@
         "output": "一份有优先级的检查清单 + 明确的回滚方案",
         "fail": "AI 说「看起来没问题」就放心了、不可逆改动和普通改动混在一起上、没有回滚方案",
         "alt": "只改了一行文案 → 不用走完整流程，看一遍就行"
+      },
+      "en": {
+        "title": "Run a pre-release check that isn't vibes",
+        "time": "2-3 hours",
+        "level": "needs coding",
+        "problem": "Every release is guesswork, and the problems show up in production instead of on staging.",
+        "spec": {
+          "input": "The change list for this release, plus the classes of incident you have had before",
+          "output": "A prioritised checklist and an explicit rollback plan",
+          "fail": "Treating 'looks fine to me' as a check, shipping irreversible changes alongside routine ones, no rollback plan",
+          "alt": "A one-line copy change → read it and ship. The full process exists for releases with real blast radius."
+        },
+        "steps": [
+          "Have the model draft a checklist specific to your stack and business, **not a generic template**. Generic checklists get skimmed; specific ones get used.",
+          "Pick the checking tool by what you are checking: **code-level defects** → have a model read the diff (it is good at spotting missing edge cases); **config and environment** → only a manual list works, a model cannot see your production environment; **dependencies and security** → use a scanner, **never ask a model whether a version has a vulnerability**.",
+          "Review this release's diff in severity bands, and require file and line references. **A review without locations is a review you cannot act on.**",
+          "Check test coverage and ask which logic is untestable as written. **Untestable logic is usually a design problem**, not a testing gap.",
+          "Rehearse the rollback: how long would it take, and what cannot be undone (schema migrations, sent emails, published content).",
+          "Check observability last: if this breaks at 3am, would you know, and could you localise it? **Shipping without monitoring is gambling.**"
+        ],
+        "warnings": [
+          "**An AI saying 'looks fine' means nothing.** It cannot see your production environment, your data distribution or your incident history. It helps you find gaps; it cannot make the call.",
+          "**Split irreversible changes out of the release.** Data migrations and field deletions ship first in a compatible form, get observed, and only then get cleaned up.",
+          "Don't let the checklist grow without pruning. A fifty-item list gets skipped entirely; twelve items get done.",
+          "The person who wrote the change should not be the only one running the check. Four eyes catch what habit misses.",
+          "Time-box the check. An unbounded pre-release review turns into a blocker, and people start skipping it."
+        ]
       }
     },
     {
@@ -2965,7 +3130,34 @@
         "生成的模型要商用，**先看清许可**。不同平台对生成内容的商用授权差别很大，有些要求署名，有些禁止再分发。",
         "贴图分辨率别一味求高。4K 贴图配上低模是资源浪费，而且移动端会直接爆内存。",
         "骨骼绑定（自动 rigging）目前质量不稳定，尤其是非人形角色。真要做动画，绑定还是要人工过一遍。"
-      ]
+      ],
+      "en": {
+        "title": "Generate a 3D asset that survives an engine",
+        "time": "1-2 days",
+        "level": "hands-on",
+        "problem": "The AI-generated model looks fine until you import it — topology all over the place, textures misaligned, polygon count too high to run.",
+        "spec": {
+          "input": "A description or reference images, plus the target engine and a polygon budget",
+          "output": "An asset with clean topology, correct textures and a polygon count inside budget, ready to import",
+          "fail": "Polygon count blown, UVs scrambled, flipped normals, visible texture seams",
+          "alt": "An asset that will be reused and needs high precision → model it by hand or buy one. AI generation suits placeholders and concepts only."
+        },
+        "steps": [
+          "**Set the polygon budget before generating.** A mobile character is typically 5k-15k triangles; props are lower. AI output starts in the hundreds of thousands — skip this and everything downstream is rework.",
+          "Generate the first pass from text or images. **If you have a reference image, use it** — text alone drifts much further from what you had in mind.",
+          "To own the whole pipeline and you are willing to set up an environment, use open-source Hunyuan3D or TRELLIS. **Quality is close to commercial options and commercially licensed**, at the cost of setup work.",
+          "After generating, **retopologise before touching textures**. Generated meshes are unordered triangles that look right and explode the moment you animate them.",
+          "UV unwrapping and texturing come after retopology. AI helps less here — this part is craft.",
+          "Before importing, check three things: **normal direction, origin position, unit scale**. Get these wrong and the symptoms surface in strange places.",
+          "If you are showing 3D on the web rather than in a game, skip this pipeline. Use a tool built for the web (Spline and similar) — its runtime optimisation is already done for you."
+        ],
+        "warnings": [
+          "**AI-generated 3D assets currently suit placeholders and concepts only.** Reused assets, animation, LODs — those need hand modelling or a purchased asset. Rework costs far more than doing it properly the first time.",
+          "Check the licence before commercial use. **Platforms differ sharply** on whether the output can be used commercially, and some require attribution or forbid redistribution.",
+          "Don't chase maximum texture resolution. 4K maps on a low-poly model is waste, and on mobile it will exhaust memory outright.",
+          "Automatic rigging is still unreliable, especially for non-humanoid characters. If it needs to animate, plan to clean up the rig by hand."
+        ]
+      }
     },
     {
       "id": "pb-lit-review",
@@ -3182,7 +3374,34 @@
         "商用前务必确认授权条款。有些平台免费档生成的音乐不能商用，有些可以但要署名。**这条踩了要赔钱的，不要凭印象。**",
         "AI 音乐的「结构感」偏弱。做 3 分钟以上的曲子容易出现「一直在一个情绪里打转」，需要自己剪出段落变化。",
         "配音的断句不一定符合你的意图。**重要内容（品牌名、数字、专有名词）建议单独调或人工补录**，AI 读错的概率比你想的高。"
-      ]
+      ],
+      "en": {
+        "title": "Produce your own backing music and voiceover",
+        "time": "1-2 hours",
+        "level": "no setup",
+        "problem": "Your video needs a bed of music, your podcast needs a title sting, or you need a voiceover — but nothing in the free libraries fits and hiring someone is too expensive.",
+        "spec": {
+          "input": "Duration, emotional tone, and whether the use is commercial",
+          "output": "An audio file of the right length and mood, with usable licensing",
+          "fail": "Music fighting the visuals, lyrics intruding, unclear commercial rights, audio and picture drifting out of sync",
+          "alt": "You need a precise rhythmic cut or exact pacing → use a library or edit by hand. AI music offers no fine control."
+        },
+        "steps": [
+          "**Settle the commercial question first** — it decides which platforms you can use. Their terms on generated audio differ sharply, and some require attribution or a paid tier.",
+          "For music, use Suno or a similar generator. **The trick is describing the mood and the situation rather than the genre** — 'quiet, for a late-night thinking podcast' works far better than 'lo-fi'.",
+          "If you need instrumental only, ask for it explicitly. **Generated lyrics frequently intrude**, and requesting the instrumental version is the simplest fix for background music.",
+          "For stings and short cues, use Stable Audio. It suits a few seconds of transition or a notification sound better than a full song generator.",
+          "Voiceover splits two ways: **for natural English** ElevenLabs leads; **for Chinese** domestic options (Fish Audio, MiniMax) sound noticeably more natural. Don't expect one tool to win both.",
+          "**Finalise the script before recording.** One changed word means re-recording the whole passage — get this order wrong and you will waste hours.",
+          "Level the generated audio in your editor. **Loudness varies between generations**, so dropping them in side by side produces audible jumps."
+        ],
+        "warnings": [
+          "**Voice cloning requires explicit consent from the person whose voice it is.** That is a legal requirement in most jurisdictions, not a courtesy. Unauthorised cloning is actionable.",
+          "Confirm licensing before commercial release. Some platforms forbid commercial use of free-tier output; others allow it with attribution. **Getting this wrong costs money — don't rely on impressions.**",
+          "AI music has weak structure. Beyond three minutes it tends to loop one mood, so cut in section changes yourself.",
+          "Generated voiceover will not always break sentences the way you intend. **Brand names, numbers and proper nouns deserve a separate pass or a manual pickup** — mispronunciation is more common than you would think."
+        ]
+      }
     },
     {
       "id": "pb-brand-visual",
@@ -3714,7 +3933,35 @@
         "人物的手、多人场景、精细结构（自行车、乐器）——这三类目前仍不可靠。**在提示词阶段就避开，比生成后修补有效。**",
         "放大工具会「脑补」细节。产品图、人像这类不能容忍虚构的场景，不要用 AI 放大。",
         "同一批物料要用同一个模型 + 同一套提示词模板。换模型就等于换了整套视觉语言。"
-      ]
+      ],
+      "en": {
+        "title": "Generate an image you can actually use",
+        "time": "1 hour",
+        "level": "no setup",
+        "problem": "You generated dozens of images and every one is slightly off — composition wrong, style inconsistent, or the text inside it is nonsense.",
+        "spec": {
+          "input": "A clear purpose (cover / illustration / product shot), an aspect ratio, and a style reference",
+          "output": "One image with the right composition, style and text, ready to drop into the final piece",
+          "fail": "Composition doesn't fit, multiple images don't match, text renders as gibberish, details break when enlarged",
+          "alt": "Materials needing precise typography (business cards, tables, text-heavy posters) → lay them out in a design tool. Generated text is not reliable."
+        },
+        "steps": [
+          "**Decide where the image will live before anything else.** A blog header and a landing-page hero need completely different composition — the first needs clear space for a title, the second wants its visual weight off-centre. Without that, every result is 'slightly off'.",
+          "Build the prompt in order: **subject → action → environment → lighting → style → composition**. Structured prompts beat adjective piles, and a dedicated prompt generator beats writing it yourself.",
+          "**For beauty pick Midjourney; for instruction-following pick GPT Image.** The first produces better-looking work but cannot follow 'make the tree on the left dark green'; the second listens but is more conservative aesthetically.",
+          "For Chinese posters and Chinese text inside the image, use a model that renders CJK well (Jimeng, Qwen-Image). **English text rendering is solved; Chinese is only just catching up** — don't rely on general models for it.",
+          "To keep a series consistent, lock one image you like as the reference and feed it into every subsequent generation. **Text descriptions alone cannot hold a style steady.**",
+          "For precise control over composition — where the person stands, where the empty space goes — use ComfyUI or a ControlNet-based setup. **This is the only route to real structural control**, and it costs you a local environment.",
+          "Upscale at the end if resolution falls short. **Remember upscaling invents detail rather than recovering it** — avoid it for product shots or anything where fidelity matters."
+        ],
+        "warnings": [
+          "**Don't expect generated text to be correct.** Outside a few models built for typography, most will write it wrong. Compose the text in a design tool instead — it is the shorter path.",
+          "Confirm licensing before commercial use. Terms differ sharply between platforms, and brand material deserves extra care.",
+          "Hands, multi-person scenes and fine structures (bicycles, instruments) remain unreliable. **Design around them in the prompt** rather than hoping to fix them afterwards.",
+          "Upscalers hallucinate detail. For product photography and portraits, don't use AI upscaling.",
+          "Use one model and one prompt template across a single batch. Swapping models means swapping the entire visual language."
+        ]
+      }
     },
     {
       "id": "pb-teach-with-ai",
@@ -3907,7 +4154,35 @@
         "生成工具为了「看起来完整」会加很多你不需要的东西。**每加一个功能之前先问：删掉它核心链路还跑得通吗？**",
         "绑定问题要注意：在 Vercel 或 Supabase 上一键生成很容易被平台锁住，将来迁移成本可能很高。",
         "原型验证完就该重写。**在生成代码上继续迭代，前期省的时间后期会加倍还回来。**"
-      ]
+      ],
+      "en": {
+        "title": "Turn a one-line idea into a working prototype",
+        "time": "1 day",
+        "level": "no setup",
+        "problem": "You have a product idea and you want something clickable fast, but writing it yourself is slow and hiring someone is expensive.",
+        "spec": {
+          "input": "The idea in one sentence, the target user, and the single most important action",
+          "output": "A running prototype you can demo (front end plus fake data is enough)",
+          "fail": "It looks like a template, the core flow doesn't work, or you get stuck on login and payments",
+          "alt": "You are building the real product, not a prototype → generation tools are fine to start, but don't treat their code as production code."
+        },
+        "steps": [
+          "**Cut down to one core action.** 'User opens → does one thing → gets a result.' Everything else goes on a not-now list. A prototype is not a product.",
+          "Write out each step of that one flow. **Skip this and you get a pile of pretty pages with nothing behind them.**",
+          "For a polished interface use v0; for a full running app use Bolt.new or Lovable. **The first is strongest on UI; the latter two generate front end, back end and database.**",
+          "To edit code without setting up an environment, use Replit or Firebase Studio. They bundle editing, running and deploying, which suits people who do not want any local setup.",
+          "**Do login, payments and permissions last.** Fake data is enough at prototype stage. Many people burn half their budget on these and never get the core flow working.",
+          "Put it in front of real people and watch. **See where they hesitate and where they click wrong** — that teaches you more than adjusting the UI yourself.",
+          "When you go to production, **start a clean project rather than continuing on the generated code**. Generated structures rarely survive real iteration."
+        ],
+        "warnings": [
+          "**Generated code is prototype quality, not production quality.** Real users and real data will expose security and performance problems. Be clear about what this build is for.",
+          "Don't start with login and payments. They add a lot of complexity and contribute nothing to validating the idea.",
+          "Generation tools add things you didn't ask for to look complete. **Before adding any feature, ask whether the core flow still works without it.**",
+          "Watch for platform lock-in. One-click generation on Vercel or Supabase is convenient and can be expensive to migrate later.",
+          "Rewrite once the prototype has done its job. **Continuing to iterate on generated code means paying back later what you saved now.**"
+        ]
+      }
     }
   ]
 }
