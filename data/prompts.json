@@ -420,7 +420,18 @@
       "素材"
     ],
     "prompt": "请为「{{主题}}」写一篇小红书笔记，目标人群：{{目标人群}}。\n\n要求：\n1. 先给我 5 个不同角度的标题（带 emoji，20 字内，制造具体的好奇心而不是夸张）；\n2. 正文 300-500 字，第一句必须让人想继续读；\n3. 结构：真实场景切入 → 踩坑经历 → 具体做法（要有可复制的细节）→ 结果；\n4. 语气像朋友分享，不要营销腔，不要「家人们」；\n5. 结尾给 5 个精准标签。\n\n重要：不要编造具体数据（比如「涨粉 10 万」），除非我提供。\n\n我提供的真实素材：\n{{素材}}",
-    "tips": "「不要编造数据」很关键，编造的数字被拆穿会毁掉账号信任。"
+    "tips": "「不要编造数据」很关键，编造的数字被拆穿会毁掉账号信任。",
+    "en": {
+      "title": "Visual-first social post (Xiaohongshu style)",
+      "desc": "Attention-grabbing and honest at once — content, not formula.",
+      "vars": [
+        "Topic",
+        "Audience",
+        "Material"
+      ],
+      "prompt": "Write a post about '{{Topic}}' for {{Audience}}, in the style of a first-person recommendation post on a visual-first platform (Xiaohongshu, or the Instagram carousel equivalent).\n\nRequirements:\n1. **Five title options** from different angles. Under 12 words, creating **specific curiosity** rather than exaggeration. One emoji maximum.\n2. **Body 150-250 words.** The first line must make them want to keep reading.\n3. **Structure:** a real situation → what went wrong → what I actually did (with reproducible detail) → the result.\n4. **Tone like a friend sharing something.** No marketing voice.\n5. **Five specific hashtags** at the end.\n\n**Important: do not invent figures** (like 'gained 100k followers') unless I provide them.\n\nReal material I have:\n{{Material}}",
+      "tips": "'Do not invent figures' matters — a fabricated number that gets checked destroys the account's credibility."
+    }
   },
   {
     "id": "p-title-batch",
@@ -440,7 +451,16 @@
       "内容主题"
     ],
     "prompt": "内容主题：{{内容主题}}\n\n请生成 20 个标题，按机制分组，每组 4 个：\n- 疑问式（戳中困惑）\n- 数字式（具体可感）\n- 反差式（打破预期）\n- 身份式（说给某类人听）\n- 结果式（承诺具体收益）\n\n每个标题 20 字以内，并标注最适合的平台（公众号 / 小红书 / 知乎 / 视频号）。\n\n最后一条：指出哪 3 个标题是我最可能不敢用但效果最好的，并说明原因。",
-    "tips": "最后一问经常能挖出真正有传播力但你自己会下意识回避的角度。"
+    "tips": "最后一问经常能挖出真正有传播力但你自己会下意识回避的角度。",
+    "en": {
+      "title": "Headline factory",
+      "desc": "Twenty headlines across five mechanisms, tagged by where they work best.",
+      "vars": [
+        "Topic"
+      ],
+      "prompt": "Topic: {{Topic}}\n\nGenerate 20 headlines, grouped by mechanism, four per group:\n\n- **Question** — hits a real confusion\n- **Number** — specific and concrete\n- **Contrast** — breaks an expectation\n- **Identity** — clearly addressed to a particular kind of person\n- **Outcome** — promises a specific result\n\nEach headline under 12 words, and tagged with where it works best (blog post / newsletter / LinkedIn / short video / search result).\n\nFinally: **which three are the ones you'd be most reluctant to use but that would perform best?** Say why.",
+      "tips": "That last question tends to surface the angles with real reach that you instinctively shy away from."
+    }
   },
   {
     "id": "p-user-persona",
@@ -651,7 +671,17 @@
       "简历要点"
     ],
     "prompt": "请扮演{{岗位}}岗位的资深面试官，对我进行模拟面试。\n\n我的简历要点：{{简历要点}}\n\n规则：\n- 一次只问一个问题，问完等我回答；\n- 我回答后，先指出我的回答里「站不住脚的地方」，再继续追问一层；\n- 追问要针对我回答中的具体细节，而不是换新题；\n- 至少追问 3 层，直到挖出我的真实水平为止；\n- 全程不要鼓励我，不要给好评，保持专业冷静。\n\n现在开始第一个问题。",
-    "tips": "「不要鼓励我」这句删掉的话，AI 会变成夸夸群，训练效果大打折扣。"
+    "tips": "「不要鼓励我」这句删掉的话，AI 会变成夸夸群，训练效果大打折扣。",
+    "en": {
+      "title": "Mock interviewer, and it doesn't go easy",
+      "desc": "Follows up on your answers until you run out of road.",
+      "vars": [
+        "Role",
+        "CV highlights"
+      ],
+      "prompt": "Play a senior interviewer for a {{Role}} position and interview me.\n\nMy CV highlights: {{CV highlights}}\n\nRules:\n- **One question at a time.** Wait for my answer.\n- After I answer, first point out **what doesn't hold up in it**, then follow up one level deeper.\n- Follow-ups must target specifics in what I just said, not move to a new topic.\n- Go at least three levels deep, until my real level is exposed.\n- **No encouragement, no praise.** Stay professionally neutral throughout.\n\nStart with the first question.",
+      "tips": "Remove the 'no encouragement' line and it becomes a flattery machine, which defeats the practice."
+    }
   },
   {
     "id": "p-healthy-meal",
@@ -771,7 +801,16 @@
       "原始提示词"
     ],
     "prompt": "下面是我的原始提示词，效果不稳定。请帮我优化。\n\n原始提示词：\n{{原始提示词}}\n\n请输出：\n1. 【问题诊断】指出我的提示词缺少了什么（角色、上下文、约束、输出格式、示例……）；\n2. 【优化版】重写后的完整提示词，用清晰的分段和标题；\n3. 【为什么这样改】逐条说明每处改动的目的；\n4. 【可替换的变量】指出哪些部分可以做成变量复用；\n5. 【进阶变体】给出一个「更严格」和一个「更开放」的版本，说明分别适用什么场景。\n\n优化原则：明确优于含糊，结构优于长句，示例优于解释。",
-    "tips": "这是最该收藏的一条。拿它去改你所有效果不好的提示词。"
+    "tips": "这是最该收藏的一条。拿它去改你所有效果不好的提示词。",
+    "en": {
+      "title": "Prompt optimiser",
+      "desc": "Rewrites a rough prompt into a structured, higher-quality one.",
+      "vars": [
+        "Original prompt"
+      ],
+      "prompt": "Below is my original prompt. Results have been inconsistent. Improve it.\n\nOriginal prompt:\n{{Original prompt}}\n\nOutput:\n1. **[Diagnosis]** What is missing — role, context, constraints, output format, examples?\n2. **[Improved version]** The full rewrite, with clear sections and headings.\n3. **[Why each change]** Go through the edits and say what each one is for.\n4. **[Extractable variables]** Which parts should become variables for reuse?\n5. **[Variants]** A stricter version and a more open version, and when each applies.\n\nPrinciples: explicit beats vague, structure beats long sentences, examples beat explanation.",
+      "tips": "Worth bookmarking — run it over every prompt of yours that underperforms."
+    }
   },
   {
     "id": "p-chain-thought",
@@ -856,7 +895,17 @@
       "我的疑问"
     ],
     "prompt": "我读完了《{{书名}}》。\n\n我的疑问：{{我的疑问}}\n\n请帮我：\n1. 用 3 句话概括这本书真正在说什么（不是内容简介，是核心论点）；\n2. 指出作者的 2 个核心假设，以及这些假设在什么情况下不成立；\n3. 列出书中 3 个「反直觉」的观点，并各给一个现实中的例子；\n4. 针对我的疑问给出可能的回答方向（如果书里没写，明确指出「原书未涉及」）；\n5. 给出 3 条可以**本周就开始做**的具体行动。\n\n不要复述目录，不要写读后感。",
-    "tips": "「不要写读后感」这句是防废话的关键。"
+    "tips": "「不要写读后感」这句是防废话的关键。",
+    "en": {
+      "title": "Turn a book into actions, not highlights",
+      "desc": "Forces an action list out of what you read instead of collecting quotes.",
+      "vars": [
+        "Book",
+        "My question"
+      ],
+      "prompt": "I've finished reading '{{Book}}'.\n\nMy question: {{My question}}\n\nHelp me:\n1. **Summarise what the book is actually arguing** in three sentences. Not a content summary — the central claim.\n2. **Name the author's two core assumptions**, and the conditions under which each fails.\n3. **Three counterintuitive claims** from the book, each with a real-world example.\n4. **Answer my question's likely directions** — and where the book does not address it, say plainly **'not covered in the source'**.\n5. **Three concrete actions I can start this week.**\n\nNo recounting the table of contents. No book report.",
+      "tips": "'No book report' is what stops it padding with plot summary."
+    }
   },
   {
     "id": "p-blog-outline",
@@ -1204,7 +1253,17 @@
       "语言"
     ],
     "prompt": "语言/引擎：{{语言}}\n需求：{{匹配需求}}\n\n请输入：\n1. 正则表达式\n2. 逐段拆解：每一部分匹配什么，为什么这样写\n3. 通过测试：5 个应该被匹配的例子\n4. 拒绝测试：5 个不该被匹配的例子（尤其要包含「看起来像但实际不该匹配」的边界）\n5. 已知局限：这个正则在什么情况下会失效或产生性能问题（比如回溯爆炸）\n\n如果有更简单或更易读的替代写法（比如分两步处理），也请提出来——可读性通常比一行搞定更重要。",
-    "tips": "「拒绝测试」比「通过测试」重要得多——正则在假阳性上翻车的概率远高于假阴性。"
+    "tips": "「拒绝测试」比「通过测试」重要得多——正则在假阳性上翻车的概率远高于假阴性。",
+    "en": {
+      "title": "Regex generator and explainer",
+      "desc": "Produces the pattern, explains every part, and says where it breaks.",
+      "vars": [
+        "Matching requirement",
+        "Language"
+      ],
+      "prompt": "Language / engine: {{Language}}\nWhat I need to match: {{Matching requirement}}\n\nGive me:\n1. The regular expression.\n2. **A piece-by-piece breakdown** — what each part matches and why it's written that way.\n3. **Passing tests**: five strings that should match.\n4. **Rejecting tests**: five that should not — **especially the look-alikes that a naive pattern would wrongly accept.**\n5. **Known limits**: where this pattern fails or hits performance problems (**catastrophic backtracking**, for instance).\n\nIf there is a simpler or more readable alternative — processing in two steps, say — propose it. **Readability usually beats a one-liner.**",
+      "tips": "The rejecting tests matter far more than the passing ones — regexes break on false positives far more often than false negatives."
+    }
   },
   {
     "id": "p-teach-concept",
@@ -1226,7 +1285,17 @@
       "我的现有理解"
     ],
     "prompt": "我想理解「{{概念}}」。我目前的模糊理解是：{{我的现有理解}}\n\n请这样讲：\n\n1. 【它到底在解决什么问题】先讲没有它的时候，人们卡在哪。\n2. 【一句话定义】不超过 30 字。\n3. 【为什么是这个方案】它相比其他方案赢了什么、付出了什么代价。\n4. 【动手画面】用一个具体到能想象出场景的例子走一遍流程。\n5. 【纠正我】指出我现有理解里哪部分是对的、哪部分是错的、错在哪。\n6. 【它不适用的时候】什么情况下不该用它。\n\n全程不要用「简单来说」这类词。如果某个地方必须引入新概念，先解释那个新概念。",
-    "tips": "第 5 条「纠正我」很关键——先说出你的理解，AI 才能针对性纠正，否则它只会泛泛地讲一遍。"
+    "tips": "第 5 条「纠正我」很关键——先说出你的理解，AI 才能针对性纠正，否则它只会泛泛地讲一遍。",
+    "en": {
+      "title": "Explain a concept in three minutes",
+      "desc": "Starts from the problem it solves, not from the definition.",
+      "vars": [
+        "Concept",
+        "My current understanding"
+      ],
+      "prompt": "I want to understand '{{Concept}}'. My current fuzzy understanding is: {{My current understanding}}\n\nExplain it this way:\n\n1. **[What problem does it solve]** Start with where people got stuck before it existed.\n2. **[One-sentence definition]** Under 25 words.\n3. **[Why this approach]** What did it win over the alternatives, and what did it cost?\n4. **[A picture of it working]** Walk through one example concrete enough to visualise.\n5. **[Correct me]** Which parts of my current understanding are right, which are wrong, and where exactly.\n6. **[When it doesn't apply]** The situations where you should not reach for it.\n\nAvoid phrasing like 'in simple terms' throughout. If you must introduce a new concept, explain that one first.",
+      "tips": "Section 5 matters — stating your understanding first lets it correct you specifically instead of lecturing in general."
+    }
   },
   {
     "id": "p-exam-drill",
@@ -1249,7 +1318,18 @@
       "考试类型"
     ],
     "prompt": "科目：{{科目}}\n考试类型：{{考试类型}}\n我的薄弱点：{{薄弱知识点}}\n\n请出 10 道题，要求：\n- 6 道针对我的薄弱点，从不同角度切入同一个知识点；\n- 2 道综合题，需要把薄弱点和已掌握的知识结合起来；\n- 2 道「陷阱题」，考察常见误解。\n\n先只出题目，不要给答案。\n\n等我提交答案后，你再：\n1. 批改并指出错的根因（是概念不清还是计算失误）；\n2. 针对根因补一段讲解；\n3. 出一道同类型的新题验证是否真的掌握了。",
-    "tips": "「先只出题」这个约定，让 AI 没法一边出题一边把答案漏给你。"
+    "tips": "「先只出题」这个约定，让 AI 没法一边出题一边把答案漏给你。",
+    "en": {
+      "title": "Question generator aimed at your weak spots",
+      "desc": "States the weak points first, so the questions actually target them.",
+      "vars": [
+        "Subject",
+        "Exam type",
+        "Weak areas"
+      ],
+      "prompt": "Subject: {{Subject}}\nExam type: {{Exam type}}\nMy weak areas: {{Weak areas}}\n\nWrite 10 questions:\n- **6 targeting the weak areas**, approaching the same knowledge point from different angles\n- **2 integrative**, requiring the weak areas combined with what I already know\n- **2 trap questions**, testing common misconceptions\n\n**Questions only. No answers yet.**\n\nOnce I submit my answers, then:\n1. Mark them, and identify the root cause of each error — unclear concept, or careless calculation\n2. Give a short explanation aimed at that root cause\n3. Write one new question of the same type to check whether I've actually got it",
+      "tips": "That 'questions only' convention is what stops it leaking the answers while writing the questions."
+    }
   },
   {
     "id": "p-note-system",
@@ -1270,7 +1350,16 @@
       "我的笔记"
     ],
     "prompt": "这是我的零散笔记（顺序可能混乱）：\n{{我的笔记}}\n\n请帮我重组成知识体系：\n\n1. 【提炼主题】这些笔记其实在讲哪几个主题？\n2. 【发现结构】主题之间是什么关系（包含 / 因果 / 并列 / 递进）？用文字画出关系图。\n3. 【重组】按新的结构重新排列，合并重复的，拆开混在一起的。\n4. 【我漏了什么】基于这个主题的完整版图，指出我笔记里明显缺失的环节。\n5. 【待验证】我的笔记里哪几条是「我记下来的」但可能不准确，需要回头核实的？\n\n不要添加我没写过的新知识，只做重组和指出缺口。",
-    "tips": "第 5 条很实用——笔记里的错误如果不标出来，复习时会被反复强化。"
+    "tips": "第 5 条很实用——笔记里的错误如果不标出来，复习时会被反复强化。",
+    "en": {
+      "title": "Turn scattered notes into a structure",
+      "desc": "Finds the hidden structure and names what's missing.",
+      "vars": [
+        "My notes"
+      ],
+      "prompt": "These are my scattered notes, possibly out of order:\n{{My notes}}\n\nReorganise them into a knowledge structure:\n\n1. **[Themes]** What topics are these notes actually about?\n2. **[Structure]** How do the themes relate — containment, causation, parallel, progression? Draw the relationship in words.\n3. **[Reorganise]** Rearrange into that structure. Merge duplicates, split things that were conflated.\n4. **[What's missing]** Against a complete map of this subject, name the gaps in my notes.\n5. **[To verify]** Which of my notes are things I wrote down that may not be accurate, and should be checked?\n\n**Do not add knowledge I didn't write.** Only reorganise and identify gaps.",
+      "tips": "Section 5 is the practical one — errors left unflagged get reinforced every time you revise."
+    }
   },
   {
     "id": "p-skill-breakdown",
@@ -1526,7 +1615,18 @@
       "核心差异点"
     ],
     "prompt": "产品：{{产品}}\n目标用户：{{目标用户}}\n核心差异点：{{核心差异点}}\n\n请按转化结构逐段输出文案：\n\n1. 【首屏】主标题（3 个版本）+ 副标题 + 行动按钮文案。主标题要说出用户能得到的**具体结果**，不要写产品功能。\n2. 【痛点段】描述用户现在的处境，要用他们自己的说法，不要用行业黑话。\n3. 【方案段】产品怎么解决，重点讲差异点带来的实际差别。\n4. 【证据段】列出需要准备的证据类型（数据 / 案例 / 对比 / 权威背书），并指明哪些是我现在就该去补的。\n5. 【异议处理】用户最可能的 3 个「但是……」，以及对应回应。\n6. 【收尾】行动号召 + 降低门槛的一句话。\n\n避免所有「赋能」「一站式」「全方位」这类词。",
-    "tips": "让它「输出需要准备的证据类型」比让它编数据有用——前者能指导你真实去收集材料。"
+    "tips": "让它「输出需要准备的证据类型」比让它编数据有用——前者能指导你真实去收集材料。",
+    "en": {
+      "title": "Landing page copy, structured for conversion",
+      "desc": "Pain → solution → evidence → action, written section by section.",
+      "vars": [
+        "Product",
+        "Target user",
+        "Key differentiator"
+      ],
+      "prompt": "Product: {{Product}}\nTarget user: {{Target user}}\nKey differentiator: {{Key differentiator}}\n\nWrite the copy section by section, following the conversion structure:\n\n1. **[Above the fold]** Three headline options, a subhead, and button copy. The headline must state **the concrete result the user gets** — not what the product does.\n2. **[Pain]** Describe their current situation, in their own words. No industry jargon.\n3. **[Solution]** How the product fixes it, focusing on the difference the differentiator actually makes.\n4. **[Evidence]** List the kinds of proof you would need — data, case studies, comparisons, credentials — and **which of those I should go and collect now**.\n5. **[Objections]** The three most likely 'but what about…' responses, and the answers.\n6. **[Close]** The call to action, plus one line that lowers the barrier.\n\nAvoid words like 'empower', 'end-to-end' and 'comprehensive'.",
+      "tips": "Asking it to name the evidence you need is more useful than letting it invent numbers — the first tells you what to go collect."
+    }
   },
   {
     "id": "p-content-calendar",
@@ -1549,7 +1649,18 @@
       "平台"
     ],
     "prompt": "账号定位：{{账号定位}}\n目标用户：{{目标用户}}\n平台：{{平台}}\n\n请用矩阵法生成选题：\n\n维度 A（用户所处阶段）：完全不知道 → 正在比较 → 已经用了但没用好 → 想进阶\n维度 B（内容类型）：扫盲 / 对比 / 教程 / 避坑 / 案例 / 观点\n\n请为每个交叉点给 1 个具体选题，共 24 个。每个选题包含：标题 + 一句核心观点 + 适合的形式（图文/短视频/长文）。\n\n然后：\n- 指出哪 5 个最适合做「引流款」（覆盖面广、易传播）；\n- 指出哪 5 个适合做「转化款」（直接推动购买）；\n- 指出哪 3 个你判断我的账号做不了，说明缺什么能力或素材。",
-    "tips": "最后一条坦率地指出「你做不了哪些」很值——避免排了一堆无法交付的选题。"
+    "tips": "最后一条坦率地指出「你做不了哪些」很值——避免排了一堆无法交付的选题。",
+    "en": {
+      "title": "Content topic matrix",
+      "desc": "Crosses two dimensions to produce a month of non-repeating topics.",
+      "vars": [
+        "Account positioning",
+        "Target audience",
+        "Platform"
+      ],
+      "prompt": "Account positioning: {{Account positioning}}\nTarget audience: {{Target audience}}\nPlatform: {{Platform}}\n\nGenerate topics with a matrix:\n\n**Dimension A — where the audience is:** never heard of it → comparing options → using it badly → wants to go deeper\n**Dimension B — content type:** explainer / comparison / tutorial / pitfalls / case study / opinion\n\nGive one specific topic per intersection — 24 in total. Each with: a title, one sentence stating the core point, and the right format (image post / short video / long article).\n\nThen:\n- **Which five are best as top-of-funnel?** (broad reach, easy to share)\n- **Which five are best as converters?** (directly move someone toward buying)\n- **Which three can my account not actually produce?** Say what capability or material is missing.",
+      "tips": "That last item is worth having — it stops you scheduling a month of topics you cannot deliver."
+    }
   },
   {
     "id": "p-ad-variants",
@@ -1571,7 +1682,18 @@
       "当前文案"
     ],
     "prompt": "产品：{{产品}}\n投放渠道：{{渠道}}\n当前文案：{{当前文案}}\n\n请生成测试变体，关键要求是「一次只改一个变量」，这样才能判断出是哪个因素起作用：\n\n变体组 1｜只改利益点：保持其他不变，换 3 种不同的利益主张\n变体组 2｜只改语气：同一利益点，换 3 种语气（理性 / 焦虑 / 轻松）\n变体组 3｜只改行动号召：3 种不同的 CTA 措辞\n变体组 4｜只改开头：3 种不同的前 5 个字\n\n每组标注：你在测试什么假设、预期哪一类会赢、怎么判断结果是否显著。\n\n最后指出：以当前文案的表现，应该优先测哪一组？",
-    "tips": "「一次只改一个变量」是 A/B 测试的底线，不然跑完也不知道该学什么。"
+    "tips": "「一次只改一个变量」是 A/B 测试的底线，不然跑完也不知道该学什么。",
+    "en": {
+      "title": "Ad copy A/B variants",
+      "desc": "Each variant changes exactly one variable, so the result means something.",
+      "vars": [
+        "Product",
+        "Channel",
+        "Current copy"
+      ],
+      "prompt": "Product: {{Product}}\nChannel: {{Channel}}\nCurrent copy: {{Current copy}}\n\nGenerate test variants. The critical rule is **change one variable at a time**, or you learn nothing about what caused the difference:\n\n**Group 1 — benefit only:** three different value propositions, everything else unchanged.\n**Group 2 — tone only:** same benefit, three tones (rational / worried / light).\n**Group 3 — call to action only:** three different CTA phrasings.\n**Group 4 — opening only:** three different first five words.\n\nFor each group, state: which hypothesis you're testing, which variant you expect to win, and how you'd judge whether the result is meaningful.\n\nFinish by saying: **given how the current copy performs, which group should I test first?**",
+      "tips": "'One variable at a time' is the floor for A/B testing — otherwise you finish the test with nothing you can act on."
+    }
   },
   {
     "id": "p-competitor",
@@ -1626,7 +1748,18 @@
       "我能给对方什么"
     ],
     "prompt": "触达对象：{{触达对象}}\n我的目的：{{我的目的}}\n我能给对方提供：{{我能给对方什么}}\n\n请写触达文案（邮件/私信各一版）：\n\n硬性要求：\n- 150 字以内，手机一屏能看完；\n- 第一句必须让对方觉得「这跟我有关」，不能是自我介绍；\n- 中间用一句话说清我能为他解决什么具体问题（要具体到场景）；\n- 结尾的行动门槛必须极低（不是「约个电话」，而是「回个是/否」这类）；\n- 不要用「打扰了」「冒昧」这类自我削弱的话，也不要夸张恭维。\n\n另外给我 3 个跟进时机建议，以及「对方没回复时不要发什么」。",
-    "tips": "「行动门槛极低」这一条能显著提高回复率——让对方只需回一个字。"
+    "tips": "「行动门槛极低」这一条能显著提高回复率——让对方只需回一个字。",
+    "en": {
+      "title": "Cold outreach that isn't self-promotion",
+      "desc": "Short, specific, and respectful of their time.",
+      "vars": [
+        "Who I'm contacting",
+        "My goal",
+        "What I can offer them"
+      ],
+      "prompt": "Who I'm contacting: {{Who I'm contacting}}\nMy goal: {{My goal}}\nWhat I can offer them: {{What I can offer them}}\n\nWrite the outreach — one email version, one DM version.\n\nHard requirements:\n- **Under 100 words.** Readable on one phone screen.\n- The **first sentence** must make them feel this is relevant to them. It cannot be an introduction of yourself.\n- One sentence in the middle stating the specific problem you can solve for them, concrete enough to picture.\n- The ask at the end must be as small as possible — not 'book a call', but 'just reply yes or no'.\n- **No 'sorry to bother you'** and no exaggerated flattery.\n\nAlso give me three follow-up timing suggestions, and **what not to send when they don't reply**.",
+      "tips": "Lowering the ask to a one-word reply lifts response rates noticeably."
+    }
   },
   {
     "id": "p-design-brief",
@@ -1806,7 +1939,18 @@
       "当前数据"
     ],
     "prompt": "想验证的假设：{{想验证的假设}}\n可用流量：{{可用流量}}\n当前数据：{{当前数据}}\n\n请设计实验：\n\n1. 【把假设写成可证伪的形式】当前假设的表述有什么问题？改成「如果 X 则 Y 应该变化 Z，否则推翻」的格式。\n2. 【指标】主指标（决定成败的唯一指标）是什么？辅助指标和护栏指标（不能被搞坏的）是什么？\n3. 【样本量与时长】按当前流量，需要多久才能得到可信结论？如果太长，怎么调整方案？\n4. 【可能的坑】列出这个实验最可能失效的原因（流量污染、时期效应、辛普森悖论等）。\n5. 【决策规则】提前写好：结果是什么样就上线、什么样就放弃、什么样需要再测。不要事后找理由。\n6. 【如果做不了实验】有没有能用的准实验方法？",
-    "tips": "第 5 条「提前写好决策规则」是防止自己事后自欺欺人的唯一办法。"
+    "tips": "第 5 条「提前写好决策规则」是防止自己事后自欺欺人的唯一办法。",
+    "en": {
+      "title": "Design a trustworthy experiment",
+      "desc": "Write down the hypothesis and the success criterion before looking at results.",
+      "vars": [
+        "Hypothesis",
+        "Available traffic",
+        "Current data"
+      ],
+      "prompt": "Hypothesis I want to test: {{Hypothesis}}\nTraffic available: {{Available traffic}}\nCurrent data: {{Current data}}\n\nDesign the experiment:\n\n1. **[Make it falsifiable]** What's wrong with how I've stated it? Rewrite it as 'if X, then Y should move by Z, otherwise the hypothesis is dead'.\n2. **[Metrics]** The primary metric — the single one that decides it. Then supporting metrics, and **guardrail metrics** that must not be damaged.\n3. **[Sample size and duration]** At my traffic, how long until the result means something? If that's too long, how do we adjust the design?\n4. **[What will break it]** The most likely reasons this experiment fails to be informative — traffic contamination, period effects, Simpson's paradox.\n5. **[Decision rule]** Write it **in advance**: what result ships, what result kills it, what result needs a rerun. Don't rationalise afterwards.\n6. **[If an experiment isn't possible]** What quasi-experimental methods are available?\n\nWrite the decision rule as something I could paste into a document now.",
+      "tips": "Section 5, written in advance, is the only real protection against fooling yourself later."
+    }
   },
   {
     "id": "p-clean-data",
@@ -1828,7 +1972,17 @@
       "用途"
     ],
     "prompt": "数据描述：{{数据描述}}\n最终用途：{{用途}}\n\n请先不要给我代码，按顺序回答：\n\n1. 【诊断清单】基于这份数据的描述，列出需要逐项检查的质量问题（缺失、重复、异常值、格式不一致、编码问题、时间边界、单位不一致、逻辑矛盾）。每一项说明「怎么检测」。\n2. 【影响分级】哪些问题会实质影响最终用途？哪些只是不美观可以忽略？\n3. 【清洗决策】每一类问题的处理方式（删除 / 填充 / 修正 / 标记保留），并说明选择理由和会引入的偏差。\n4. 【可复现】设计清洗流程，要求每一步都可追溯、可回滚，而不是一次性脚本。\n5. 【验证】清洗后怎么验证没有改坏数据？\n\n第 3 条要特别说明：每种处理方式会带来什么偏差，这比处理本身更重要。",
-    "tips": "「先不要给代码」很关键——它不列清单就会直接开始写代码，漏掉的问题后面很难发现。"
+    "tips": "「先不要给代码」很关键——它不列清单就会直接开始写代码，漏掉的问题后面很难发现。",
+    "en": {
+      "title": "Data cleaning plan: diagnose before touching it",
+      "desc": "Lists the likely problems first, so nothing is missed while fixing things one at a time.",
+      "vars": [
+        "Data description",
+        "Intended use"
+      ],
+      "prompt": "**Don't give me code yet.** Answer in this order:\n\n1. **[Diagnostic checklist]** From your description of this data, list the quality issues worth checking one by one — missing values, duplicates, outliers, inconsistent formats, encoding problems, time boundaries, unit mismatches, logical contradictions. **For each, say how to detect it.**\n2. **[Impact ranking]** Which issues materially affect the intended use, and which are only cosmetic?\n3. **[Decisions]** For each class of issue: drop / impute / correct / flag and keep — with the reasoning, **and the bias each choice introduces**.\n4. **[Reproducibility]** Design the pipeline so every step is traceable and reversible, not a one-off script.\n5. **[Verification]** After cleaning, how do I confirm I haven't broken the data?\n\nData description: {{Data description}}\nIntended use: {{Intended use}}\n\nSection 3 is the one that matters: **what bias each choice introduces matters more than the choice itself.**",
+      "tips": "'Don't give me code yet' is essential — without it, it starts writing pandas before it has enumerated the problems."
+    }
   },
   {
     "id": "p-metric-tree",
@@ -1849,7 +2003,17 @@
       "当前问题"
     ],
     "prompt": "业务目标：{{业务目标}}\n当前问题：{{当前问题}}\n\n请拆解指标：\n\n1. 【北极星指标】应该选什么？为什么是它而不是别的？它会诱导什么错误行为？\n2. 【归因分解】把北极星指标拆成乘法或加法关系（比如 收入 = 流量 × 转化率 × 客单价），一直拆到团队可以直接采取行动的层级。\n3. 【每个叶子指标】说明：谁负责、怎么影响它、多久能看到效果。\n4. 【反向指标】哪些指标如果变好反而说明有问题（比如转化率飙升可能是因为放宽了风控）？\n5. 【诊断路径】当北极星指标下滑时，按什么顺序排查这些子指标？\n\n不要套用通用模型，要基于我的具体业务。",
-    "tips": "第 4 条「反向指标」很少人做，但它能防止团队为了数字而伤害业务。"
+    "tips": "第 4 条「反向指标」很少人做，但它能防止团队为了数字而伤害业务。",
+    "en": {
+      "title": "Break a business metric into a tree",
+      "desc": "Takes a north-star number down to the level a team can act on.",
+      "vars": [
+        "Business goal",
+        "Current problem"
+      ],
+      "prompt": "Business goal: {{Business goal}}\nCurrent problem: {{Current problem}}\n\nBreak down the metrics:\n\n1. **[North star]** What should it be, and why that rather than something else? **And what bad behaviour would optimising it encourage?**\n2. **[Decomposition]** Break it into multiplicative or additive factors (revenue = traffic × conversion × order value, for instance) and keep going **until a team could act directly on it**.\n3. **[Each leaf metric]** Who owns it, how they influence it, and how long before the effect shows.\n4. **[Inverse metrics]** Which metrics getting *better* would actually signal a problem? (A spike in conversion could just mean risk controls were loosened.)\n5. **[Diagnostic order]** When the north star drops, in what order do you check the sub-metrics?\n\n**Don't hand me a generic model. Base it on my specific business.**",
+      "tips": "Section 4 is rarely done, and it is what stops a team damaging the business to improve a number."
+    }
   },
   {
     "id": "p-meal-prep-2",
@@ -1999,7 +2163,18 @@
       "目标"
     ],
     "prompt": "角色设定：{{角色设定}}\n场景：{{场景}}\n这次对话的目标：{{目标}}\n\n扮演规则：\n\n1. 你就是这个角色，不要出戏，不要用旁白解释你的想法；\n2. **维护一份内部状态表**（不用展示给我），记录：我透露的信息、你的立场变化、你已经答应或拒绝过什么、时间线。每次回复前对照状态表，确保不矛盾；\n3. 这个角色有自己的目的和底线，不会因为我要求就妥协——该拒绝就拒绝，该提条件就提条件；\n4. 语言风格要符合角色的身份和年代，用词不要现代化；\n5. 如果我做了什么不符合场景的事，用角色的方式表达困惑，而不是跳出角色提醒我。\n\n在我输入 `[暂停]` 时，你再出戏给我复盘：我在这次对话里做对了什么、哪里没说服你、如果重来我会建议怎么谈。\n\n现在开始。",
-    "tips": "[暂停] 复盘这个机制是精髓——既保证了沉浸感，又能在结束后拿到具体的反馈。"
+    "tips": "[暂停] 复盘这个机制是精髓——既保证了沉浸感，又能在结束后拿到具体的反馈。",
+    "en": {
+      "title": "Multi-turn role-play with memory",
+      "desc": "The character remembers what it said, so it stays consistent.",
+      "vars": [
+        "Character",
+        "Setting",
+        "Goal"
+      ],
+      "prompt": "Character: {{Character}}\nSetting: {{Setting}}\nGoal for this conversation: {{Goal}}\n\nRules for the role-play:\n\n1. **You are this character.** Don't break character, don't add narration explaining your thoughts.\n2. **Maintain an internal state table** (don't show it to me) recording: what I've revealed, how your position has shifted, what you've already agreed to or refused, and the timeline. Check it before each reply so nothing contradicts.\n3. The character has their own goals and limits, and **does not concede just because I ask**. Refuse when the character would refuse; set conditions when they would.\n4. Language must fit the character's station and period. No modern idiom.\n5. If I do something that doesn't fit the setting, show confusion **in character** rather than stepping out to correct me.\n\nWhen I type `[pause]`, step out and debrief me: what I did well, where I failed to persuade you, and how you'd advise playing it differently.\n\nBegin.",
+      "tips": "The [pause] debrief is the clever part — full immersion during, concrete feedback after."
+    }
   },
   {
     "id": "p-interview-role",
@@ -2020,7 +2195,17 @@
       "面试轮次"
     ],
     "prompt": "你是{{岗位}}岗位的{{面试轮次}}面试官，专做行为面试。\n\n规则：\n- 每次只问一个问题，等我回答；\n- 我回答后，你必须做三件事：\n  1. 识别我的回答里 STAR 的哪个部分缺失（情境/任务/行动/结果）；\n  2. 针对缺失部分或我最含糊的地方追问一个具体问题（比如我说「优化了流程」，就问「优化前的具体数字是多少，优化后是多少，你怎么确定的」）；\n  3. 评价我的回答：这是「真实的经历」还是「准备好的套话」？依据是什么？\n- 如果我的回答里出现了「我们」而没有「我」，要追问我个人具体做了什么；\n- 不要给我任何鼓励性反馈，保持专业冷静。\n\n从第一个问题开始。",
-    "tips": "「出现『我们』就追问『我』」这条规则，能戳破绝大多数注水的面试回答。"
+    "tips": "「出现『我们』就追问『我』」这条规则，能戳破绝大多数注水的面试回答。",
+    "en": {
+      "title": "Behavioural interviewer (STAR probing)",
+      "desc": "Picks at the details until the real experience shows.",
+      "vars": [
+        "Role",
+        "Interview stage"
+      ],
+      "prompt": "You are the interviewer for a {{Role}} role at the {{Interview stage}} stage, running a behavioural interview.\n\nRules:\n- One question at a time. Wait for my answer.\n- After I answer, do three things:\n  1. Identify which part of STAR is missing (situation / task / action / result).\n  2. **Probe that gap or the vaguest part with a specific question.** If I said 'we streamlined the process', ask: 'What were the numbers before, what were they after, and how did you measure that?'\n  3. Assess my answer: is this **real experience or a rehearsed line**? Say what your judgement is based on.\n- **If I say 'we' without saying what I did, probe for my specific contribution.**\n- No encouragement. Stay professionally neutral.\n\nStart with the first question.",
+      "tips": "The 'we → what did *you* do' rule punctures most padded interview answers."
+    }
   },
   {
     "id": "p-debate-opponent",
@@ -2041,7 +2226,17 @@
       "我的论据"
     ],
     "prompt": "我的观点：{{我的观点}}\n我的论据：{{我的论据}}\n\n请你扮演这个观点最有力的反对者。规则：\n\n1. 不要给我「你的观点有一定道理」这类缓冲，直接攻击；\n2. 优先攻击我的**论据**而不是立场——指出哪些论据是循环论证、诉诸权威、以偏概全、把相关性当因果；\n3. 找出我的观点里隐含但没说明的前提，指出这些前提如果不成立，我的结论会怎样崩塌；\n4. 用一个具体的反例来检验我的观点（能构造出反例说明我的表述太绝对）；\n5. 指出我的观点在什么条件下其实是对的——这能帮我找到更精确的表述。\n\n每一轮只说一个最致命的攻击点，等我回应后再继续。\n不要在我回应后改变立场来迁就我。",
-    "tips": "「优先攻击论据而不是立场」让这个练习真正有用——立场之争没有产出，论据的漏洞才是可修的。"
+    "tips": "「优先攻击论据而不是立场」让这个练习真正有用——立场之争没有产出，论据的漏洞才是可修的。",
+    "en": {
+      "title": "Debate opponent (attacks only)",
+      "desc": "Argues against your position at full strength, to find the holes.",
+      "vars": [
+        "My position",
+        "My reasoning"
+      ],
+      "prompt": "My position: {{My position}}\nMy reasoning: {{My reasoning}}\n\nPlay the strongest possible opponent of this position. Rules:\n\n1. **No cushioning.** No 'you have a point, but'. Attack directly.\n2. **Attack my reasoning rather than my position** — point out circular arguments, appeals to authority, overgeneralisation, correlation treated as causation.\n3. Find the **premises I left implicit**, and show how my conclusion collapses if they don't hold.\n4. Test it with **a specific counterexample** that shows where my phrasing is too absolute.\n5. Then say **under what conditions my position is actually right** — that helps me state it more precisely.\n\n**One fatal attack per turn.** Wait for my response before continuing.\n\nDo not soften your position after I reply in order to accommodate me.",
+      "tips": "'Attack the reasoning, not the position' is what makes this useful — arguing positions produces nothing; holes in reasoning are fixable."
+    }
   },
   {
     "id": "p-prompt-debug",
@@ -2063,7 +2258,18 @@
       "实际输出"
     ],
     "prompt": "我的提示词：\n{{提示词}}\n\n我期望的输出：{{期望输出}}\n实际得到的：{{实际输出}}\n\n请帮我定位问题：\n\n1. 【症状归类】我的问题属于哪一类：指令歧义 / 约束不足 / 缺乏示例 / 格式未指定 / 任务太复杂需要拆分 / 上下文不足 / 模型能力边界？给出判断依据。\n2. 【逐句诊断】指出提示词里哪些句子是无效的（模型会忽略的），哪些是互相冲突的。\n3. 【最小修改】给出改动最小的修复版本——只改导致问题的那一处。\n4. 【验证方法】我应该怎么测试修改是否真的有效（要能排除随机性）。\n5. 【如果改不好】如果最小修改解决不了，说明可能需要拆成几步，给出拆分方案。\n\n不要直接给我一个全面重写的版本，我想知道问题出在哪。",
-    "tips": "「不要直接全面重写」很重要——不然你永远学不会自己排查，每次都得找人重写。"
+    "tips": "「不要直接全面重写」很重要——不然你永远学不会自己排查，每次都得找人重写。",
+    "en": {
+      "title": "Debug a prompt that isn't working",
+      "desc": "Locates which link in the chain is broken when results are inconsistent.",
+      "vars": [
+        "Prompt",
+        "Expected output",
+        "Actual output"
+      ],
+      "prompt": "My prompt:\n{{Prompt}}\n\nWhat I expected: {{Expected output}}\nWhat I got: {{Actual output}}\n\nHelp me locate the problem:\n\n1. **[Classify the symptom]** Which is it: ambiguous instruction / insufficient constraints / no examples / format unspecified / task too complex and needs splitting / insufficient context / model capability limit? **Give your reasoning.**\n2. **[Line-by-line]** Which sentences are inert (the model will ignore them), and which contradict each other?\n3. **[Minimal fix]** Give the smallest possible revision — only the part causing the problem.\n4. **[How to verify]** How do I test whether the change actually worked, in a way that rules out randomness?\n5. **[If that doesn't fix it]** If the minimal fix isn't enough, say what needs splitting, and how.\n\n**Don't hand me a full rewrite.** I want to know where the problem is.",
+      "tips": "'Don't hand me a full rewrite' matters — otherwise you never learn to diagnose it yourself."
+    }
   },
   {
     "id": "p-system-prompt",
@@ -2180,7 +2386,17 @@
       "我的原始数据"
     ],
     "prompt": "任务：{{任务}}\n我的数据：{{我的原始数据}}\n\n请帮我构造少样本示例：\n\n1. 【示例数量】这个任务需要几个示例？多了会有什么副作用？\n2. 【选样策略】从我的数据里应该挑哪几类样本最能覆盖任务的变化空间？为什么挑这几类而不是随机挑？\n3. 【示例写法】把每个示例写成「输入 → 输出」的形式，并说明这个示例在教模型什么规则。\n4. 【边界示例】哪个示例是用来教「不该做什么」的？把这类反面示例也写出来（标注清楚）。\n5. 【最终提示词】把示例组装成完整的提示词。\n\n注意：示例要覆盖格式的多样性，不要所有示例都是同一种类型，否则模型会过拟合到那个模式。",
-    "tips": "「示例多样性」是最常被忽略的点——5 个同类示例会让模型只学会那一种格式。"
+    "tips": "「示例多样性」是最常被忽略的点——5 个同类示例会让模型只学会那一种格式。",
+    "en": {
+      "title": "Build few-shot examples",
+      "desc": "Example quality determines output quality — here's how to pick and write them.",
+      "vars": [
+        "Task",
+        "My raw data"
+      ],
+      "prompt": "Task: {{Task}}\nMy data: {{My raw data}}\n\nBuild me a few-shot set:\n\n1. **[How many]** How many examples does this task need? What goes wrong with too many?\n2. **[Selection]** Which kinds of example from my data cover the variation space best? **Why those rather than random ones?**\n3. **[Wording]** Write each as 'input → output', and say **which rule each example is teaching**.\n4. **[Boundary examples]** Which example exists to teach what *not* to do? Write those too, clearly marked.\n5. **[Final prompt]** Assemble the examples into a complete prompt.\n\nNote: examples must cover format variety. If every example is the same shape, the model overfits to that shape.",
+      "tips": "Example diversity is the most-missed point — five similar examples teach the model exactly one format."
+    }
   },
   {
     "id": "p-hardware-check",
