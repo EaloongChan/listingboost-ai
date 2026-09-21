@@ -146,6 +146,42 @@ export const PROMPT_MODEL_EN = {
   "讯飞星火": "iFlytek Spark"
 };
 
+/**
+ * 术语表 related 字段里出现的「非词条」值 —— 都是相关概念、别名或缩写，
+ * 词表里没有独立词条。这里给英文名，避免英文术语表上露出中文标签。
+ * （RAG / Embedding / Agent / MCP 这类同时是词条缩写的，会先被 slugMap 解析成锚点链接）
+ */
+export const TERM_ALIAS_EN = {
+  "分词器": "Tokenizer",
+  "迷失在中间": "Lost in the Middle",
+  "多头注意力": "Multi-Head Attention",
+  "扩散": "Diffusion",
+  "Stable Diffusion": "Stable Diffusion",
+  "基础模型": "Foundation Model",
+  "GGUF": "GGUF",
+  "本地部署": "Local deployment",
+  "提示词": "Prompt",
+  "Embedding": "Embedding",
+  "RAG": "RAG",
+  "Agent": "Agent",
+  "MCP": "MCP",
+  "零样本": "Zero-shot",
+  "核实": "Verification",
+  "AI 安全": "AI safety",
+  "语音克隆": "Voice cloning",
+  "API": "API",
+  "Token 计费": "Token billing",
+  "Llama": "Llama",
+  "合规": "Compliance",
+  "采样": "Sampling",
+  "JSON Schema": "JSON Schema",
+  "评测": "Evaluation"
+};
+
+export function termAliasEn(name) {
+  return TERM_ALIAS_EN[name] || name;
+}
+
 export function promptModelEn(name) {
   return PROMPT_MODEL_EN[name] || name;
 }

@@ -441,7 +441,10 @@ const playbookIds = new Set();
           const html = fs.readFileSync(f, 'utf8');
           const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
           const rel = '/' + path.relative(distDir, f).replace(/\\/g, '/').replace(/\/index\.html$/, '').replace(/index\.html$/, '');
-          if (w(desc) < 55) shortDesc.push(rel + ' (' + w(desc) + ')');
+          // noindex 的页面（如自动聚合的实时动态）不上搜索结果，描述短一点无所谓 ——
+          // 对这类页面报「描述过短」是假警报，会把真问题埋掉。
+          const noindex = /<meta name="robots" content="[^"]*noindex/.test(html);
+          if (w(desc) < 55 && !noindex) shortDesc.push(rel + ' (' + w(desc) + ')');
           if (/\*\*/.test(desc)) starDesc.push(rel);
           if (desc) {
             if (descSeen.has(desc)) dupDesc.push(rel + ' = ' + descSeen.get(desc));
@@ -484,10 +487,10 @@ const playbookIds = new Set();
           // 去掉不看的部分
           html = html.replace(/<script[\s\S]*?<\/script>/gi, '')
                      .replace(/<style[\s\S]*?<\/style>/gi, '')
-                     .replace(/data-name="[^"]*"/g, '')
-                     .replace(/data-cat="[^"]*"/g, '')
-                     .replace(/data-group="[^"]*"/g, '')
-                     .replace(/data-added="[^"]*"/g, '')
+                     /* data-* 属性用户和搜索引擎都看不到，整体排除。
+                        原来是逐个列举（data-name / data-cat / data-group / data-added），
+                        结果新加一个 data-value（筛选按钮的分类名）就误报一次。 */
+                     .replace(/\sdata-[a-z-]+="[^"]*"/gi, '')
                      .replace(/<title>[\s\S]*?<\/title>/gi, '')
                      .replace(/content="[^"]*"/g, '')      // meta
                      .replace(/<svg[\s\S]*?<\/svg>/gi, '');   // 图标
@@ -535,6 +538,61 @@ const playbookIds = new Set();
           ok.push(`i18n: ${collide.length} 个同名分类的中英文名各自独立（cat.* / pcat.* 分开）`);
         }
       }
+    } catch { /* 忽略 */ }
+
+
+    /* 英文名的覆盖度 —— 三类「英文页上会露出中文」的源头。
+       这一组守卫的由来：可见中文扫描只在 dist 上扫，扫出来的是**症状**；
+       真正的根因是数据里缺英文名。逐个补完数据还不够，得让根因本身会报错，
+       否则下次加内容还会漏。
+
+       1) 工具名：TOOL_NAME_EN 缺项 → 英文工具页的 <title>/<h1> 变中文。
+          踩过一次：244 个英文工具页里有 100 多个标题是「腾讯混元 3D · 3D modelling」，
+          <title> 是搜索结果里最重要的一行，等于整站白翻。
+       2) 标签：tags-en.json 缺项 → 英文站上这行标签整个消失。
+       3) 术语 related：既不是词条、也不在别名表里 → 英文术语表露出中文标签。
+    */
+    try {
+      const toolsRaw = JSON.parse(fs.readFileSync(path.join(DATA, 'tools.json'), 'utf8'));
+      const toolList = Array.isArray(toolsRaw) ? toolsRaw : toolsRaw.items;
+      const playbooks = JSON.parse(fs.readFileSync(path.join(DATA, 'playbooks.json'), 'utf8')).items;
+      const prompts = JSON.parse(fs.readFileSync(path.join(DATA, 'prompts.json'), 'utf8'));
+      const tagsEn = JSON.parse(fs.readFileSync(path.join(DATA, 'tags-en.json'), 'utf8'));
+      const glossary = JSON.parse(fs.readFileSync(path.join(DATA, 'glossary.json'), 'utf8'));
+      const maps = fs.readFileSync(path.join(__dirname, '..', 'src', 'lib', 'i18n-en-maps.mjs'), 'utf8');
+
+      const hasCjk = (s) => /[\u4e00-\u9fa5]/.test(s || '');
+      // 从源码里抽 map 的键，避免为了检查去 import 一个 ES 模块
+      const keysOf = (name) => {
+        const i = maps.indexOf('export const ' + name + ' = {');
+        if (i < 0) return null;
+        const seg = maps.slice(i, maps.indexOf('\n};', i));
+        return new Set([...seg.matchAll(/^\s*"([^"]+)":/gm)].map((m) => m[1]));
+      };
+
+      const toolKeys = keysOf('TOOL_NAME_EN');
+      if (toolKeys) {
+        const missing = toolList.filter((t) => hasCjk(t.name) && !toolKeys.has(t.name));
+        if (missing.length) errors.push(`i18n: ${missing.length} 个工具名缺英文映射（英文页标题会变中文）→ ${missing.slice(0, 5).map((t) => t.id).join(', ')}`);
+        else ok.push(`i18n: ${toolList.filter((t) => hasCjk(t.name)).length} 个中文工具名全部有英文映射`);
+      }
+
+      const usedTags = new Set();
+      [...toolList, ...prompts, ...playbooks].forEach((x) => (x.tags || []).forEach((g) => usedTags.add(g)));
+      const tagMiss = [...usedTags].filter((g) => hasCjk(g) && !tagsEn[g]);
+      if (tagMiss.length) errors.push(`i18n: ${tagMiss.length} 个中文标签缺英文名（英文站上整行不显示）→ ${tagMiss.slice(0, 8).join(' / ')}`);
+      else ok.push(`i18n: ${[...usedTags].filter((g) => hasCjk(g)).length} 个中文标签全部有英文名`);
+
+      const termSet = new Set(glossary.map((g) => g.term));
+      const aliasKeys = keysOf('TERM_ALIAS_EN');
+      const relMiss = [];
+      for (const g of glossary) {
+        for (const r of g.related || []) {
+          if (!termSet.has(r) && !(aliasKeys && aliasKeys.has(r)) && hasCjk(r)) relMiss.push(g.term + '→' + r);
+        }
+      }
+      if (relMiss.length) warns.push(`i18n: ${relMiss.length} 处术语关联词既不是词条也没有英文名（英文术语表会露中文）→ ${relMiss.slice(0, 5).join(' / ')}`);
+      else ok.push('i18n: 术语表 related 全部能解析成词条或英文名');
     } catch { /* 忽略 */ }
 
 
@@ -615,6 +673,60 @@ const playbookIds = new Set();
 
     if (bad.length) bad.forEach((b) => errors.push(b));
     else ok.push('vercel.json: 字段全部在 Vercel 白名单内');
+
+
+    /* 主题令牌的对比度 —— 静态检查，不依赖浏览器。
+       a11y.mjs 是在真实页面上量的，但**页面里没出现的组合它就量不到**：
+       手册页只有部分区块用 --surface-2 做底，a11y 偶然覆盖到才发现
+       --accent-text 在那块底色上只有 4.27:1。
+       令牌是全局的，所以「它跟每个可能的底色都能配上」应该在这里断言。
+
+       踩过的坑（2026-09-21）：--accent-text 是按 --bg 调的（4.68 达标），
+       但 --surface-2 是更浅更灰的底色，同一枚色掉到 4.27。
+       和分类色那边完全是同一条教训：**文字色的达标与否取决于它落在哪块底上**。 */
+    try {
+      const css = fs.readFileSync(path.join(__dirname, '..', 'src', 'styles', 'main.css'), 'utf8');
+      const hex = (h) => {
+        const m = /^#?([0-9a-f]{6})$/i.exec(String(h).trim());
+        if (!m) return null;
+        const n = parseInt(m[1], 16);
+        return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+      };
+      const lum = (rgb) => rgb.map((v) => {
+        const x = v / 255;
+        return x <= 0.04045 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4;
+      }).reduce((a, v, i) => a + v * [0.2126, 0.7152, 0.0722][i], 0);
+      const ratio = (a, b) => {
+        const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p);
+        return (x + 0.05) / (y + 0.05);
+      };
+      // 从「变量块」里取值：:root / [data-theme="light"] 是浅色，[data-theme="dark"] 是深色
+      const light = css.slice(css.indexOf(':root'), css.indexOf('[data-theme="dark"]'));
+      const dark = css.slice(css.indexOf('[data-theme="dark"]'));
+      const val = (blk, name) => {
+        const m = new RegExp('--' + name + ':\\s*(#[0-9a-fA-F]{6})').exec(blk);
+        return m ? hex(m[1]) : null;
+      };
+
+      const fails = [];
+      for (const [theme, blk] of [['浅色', light], ['深色', dark]]) {
+        const surfaces = ['bg', 'surface', 'surface-2'];
+        // 这些令牌是「当文字用」的，必须对每一块可能的底色达标
+        const texts = ['fg', 'fg-2', 'fg-3', 'accent-text', 'ok', 'warn', 'danger'];
+        for (const t of texts) {
+          const fg = val(blk, t);
+          if (!fg) continue;
+          for (const s of surfaces) {
+            const bg = val(blk, s);
+            if (!bg) continue;
+            const r = ratio(fg, bg);
+            if (r < 4.5) fails.push(`${theme} --${t} 在 --${s} 上只有 ${r.toFixed(2)}:1`);
+          }
+        }
+      }
+      if (fails.length) errors.push(`配色: ${fails.length} 组「文字令牌 × 底色」对比度不足 4.5 → ${fails.slice(0, 5).join('; ')}`);
+      else ok.push('配色: 7 个文字令牌 × 3 块底色 × 2 个主题，对比度全部 ≥ 4.5');
+    } catch { /* 忽略 */ }
   }
 }
 

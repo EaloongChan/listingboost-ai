@@ -68,6 +68,12 @@ export function layout(o) {
   const theme = site.theme?.default || 'light';
   const og = ogImage || (base ? `${base}/og.png` : '/og.png');
   const pageLang = lang || site.locale || 'zh-CN';
+  /* altLang 默认按当前页语言反推，而不是留空。
+     踩过的坑（2026-09-21）：中文页加了 altPath 但忘了传 altLang，结果输出
+     `hreflang=""` —— 属性是空的，Google 直接忽略，而且语言切换按钮的
+     hreflang/lang 也是空的。这类「少传一个参数就静默产出无效标签」的写法
+     不该靠调用者自觉，所以在源头给默认值。显式传入的仍然优先。 */
+  const resolvedAltLang = altLang || (pageLang.startsWith('en') ? 'zh-CN' : 'en');
   // 带内容哈希的资源名（由 build.mjs 算好挂在 site 上）。缺省值保证单独调用 layout 时也不炸。
   const a = site.asset || { css: 'main.css', print: 'print.css', js: 'app.js' };
   const canonicalFor = (p) => (base ? base + p : p);
@@ -105,7 +111,7 @@ export function layout(o) {
       ${hideSearch ? '' : `<a class="quick-search" href="${esc(searchHref)}" aria-label="${esc(searchLabel)}">
         ${icon('search', 14)}<span>${esc(searchText)}</span><kbd>/</kbd>
       </a>`}
-      ${altPath ? `<a class="icon-btn lang-btn" href="${esc(altPath)}" hreflang="${esc(altLang)}" lang="${esc(altLang)}" aria-label="${esc(altLabel || 'Switch language')}" title="${esc(altLabel || 'Switch language')}">${icon('globe', 16)}</a>` : ''}
+      ${altPath ? `<a class="icon-btn lang-btn" href="${esc(altPath)}" hreflang="${esc(resolvedAltLang)}" lang="${esc(resolvedAltLang)}" aria-label="${esc(altLabel || 'Switch language')}" title="${esc(altLabel || 'Switch language')}">${icon('globe', 16)}</a>` : ''}
       <button class="icon-btn" id="themeBtn" aria-label="${esc(themeLabel)}" title="${esc(themeLabel)}">
         <span class="ic-sun">${icon('sun', 16)}</span>
         <span class="ic-moon" style="display:none">${icon('moon', 16)}</span>
@@ -176,7 +182,7 @@ ${site.verify && site.verify.file ? `<meta name="google-site-verification" conte
 ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 <link rel="alternate" type="application/rss+xml" title="${esc(site.brand.name)}" href="/feed.xml">
 ${altPath ? `<link rel="alternate" hreflang="${esc(pageLang)}" href="${esc(canonical)}">
-<link rel="alternate" hreflang="${esc(altLang)}" href="${esc(canonicalFor(altPath))}">
+<link rel="alternate" hreflang="${esc(resolvedAltLang)}" href="${esc(canonicalFor(altPath))}">
 <link rel="alternate" hreflang="x-default" href="${esc(pageLang.startsWith('en') ? canonicalFor(altPath) : canonical)}">` : ''}
 <meta property="og:type" content="${esc(pageType)}">
 <meta property="og:site_name" content="${esc(site.brand.name)}">

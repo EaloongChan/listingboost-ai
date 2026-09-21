@@ -1,4 +1,4 @@
-import { esc, jsonEmbed, fmtDateCN, initials, accentStyle, accentTextStyle , termSlug } from './utils.mjs';
+import { esc, jsonEmbed, fmtDateCN, initials, accentStyle, accentTextStyle, termSlug, buildGlossSlugMap } from './utils.mjs';
 import { icon } from './icons.mjs';
 import { layout } from './layout.mjs';
 import {
@@ -8,6 +8,17 @@ import {
 } from './components.mjs';
 
 const BASE = (site) => (site.baseUrl || '').replace(/\/$/, '');
+
+/** meta description 用的摘录：截到句子边界，不在半个句子里断掉。
+    用于「一句话太短、正文第一段信息量更足」的页面（如资讯解读）。 */
+export function metaExcerpt(text, max = 60) {
+  const s = String(text || '').replace(/\*\*/g, '').trim();
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max);
+  // 优先切在句末，其次分号/逗号；都没找到才硬切
+  const m = cut.match(/^[\s\S]*[。！？；]/) || cut.match(/^[\s\S]*[，、]/);
+  return (m ? m[0] : cut) + '…';
+}
 
 /** 带编号的章节头。n 为数字时补零，为字符串（如 '—' / '!'）时原样输出 */
 export function shead(n, title, sub, moreHref, moreLabel) {
@@ -545,10 +556,20 @@ ${pageHead(title, desc, `<div class="ph-meta">
   </div>
 </section>`;
 
+  // 中文提示词页的英文版：只要该范围里有已翻译的提示词就该指过去。
+  // 没翻的不指 —— 单向 hreflang 会被 Google 整条忽略，指到 404 更糟。
+  const enPrompts = list.filter((p) => p.en && p.en.prompt);
+  const altPrompts = enPrompts.length
+    ? (activeCat ? `/en/prompts/${activeCat}/` : '/en/prompts/')
+    : '';
+
   return layout({
     site,
     path: activeCat ? `/prompts/${activeCat}/` : '/prompts/',
     title, description: desc, body,
+    altPath: altPrompts,
+    altLang: 'en',
+    altLabel: 'Switch to English (prompts)',
     jsonld: [
       breadcrumbLd(site, crumbItems),
       {
@@ -661,7 +682,9 @@ ${crumbs(crumbItems)}
     site,
     path: `/news/${item.id}/`,
     title: item.title,
-    description: item.summary,
+    // 只用 summary 太短（最短的加权只有 46），搜索结果里信息量不够。
+    // 正文第一段是现成的、信息密度更高的文本，取到句子边界即可。
+    description: `${item.summary}${metaExcerpt((item.body || [])[0], 60)}`,
     pageType: 'article',
     body,
     jsonld: [
@@ -750,7 +773,7 @@ ${pageHead(title, desc, '', 'LEARNING / 学习路径', '学习资源列表与筛
 export function glossaryPage(ctx) {
   const { site, glossary, toolMap, playbookMap } = ctx;
   // 词条名 → 锚点 slug。related 用这张表解析，保证和锚点用同一套规则。
-  const slugMap = Object.fromEntries(glossary.map((g) => [g.term, termSlug(g)]));
+  const slugMap = buildGlossSlugMap(glossary);
   const cats = [...new Set(glossary.map((g) => g.cat))];
   const crumbItems = [{ label: '首页', href: '/' }, { label: 'AI 术语表' }];
 
@@ -785,6 +808,7 @@ ${pageHead('AI 术语表', `收录 ${glossary.length} 个 AI 领域常用名词�
 
   return layout({
     site, path: '/glossary/', title: 'AI 术语表',
+    altPath: glossary.some((g) => g.defEn) ? '/en/glossary/' : '',
     description: `AI 术语表：${glossary.length} 条常见 AI 名词的「人话」解释，涵盖大模型、训练、提示词、RAG、Agent 等方向。每条都写明它解决什么问题、什么时候不适用，不抄百科定义。`,
     body,
     jsonld: [
@@ -874,8 +898,11 @@ export function playbooksPage(ctx, { activeGroup = '' } = {}) {
   ].join('');
 
   const title = activeName ? `${activeName}场景` : '场景手册';
+  /* 分组页原来直接用 group.desc（「接手代码、修 bug、自动化」这种短语），
+     加权长度只有 43，在搜索结果里等于没描述。
+     改成列出这个组里真实存在的场景名 —— 既是给搜索引擎的信息，也是给读者的菜单。 */
   const desc = activeName
-    ? `「${activeName}」下的 ${list.length} 个场景。${(ctx.groupMap[activeGroup] || {}).desc || ''}`
+    ? `「${activeName}」下的 ${list.length} 个场景：${list.slice(0, 5).map((p) => p.title).join('、')}${list.length > 5 ? ' 等' : ''}。每个场景都给出完整流程、配套提示词和最容易踩的坑。`
     : `收录 ${playbooks.items.length} 个「我想做某件事」的完整流程。每个场景都写清了用哪些工具、配哪条提示词、以及最容易踩的坑——比单纯列工具更有用。`;
 
   const crumbItems = activeName
@@ -924,10 +951,15 @@ ${pageHead(title, desc, `<div class="ph-meta">
   </div>
 </section>`;
 
+  // 英文站只有手册总览页，没有分组页 —— 所以只有总览页能配对。
+  // 分组页硬指 /en/playbooks/ 会让两边的 hreflang 语义对不上。
+  const altPb = !activeGroup && playbooks.items.some((p) => p.en) ? '/en/playbooks/' : '';
+
   return layout({
     site,
     path: activeGroup ? `/playbooks/${activeGroup}/` : '/playbooks/',
     title, description: desc, body,
+    altPath: altPb,
     jsonld: [
       breadcrumbLd(site, crumbItems),
       {
@@ -1050,6 +1082,10 @@ ${toolGrid.length ? `<section class="section">
   return layout({
     site,
     path: `/playbooks/${pb.id}/`,
+    // 英译手册才配对，没翻的不指过去
+    altPath: pb.en ? `/en/playbooks/${pb.id}/` : '',
+    altLang: 'en',
+    altLabel: 'Switch to English (playbook)',
     title: pb.title,
     description: `${pb.problem} 共 ${(pb.steps || []).length} 步，预计 ${pb.time}。${pb.spec ? '产出：' + pb.spec.output + '。' : ''}`,
     pageType: 'article',

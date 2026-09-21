@@ -14,7 +14,7 @@ import {
   learnPage, glossaryPage, searchPage, aboutPage, changelogPage, notFoundPage,
   playbooksPage, playbookDetailPage, modelsPage, toolDetailPage, liveNewsPage, comparePage, savedPage,
 } from '../src/lib/pages.mjs';
-import { enHome, enTools, enToolDetail, enModels, enAbout, enPlaybooks, enPlaybookDetail, enPrompts } from '../src/lib/pages-en.mjs';
+import { enHome, enTools, enToolDetail, enModels, enAbout, enPlaybooks, enPlaybookDetail, enPrompts, enGlossary } from '../src/lib/pages-en.mjs';
 import { EN } from '../src/lib/labels.mjs';
 import { countBy, esc } from '../src/lib/utils.mjs';
 import { resetIcons } from '../src/lib/icons.mjs';
@@ -362,6 +362,11 @@ export function build({ quiet = false } = {}) {
       if (!prompts.some((p) => p.cat === pc.id && p.en && p.en.prompt)) continue;
       emit(`en/prompts/${pc.id}/index.html`, () => enPrompts(ctx, i18n, { activeCat: pc.id }), { title: `${i18n.en['cat.' + pc.id] || pc.id} prompts`, type: 'prompts-cat' });
     }
+  }
+
+  /* 英文术语表：只收录有英文定义的 */
+  if (glossary.some((g) => g.defEn)) {
+    emit('en/glossary/index.html', () => enGlossary(ctx, i18n), { title: 'AI glossary', type: 'glossary' });
   }
 
   for (const t of tools) {

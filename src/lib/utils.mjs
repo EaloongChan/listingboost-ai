@@ -257,3 +257,23 @@ export function termSlug(g) {
     .replace(/^-|-$/g, '');
   return s || 'term';
 }
+
+/**
+ * 术语「名字 → slug」表，统一在这里构造。
+ *
+ * 为什么不是简单地把 term 映射一遍：`related` 字段里出现的是**人写的关联词**，
+ * 有的是词条中文名，有的是英文名（RAG / Embedding / Agent），有的是缩写（MCP / ToT）。
+ * 只按 term 建表，这些就会退化成不可点的纯标签。
+ * 三个命名空间已核对无碰撞（2026-09-21），且优先级 term > en > abbr：
+ * 先出现的先占位，避免别名把真正的词条名挤掉。
+ */
+export function buildGlossSlugMap(glossary) {
+  const map = {};
+  const put = (key, slug) => {
+    if (key && !(key in map)) map[key] = slug;
+  };
+  for (const g of glossary) put(g.term, termSlug(g));
+  for (const g of glossary) put(g.en, termSlug(g));
+  for (const g of glossary) put(g.abbr, termSlug(g));
+  return map;
+}

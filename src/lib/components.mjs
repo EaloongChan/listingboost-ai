@@ -1,4 +1,5 @@
 import { esc, hashColor, initials, highlightVars, accentStyle, accentTextStyle, fmtDate, termSlug } from './utils.mjs';
+import { toolNameEn, termAliasEn } from './i18n-en-maps.mjs';
 import { promptModelEn } from './i18n-en-maps.mjs';
 import { ZH, EN, pick, tagList } from './labels.mjs';
 import { icon } from './icons.mjs';
@@ -222,33 +223,46 @@ export function sourceRow(s, topicMap) {
  *   · 有对应工具的词条，列出工具并链到详情页
  *   · 有对应场景的词条，链到那篇手册
  */
-export function glossItem(g, toolMap, pbMap, slugMap) {
+export function glossItem(g, toolMap, pbMap, slugMap, L = ZH) {
   const slug = termSlug(g);
+  // 英文站显示英文词名与英文定义。related 存的是中文词名，
+  // 要经 termNameMap 换回英文显示名，否则英文页上会露出中文。
+  const isEn = L === EN;
+  const shown = isEn ? (g.en || g.term) : g.term;
+  const def = isEn ? (g.defEn || g.def) : g.def;
+  // related 存的是中文词名，英文站要换成英文显示名；
+  // 词表里没有的（别名 / 相关概念）走 termAliasEn，实在没有再退回原值。
+  const nameOf = (zh) => (isEn
+    ? ((g.__termMap && g.__termMap[zh] && g.__termMap[zh].en) || termAliasEn(zh))
+    : zh);
   const tools = (g.tools || []).map((id) => toolMap[id]).filter(Boolean);
   const pb = g.playbook && pbMap ? pbMap[g.playbook] : null;
+  // 英文站只有在该工具/手册**确实有英文版**时才链过去，否则点了就是 404 或者中文页
+  const toolHref = (t) => (isEn && t.descEn ? `/en/tools/${esc(t.cat)}/${esc(t.id)}/` : `/tools/${esc(t.cat)}/${esc(t.id)}/`);
+  const pbHref = (p) => (isEn && p.en ? `/en/playbooks/${esc(p.id)}/` : `/playbooks/${esc(p.id)}/`);
 
   return `<div class="gloss-item reveal" id="term-${esc(slug)}"
     data-name="${esc((g.term + ' ' + (g.en || '') + ' ' + (g.abbr || '') + ' ' + (g.def || '')).toLowerCase())}"
     data-cat="${esc(g.cat)}">
     <div class="g-head">
-      <b>${esc(g.term)}</b>
+      <b>${esc(shown)}</b>
       ${g.abbr ? `<span class="g-abbr">${esc(g.abbr)}</span>` : ''}
       <span class="g-en">${esc(g.en || '')}</span>
     </div>
-    <p>${esc(g.def)}</p>
+    <p>${esc(def)}</p>
     ${(g.related || []).length ? `<div class="g-rel">
-      <span class="label">相关</span>
+      <span class="label">${L === EN ? 'Related' : '相关'}</span>
       ${g.related.map((r) => {
         // 用「词条名 → slug」表解析，而不是在这里再算一遍 —— 两边规则不一致会链空
         const rs = slugMap && slugMap[r];
         return rs
-          ? `<a class="tag tag-link" href="#term-${esc(rs)}">${esc(r)}</a>`
-          : `<span class="tag">${esc(r)}</span>`;
+          ? `<a class="tag tag-link" href="#term-${esc(rs)}">${esc(nameOf(r))}</a>`
+          : `<span class="tag">${esc(nameOf(r))}</span>`;
       }).join('')}
     </div>` : ''}
     ${tools.length || pb ? `<div class="g-rel g-rel-tools">
-      ${tools.length ? `<span class="label">对应工具</span>${tools.map((t) => `<a class="tag tag-link" href="/tools/${esc(t.cat)}/${esc(t.id)}/">${esc(t.name)}</a>`).join('')}` : ''}
-      ${pb ? `<a class="tag tag-link tag-pb" href="/playbooks/${esc(pb.id)}/">${icon('target', 10)} 场景：${esc(pb.title)}</a>` : ''}
+      ${tools.length ? `<span class="label">${L === EN ? 'Tools' : '对应工具'}</span>${tools.map((t) => `<a class="tag tag-link" href="${toolHref(t)}">${esc(isEn ? toolNameEn(t.name) : t.name)}</a>`).join('')}` : ''}
+      ${pb ? `<a class="tag tag-link tag-pb" href="${pbHref(pb)}">${icon('target', 10)} ${L === EN ? 'Playbook:' : '场景：'}${esc(isEn && pb.en ? pb.en.title : pb.title)}</a>` : ''}
     </div>` : ''}
   </div>`;
 }

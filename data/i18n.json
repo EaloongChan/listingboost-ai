@@ -101,6 +101,13 @@
     "pcat.data": "Data",
     "pcat.life": "Everyday",
     "pcat.role": "Role-play",
-    "pcat.meta": "Prompt engineering"
+    "pcat.meta": "Prompt engineering",
+    "gcat.基础概念": "Fundamentals",
+    "gcat.模型架构": "Model architecture",
+    "gcat.训练技术": "Training",
+    "gcat.提示技术": "Prompting",
+    "gcat.应用技术": "Applications",
+    "gcat.风险与评估": "Risks & evaluation",
+    "gcat.商业与生态": "Business & ecosystem"
   }
 }

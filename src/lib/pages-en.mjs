@@ -5,8 +5,8 @@
  * 场景手册 / 提示词 / 资讯 / 学习资源是长篇中文内容，不做翻译，
  * 在关于页里明确说明——两套长期并行维护的翻译成本远高于它能带来的价值。
  */
-import { esc, jsonEmbed, initials, accentStyle, hashColor, accentTextStyle } from './utils.mjs';
-import { pageHead, crumbs, toolCard, modelCard, catCard, playbookCard, promptCard, emptyState, PRICING } from './components.mjs';
+import { esc, jsonEmbed, initials, accentStyle, hashColor, accentTextStyle, termSlug, buildGlossSlugMap } from './utils.mjs';
+import { pageHead, crumbs, toolCard, modelCard, catCard, playbookCard, promptCard, glossItem, emptyState } from './components.mjs';
 import { EN, pick, tagList } from './labels.mjs';
 import { vendorEn, modelNameEn, toolNameEn } from './i18n-en-maps.mjs';
 import { layout } from './layout.mjs';
@@ -44,6 +44,7 @@ const enReady = (ctx) => ctx.playbooks.items.filter((p) => p.en && p.en.steps &&
 const enNav = [
   { label: 'Playbooks', href: '/en/playbooks/' },
   { label: 'Prompts', href: '/en/prompts/' },
+  { label: 'Glossary', href: '/en/glossary/' },
   { label: 'Tools', href: '/en/tools/' },
   { label: 'Models', href: '/en/models/' },
   { label: 'About', href: '/en/about/' },
@@ -232,7 +233,7 @@ ${pageHead(title, desc, `<div class="ph-meta"><span class="label">Tools <b style
     altPath: activeCat ? `/tools/${activeCat}/` : '/tools/',
     jsonld: [
       breadcrumbLd(site, crumbItems),
-      { '@context': 'https://schema.org', '@type': 'ItemList', name: title, numberOfItems: list.length, itemListElement: list.slice(0, 40).map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, description: pick(t, 'desc', EN) })) },
+      { '@context': 'https://schema.org', '@type': 'ItemList', name: title, numberOfItems: list.length, itemListElement: list.slice(0, 40).map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: toolNameEn(t.name), description: pick(t, 'desc', EN) })) },
     ],
   });
 }
@@ -243,6 +244,12 @@ export function enToolDetail(ctx, i18n, t) {
   const en = i18n.en;
   const { catName } = nameMaps(i18n);
   const c = hashColor(t.cat);
+  /* 英文名必须走映射表，不能直接用 t.name。
+     踩过的坑：详情页的 <title> / <h1> / 面包屑用的都是 t.name，
+     结果 244 个英文工具页里有 100 多个标题还是中文（如「腾讯混元 3D · 中文分类」）。
+     <title> 是搜索结果里最重要的一行，中文标题在英文查询下不可能有排名。
+     只有同分类对比表用了 toolNameEn —— 漏改的地方正好是最该改的地方。 */
+  const tName = toolNameEn(t.name);
   const toolCat = (ctx.categories?.toolCategories || []).find((x) => x.id === t.cat) || {};
   const siblings = tools.filter((x) => x.cat === t.cat && x.id !== t.id);
   const compare = [t, ...siblings].slice(0, 12);
@@ -251,7 +258,7 @@ export function enToolDetail(ctx, i18n, t) {
     { label: 'Home', href: '/en/' },
     { label: 'Tools', href: '/en/tools/' },
     { label: catName(t.cat), href: `/en/tools/${t.cat}/` },
-    { label: t.name },
+    { label: tName },
   ];
 
   const badges = [
@@ -286,10 +293,10 @@ export function enToolDetail(ctx, i18n, t) {
 ${crumbs(crumbItems, 'Breadcrumb')}
 <div class="container">
   <div class="tool-hero">
-    <span class="avatar avatar-lg" style="${accentStyle(c)}" aria-hidden="true">${esc(initials(t.name))}</span>
+    <span class="avatar avatar-lg" style="${accentStyle(c)}" aria-hidden="true">${esc(initials(tName))}</span>
     <div class="tool-hero-main">
       <div class="label label-accent" style="margin-bottom:8px">${esc(catName(t.cat))}</div>
-      <h1>${esc(t.name)}</h1>
+      <h1>${esc(tName)}</h1>
       <p>${esc(pick(t, 'desc', EN))}</p>
       <div class="row" style="gap:6px;margin-top:14px">${badges}</div>
       <div class="row" style="gap:5px;margin-top:10px">${tagList(t.tags, EN).map((g) => `<span class="tag">${esc(g)}</span>`).join('')}</div>
@@ -350,8 +357,10 @@ ${siblings.length ? `<section class="section">
   return shell({
     site,
     path: `/en/tools/${t.cat}/${t.id}/`,
-    title: `${t.name} · ${catName(t.cat)}`,
-    description: pick(t, 'desc', EN),
+    title: `${tName} · ${catName(t.cat)}`,
+    // 只写一句工具简介太短（最短的只有 48 个字符），搜索结果里等于没信息。
+    // 中文版一直是拼「分类 / 定价 / 是否国内可直连」的，英文版补齐同样的信息量。
+    description: `${pick(t, 'desc', EN)} — ${catName(t.cat)} AI tool, ${EN.pricing[t.pricing] || t.pricing}${t.cn ? ', directly accessible from mainland China' : ''}.`,
     pageType: 'article',
     body,
     brandDesc: en['siteDesc'],
@@ -360,7 +369,7 @@ ${siblings.length ? `<section class="section">
       breadcrumbLd(site, crumbItems),
       {
         '@context': 'https://schema.org', '@type': 'SoftwareApplication',
-        name: t.name, description: pick(t, 'desc', EN), url: t.url,
+        name: tName, description: pick(t, 'desc', EN), url: t.url,
         applicationCategory: catName(t.cat), operatingSystem: 'Web', inLanguage: 'en',
         ...(t.pricing === 'free' || t.pricing === 'open' ? { offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } } : {}),
       },
@@ -699,14 +708,19 @@ export function enPrompts(ctx, i18n, { activeCat = '' } = {}) {
       .map((c) => `<button data-facet="cat" data-value="${esc(c.id)}"${activeCat === c.id ? ' class="on"' : ''}>${esc(pcatName(c.id))}</button>`),
   ].join('');
 
-  const crumbItems = [{ label: 'Home', href: '/en/' }, { label: 'Prompts' }];
-  const title = activeCat && catMap[activeCat] ? `${pcatName(activeCat)} prompts` : 'Prompt library';
+  const catLabel = activeCat ? pcatName(activeCat) : '';
+  const crumbItems = activeCat
+    ? [{ label: 'Home', href: '/en/' }, { label: 'Prompts', href: '/en/prompts/' }, { label: catLabel }]
+    : [{ label: 'Home', href: '/en/' }, { label: 'Prompts' }];
+  const title = activeCat ? `${catLabel} prompts` : 'Prompt library';
 
   const body = `
 ${crumbs(crumbItems, 'Breadcrumb')}
 ${pageHead(
-  'Prompt library',
-  `${list.length} prompt templates that are ready to paste. Each one explains what to put in, what you get back, and why it is written that way.`,
+  title,
+  activeCat
+    ? `${list.length} ${catLabel} prompt templates, ready to paste. Each one states what to provide, what you get back, and why it is worded that way.`
+    : `${list.length} prompt templates that are ready to paste. Each one explains what to put in, what you get back, and why it is written that way.`,
   '', 'PROMPTS / Templates', 'Prompt list',
 )}
 <div data-filter-root>
@@ -733,7 +747,11 @@ ${pageHead(
     site,
     path: activeCat ? `/en/prompts/${activeCat}/` : '/en/prompts/',
     title,
-    description: `${shown.length} ready-to-paste AI prompt templates with variables you fill in. Each states what to provide, what you get back, and the reasoning behind the wording.`,
+    // 分类页必须带上分类名，否则 life / data 这类页面的描述会完全相同 ——
+    // 重复描述会让 Google 自己挑一条显示，通常挑中最不相关的那条。
+    description: activeCat
+      ? `${shown.length} ${catLabel} prompt templates, ready to paste, with variables you fill in. What to provide, what you get back, and why the wording works.`
+      : `${shown.length} ready-to-paste AI prompt templates across ${new Set(shown.map((p) => p.cat)).size} categories, with variables you fill in. Each states what to provide, what you get back, and the reasoning behind the wording.`,
     body,
     brandDesc: en['siteDesc'],
     altPath: activeCat ? `/prompts/${activeCat}/` : '/prompts/',
@@ -743,6 +761,74 @@ ${pageHead(
         '@context': 'https://schema.org', '@type': 'ItemList', inLanguage: 'en',
         name: title, numberOfItems: shown.length,
         itemListElement: shown.map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.en.title })),
+      },
+    ],
+  });
+}
+
+/* ============================ 术语表（英文） ============================ */
+/* 术语是「what is X」这类查询的天然落点，也是英文站上搜索意图最明确的一块。
+   只收录有英文定义的；没有的不会出现。 */
+export function enGlossary(ctx, i18n) {
+  const en = i18n.en;
+  const { site, glossary, toolMap, playbookMap } = ctx;
+  const list = glossary.filter((g) => g.defEn);
+
+  // 词名 → 词条，供 related 的中文名换英文显示名用
+  const termMap = Object.fromEntries(glossary.map((g) => [g.term, g]));
+  const slugMap = buildGlossSlugMap(glossary);
+  const withMap = list.map((g) => ({ ...g, __termMap: termMap }));
+
+  const cats = [...new Set(list.map((g) => g.cat))];
+  const gcatName = (c) => en['gcat.' + c] || c;
+  const seg = [
+    `<button data-facet="cat" data-value="all" class="on">All</button>`,
+    ...cats.map((c) => `<button data-facet="cat" data-value="${esc(c)}">${esc(gcatName(c))}</button>`),
+  ].join('');
+
+  const crumbItems = [{ label: 'Home', href: '/en/' }, { label: 'Glossary' }];
+
+  const body = `
+${crumbs(crumbItems, 'Breadcrumb')}
+${pageHead(
+  'AI glossary',
+  `${list.length} terms explained in plain language — what it is, what problem it solves, and where it stops being true. No encyclopaedia definitions.`,
+  '', 'GLOSSARY / Terms', 'Term list',
+)}
+<div data-filter-root>
+  <div class="toolbar">
+    <div class="container">
+      <div class="toolbar-row">
+        <div class="filter-wrap">
+          <span class="f-icon" aria-hidden="true">${icon('search', 15)}</span>
+          <input class="filter-input" type="search" data-query placeholder="Search a term…" aria-label="Search terms">
+        </div>
+        <button class="btn btn-sm btn-ghost" data-reset>Reset</button>
+      </div>
+      <div class="toolbar-row"><div class="seg" style="flex:1">${seg}</div></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="result-count" data-count></div>
+    <div class="grid grid-2" data-list>${withMap.map((g) => glossItem(g, toolMap, playbookMap, slugMap, EN)).join('')}</div>
+    <div class="hidden" data-empty>${emptyState('No term matches', 'Try a different word.')}</div>
+  </div>
+</div>`;
+
+  return shell({
+    site,
+    path: '/en/glossary/',
+    title: 'AI glossary: plain-language definitions',
+    description: `${list.length} AI terms explained without jargon — what each one is, what it solves, and the conditions under which it breaks down. Includes the misconceptions people most often hold.`,
+    body,
+    brandDesc: en['siteDesc'],
+    altPath: '/glossary/',
+    jsonld: [
+      breadcrumbLd(site, crumbItems),
+      {
+        '@context': 'https://schema.org', '@type': 'DefinedTermSet', inLanguage: 'en',
+        name: 'AI glossary',
+        hasDefinedTerm: list.map((g) => ({ '@type': 'DefinedTerm', name: g.en || g.term, description: g.defEn })),
       },
     ],
   });

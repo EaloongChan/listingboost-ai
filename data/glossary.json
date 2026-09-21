@@ -9,7 +9,8 @@
       "Token",
       "参数",
       "Transformer"
-    ]
+    ],
+    "defEn": "A neural network trained on vast amounts of text with billions or more parameters. Its core capability is predicting the next word."
   },
   {
     "term": "Token",
@@ -20,7 +21,8 @@
     "related": [
       "上下文窗口",
       "分词器"
-    ]
+    ],
+    "defEn": "The smallest unit of text the model processes. In English, roughly one token per short word or sub-word. Both billing and context length are counted in tokens."
   },
   {
     "term": "参数",
@@ -31,7 +33,8 @@
     "related": [
       "微调",
       "量化"
-    ]
+    ],
+    "defEn": "The trainable numeric weights inside a model. Often mistaken for 'stored knowledge' — what they actually encode is statistical patterns of language."
   },
   {
     "term": "上下文窗口",
@@ -42,7 +45,8 @@
     "related": [
       "迷失在中间",
       "Token"
-    ]
+    ],
+    "defEn": "The maximum number of tokens a model can read at once, including both input and output. A large window is not the same as reliable recall."
   },
   {
     "term": "Transformer",
@@ -53,7 +57,8 @@
     "related": [
       "注意力机制",
       "大语言模型"
-    ]
+    ],
+    "defEn": "The self-attention architecture proposed in 2017. It underlies essentially every large model in use today."
   },
   {
     "term": "注意力机制",
@@ -64,7 +69,8 @@
     "related": [
       "Transformer",
       "多头注意力"
-    ]
+    ],
+    "defEn": "Lets the model dynamically decide which words in the context to 'pay attention to' when processing a given word. Self-attention is the core of the Transformer."
   },
   {
     "term": "混合专家",
@@ -75,7 +81,8 @@
     "related": [
       "推理成本",
       "参数"
-    ]
+    ],
+    "defEn": "Splitting a model into many 'expert' subnetworks, activating only a small subset per inference. Large total parameter count with small actual compute."
   },
   {
     "term": "扩散模型",
@@ -86,7 +93,8 @@
     "related": [
       "扩散",
       "Stable Diffusion"
-    ]
+    ],
+    "defEn": "The dominant method for image and video generation. It learns to add noise to an image, then learns to reverse that process and recover the image from noise."
   },
   {
     "term": "预训练",
@@ -97,7 +105,8 @@
     "related": [
       "微调",
       "基础模型"
-    ]
+    ],
+    "defEn": "Unsupervised training on a very large general corpus, teaching the model language itself. The most expensive and slowest stage."
   },
   {
     "term": "微调",
@@ -113,7 +122,8 @@
       "huggingface",
       "textgen-webui"
     ],
-    "playbook": "pb-local-model"
+    "playbook": "pb-local-model",
+    "defEn": "Continuing to train a pre-trained model on domain-specific data, so it adapts to a particular task or style."
   },
   {
     "term": "指令微调",
@@ -124,7 +134,8 @@
     "related": [
       "RLHF",
       "微调"
-    ]
+    ],
+    "defEn": "Training on paired question-and-ideal-answer data so the model learns to respond in the format and manner humans expect."
   },
   {
     "term": "RLHF",
@@ -135,7 +146,8 @@
     "related": [
       "指令微调",
       "对齐"
-    ]
+    ],
+    "defEn": "Reinforcement Learning from Human Feedback. Human preference judgements train a reward model, which then optimises the language model to be more helpful and less harmful."
   },
   {
     "term": "LoRA",
@@ -151,7 +163,8 @@
       "huggingface",
       "textgen-webui"
     ],
-    "playbook": "pb-local-model"
+    "playbook": "pb-local-model",
+    "defEn": "Low-Rank Adaptation. Freezes the original model and trains only a small set of low-rank matrices, sharply reducing the VRAM needed for fine-tuning. The standard approach for individual practitioners."
   },
   {
     "term": "量化",
@@ -169,7 +182,8 @@
       "llamacpp",
       "gpt4all"
     ],
-    "playbook": "pb-local-model"
+    "playbook": "pb-local-model",
+    "defEn": "Representing model weights at lower precision (4-bit, for instance), trading a little quality for memory and speed. The key technique for running models locally."
   },
   {
     "term": "知识蒸馏",
@@ -184,7 +198,8 @@
     "tools": [
       "ollama"
     ],
-    "playbook": "pb-local-model"
+    "playbook": "pb-local-model",
+    "defEn": "Training a small 'student' model to imitate the output distribution of a large 'teacher' model. Most models that punch above their size work this way."
   },
   {
     "term": "思维链",
@@ -195,7 +210,8 @@
     "related": [
       "提示词",
       "推理模型"
-    ]
+    ],
+    "defEn": "Having the model write out its intermediate reasoning before giving a conclusion. Markedly improves accuracy on maths and logic tasks."
   },
   {
     "term": "检索增强生成",
@@ -212,7 +228,8 @@
       "fastgpt",
       "weknora",
       "dify"
-    ]
+    ],
+    "defEn": "Retrieving relevant material from a knowledge base first, then having the model answer from that material. Solves 'the model doesn't know your private data'."
   },
   {
     "term": "嵌入",
@@ -223,7 +240,8 @@
     "related": [
       "向量数据库",
       "RAG"
-    ]
+    ],
+    "defEn": "Converting text into a high-dimensional vector, such that semantically similar text lands closer together. The basis of search, clustering and RAG."
   },
   {
     "term": "向量数据库",
@@ -234,7 +252,8 @@
     "related": [
       "Embedding",
       "RAG"
-    ]
+    ],
+    "defEn": "A database built for storing and retrieving vectors by similarity. A standard component of any RAG system."
   },
   {
     "term": "函数调用",
@@ -249,7 +268,8 @@
     "tools": [
       "composio",
       "openai-agents"
-    ]
+    ],
+    "defEn": "The model outputs, in an agreed format, 'I want to call this tool with these arguments'. An external program runs it and feeds the result back. The foundation of agents."
   },
   {
     "term": "智能体",
@@ -268,7 +288,8 @@
       "manus",
       "openhands"
     ],
-    "playbook": "pb-build-agent"
+    "playbook": "pb-build-agent",
+    "defEn": "An AI system that plans multi-step tasks, calls tools and iterates on feedback — as opposed to a chat model that answers once."
   },
   {
     "term": "模型上下文协议",
@@ -283,7 +304,8 @@
     "tools": [
       "composio",
       "flowise"
-    ]
+    ],
+    "defEn": "An open protocol standardising how AI connects to external tools and data sources, reducing N×M integrations to N+M."
   },
   {
     "term": "提示词工程",
@@ -294,7 +316,8 @@
     "related": [
       "思维链",
       "少样本学习"
-    ]
+    ],
+    "defEn": "Designing the structure, role, constraints and examples of an input in order to get consistently high-quality output."
   },
   {
     "term": "少样本学习",
@@ -305,7 +328,8 @@
     "related": [
       "提示词工程",
       "零样本"
-    ]
+    ],
+    "defEn": "Putting a few examples in the prompt and letting the model follow the pattern. Usually more effective than describing what you want in prose."
   },
   {
     "term": "推理模型",
@@ -316,7 +340,8 @@
     "related": [
       "思维链",
       "推理时计算"
-    ]
+    ],
+    "defEn": "A model that thinks at length internally before answering, trading more inference compute for higher accuracy. Suited to maths, code and complex planning."
   },
   {
     "term": "推理时计算",
@@ -326,7 +351,8 @@
     "def": "在推理阶段投入更多算力（延长思考、多路径采样再选优）来提升答案质量，而非只靠增大模型。",
     "related": [
       "推理模型"
-    ]
+    ],
+    "defEn": "Spending more compute at inference time — longer thinking, sampling multiple paths and choosing the best — rather than only scaling the model up."
   },
   {
     "term": "幻觉",
@@ -337,7 +363,8 @@
     "related": [
       "核实",
       "对齐"
-    ]
+    ],
+    "defEn": "Output that reads as plausible but is factually wrong. It follows from generating text by probability rather than checking facts."
   },
   {
     "term": "对齐",
@@ -348,7 +375,8 @@
     "related": [
       "RLHF",
       "AI 安全"
-    ]
+    ],
+    "defEn": "The research direction concerned with making a model's behaviour match human intent and values: helpfulness, honesty and harmlessness."
   },
   {
     "term": "越狱",
@@ -359,7 +387,8 @@
     "related": [
       "对齐",
       "提示注入"
-    ]
+    ],
+    "defEn": "Using crafted phrasing to bypass a model's safety limits and get it to produce prohibited content."
   },
   {
     "term": "提示注入",
@@ -370,7 +399,8 @@
     "related": [
       "Agent",
       "越狱"
-    ]
+    ],
+    "defEn": "Hiding malicious instructions inside content the AI will read — a web page, a document — to make it act against its original instructions. The main security risk in agent settings."
   },
   {
     "term": "上下文腐化",
@@ -381,7 +411,8 @@
     "related": [
       "上下文窗口",
       "迷失在中间"
-    ]
+    ],
+    "defEn": "The longer the context, the less efficiently a model uses what's in it. Key details get missed."
   },
   {
     "term": "多模态",
@@ -396,7 +427,8 @@
     "tools": [
       "notebooklm",
       "gpt-image"
-    ]
+    ],
+    "defEn": "A model that can understand and generate several forms of information at once: text, images, audio, video."
   },
   {
     "term": "视觉语言模型",
@@ -407,7 +439,8 @@
     "related": [
       "多模态"
     ],
-    "playbook": "pb-image-gen"
+    "playbook": "pb-image-gen",
+    "defEn": "A model that can read images and talk about them. Common uses: answering questions about screenshots, understanding charts, parsing documents."
   },
   {
     "term": "文生图",
@@ -427,7 +460,8 @@
       "jimeng",
       "ideogram"
     ],
-    "playbook": "pb-image-gen"
+    "playbook": "pb-image-gen",
+    "defEn": "Generating images from a text description. Most current approaches use diffusion models, often with a negative prompt and a tuned workflow."
   },
   {
     "term": "文生视频",
@@ -447,7 +481,8 @@
       "hailuo",
       "vidu"
     ],
-    "playbook": "pb-ai-video"
+    "playbook": "pb-ai-video",
+    "defEn": "Generating video clips from text. The hard parts are temporal consistency and physical plausibility — which is why this is one of the most hotly contested areas right now."
   },
   {
     "term": "语音合成",
@@ -465,7 +500,8 @@
       "voice-clone-cosyvoice",
       "murf"
     ],
-    "playbook": "pb-music-voice"
+    "playbook": "pb-music-voice",
+    "defEn": "Converting text to speech. Modern systems do voice cloning and emotional control, and multilingual dubbing is now quite natural."
   },
   {
     "term": "B 端 / C 端",
@@ -476,7 +512,8 @@
     "related": [
       "API",
       "Token 计费"
-    ]
+    ],
+    "defEn": "Selling to businesses versus to individuals. Business model and compliance requirements differ sharply between the two."
   },
   {
     "term": "开源权重",
@@ -493,7 +530,8 @@
       "ollama",
       "lmstudio"
     ],
-    "playbook": "pb-local-model"
+    "playbook": "pb-local-model",
+    "defEn": "Model parameters published for anyone to download, run and fine-tune. Note: open weights are not the same as open training data or code — read the licence before commercial use."
   },
   {
     "term": "AI 生成内容标识",
@@ -505,7 +543,8 @@
       "合规",
       "深度伪造"
     ],
-    "playbook": "pb-ai-video"
+    "playbook": "pb-ai-video",
+    "defEn": "Requirements to label content that was AI-generated or synthesised. Several jurisdictions and platforms now mandate it."
   },
   {
     "term": "深度伪造",
@@ -523,7 +562,8 @@
       "d-id",
       "hedra"
     ],
-    "playbook": "pb-ai-video"
+    "playbook": "pb-ai-video",
+    "defEn": "Synthesising convincingly realistic fake faces, voices or video. The risk concentrates in fraud and reputational harm."
   },
   {
     "term": "涌现能力",
@@ -534,7 +574,8 @@
     "related": [
       "缩放定律",
       "参数"
-    ]
+    ],
+    "defEn": "Capabilities that appear suddenly once a model crosses a size threshold and are entirely absent in smaller ones. It means 'a small model can't do it' does not imply 'a large one can't either'."
   },
   {
     "term": "缩放定律",
@@ -545,7 +586,8 @@
     "related": [
       "涌现能力",
       "推理时计算"
-    ]
+    ],
+    "defEn": "Empirical relationships between model performance and parameter count, data volume and compute. They explain why labs keep scaling up — and where the returns start diminishing."
   },
   {
     "term": "上下文学习",
@@ -556,7 +598,8 @@
     "related": [
       "少样本学习",
       "提示词工程"
-    ]
+    ],
+    "defEn": "Learning a new task from examples in the prompt, without changing any weights. One of the most counterintuitive properties of large models."
   },
   {
     "term": "温度",
@@ -567,7 +610,8 @@
     "related": [
       "Top-p",
       "采样"
-    ]
+    ],
+    "defEn": "A parameter controlling output randomness. Lower is more deterministic and conservative; higher is more varied and creative. Use low for code and factual work, high for brainstorming."
   },
   {
     "term": "Top-p",
@@ -577,7 +621,8 @@
     "def": "只从累积概率达到 p 的那批词里采样。比温度更精细——它能剪掉长尾里的荒谬选项，同时保留合理范围内的多样性。",
     "related": [
       "温度"
-    ]
+    ],
+    "defEn": "Nucleus sampling: draw only from the smallest set of tokens whose cumulative probability reaches p. Finer-grained than temperature — it cuts off the absurd tail while keeping reasonable variety."
   },
   {
     "term": "系统提示词",
@@ -588,7 +633,8 @@
     "related": [
       "提示词工程",
       "对齐"
-    ]
+    ],
+    "defEn": "High-priority instructions set before the conversation begins, defining the AI's identity, capability boundaries and behavioural rules. Its influence far exceeds any single user message."
   },
   {
     "term": "上下文缓存",
@@ -599,7 +645,8 @@
     "related": [
       "推理成本",
       "上下文窗口"
-    ]
+    ],
+    "defEn": "Caching an unchanging long prefix — a system prompt, a knowledge base — so later requests reuse it, cutting latency and cost substantially. Effectively mandatory for long-document Q&A."
   },
   {
     "term": "自回归",
@@ -610,7 +657,8 @@
     "related": [
       "大语言模型",
       "流式输出"
-    ]
+    ],
+    "defEn": "Generating one token at a time, each becoming part of the input for the next. This is the root reason a model can only write forward and cannot go back and revise."
   },
   {
     "term": "位置编码",
@@ -621,7 +669,8 @@
     "related": [
       "Transformer",
       "上下文窗口"
-    ]
+    ],
+    "defEn": "The mechanism that tells a model about word order. Most modern systems use rotary position encoding, and it determines how far the context window can be extended."
   },
   {
     "term": "旋转位置编码",
@@ -631,7 +680,8 @@
     "def": "当前主流的位置编码方式，通过旋转向量来编码相对位置，外推性好，是长上下文模型的基础。",
     "related": [
       "位置编码"
-    ]
+    ],
+    "defEn": "The dominant positional encoding today. It encodes relative position by rotating vectors, extrapolates well, and is the basis of long-context models."
   },
   {
     "term": "状态空间模型",
@@ -642,7 +692,8 @@
     "related": [
       "Transformer",
       "注意力机制"
-    ]
+    ],
+    "defEn": "A family of architectures that replace Transformer attention (Mamba and similar). Memory and compute grow linearly with length, so very long sequences are cheaper to process."
   },
   {
     "term": "潜在扩散",
@@ -652,7 +703,8 @@
     "def": "不在像素空间而在压缩后的潜在空间做扩散，大幅降低算力需求。Stable Diffusion 的核心思路。",
     "related": [
       "扩散模型"
-    ]
+    ],
+    "defEn": "Running the diffusion process in a compressed latent space rather than pixel space, which cuts compute dramatically. The core idea behind Stable Diffusion."
   },
   {
     "term": "预训练数据",
@@ -663,7 +715,8 @@
     "related": [
       "预训练",
       "数据配比"
-    ]
+    ],
+    "defEn": "The raw corpus a model learns language patterns from. Its quality, deduplication and composition directly set the model's ceiling — this is now industry consensus."
   },
   {
     "term": "数据配比",
@@ -673,7 +726,8 @@
     "def": "预训练时不同来源语料的比例。中文能力弱、代码能力强这类差异，很多时候是配比决定的而不是架构。",
     "related": [
       "预训练数据"
-    ]
+    ],
+    "defEn": "The proportions of different sources in pre-training. Differences like weak Chinese and strong code are often decided by the mixture rather than the architecture."
   },
   {
     "term": "拒绝采样",
@@ -684,7 +738,8 @@
     "related": [
       "合成数据",
       "指令微调"
-    ]
+    ],
+    "defEn": "Generating several candidates and keeping only the correct ones as training data. A key step in synthetic data pipelines."
   },
   {
     "term": "直接偏好优化",
@@ -695,7 +750,8 @@
     "related": [
       "RLHF",
       "对齐"
-    ]
+    ],
+    "defEn": "Optimising directly on pairs of preferred and rejected answers, without training a reward model. Simpler and more stable than RLHF, and now the mainstream alternative."
   },
   {
     "term": "GRPO",
@@ -706,7 +762,8 @@
     "related": [
       "推理模型",
       "RLHF"
-    ]
+    ],
+    "defEn": "Group Relative Policy Optimization. A reinforcement learning method that estimates advantage by comparing within a group, removing the need for a value model. Commonly used to train reasoning models."
   },
   {
     "term": "合成数据",
@@ -717,7 +774,8 @@
     "related": [
       "拒绝采样",
       "数据配比"
-    ]
+    ],
+    "defEn": "Training data generated by a model and then filtered. When real data runs out this is the main way to keep improving — but guard against the degradation that comes from a model training on its own output."
   },
   {
     "term": "灾难性遗忘",
@@ -728,7 +786,8 @@
     "related": [
       "微调",
       "LoRA"
-    ]
+    ],
+    "defEn": "Losing general capability after fine-tuning on new data. The most common and most easily overlooked problem in fine-tuning."
   },
   {
     "term": "思维树",
@@ -739,7 +798,8 @@
     "related": [
       "思维链",
       "推理时计算"
-    ]
+    ],
+    "defEn": "Having the model explore several reasoning paths at once, evaluate them, and pick the best. Stronger than chain-of-thought but more expensive — suited to planning tasks that need trial and error."
   },
   {
     "term": "自我一致性",
@@ -750,7 +810,8 @@
     "related": [
       "思维链",
       "推理时计算"
-    ]
+    ],
+    "defEn": "Sampling the same question several times and taking the majority answer. Markedly improves accuracy on maths and logic, at a multiple of the call cost."
   },
   {
     "term": "ReAct",
@@ -761,7 +822,8 @@
     "related": [
       "智能体",
       "函数调用"
-    ]
+    ],
+    "defEn": "Alternating between reasoning and calling tools, using external results to correct its own judgement. The foundational pattern for agents."
   },
   {
     "term": "反思",
@@ -772,7 +834,8 @@
     "related": [
       "ReAct",
       "自我一致性"
-    ]
+    ],
+    "defEn": "Having the model examine its own output and improve it over several rounds. Noticeable gains on code and writing tasks."
   },
   {
     "term": "结构化输出",
@@ -784,7 +847,8 @@
       "函数调用",
       "JSON Schema"
     ],
-    "playbook": "pb-build-agent"
+    "playbook": "pb-build-agent",
+    "defEn": "Forcing the model to emit JSON matching a given schema. Effectively required in production — otherwise downstream parsing can fail at any time."
   },
   {
     "term": "分块",
@@ -799,7 +863,8 @@
     "tools": [
       "ragflow",
       "fastgpt"
-    ]
+    ],
+    "defEn": "Splitting long documents into retrieval units. Too small and the meaning fragments; too large and retrieval loses precision. This is the single biggest variable in RAG quality."
   },
   {
     "term": "重排序",
@@ -813,7 +878,8 @@
     ],
     "tools": [
       "ragflow"
-    ]
+    ],
+    "defEn": "Roughly retrieving a batch, then re-ordering it with a more precise model. Usually improves RAG answer quality noticeably, at manageable cost."
   },
   {
     "term": "混合检索",
@@ -824,7 +890,8 @@
     "related": [
       "向量检索",
       "重排序"
-    ]
+    ],
+    "defEn": "Vector search combined with keyword search. Pure vector search fails on proper nouns, identifiers and code symbols — this closes that gap."
   },
   {
     "term": "向量检索",
@@ -839,7 +906,8 @@
     "tools": [
       "ragflow",
       "fastgpt"
-    ]
+    ],
+    "defEn": "Converting both the query and the documents into vectors and finding the closest by similarity. Strong at semantic matching, weak at exact matching."
   },
   {
     "term": "记忆机制",
@@ -850,7 +918,8 @@
     "related": [
       "智能体",
       "上下文窗口"
-    ]
+    ],
+    "defEn": "How an AI remembers information across conversations. Usually layered: short-term (current context), long-term (external storage) and working memory (intermediate results)."
   },
   {
     "term": "工作流编排",
@@ -868,7 +937,8 @@
       "coze",
       "zapier"
     ],
-    "playbook": "pb-build-agent"
+    "playbook": "pb-build-agent",
+    "defEn": "Wiring multiple model and tool calls together along a predefined flow. Compared with letting an agent improvise, workflows are more controllable and easier to debug."
   },
   {
     "term": "多智能体",
@@ -885,7 +955,8 @@
       "autogen",
       "langgraph"
     ],
-    "playbook": "pb-build-agent"
+    "playbook": "pb-build-agent",
+    "defEn": "Several specialised AIs dividing work on a complex task. Results depend on how the roles and communication are designed — piling on more agents just means they interfere."
   },
   {
     "term": "流式输出",
@@ -895,7 +966,8 @@
     "def": "边生成边返回，而不是等全部生成完再给。对体感速度影响极大——首字延迟比总耗时更影响用户感受。",
     "related": [
       "自回归"
-    ]
+    ],
+    "defEn": "Returning tokens as they are generated rather than waiting for the whole response. It has an outsized effect on perceived speed — time to first token matters more to users than total duration."
   },
   {
     "term": "基准测试",
@@ -906,7 +978,8 @@
     "related": [
       "评测",
       "数据污染"
-    ]
+    ],
+    "defEn": "Standardised tests used to measure model capability. Note: a high leaderboard score doesn't mean it works in your scenario, and contamination is a real problem."
   },
   {
     "term": "数据污染",
@@ -916,7 +989,8 @@
     "def": "测试题不小心进了训练数据，导致分数虚高。这是看榜单时最需要警惕的陷阱。",
     "related": [
       "基准测试"
-    ]
+    ],
+    "defEn": "Test questions accidentally ending up in training data, inflating the score. The trap most worth watching for when reading leaderboards."
   },
   {
     "term": "大模型当裁判",
@@ -927,7 +1001,8 @@
     "related": [
       "评测",
       "基准测试"
-    ]
+    ],
+    "defEn": "Using one model to score another's output. Cheap and scalable, but the judge has preferences of its own — it favours long answers and its own output — so calibration is required."
   },
   {
     "term": "红队测试",
@@ -938,7 +1013,8 @@
     "related": [
       "越狱",
       "提示注入"
-    ]
+    ],
+    "defEn": "Attacking your own AI system with adversarial input to find security holes before launch. Effectively mandatory for anything public-facing."
   },
   {
     "term": "数据投毒",
@@ -949,7 +1025,8 @@
     "related": [
       "开源权重",
       "红队测试"
-    ]
+    ],
+    "defEn": "Inserting malicious samples into training data so the model misbehaves on specific inputs. Open weights deserve particular caution here."
   },
   {
     "term": "算法偏见",
@@ -960,7 +1037,8 @@
     "related": [
       "对齐",
       "可解释性"
-    ]
+    ],
+    "defEn": "Systematic unfairness toward particular groups, inherited from bias in the training data. The consequences are serious in hiring, credit and healthcare."
   },
   {
     "term": "可解释性",
@@ -971,7 +1049,8 @@
     "related": [
       "算法偏见",
       "对齐"
-    ]
+    ],
+    "defEn": "Understanding why a model made a particular decision. A compliance requirement in high-stakes fields — medicine, finance, law — and still an unsolved problem."
   },
   {
     "term": "过度拒绝",
@@ -982,7 +1061,8 @@
     "related": [
       "对齐",
       "越狱"
-    ]
+    ],
+    "defEn": "A model refusing legitimate requests because its safety constraints are too tight. The classic side-effect of over-tuning, and it badly damages usefulness."
   },
   {
     "term": "推理成本",
@@ -999,7 +1079,8 @@
       "sglang",
       "lmdeploy"
     ],
-    "playbook": "pb-local-model"
+    "playbook": "pb-local-model",
+    "defEn": "The cost of each call, usually priced separately for input and output tokens. Output typically costs several times more, because it is generated one token at a time."
   },
   {
     "term": "首字延迟",
@@ -1009,7 +1090,8 @@
     "def": "从发出请求到收到第一个字的时间。它比总耗时更影响用户的主观感受。",
     "related": [
       "流式输出"
-    ]
+    ],
+    "defEn": "The time from sending a request to receiving the first token. It affects how fast a system feels more than total duration does."
   },
   {
     "term": "私有化部署",
@@ -1028,7 +1110,8 @@
       "anythingllm",
       "openwebui"
     ],
-    "playbook": "pb-local-model"
+    "playbook": "pb-local-model",
+    "defEn": "Running the model in your own data centre or private cloud. A common compliance requirement in finance, healthcare and government — at the cost of losing the cloud model's release cadence."
   },
   {
     "term": "端侧模型",
@@ -1047,7 +1130,8 @@
       "gpt4all",
       "llamafile"
     ],
-    "playbook": "pb-local-model"
+    "playbook": "pb-local-model",
+    "defEn": "A small model running directly on a phone or PC. The upside is zero latency and data that never leaves the device; the downside is limited capability, so it is usually paired with a larger model."
   },
   {
     "term": "模型许可协议",
@@ -1062,7 +1146,8 @@
     "tools": [
       "huggingface"
     ],
-    "playbook": "pb-3d-asset"
+    "playbook": "pb-3d-asset",
+    "defEn": "The legal terms governing how a model may be used. Common traps: monthly active user caps, restricted commercial scenarios, and requirements that derivatives carry the same licence."
   },
   {
     "term": "深度合成标识",
@@ -1074,7 +1159,8 @@
       "深度伪造",
       "合规"
     ],
-    "playbook": "pb-ai-video"
+    "playbook": "pb-ai-video",
+    "defEn": "Requirements to label AI-generated or synthesised content. Several jurisdictions have legislation now, and platforms are adding automatic detection."
   },
   {
     "term": "对齐税",
@@ -1085,7 +1171,8 @@
     "related": [
       "对齐",
       "过度拒绝"
-    ]
+    ],
+    "defEn": "The capability sacrificed to make a model safer and more aligned with human preferences. The trade-off between safety and capability is a long-running argument."
   },
   {
     "term": "智能体评测",
@@ -1099,7 +1186,8 @@
     ],
     "tools": [
       "openhands"
-    ]
+    ],
+    "defEn": "Measuring an agent's ability to complete multi-step tasks. Much harder than single-turn Q&A — you have to judge the final result, but also whether the intermediate steps were sound and whether it took a detour."
   },
   {
     "term": "任务分解",
@@ -1111,7 +1199,8 @@
       "工作流编排",
       "智能体"
     ],
-    "playbook": "pb-build-agent"
+    "playbook": "pb-build-agent",
+    "defEn": "Splitting a complex task into independently verifiable steps. The core technique for getting AI to finish complex work — decomposed well, the success rate far exceeds asking for it all at once."
   },
   {
     "term": "人在回路",
@@ -1123,7 +1212,8 @@
       "工作流编排",
       "智能体"
     ],
-    "playbook": "pb-build-agent"
+    "playbook": "pb-build-agent",
+    "defEn": "Inserting human confirmation at key points in an automated flow. The pragmatic approach: put irreversible actions behind a human gate, hand verifiable repetitive work to the AI."
   },
   {
     "term": "护栏",
@@ -1135,7 +1225,8 @@
       "对齐",
       "提示注入"
     ],
-    "playbook": "pb-build-agent"
+    "playbook": "pb-build-agent",
+    "defEn": "Rules or small models checking input and output at the boundaries, catching out-of-bounds content and sensitive actions. Do not rely on the model to police itself."
   },
   {
     "term": "知识图谱",
@@ -1146,6 +1237,7 @@
     "related": [
       "RAG",
       "向量检索"
-    ]
+    ],
+    "defEn": "A structured representation of knowledge as entities and relationships. Combined with RAG (GraphRAG) it answers questions requiring multi-hop reasoning, which pure vector search cannot."
   }
 ]
