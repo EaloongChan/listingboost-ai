@@ -333,7 +333,18 @@
       "目的"
     ],
     "prompt": "场景：{{场景}}\n收件人：{{对象}}\n我的目的：{{目的}}\n\n请写三封邮件，分别对应三种立场：\nA. 温和客气（保留关系优先）\nB. 专业中性（就事论事）\nC. 明确强硬（结果优先）\n\n每封都要：\n- 有清晰的主题行；\n- 开门见山说明来意，不要铺垫；\n- 提出明确的下一步动作和时间点；\n- 长度控制在 200 字内。\n\n最后附一句提示：什么情况下该用哪一封。",
-    "tips": "「三种立场」比「帮我写封邮件」有用得多，因为你要的往往不是文采而是分寸。"
+    "tips": "「三种立场」比「帮我写封邮件」有用得多，因为你要的往往不是文采而是分寸。",
+    "en": {
+      "title": "The email you don't want to write",
+      "desc": "Chasing, declining, apologising — three versions at three levels of firmness.",
+      "vars": [
+        "Situation",
+        "Recipient",
+        "Goal"
+      ],
+      "prompt": "Situation: {{Situation}}\nRecipient: {{Recipient}}\nWhat I want: {{Goal}}\n\nWrite three emails, one per stance:\n\n**A. Warm and considerate** — the relationship comes first.\n**B. Professional and neutral** — just the facts.\n**C. Direct and firm** — the outcome comes first.\n\nEach must have:\n- A clear subject line\n- The point up front. **No preamble.**\n- An explicit next step with a date\n- Under 150 words\n\nFinish with one line on when to use which.",
+      "tips": "Three stances beats 'write me an email', because what you need is usually calibration, not prose."
+    }
   },
   {
     "id": "p-decision",
@@ -625,7 +636,19 @@
       "烹饪时间"
     ],
     "prompt": "帮我规划一周的备餐。\n\n条件：\n- 人数：{{人数}}\n- 忌口/过敏：{{忌口}}\n- 每周食材预算：{{预算}}\n- 每餐可接受的烹饪时间：{{烹饪时间}}\n- 我的做饭水平：普通家常菜\n\n请输出：\n1. 一周 7 天的午晚餐菜单表（早餐简单带过）；\n2. 每道菜的关键步骤（3 步以内，写清火候和时间）；\n3. 一份合并后的采购清单，按超市区域分类（蔬菜/肉类/调料/主食），标注预估数量；\n4. 哪些菜可以提前做好冷冻，保存多久；\n5. 指出这份计划里最容易被放弃的环节，以及怎么降低难度。\n\n不要推荐需要特殊厨具或稀有食材的菜。",
-    "tips": "第 5 条是这份提示词的灵魂——所有饮食计划都死在执行上。"
+    "tips": "第 5 条是这份提示词的灵魂——所有饮食计划都死在执行上。",
+    "en": {
+      "title": "One-week meal prep plan",
+      "desc": "Built around what you will actually cook, not an aspirational menu.",
+      "vars": [
+        "People",
+        "Goal",
+        "Time available",
+        "What I won't eat"
+      ],
+      "prompt": "Cooking for: {{People}}\nGoal: {{Goal}}\nTime I'll actually spend: {{Time available}}\nThings I won't eat: {{What I won't eat}}\n\nPlan the week:\n\n1. **A base you cook once and vary** — one protein, one grain, one sauce — with the variations that keep it from getting boring.\n2. **Daily combinations** using that base, five days of it, each under 15 minutes on the night.\n3. **Where the flavour comes from** each day. Repetition with the same seasoning is what kills meal prep.\n4. **A shopping list** grouped by section.\n5. **A realistic warning**: on which day will I most likely order food instead, and what's the fallback for that day?\n\nBe honest about effort. If this is more cooking than I said I'd do, say so.",
+      "tips": "Section 5 is the honest one — anticipating the day you'll cave is more useful than pretending you won't."
+    }
   },
   {
     "id": "p-trip-plan",
@@ -649,7 +672,19 @@
       "偏好"
     ],
     "prompt": "帮我规划一次旅行。\n\n目的地：{{目的地}}\n天数：{{天数}}\n同行：{{人数}}\n我们的偏好：{{偏好}}（例如：不爱赶行程、喜欢本地小吃、怕人多）\n\n要求：\n1. 按天给出安排，但每天**最多 3 个主要活动**，并标注每个活动的交通方式和耗时；\n2. 每天标注「这一天最累的环节」和「哪里可以砍掉」；\n3. 给出 2 个「雨天替代方案」；\n4. 门票/预约类项目，说明是否需要提前预定和大概提前多久；\n5. 最后列出 3 个「游客常去但我觉得你们可以跳过」的地方及原因。\n\n不要编造具体的价格和营业时间，如果不确定就标注「需自行核实」。",
-    "tips": "「需自行核实」这个约定，能避免 AI 编出过期的门票信息坑你。"
+    "tips": "「需自行核实」这个约定，能避免 AI 编出过期的门票信息坑你。",
+    "en": {
+      "title": "Trip planning that isn't a checklist marathon",
+      "desc": "Paced to your interests, with slack built in and a list of what to skip.",
+      "vars": [
+        "Destination",
+        "Days",
+        "Party size",
+        "Preferences"
+      ],
+      "prompt": "Plan a trip for me.\n\nDestination: {{Destination}}\nDays: {{Days}}\nTravelling with: {{Party size}}\nWhat we like: {{Preferences}} (e.g. don't like rushing, want local food, hate crowds)\n\nRequirements:\n1. Day by day, but **no more than three main activities per day**, each with transport mode and travel time.\n2. For each day, mark **the most tiring part** and **what could be cut**.\n3. Give two **wet-weather alternatives**.\n4. For anything ticketed or requiring booking, say whether to book ahead and roughly how far ahead.\n5. Finish with three places tourists usually go that **I think you can skip**, and why.\n\n**Do not invent prices or opening hours.** If you're unsure, mark it 'verify yourself'.",
+      "tips": "That 'verify yourself' convention stops the model handing you stale ticket information that ruins your day."
+    }
   },
   {
     "id": "p-role-critic",
@@ -1207,7 +1242,18 @@
       "我的感受"
     ],
     "prompt": "本周计划：{{本周计划}}\n实际完成：{{实际完成}}\n我的感受：{{我的感受}}\n\n请帮我做一次不客气地复盘：\n\n1. 【计划 vs 实际】逐条对照，标出：完成 / 部分完成 / 未完成 / 计划外新增。\n2. 【未完成的根因】对每一项未完成，判断属于哪类：估时错误 / 被临时打断 / 优先级判断失误 / 能力不足 / 单纯不想做。要给出依据，不要含糊。\n3. 【时间去哪了】从我的描述里推断真实的时间消耗结构。\n4. 【这周真正推进了什么】抛开忙碌感，实际有产出的只有哪几件事？\n5. 【下周只改一件事】基于上面的分析，下周最值得改变的一个习惯或决策是什么？为什么是这一个？\n\n不要安慰我，不要用「你已经很棒了」这类话。",
-    "tips": "「不要安慰我」这句话不加，AI 最后一定会给你一段鸡汤收尾。"
+    "tips": "「不要安慰我」这句话不加，AI 最后一定会给你一段鸡汤收尾。",
+    "en": {
+      "title": "Weekly review that finds the real problem",
+      "desc": "Not a list of what you did — an analysis of why the rest didn't happen.",
+      "vars": [
+        "This week's plan",
+        "What actually happened",
+        "How I feel about it"
+      ],
+      "prompt": "This week's plan: {{This week's plan}}\nWhat actually happened: {{What actually happened}}\nHow I feel: {{How I feel about it}}\n\nRun an unsparing review:\n\n1. **[Plan vs reality]** Go through line by line: done / partly done / not done / unplanned additions.\n2. **[Root cause for each miss]** Classify it: bad estimate, interrupted, misjudged priority, lacked the skill, or simply didn't want to. **Give your reasoning. Don't be vague.**\n3. **[Where the time went]** Infer the real structure of my week from what I've described.\n4. **[What actually moved]** Setting busyness aside, what genuinely produced something?\n5. **[Change exactly one thing]** Based on all of the above, the single habit or decision most worth changing next week — and why that one.\n\nDon't reassure me. **No 'you did great' at the end.**",
+      "tips": "Without the 'don't reassure me' line, the conclusion is always a pep talk."
+    }
   },
   {
     "id": "p-plan-project",
@@ -1263,7 +1309,18 @@
       "对方可能的顾虑"
     ],
     "prompt": "场景：{{谈判场景}}\n我的筹码：{{我的筹码}}\n对方可能的顾虑：{{对方可能的顾虑}}\n\n请帮我准备：\n\n1. 【锚点】我应该先开口吗？先开口的话第一个数字给多少，依据是什么？\n2. 【区间】我的理想值、目标值、底线值分别是什么，怎么论证合理性？\n3. 【对方视角】对方最可能的三个反驳，以及我应该怎么回应（给出具体话术）。\n4. 【不谈钱的时候】如果对方说预算不够，我可以换什么非金钱条件？\n5. 【红线】什么情况下我应该停止谈判？\n6. 【开场与收尾】给我两段可以直接用的原话。\n\n请写得像真的在教我，而不是给我一份理论清单。",
-    "tips": "把它当成「模拟对手」来用效果更好：准备完之后直接说「现在你扮演对方，我们演练一遍」。"
+    "tips": "把它当成「模拟对手」来用效果更好：准备完之后直接说「现在你扮演对方，我们演练一遍」。",
+    "en": {
+      "title": "Prepare for a salary or pricing negotiation",
+      "desc": "Anchor, walk-away point and responses ready — instead of improvising under pressure.",
+      "vars": [
+        "The negotiation",
+        "My leverage",
+        "Their likely concerns"
+      ],
+      "prompt": "The negotiation: {{The negotiation}}\nMy leverage: {{My leverage}}\nTheir likely concerns: {{Their likely concerns}}\n\nPrepare me:\n\n1. **[The anchor]** Should I open first? If so, what number, and on what basis?\n2. **[The range]** My ideal, target and walk-away figures, and how to justify each.\n3. **[Their side]** The three objections they are most likely to raise, and exactly what I say in response.\n4. **[Beyond money]** If they say the budget isn't there, what non-cash terms can I ask for?\n5. **[The line]** Under what conditions should I stop negotiating?\n6. **[Opening and closing]** Two passages I can use verbatim.\n\nWrite it as if you are actually coaching me, not handing over a theory sheet.",
+      "tips": "Better still, use it as a sparring partner: once you're prepared, say 'now you play them, let's run it'."
+    }
   },
   {
     "id": "p-sop-write",
@@ -1320,7 +1377,18 @@
       "领导关心的点"
     ],
     "prompt": "我要向领导沟通：{{诉求}}\n背景：{{背景}}\n我知道领导最关心：{{领导关心的点}}\n\n请帮我准备沟通方案：\n\n1. 【第一句话】30 秒内说清的版本（结论先行，包含明确的请求）\n2. 【三个理由】按领导的关心程度排序，每条要有数据或事实支撑\n3. 【成本与代价】诚实说明要付出什么（时间、人力、机会成本），主动披露比被追问好\n4. 【备选方案】给 2-3 个不同投入程度的选项，让领导做选择题而不是判断题\n5. 【预判质疑】领导最可能问的 3 个问题，准备好答案\n6. 【坏消息版】如果我的诉求大概率会被拒，怎么表达才能保住信任并留下回旋余地？",
-    "tips": "「给选择题而不是判断题」是向上沟通最有效的一招。"
+    "tips": "「给选择题而不是判断题」是向上沟通最有效的一招。",
+    "en": {
+      "title": "Asking up: resources or bad news",
+      "desc": "Lead with the conclusion and give options, rather than making them read a report.",
+      "vars": [
+        "What I need",
+        "Context",
+        "What they care about"
+      ],
+      "prompt": "What I need to raise: {{What I need}}\nContext: {{Context}}\nWhat I know they care about: {{What they care about}}\n\nPrepare the conversation:\n\n1. **[The first sentence]** A 30-second version — conclusion first, and it must contain the actual ask.\n2. **[Three reasons]** Ordered by how much they care, each backed by a fact or a number.\n3. **[The cost]** Be honest about what this takes — time, headcount, opportunity cost. **Volunteering it beats being asked.**\n4. **[Options]** Two or three alternatives at different levels of investment. **Give them a choice, not a yes/no.**\n5. **[Anticipated pushback]** The three questions most likely to come back, with answers ready.\n6. **[The bad-news version]** If this is likely to be declined, how do I say it so I keep their trust and leave room to revisit?\n\nWrite it so I could read it the morning of.",
+      "tips": "'Give them a choice, not a yes/no' is the single most effective move in upward communication."
+    }
   },
   {
     "id": "p-delegate",
@@ -1342,7 +1410,18 @@
       "我的期望"
     ],
     "prompt": "任务：{{任务}}\n执行人：{{执行人}}\n我的期望：{{我的期望}}\n\n请帮我写一份交接说明：\n\n1. 【目标】这个任务最终要达成什么（用结果描述，不用动作描述）\n2. 【验收标准】明确写清「什么样算做好了」，包括：必须包含什么、可以省略什么、什么情况算失败\n3. 【边界】他有权自己决定什么，必须先问我什么\n4. 【参考】有没有可以照着做的范例\n5. 【时间点】关键节点与检查节奏\n6. 【我可能没说清的地方】指出我这份说明里仍然含糊、可能导致他理解偏差的部分，并给出更明确的说法\n\n第 6 条最重要，请认真找。",
-    "tips": "第 6 条让 AI 帮你找自己表述里的模糊点，能减少大半返工。"
+    "tips": "第 6 条让 AI 帮你找自己表述里的模糊点，能减少大半返工。",
+    "en": {
+      "title": "Hand over a task without rework",
+      "desc": "Defines what 'done well' means — the number one cause of rework is leaving that unsaid.",
+      "vars": [
+        "The task",
+        "Who takes it",
+        "What I expect"
+      ],
+      "prompt": "Task: {{The task}}\nPerson taking it: {{Who takes it}}\nWhat I expect: {{What I expect}}\n\nWrite a handover brief:\n\n1. **[Objective]** What this must ultimately achieve. Describe the **result**, not the activity.\n2. **[Definition of done]** Exactly what 'done well' looks like: what must be included, what can be left out, what counts as a failure.\n3. **[Boundaries]** What they may decide alone, and what they must check with me first.\n4. **[Reference]** Is there an existing example they can follow?\n5. **[Timeline]** The key checkpoints and how often we review.\n6. **[Where I'm still unclear]** Point out the parts of my brief that remain ambiguous and could be misread, and give me clearer wording.\n\n**Section 6 matters most — look hard for it.**",
+      "tips": "Section 6 makes the model find the fog in your own writing, which prevents most rework."
+    }
   },
   {
     "id": "p-landing-page",
@@ -1678,7 +1757,18 @@
       "想吃的感觉"
     ],
     "prompt": "我冰箱里有：{{冰箱里的食材}}\n忌口：{{忌口}}\n今天想吃：{{想吃的感觉}}\n\n请帮我：\n1. 给出 3 道能做的菜，按「需要补买的食材数量」排序（最少补买的排前面）；\n2. 每道菜写清步骤（不超过 4 步）和大概耗时；\n3. 列出如果要做这三道菜，我还需要补买什么（越少越好）；\n4. 告诉我哪些食材再不处理就要坏了，优先用掉；\n5. 如果有食材组合起来很奇怪，直接说不要这样搭。\n\n不要推荐需要额外买很多调料的菜。",
-    "tips": "第 4 条「哪些食材快坏了」把做饭和省钱两件事合并了。"
+    "tips": "第 4 条「哪些食材快坏了」把做饭和省钱两件事合并了。",
+    "en": {
+      "title": "Cook whatever's in the fridge",
+      "desc": "Works from what you actually have rather than sending you shopping.",
+      "vars": [
+        "What's in the fridge",
+        "Time and equipment",
+        "Any restrictions"
+      ],
+      "prompt": "In my fridge and cupboards right now: {{What's in the fridge}}\nTime and equipment: {{Time and equipment}}\nDietary restrictions: {{Any restrictions}}\n\nPlan meals from what I already have:\n\n1. **Three meals I can make right now** with minimal shopping. For each: ingredients, steps, time.\n2. **What's about to go off** and should be used first — say which item and in which meal.\n3. **What to buy** to make the rest work. Keep it to five items or fewer, and say what each unlocks.\n4. **What to freeze** if I can't use it in time.\n5. **One thing I should stop buying**, based on the pattern of what's sitting unused.\n\nAssume basic equipment only unless I've said otherwise.",
+      "tips": "Section 5 is the one that changes behaviour — it tells you what keeps going to waste."
+    }
   },
   {
     "id": "p-email-triage",
@@ -1698,7 +1788,16 @@
       "邮件列表"
     ],
     "prompt": "以下是我堆积的邮件（标题+发件人+一句话摘要）：\n{{邮件列表}}\n\n请帮我分流成四类：\n\nA. 【两分钟能解决】直接回一句就行——请给我回复要点\nB. 【需要认真处理】——请给出处理顺序和每件预计耗时\nC. 【可以转给别人】——转给谁、怎么说明\nD. 【根本不用管】——直接归档，说明为什么\n\n然后：\n- 指出哪些邮件其实在等同一件事（可以合并回复）；\n- 指出哪些是「看起来紧急其实不重要」的；\n- 给我一段可以直接复制的「批量回复模板」用于 D 类里需要礼貌收尾的。",
-    "tips": "「两分钟能解决」这类先清掉，心理负担会立刻减轻一大半。"
+    "tips": "「两分钟能解决」这类先清掉，心理负担会立刻减轻一大半。",
+    "en": {
+      "title": "Inbox rescue: clear it in an hour",
+      "desc": "Sorts by 'does this need me' rather than by importance.",
+      "vars": [
+        "Email list"
+      ],
+      "prompt": "Here's my backlog (subject + sender + one-line summary):\n{{Email list}}\n\nSort it into four buckets:\n\n**A. Two-minute replies** — just send something back. Give me the points to include.\n**B. Needs real work** — give me the order, and roughly how long each takes.\n**C. Delegate** — to whom, and what to say.\n**D. Ignore** — archive it, and say why.\n\nThen:\n- Point out which emails are actually waiting on the same thing and can be answered together.\n- Point out which look urgent but don't matter.\n- Give me a **copy-pasteable template** for the polite closers in bucket D.",
+      "tips": "Clearing the two-minute ones first lifts the psychological weight immediately."
+    }
   },
   {
     "id": "p-big-decision-life",
@@ -1720,7 +1819,18 @@
       "时间尺度"
     ],
     "prompt": "我面临的选择：{{选项}}\n我的顾虑：{{我的顾虑}}\n考虑的时间尺度：{{时间尺度}}\n\n请这样帮我分析：\n\n1. 【10 分钟 / 10 个月 / 10 年】分别看这三个选项，在每个时间尺度下，什么最重要？答案会不一样吗？\n2. 【可逆性】每个选项如果做错了，能不能撤回？撤回的代价是什么？\n3. 【机会成本】选 A 意味着放弃 B 的什么？这个成本我有没有认真算过？\n4. 【后悔最小化】站在 80 岁的视角回看，哪个选择是我更可能后悔「没做」的？\n5. 【我的顾虑是否成立】逐条评估我的顾虑，指出哪些是真实约束，哪些只是对未知的恐惧。\n6. 【第三条路】有没有同时满足两个选项核心诉求的方案？\n\n最后告诉我：如果我必须今天决定，你会建议哪个，以及哪个信号出现时应该反悔。\n不要替我下结论式的说我应该选哪个，但要给出明确倾向。",
-    "tips": "「10 分钟 / 10 个月 / 10 年」三个尺度并置，能瞬间照出情绪的干扰。"
+    "tips": "「10 分钟 / 10 个月 / 10 年」三个尺度并置，能瞬间照出情绪的干扰。",
+    "en": {
+      "title": "Compare life options to minimise regret",
+      "desc": "Frames the choice as 'which will I regret less' rather than 'which is better'.",
+      "vars": [
+        "The options",
+        "My concerns",
+        "Time horizon"
+      ],
+      "prompt": "The choice I'm facing: {{The options}}\nMy concerns: {{My concerns}}\nTime horizon: {{Time horizon}}\n\nAnalyse it this way:\n\n1. **[10 minutes / 10 months / 10 years]** Look at each option at each of those horizons. Does what matters most change with the horizon?\n2. **[Reversibility]** If each option turned out wrong, could I undo it? What would undoing cost?\n3. **[Opportunity cost]** Choosing A means giving up what of B? **Have I actually counted that?**\n4. **[Regret minimisation]** From eighty years old, which choice am I more likely to regret **not making**?\n5. **[Are my concerns real?]** Go through them one by one. Which are binding constraints and which are just fear of the unknown?\n6. **[A third path]** Is there a route that satisfies the core of both options?\n\nFinish with: if I had to decide today, which you'd pick — and what signal would mean I should reverse it.\n\nDon't hedge your way out of a conclusion, but do give a clear leaning.",
+      "tips": "Putting the three horizons side by side strips the emotion out almost instantly."
+    }
   },
   {
     "id": "p-language-practice",
@@ -1742,7 +1852,18 @@
       "想练的场景"
     ],
     "prompt": "目标语言：{{目标语言}}\n我的水平：{{我的水平}}\n想练的场景：{{想练的场景}}\n\n请当我的陪练，严格遵守：\n\n1. 用{{目标语言}}和我对话，只在这个场景里，一次只说一到两句话；\n2. 难度要略高于我当前水平，但不能让我完全看不懂；\n3. 等我回复后，先继续对话（不要打断节奏），再在末尾用中文简短指出：\n   - 我那句话里最值得改的 1 个错误（不要全部挑出来，会打击信心）；\n   - 更地道的说法是什么；\n   - 一个我反复犯的错（如果出现了）。\n4. 全程不要替我把话说完，不要给我「你可以这样说」的提示。\n\n现在开始，说第一句话。",
-    "tips": "「一次只挑 1 个错误」比全挑出来有效——语言学习最怕被错误淹没。"
+    "tips": "「一次只挑 1 个错误」比全挑出来有效——语言学习最怕被错误淹没。",
+    "en": {
+      "title": "Language practice partner that corrects rather than answers",
+      "desc": "It corrects you instead of speaking for you.",
+      "vars": [
+        "Target language",
+        "My level",
+        "Scenario"
+      ],
+      "prompt": "Target language: {{Target language}}\nMy level: {{My level}}\nScenario: {{Scenario}}\n\nBe my practice partner, and follow these rules strictly:\n\n1. Talk with me in {{Target language}}, staying inside the scenario. **One or two sentences at a time.**\n2. Keep it slightly above my current level — challenging but not incomprehensible.\n3. After I reply, **continue the conversation first** (don't break the flow), then at the end briefly note:\n   - **The single most useful error** in what I said. Not all of them — correcting everything destroys confidence.\n   - A more natural way to say it.\n   - One mistake I keep repeating, if it shows up again.\n4. **Never finish my sentences for me**, and never prompt me with 'you could say…'.\n\nStart now with your first line.",
+      "tips": "Picking one error at a time works better than listing all of them — language learners drown in corrections."
+    }
   },
   {
     "id": "p-role-sim",
