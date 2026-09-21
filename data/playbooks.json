@@ -363,6 +363,31 @@
         "output": "一份有逻辑线、每页一个观点、能按实际投影效果讲的演示文稿",
         "fail": "资料堆砌没有论证线、字太小或信息密度不均、超时一倍",
         "alt": "只是内部同步信息、不需要说服人 → 用文档或表格，别做 PPT"
+      },
+      "en": {
+        "title": "Build a 15-minute deck from nothing",
+        "time": "1 hour",
+        "level": "no setup",
+        "problem": "You have the material but no way to structure it, so it comes out as a pile of slides with no argument to speak to.",
+        "spec": {
+          "input": "The points you need to make, who the audience is, and how long you have",
+          "output": "A deck with a through-line, one claim per slide, ready to present at real projection size",
+          "fail": "It's material piled up with no argument, the type is too small or unevenly dense, or you run double the time",
+          "alt": "You're only syncing information internally and don't need to persuade anyone → use a doc or a table, not slides"
+        },
+        "steps": [
+          "**Write the script before you make a single slide.** Let the model shape the material into a narrative line: raise the problem → analyse it → propose → say what to do.",
+          "Turn that narrative into a page-by-page outline: **one claim per slide**, plus the evidence that supports it.",
+          "**Five fewer slides beats two pages crammed into one.** Density kills a deck faster than brevity does.",
+          "Use a generation tool for a first-pass layout, then adjust by hand — the tool handles structure, you own the visual detail.",
+          "Have the model play your audience and ask five awkward questions, to find out whether the argument actually holds.",
+          "Rehearse once against the real projection: check that the type is legible and that each slide's takeaway lands in the time you have."
+        ],
+        "warnings": [
+          "Generated layouts are often 'nice to look at, hard to present' — type too large or too small, density uneven. Always adjust against the real projected size.",
+          "For diagrams, prefer a text-to-diagram tool over hunting for stock images; it fits what you're actually saying.",
+          "**Don't let it write the numbers.** Any figure on a slide has to be one you could defend from memory."
+        ]
       }
     },
     {
@@ -441,6 +466,32 @@
         "output": "一份能直接上线的落地页文案，每个承诺都有依据",
         "fail": "编造数据、堆砌「赋能」「一站式」这类空词、说了一堆但没有一句讲清楚产品是什么",
         "alt": "产品还没验证、连目标用户都不确定 → 先找 5 个人聊，文案解决不了定位问题"
+      },
+      "en": {
+        "title": "Write landing page copy you can ship",
+        "time": "2 hours",
+        "level": "no setup",
+        "problem": "The product is built, but you can't write copy that makes anyone click 'Get started'.",
+        "spec": {
+          "input": "What the product does, who it's for, and how it beats the alternatives",
+          "output": "Landing page copy you can publish as-is, where every claim has something behind it",
+          "fail": "Invented numbers, filler like 'empower' and 'all-in-one', and plenty of text without one sentence saying what the product is",
+          "alt": "The product isn't validated and you're not sure who the user is → go talk to five people first. Copy cannot fix positioning."
+        },
+        "steps": [
+          "Do the persona work first: push 'target user: young professionals' until you can picture one actual face.",
+          "Write section by section in conversion order: hero headline → pain → solution → proof → objections → call to action.",
+          "Generate 20 headlines in one batch, group them by underlying mechanism, then pick the ones you're most hesitant to use — those are often the ones that work.",
+          "For rewriting, choose by goal: **a more professional register** → a general model plus an explicit note on brand voice; **sharper and more aggressive** → have it argue from both your user's and your competitor's side; **two languages** → machine-translate a base draft, then have a model make it read natively.",
+          "**Don't expect one pass to land it.** Ask for 20 directions, hand-pick 3 and refine those — much faster than asking it to rewrite the same version again and again.",
+          "Before shipping, run the hero through a design critique prompt: does the visual hierarchy actually serve the conversion goal?"
+        ],
+        "warnings": [
+          "AI invents numbers easily ('helped 100,000 users triple their efficiency'). Replace every figure with a real one — being caught out destroys trust.",
+          "Delete 'empower', 'all-in-one' and 'end-to-end'. They carry no information.",
+          "**Interview five real users yourself before writing.** AI can improve wording but doesn't know what your users actually agonise over; without first-hand material the copy is correct and moves nobody.",
+          "A/B test after launch, don't settle it by taste. **The version you're most confident about is frequently not the one that converts best.**"
+        ]
       }
     },
     {
@@ -519,6 +570,31 @@
         "output": "一个月的选题清单，每条带切入角度和为什么值得写",
         "fail": "选题正确但平庸、全是大众化角度没有个人经验、想做的方向没人搜",
         "alt": "你自己还没有可以分享的真实经验 → 先积累，AI 生成不了第一手判断"
+      },
+      "en": {
+        "title": "Plan a month of topics in one sitting",
+        "time": "40 minutes",
+        "level": "no setup",
+        "problem": "You think of topics one day at a time, so you run dry, and nothing you publish compounds.",
+        "spec": {
+          "input": "The account's positioning, who it's for, and the real mistakes and conclusions you've actually hit",
+          "output": "A month of topics, each with an angle and a reason it's worth writing",
+          "fail": "Correct but generic topics, all mainstream angles with no personal experience in them, or directions nobody searches for",
+          "alt": "You don't have real experience to share yet → go accumulate some. AI cannot manufacture first-hand judgement."
+        },
+        "steps": [
+          "Generate topics with a reader-stage × content-type matrix and get 24 non-overlapping directions in one pass.",
+          "Have it label which are traffic pieces, which are conversion pieces, and which you can't write yet because you lack the material or the skill.",
+          "For the top-ranked topics, batch out 20 headline options each.",
+          "When validating a direction, keep the tools in order: **trend tools first, to see whether anyone is searching**; **AI second, to judge whether the angle has room to differentiate**. Reverse them and you get topics AI loves that nobody looks for. And blogs and short-video platforms don't trend in sync — **don't force one list onto both**.",
+          "After the first piece is written, have it play your target reader and tell you which paragraph they'd scroll past."
+        ],
+        "warnings": [
+          "AI-generated topics tend to be correct but generic — it reaches for mainstream angles. The difference comes from your own experience and judgement.",
+          "Check the data tools first to confirm people actually search for the direction, then let AI work on it. Don't reverse the order.",
+          "**Mark which topics are ones you can actually write.** AI doesn't know what material you hold, who you know, or what you've got wrong in public. Usually more than half of what it suggests is beyond you.",
+          "Don't fill the whole month and walk away. **Leave two slots a week for that week's news** — plan too tightly and you'll miss the moments that actually carry traffic."
+        ]
       }
     },
     {
@@ -585,6 +661,30 @@
         "output": "若干条有完整开头结尾、能独立看懂的短视频片段",
         "fail": "片段从半句话开始、观众听不懂、把长视频直接压缩后发短视频平台",
         "alt": "原视频本身就没有几个可独立成篇的观点 → 不要硬切，那只会产出废料"
+      },
+      "en": {
+        "title": "Cut one long recording into ten short clips",
+        "time": "1 hour",
+        "level": "no setup",
+        "problem": "You recorded a two-hour stream or interview, all you have is the full version, and short-form platforms want something else entirely.",
+        "spec": {
+          "input": "The full recording, the target platform, and how many clips you want",
+          "output": "Several clips with a complete beginning and end that make sense on their own",
+          "fail": "Clips that start mid-sentence, viewers who can't follow, or the full video simply compressed and posted to a short-form platform",
+          "alt": "The source doesn't contain a few self-contained points → don't force it; you'll only produce scrap."
+        },
+        "steps": [
+          "Auto-slice first and get a batch of candidate highlights. A dedicated tool does this far faster than scrubbing by hand.",
+          "Hand the transcript to a model and have it score candidates on whether they can be understood alone, whether they have a hook, and whether they land a conclusion — then reorder by those scores.",
+          "Batch-generate titles and cover copy for the clips you kept.",
+          "Leave subtitles and vertical re-framing to the editing tool; a human only does the final check.",
+          "**Decide the release rhythm before you cut.** It determines how long each clip should be."
+        ],
+        "warnings": [
+          "Auto-sliced clips often begin half-way through a sentence, and viewers can't follow. A human pass over openings and endings is not optional.",
+          "Don't compress the full video and post it to a short-form platform — those are two different content logics.",
+          "**Fix the posting schedule for all ten clips before you cut them.** Releasing them at once makes them compete with each other; one or two a day per account suits how feeds behave. Knowing the schedule first also tells you the target length."
+        ]
       }
     },
     {
@@ -656,6 +756,31 @@
         "output": "一套背景统一、主体未被改动的商品图",
         "fail": "AI 悄悄改了产品细节（材质、颜色、logo）、各张风格不一致、构成虚假宣传",
         "alt": "商品本身要突出真实质感 → 实拍 + 抠图换背景，不要走生成式改图"
+      },
+      "en": {
+        "title": "Produce a consistent set of product images",
+        "time": "2 hours",
+        "level": "no setup",
+        "problem": "Dozens of SKUs, each needing cut-out, a background swap and a scene, and the designer can't keep up.",
+        "spec": {
+          "input": "Raw product photos, the target style and scene, and the brand's visual rules",
+          "output": "A set of images with consistent backgrounds, in which the product itself was not altered",
+          "fail": "AI quietly changed product details (material, colour, logo), the set looks inconsistent, or the images amount to false advertising",
+          "alt": "The product needs to show its real texture → shoot it and swap the background; don't run it through generative editing."
+        },
+        "steps": [
+          "Cut the background out first and batch it, so you have clean subjects to work with.",
+          "Pick the cut-out tool by situation: **speed and volume** → remove.bg's API; **product and scene in one step** → PhotoRoom, which chains cut-out, background and shadow together; **photos must not leave your own servers** → a local option such as RemBg. The everyday test is how clean the result is on hair strands and semi-transparent edges — PhotoRoom handles product edges best of the three, remove.bg wins on batch stability.",
+          "Fix one set of background and lighting parameters and use image-to-image so the whole range stays visually consistent. **Consistency matters more than any single striking image.**",
+          "Have the model draft a selling-point line per SKU, capped at roughly twelve words.",
+          "Finally check dimensions, whitespace and watermark placement against the platform's rules — main images usually require a white background and a minimum subject ratio."
+        ],
+        "warnings": [
+          "Generative editing is risky for products: it can quietly alter real details like material, colour or logo, which in e-commerce can count as false advertising. Change the background, never the product.",
+          "For real brands, confirm the tool's licence covers commercial use before you ship.",
+          "**Keep 'subject unchanged, background swapped' and 'generative editing' strictly separate.** The first is safe — cut out and composite. The second carries legal risk, because the result is no longer your actual product. Run them as two separate steps, not one tool end to end.",
+          "Run three SKUs end to end before batching. **Batch before the parameters are settled and the rework costs many times the trial.**"
+        ]
       }
     },
     {
@@ -1146,6 +1271,29 @@
         "output": "一套能自测的题 + 一份清楚知道自己哪里不会的诊断",
         "fail": "AI 出的题答案本身就是错的、一边出题一边漏答案、题都会了但不知道自己为什么对",
         "alt": "只是想把知识点过一遍 → 直接看资料，做题适合查漏不适合初次学习"
+      },
+      "en": {
+        "title": "Turn what you've read into questions you can practise on",
+        "time": "ongoing",
+        "level": "no setup",
+        "problem": "You've been through the book once and still can't do the questions with it closed.",
+        "spec": {
+          "input": "The exam's scope and your weak areas",
+          "output": "A set of questions you can test yourself on, plus an honest picture of what you don't know",
+          "fail": "The model's own answers are wrong, it leaks answers while writing the questions, or you get things right without knowing why",
+          "alt": "You only want to run through the material once → just read it. Questions find gaps; they're a poor way to learn something first."
+        },
+        "steps": [
+          "**Self-test first to locate your weak spots — don't start revising from page one.** Tell the model exactly where you're weak, or the questions it writes won't be aimed at anything.",
+          "Have it set questions as one topic from several angles, plus mixed questions, plus trap questions — **questions first, answers withheld**.",
+          "Then let it mark your work and say whether each miss came from a fuzzy concept or a slip in calculation. The two need completely different fixes.",
+          "Put everything you got wrong into a flashcard tool and re-test yourself a few days later."
+        ],
+        "warnings": [
+          "**Model-generated questions have a real error rate**, calculation-heavy ones in the sciences especially. When its answer disagrees with yours, make it re-derive and show every step — don't take it on trust.",
+          "Put 'questions only, no answers yet' explicitly in the prompt, or it will drip out the answers as it writes them.",
+          "**Wrong answers matter more than new questions.** Collect everything you miss and drill it repeatedly — a large share of fresh questions covers things you already know, which is wasted time."
+        ]
       }
     },
     {
@@ -1423,6 +1571,29 @@
         "output": "一批真实回复的潜在客户 + 一份他们为什么买/不买的记录",
         "fail": "批量群发导致账号被封、编造资质背书、发了几百条零回复还不知道为什么",
         "alt": "产品还没做完、连自己都说不清解决什么问题 → 先做完再说，现在触达只会浪费名单"
+      },
+      "en": {
+        "title": "Reach your first customers",
+        "time": "1 day",
+        "level": "no setup",
+        "problem": "The product works, but you don't know where the first users come from, and nobody replies to what you send.",
+        "spec": {
+          "input": "What problem the product solves, a picture of the target customer, and the channels you can actually reach",
+          "output": "A batch of real replies from potential customers, plus a record of why they would or wouldn't buy",
+          "fail": "Bulk sending gets the account banned, credentials get invented, or hundreds of messages go out with zero replies and no idea why",
+          "alt": "The product isn't finished and you can't say what problem it solves → finish it first. Reaching out now only burns the list."
+        },
+        "steps": [
+          "Narrow the target until you can list fifty specific names or accounts. 'Small business owners' is not a target.",
+          "Write the outreach message under hard constraints: under 150 words, the first sentence about them, and a barrier low enough that replying takes one word.",
+          "Test three versions in small batches, changing exactly one variable — only the opening line, for instance — and see which gets replies.",
+          "Interview the people who do reply, in depth, and collect their exact phrasing. It's the best copy material you will ever get."
+        ],
+        "warnings": [
+          "**Bulk sending will cost you the account and the reputation.** AI makes writing cheap; it does nothing to reduce how much recipients resent it. Twenty carefully written messages a day beats two hundred.",
+          "Don't have AI invent credentials like 'we already serve X companies'. For a small team, being caught costs far more than the bump.",
+          "**Decide what hypothesis you're testing before you reach out.** Fifty aimless conversations are worth less than ten aimed at one question: have they actually paid money for this problem before?"
+        ]
       }
     },
     {
@@ -1497,6 +1668,29 @@
         "output": "一张字段统一、能追溯来源的总表 + 一份字段映射说明",
         "fail": "丢行串行、映射错了没人发现、原始文件被覆盖无法回溯",
         "alt": "只有两三个表格、字段基本一致 → 手工复制几个公式更快"
+      },
+      "en": {
+        "title": "Merge a pile of mismatched spreadsheets into one table",
+        "time": "1 hour",
+        "level": "no setup",
+        "problem": "A dozen departments each send a table, with different column names and formats, and combining them means reconciling everything by hand.",
+        "spec": {
+          "input": "The raw tables from each source and the list of fields you want in the result",
+          "output": "One master table with unified fields and traceable provenance, plus a note on how each field was mapped",
+          "fail": "Rows dropped or shifted, a mapping error nobody noticed, or the originals overwritten so nothing can be traced back",
+          "alt": "Only two or three tables with nearly identical fields → copying a few formulas by hand is faster."
+        },
+        "steps": [
+          "Have the model do the **field mapping** first: match each source table's column names to the target fields. Nothing downstream is reliable until this is settled.",
+          "Once the names line up, **merge with a script, not with the model.** A rule you can state explicitly belongs in code — faster, steadier and free.",
+          "The only part that genuinely needs AI is the unstructured part: classifying free text in a notes column, or splitting an address into city and province. Handle that with a structured-extraction prompt.",
+          "After merging, run a quality pass: have the model list anomalous rows — implausible values, impossible dates, empty required fields."
+        ],
+        "warnings": [
+          "**Don't throw twenty tables at the model and ask it to merge them.** It drops and shifts rows inside a long input, and you have no way to verify the result. AI for the mapping, code for the merge.",
+          "Archive the originals. When a merge goes wrong you need to be able to start again from the source.",
+          "For fields where being wrong has consequences — money, stock levels — spot-check a batch by hand afterwards."
+        ]
       }
     },
     {
@@ -1581,6 +1775,30 @@
         "output": "一份逻辑完整、收益可追溯、审批人能快速判断的方案",
         "fail": "数字说不出来源、照搬 AI 的乐观语气、只讲好处不讲风险和代价",
         "alt": "预算很小、团队内部就能定 → 一封说明邮件比正式方案更合适"
+      },
+      "en": {
+        "title": "Write a proposal that gets approved",
+        "time": "half a day",
+        "level": "no setup",
+        "problem": "You have the idea, but the proposal you write doesn't convince anyone and it never gets signed off.",
+        "spec": {
+          "input": "The problem to solve, the shape of the solution, and cost and benefit figures whose source you can explain",
+          "output": "A logically complete proposal with traceable benefits that an approver can judge quickly",
+          "fail": "Numbers you can't source, the model's optimistic tone carried straight in, or upside described with no risk or cost",
+          "alt": "The budget is small and the team can settle it themselves → an explanatory email beats a formal proposal."
+        },
+        "steps": [
+          "Have the model argue against your idea before you write a word. **Do this before drafting** — it finds the weak points while you can still fix them.",
+          "Firm up 'why do this at all' with a decision framework: what it costs to do nothing, whether a better alternative exists, and why now.",
+          "Order it the way the approver reads, not the way you worked it out: conclusion → benefit → cost → risk → milestones. **Write in their order, not yours.**",
+          "Check the timetable against a project-planning prompt, looking specifically for whether it identifies the bottleneck and the critical path.",
+          "Finally have it attack the draft from three positions — the one paying, the one executing, the customer — and patch what each one finds."
+        ],
+        "warnings": [
+          "**Don't carry the model's optimism into the proposal.** It naturally produces 'this is a very promising direction', and approvers spot padding immediately.",
+          "Every figure in the benefit case must be one you can explain the source of. Failing to answer 'where does this 30% come from' costs the whole document its credibility.",
+          "Naming the conditions under which the plan would fail makes it more approvable, not less."
+        ]
       }
     },
     {
@@ -1660,6 +1878,30 @@
         "output": "各平台适配过的版本，每个都符合该平台的表达逻辑",
         "fail": "同一时间批量发布被判营销号、长文直接压缩成短视频文案、各平台内容一字不改",
         "alt": "只在一个平台运营、还没做透 → 先做透一个，不要分散精力"
+      },
+      "en": {
+        "title": "Rework one long piece for several platforms",
+        "time": "1 hour",
+        "level": "no setup",
+        "problem": "You put real effort into a long article, posted it once, and it sank.",
+        "spec": {
+          "input": "One finished long piece and the list of platforms you want it on",
+          "output": "A version adapted to each platform, following that platform's own logic",
+          "fail": "Publishing everywhere at once gets you flagged as a spam account, the article is merely compressed into a video script, or every platform gets identical copy",
+          "alt": "You run one platform and haven't exhausted it → exhaust that one first instead of spreading yourself thin."
+        },
+        "steps": [
+          "Pull out the piece's **core claim and its three supporting points** first. Repurposing well means changing the angle, not shortening the text.",
+          "Pick the rewriting tool per platform: **long article → short social post** → a general model plus explicit style instructions (colloquial, short sentences); **article → short video script** → a dedicated script tool, which understands structures like a hook in the first three seconds; **article → email** → a writing tool, then adjust by hand. **The test is how much the structure changes** — a length change alone is fine with a general model, but changing the whole narrative shape needs a tool that knows that platform's logic.",
+          "Adapt to the platform itself: concrete scenes and emotion for lifestyle feeds, a chain of reasoning for Q&A sites, one sharp opinion for microblogs, a three-second opening for video.",
+          "Generate a separate headline set for each platform. Don't send one draft everywhere.",
+          "Finally check **whether the versions repeat each other** — followers who see the identical thing twice will unsubscribe."
+        ],
+        "warnings": [
+          "**Don't compress a long article and post it to a short-video platform.** Those are two different content logics: short video needs one point and a strong hook, while the article's value is its complete argument.",
+          "Posting to every platform at the same moment tends to get you flagged as a marketing account. Stagger the timing and vary the wording.",
+          "Always read the rewritten version yourself — it quietly changes the strength of your claims, turning 'I lean towards' into 'certainly'."
+        ]
       }
     },
     {
@@ -1734,6 +1976,29 @@
         "output": "3-5 个能复用一年的模板 + 一套取用规则",
         "fail": "每张图都很惊艳但风格不统一、模板太复杂每次都要重做、素材有版权风险",
         "alt": "只是偶尔发几条、不追求账号辨识度 → 用现成模板，不必自己搭体系"
+      },
+      "en": {
+        "title": "Build a social visual system that lasts a year",
+        "time": "half a day",
+        "level": "no setup",
+        "problem": "Every post needs new artwork, the style drifts further each time, and the account stops looking like one account.",
+        "spec": {
+          "input": "The account's positioning and the visual elements you already have — colours, typeface, logo",
+          "output": "Three to five templates you can reuse all year, plus rules for which to reach for",
+          "fail": "Every image is striking but the styles don't match, the templates are too elaborate so each post starts from scratch, or the assets carry licence risk",
+          "alt": "You post occasionally and don't need recognition → use an off-the-shelf template; you don't need your own system."
+        },
+        "steps": [
+          "Set the visual register first: have the model translate 'the feeling I want' into actual parameters — primary colour, the character of the typeface, proportion of whitespace, graphic elements.",
+          "Produce a base set of templates — cover, body, pull quote, data — freeze them, and from then on change only the content, never the layout.",
+          "Generate one consistent set of backgrounds and decorative assets, so you never run short of material when assembling a post.",
+          "Set naming and archiving rules: templates, raw assets and finished pieces live separately, named by date and topic."
+        ],
+        "warnings": [
+          "**Consistency beats any single striking image.** If every post looks great but different, the account has no identity. Accept that individual posts will be plainer.",
+          "Watch the licence on generated assets: anything touching real brands, a person's likeness, or a recognisable artistic style needs checking before commercial use.",
+          "Once the templates are set, stop redesigning them. Visual recognition is built by repetition, not by refreshing."
+        ]
       }
     },
     {
@@ -1816,6 +2081,30 @@
         "output": "一期能直接发布的成片（含降噪、剪辑、简介）",
         "fail": "房间混响严重劝退听众、后期耗时超过内容本身、做两期就断更",
         "alt": "只想试试水、不确定能不能坚持 → 先用手机录一期发出去，别先买设备"
+      },
+      "en": {
+        "title": "Produce a podcast episode from topic to publishable file",
+        "time": "1 day",
+        "level": "no setup",
+        "problem": "You want to make a podcast, but the thought of the editing and post-production makes you drop it.",
+        "spec": {
+          "input": "A topic, a way to record, and a release rhythm you can actually sustain",
+          "output": "One episode ready to publish — cleaned up, edited, with a description",
+          "fail": "Room echo drives listeners away, post-production takes longer than making the content did, or you stop after two episodes",
+          "alt": "You're testing the water and not sure you'll stick with it → record one episode on your phone and publish it. Don't buy equipment first."
+        },
+        "steps": [
+          "Plan the first eight topics with a listener-stage × content-type matrix, so you don't run dry by episode three.",
+          "Have the model draft an interview outline, including directions to follow up — but **don't read it out while recording.** A podcast read from a script sounds stiff.",
+          "Run the recording through a transcription tool. Everything downstream depends on having the text.",
+          "Choose post-production by how much time you will actually spend: **just get it out** → Descript, where you cut audio by editing text, deleting a line removes the audio, and transcription and editing happen in one place; **careful sound treatment** → an enhancement pass plus a full editor; **batch work** → run everything through a noise reducer first. **Don't start a beginner on professional software** — it offers freedom, and what you need right now is speed.",
+          "Hand the transcript to a model for the episode description, a timeline, and three moments that can travel on their own."
+        ],
+        "warnings": [
+          "Fix recording quality before worrying about content. Room echo from a phone recording puts listeners off faster than weak content does, and noise reduction saves part of the problem, not all of it.",
+          "**AI-written episode descriptions slide into marketing voice.** Rewrite it in the way you actually speak.",
+          "Before recording a guest, state clearly what it's for and where it will be published. Using someone else's voice and opinions carries explicit consent requirements."
+        ]
       }
     },
     {
@@ -1891,6 +2180,30 @@
         "output": "多条语言的字幕与配音版本",
         "fail": "音画不同步、专有名词直译很尴尬、声音克隆未获授权",
         "alt": "只做一个市场、受众都说中文 → 只需要字幕，不需要多语言配音"
+      },
+      "en": {
+        "title": "Add subtitles and dubbed audio to videos in bulk",
+        "time": "half a day",
+        "level": "no setup",
+        "problem": "You want to reach other markets, but the volume of translation and voice work puts you off.",
+        "spec": {
+          "input": "The source video, the target languages, and a glossary saying how proper nouns should be rendered",
+          "output": "Subtitled and dubbed versions across several languages",
+          "fail": "Audio and picture drift out of sync, proper nouns come out literally and awkwardly, or a cloned voice is used without permission",
+          "alt": "You serve one market whose audience all reads the same language → subtitles alone; you don't need dubbing."
+        },
+        "steps": [
+          "Get timed source-language subtitles (SRT) out of a transcription tool first. This is the master that every other language derives from.",
+          "Translate the subtitles. **Translate for the ear, not the page** — over-long lines overflow the frame, and viewers only follow phrasing that sounds spoken.",
+          "Choose the voice by language: **one language only** → compare the specialists, since naturalness in a single language often beats a general service; **several languages** → a service with the widest coverage of smaller languages, such as ElevenLabs; **keeping your own voice** → voice cloning, and **only your own voice or one you hold written permission for**.",
+          "**Don't break subtitles and dub at the same points.** Subtitles follow reading rhythm, dub follows speaking rhythm — force them to line up and both come out awkward.",
+          "Composite audio and subtitles in the editor, and decide in advance how you'll handle places where mouth movements won't match: cut away, or cover with other footage."
+        ],
+        "warnings": [
+          "**Voice cloning requires explicit permission from the person.** Cloning someone else's voice is an infringement in most jurisdictions, and it can also be used for fraud.",
+          "After machine translation, go through proper nouns and cultural references by hand. Literal renderings are frequently embarrassing.",
+          "Languages differ in information density: twenty characters of one language may need three lines in another, so the subtitle segments have to be re-cut per language."
+        ]
       }
     },
     {
@@ -2200,6 +2513,31 @@
         "output": "你自己能独立写出来的一个完整小项目",
         "fail": "看着 AI 写觉得很懂、一动手就废、拿到能跑但不知道原理的代码",
         "alt": "只是要改一个现成项目里的小功能 → 边改边学更高效，不用从零学语言"
+      },
+      "en": {
+        "title": "Learn a language from scratch to shipping a project",
+        "time": "4 weeks",
+        "level": "no setup",
+        "problem": "You've been through the syntax once and still can't write anything complete.",
+        "spec": {
+          "input": "The language you want to learn, and the one small project you want to build in it",
+          "output": "One complete small project that you wrote yourself",
+          "fail": "Watching the model write feels like understanding, then you try alone and can't, or you end up with code that runs by principles you don't know",
+          "alt": "You only need to change one small thing in an existing project → learn by changing it; you don't need to learn the language from zero."
+        },
+        "steps": [
+          "Have the model draw a map of the language's core concepts and mark **where it differs from the language you already know.** Learning a language isn't starting from zero — it's migrating from what you know.",
+          "Fix one small project that runs through everything — a command-line todo, a scraper, a small site — and add one feature to it each week. **Don't do a pile of unrelated exercises.**",
+          "Pick the learning tool by stage: **starting out, syntax still unfamiliar** → an interactive course, where instant feedback beats reading documentation alone; **can write small scripts now** → use AI as a reviewer, and have it point out what you wrote badly rather than write for you; **need to understand a complex piece of code** → a tool that reads the whole repository and explains it layer by layer. **Don't reverse this order** — start by having AI write the whole project and you'll end up with something that runs and means nothing to you.",
+          "When you hit an error, use a debugging prompt that makes it explain **why** the error happens, not one that hands you a fix. That is what builds judgement.",
+          "Once a week, have the model review your code and grade its comments by severity — the equivalent of a senior colleague who is always available.",
+          "Finally, have it play an interviewer and pressure-test you on your own project, to find out whether you actually understand it."
+        ],
+        "warnings": [
+          "**The biggest trap is watching AI write while you read along.** It feels exactly like understanding. Try it yourself afterwards and you can't. Force yourself to write first, then have AI correct it.",
+          "Don't ask AI for the whole project's code in one go. You need to understand it line by line, not receive something that runs by principles you don't know.",
+          "After each concept, explain it in your own words and have AI poke holes in the explanation. This step is not optional."
+        ]
       }
     },
     {
@@ -2283,6 +2621,30 @@
         "output": "一份不超时、有主线、有实操价值的讲稿与演示准备",
         "fail": "严重超时、Demo 现场翻车没有备份、讲了很多但听众记不住一个点",
         "alt": "听众背景差异极大、时长只有 10 分钟 → 只讲一个案例，别铺开"
+      },
+      "en": {
+        "title": "Prepare a technical talk",
+        "time": "1 day",
+        "level": "hands-on",
+        "problem": "The material is all in your head, but it won't organise into a talk you can actually deliver.",
+        "spec": {
+          "input": "The one point you want to land, the audience's background, and how long you have",
+          "output": "A script and demo preparation that fits the slot, holds a through-line, and is practically useful",
+          "fail": "Badly over time, the demo fails live with no fallback, or you covered plenty and nobody remembers a single point",
+          "alt": "The audience's backgrounds vary widely and you have ten minutes → tell one case study, don't spread out."
+        },
+        "steps": [
+          "Define the audience and their prior knowledge first: what they know, what they don't, and what they care about. That decides where you begin.",
+          "Organise it as problem → why it's hard → my approach → the result → what surprised me. **The classic failure mode of a technical talk is turning into a list of APIs.**",
+          "Prepare one analogy and one counter-example for each core concept. The analogy makes people understand; the counter-example makes them remember.",
+          "Have the model play the audience and ask ten awkward questions — especially 'why didn't you just use X'.",
+          "Write the script, not the slides. Write the full script first and extract each slide's point from it; do it the other way round and you get someone reading slides aloud."
+        ],
+        "warnings": [
+          "**Time will overrun badly.** Have the model estimate each section, then cut thirty per cent — first-time speakers typically run double.",
+          "Always keep a screen recording of the demo as a backup. A failed live demo is the most common accident in technical talks.",
+          "AI-generated analogies are often strained — neural networks compared to 'the brain', and similar. Better to use fewer analogies that genuinely fit."
+        ]
       }
     },
     {
@@ -2377,6 +2739,31 @@
         "output": "一屏能看完、每个指标都能对应行动的看板",
         "fail": "一屏放 20 个数字没有重点、口径不写明导致两个人算出不同数、没人看",
         "alt": "团队还没有固定的决策节奏 → 先定例会怎么用数据，再看板才有意义"
+      },
+      "en": {
+        "title": "Build a dashboard the team actually reads",
+        "time": "1 day",
+        "level": "no setup",
+        "problem": "You pulled together a pile of reports, nobody opens them, and nobody knows what to do with them.",
+        "spec": {
+          "input": "The metrics the team will genuinely look at, and who does what in response to each one",
+          "output": "A dashboard readable in one screen, where every metric maps to an action",
+          "fail": "Twenty numbers on one screen with no focus, definitions left unstated so two people compute different figures, or nobody opens it at all",
+          "alt": "The team has no regular decision cadence → decide how the meeting uses data first. A dashboard only means something after that."
+        },
+        "steps": [
+          "Break it down with a metric tree first: what is the north star, and how far down until you reach a level the team can directly influence. **A dashboard without that decomposition is just a wall of numbers.**",
+          "Give each metric a normal range and an anomaly threshold, so the dashboard raises the alarm rather than waiting for someone to notice.",
+          "Choose tooling from where the team already is: **already on a BI platform** → use its AI features, because then metric definitions follow the system you already have; **no data foundation yet** → a natural-language analysis tool, where you ask a question and get a chart; **need to catch movements** → something that pushes alerts instead of waiting to be opened. **Don't switch platforms for the sake of AI** — a team with muddled definitions only gets muddled faster on a new tool.",
+          "Pull the numbers by asking in natural language, and check that the definitions match what you believe they mean.",
+          "Have the model write one line per chart: what question this panel answers. If it can't write one, the chart should go.",
+          "Build different views per role: management sees trend and anomalies, the people executing see the concrete next action."
+        ],
+        "warnings": [
+          "**The most common failure is having too many metrics.** Twenty numbers on one screen is the same as having no focus. Keep five if that's what it takes, and make each one map to an action.",
+          "Metric definitions have to be written on the dashboard. Two people getting different figures from the same table is worse than having no report.",
+          "Watch how it's actually used for two weeks after launch. If nobody opens it, the problem isn't that it isn't pretty enough — it's that it answers nobody's question."
+        ]
       }
     },
     {
@@ -2459,6 +2846,30 @@
         "output": "一份分层的问题清单 + 每条附真实反馈作为依据",
         "fail": "直接从反馈跳到解决方案、少数但关键的反馈在长输入里被淹没、把个别抱怨当成普遍问题",
         "alt": "总共只有十几条反馈 → 自己逐条读完，比让模型总结更准"
+      },
+      "en": {
+        "title": "Mine product problems out of user feedback",
+        "time": "half a day",
+        "level": "no setup",
+        "problem": "You collected hundreds of pieces of feedback, came away thinking users are impossible to please, and can't summarise a conclusion.",
+        "spec": {
+          "input": "The raw feedback, with channel and date, plus the product question you want answered",
+          "output": "A prioritised list of problems, each backed by a real quote",
+          "fail": "Jumping straight from feedback to solutions, rare but critical feedback lost inside a long input, or treating one person's complaint as a general problem",
+          "alt": "You only have a dozen or so pieces of feedback → read them yourself. It's more accurate than any summary."
+        },
+        "steps": [
+          "Start with **unguided clustering**: don't tell it what you want to verify, just let it report which themes actually appear in the feedback.",
+          "Count the share of each theme, then rank by intensity of feeling multiplied by frequency. Frequent and intense is what you fix first.",
+          "For each theme, have it pull out **the user's exact words.** Quotes are the most persuasive evidence you have, and they also expose where you clustered wrongly.",
+          "Separate what the user said from what the user actually needs. Have the model point out which feedback is a symptom and what might sit behind it.",
+          "Converge on a list of what to change, why, and the expected effect — not a statistics table about the feedback."
+        ],
+        "warnings": [
+          "**Don't let the model jump from feedback to solutions.** It will suggest features that sound reasonable and miss the actual pain entirely. Judging that is your job.",
+          "With a large volume, sample in layers before analysing. Feed everything in at once and the rare but critical voices get lost in a long input.",
+          "Remember the silent majority. The people who write in tend to be the furious and the devoted; the middle, who say nothing, are unrepresented."
+        ]
       }
     },
     {
@@ -2554,6 +2965,31 @@
         "output": "一套信息一致、数字准确、可直接使用的发布物料",
         "fail": "想说的一堆导致没有一个被记住、数字是旧版本带过来的、各渠道说法不一致",
         "alt": "只是版本更新、没有新的核心信息 → 发一条更新日志就够，不用做整套物料"
+      },
+      "en": {
+        "title": "Produce every asset for a launch",
+        "time": "2 days",
+        "level": "no setup",
+        "problem": "The launch is close and you need copy, images, a short video and an email, all at the same time.",
+        "spec": {
+          "input": "The core message of this release — ideally no more than three points — and the list of channels",
+          "output": "A set of launch assets that agree with each other, carry accurate figures, and can be used as-is",
+          "fail": "Too many messages so none gets remembered, figures carried over from an older version, or each channel saying something different",
+          "alt": "It's just a version update with no new core message → a changelog entry is enough. You don't need a full asset set."
+        },
+        "steps": [
+          "Set **the one-sentence core message** first: the single most important thing about this release. Every asset orbits that sentence. Don't try to say more.",
+          "Produce copy against a checklist — landing page, social teaser, launch email, in-product announcement, press note. Same core message, different expression.",
+          "Choose production tools by type: **copy** → a general model for structure, then a human pass; **images and posters** → a template-heavy design platform, which is faster and more visually consistent than pure generation; **short video** → a generation or editing tool; **email and landing page** → conversion-focused prompts. **The critical part is agreeing one asset spec first** — dimensions, palette, typeface — and only then splitting the work, or five people produce things that look like five companies.",
+          "Generate the visual assets: key art, feature images, social covers. Keep the whole set consistent.",
+          "Make one thirty-second video: script → storyboard → generate → cut. The first three seconds have to say what this is.",
+          "Before launch, have the model play your target user and say which asset is most likely to be ignored, and why."
+        ],
+        "warnings": [
+          "**More than three core messages means no core message.** The thing that derails a launch more than anything is wanting to say too much.",
+          "Check every figure in outward-facing copy before it ships. When AI reuses your own earlier material, it happily carries the old numbers along.",
+          "Prepare a short FAQ document. On launch day the same questions come up over and over, and having answers ready saves a lot of time."
+        ]
       }
     },
     {
@@ -2645,6 +3081,31 @@
         "output": "一个有主次、能持续产出的多平台方案 + 第一批改编好的内容",
         "fail": "同时开五个平台每个都做不好、同一内容原样搬运被判重复、为铺量牺牲质量",
         "alt": "主力平台还没做透、内容还没有稳定产出 → 先做透一个，别急着铺开"
+      },
+      "en": {
+        "title": "Build a multi-platform presence from scratch",
+        "time": "1 week",
+        "level": "no setup",
+        "problem": "You have one platform, growth on it has flattened, and you don't know how to start on the others.",
+        "spec": {
+          "input": "The content direction you've already validated on your main platform, and a way of structuring your content",
+          "output": "A sustainable multi-platform plan with a clear home and satellites, plus the first adapted batch",
+          "fail": "Opening five platforms at once and doing all of them badly, posting identical content and being flagged as duplicate, or trading quality for volume",
+          "alt": "Your main platform isn't exhausted and your output isn't steady yet → exhaust it first, don't spread out."
+        },
+        "steps": [
+          "Decide the **home platform and the distribution platforms.** Home gets the depth and builds assets; satellites get the reach. Don't split effort evenly.",
+          "Work out how each platform's traffic actually behaves — recommendation feed versus follower feed, text versus video, what the ranking rewards — and pick the content form from that.",
+          "Pick cross-platform tools by what you're solving: **distribution only** → a multi-platform scheduler, which saves repeated clicking; **adaptation** → a general model plus per-platform style notes; **seeing where traction appears** → an analytics tool, not the scheduler's own numbers. **Don't conflate the three** — plenty of people think using a scheduler is running a matrix, when all it did was save clicks.",
+          "Design one pipeline: produce once, as a long article or long video, then split it into several forms — short video, image post, Q&A answer.",
+          "Confirm with data tools that people actually search for the direction before you invest in producing it.",
+          "Set a review rhythm: each week decide which platforms deserve more and which to stop. **Be willing to shut down a platform that isn't working.**"
+        ],
+        "warnings": [
+          "**Opening five platforms at once is the most common way this dies.** Exhaust one, then start the second, or you'll do all of them badly.",
+          "Content can't simply be copied between platforms. Publishing the same piece in five places gets it judged as low-quality duplication.",
+          "Give each platform an explicit stopping point — three months with no traction, stop. Without one, it keeps consuming effort indefinitely."
+        ]
       }
     },
     {
@@ -3502,7 +3963,35 @@
         "配色只看设计稿是不够的。一定要放到真实场景里看：手机小屏、深色模式、黑白打印。**很多配色在这三种情况下会崩。**",
         "版权要查清楚。AI 生成的 logo 在一些司法辖区无法获得商标保护（因为缺乏人类独创性），商用前建议确认。",
         "别一次定太多颜色。品牌色超过 3 个就记不住了，实际使用中也会乱。"
-      ]
+      ],
+      "en": {
+        "title": "Build a basic brand identity from nothing",
+        "time": "1-2 days",
+        "level": "no setup",
+        "problem": "The product is about to launch and there's no logo, no palette, no templates — every graphic starts from scratch and comes out inconsistent.",
+        "spec": {
+          "input": "The brand name, a one-line positioning, and a picture of the target user",
+          "output": "A starter kit you can use immediately: logo, primary and secondary colours, type pairing, three to five social templates",
+          "fail": "It reads as a template, the palette fails contrast, or the logo turns to mush when scaled down",
+          "alt": "You already have brand assets and just lack execution speed → use a template platform. Don't redesign."
+        },
+        "steps": [
+          "**Write down the brand's character before making anything visual.** Three adjectives is enough: 'credible, restrained, professional' and 'lively, friendly, cheap' lead to completely different design.",
+          "Fix the primary colour first, then generate a supporting palette with a colour tool. Some of these learn from colours you pick, which lands closer to your taste than random generation does.",
+          "**Check contrast the moment the palette is set.** A combination that looks good in a mock-up can be unreadable with real text on it. Body text needs at least 4.5:1.",
+          "Choose colour and asset tools by stage: **no direction yet, want to see options** → a tool that learns from the colours you like; **one primary colour fixed, need the rest** → a tool that constrains the problem to 'keep this colour, give me usable combinations'; **ready-made brand templates** → a template platform, quick but weak on distinctiveness. **Settle the palette before hunting for a logo**, or you'll end up changing colours later.",
+          "Generate logo drafts to find a direction — **and use them for direction only, never as the final mark.** The usual failure is a logo where you can't say what's wrong but can't recognise it either.",
+          "For a logo that has to last, hire a designer. **If you simply need to ship now and revise later**, a generated one will do — as long as you intend to replace it.",
+          "**Don't rebuild templates every time.** Make three to five reusable skeletons — cover, content, quote, closing — and only swap content and imagery afterwards.",
+          "Store the agreed colours, type and spacing as design tokens. Whether you use them yourself or hand them to someone else, that single source is what stops the style drifting."
+        ],
+        "warnings": [
+          "**Generated logos have a strong template feel** — put them next to similar products and you can't tell them apart. If your brand needs to be remembered, don't skip this step.",
+          "Looking at a palette only in the mock-up isn't enough. Check it in real conditions: a small phone screen, dark mode, black-and-white print. **Plenty of palettes fall apart in those three.**",
+          "Check the rights. In some jurisdictions a generated logo can't be protected as a trademark, because it lacks human originality — worth confirming before commercial use.",
+          "Don't fix too many colours at once. Past three, nobody remembers them, and in practice they get applied inconsistently."
+        ]
+      }
     },
     {
       "id": "pb-meeting-auto",
@@ -3596,7 +4085,34 @@
         "自动生成的纪要学会读但不要全信。**尤其是数字、日期、人名，这三类错误率最高**，一定要人工核一遍。",
         "「会上讨论了」和「会上决定了」是两回事。让 AI 明确区分，否则三个月后你会以为某件事已经定了。",
         "如果团队根本不用任何任务工具，那真正的问题不是没有 AI 纪要，而是没有跟进机制。**先解决流程问题，AI 帮不上忙。**"
-      ]
+      ],
+      "en": {
+        "title": "Get meeting notes to flow into tasks automatically",
+        "time": "1 hour",
+        "level": "no setup",
+        "problem": "The meeting ends, someone writes up the notes by hand, then hands out tasks by hand, then nobody follows up — and three weeks later the same thing is discussed again from scratch.",
+        "spec": {
+          "input": "The meeting recording and the list of attendees",
+          "output": "A task list with a named owner and a due date for every item, already synced into the tool the team actually uses",
+          "fail": "Notes full of 'we discussed X' with no decisions in them, tasks with no owner, or the recording stopping half way through",
+          "alt": "One or two people attended and the decision was settled there and then → skip the recording and the AI, just post the conclusion in chat."
+        },
+        "steps": [
+          "**Get consent from the attendees before you record.** Recording is legally regulated in many jurisdictions — this is not a question of politeness.",
+          "Use the meeting platform's own AI assistant where it has one. **Its biggest advantage is that it already knows the attendees and the calendar**, so nobody retypes them.",
+          "For cross-language meetings, or English-dominant ones, a dedicated transcription service such as Otter is the usual choice; for heavily accented or dialect-mixed rooms, compare the specialists. **Recognition quality depends overwhelmingly on recording quality** — when several people talk at once, nothing can recover it.",
+          "Once you have the transcript, **don't trust the automatic summary.** Re-extract it with a structured prompt, and specifically require it to separate what was discussed from what was actually decided.",
+          "**Every task needs an owner and a due date; missing either, it isn't a task.** Have the model list separately the items with no clear owner — those are precisely the ones that get argued about later.",
+          "Push the tasks into whichever tool the team really works in. **A task that stays in the meeting notes does not exist.**",
+          "If the meeting recurs — a weekly, a monthly review — freeze the template and use the same structure every time, so comparing one week to the next actually shows progress."
+        ],
+        "warnings": [
+          "**Recording requires consent.** Beyond privacy, many companies have explicit rules about it. Recording the wrong thing causes far more trouble than not recording.",
+          "Learn to read an auto-generated summary without trusting it. **Numbers, dates and names have the highest error rate** — check all three by hand.",
+          "'We discussed it' and 'we decided it' are different things. Make the model distinguish them, or three months later you'll be certain something was settled that never was.",
+          "If the team doesn't use any task tool at all, the real problem isn't missing AI notes — it's a missing follow-up mechanism. **Fix the process first; AI can't help here.**"
+        ]
+      }
     },
     {
       "id": "pb-translate-workflow",
@@ -3694,7 +4210,34 @@
         "AI 翻译在**法律条文、医疗建议、财务数据**这几类内容上不可靠，涉及责任的文档必须人工审。",
         "注意「过度润色」。模型倾向于把有棱角的表达磨平，如果你的文案靠态度取胜，润色反而会削弱它。",
         "译文比原文长是正常的（中译英通常长 20-30%）。**排版时留出余量**，否则会出现溢出或断行难看。"
-      ]
+      ],
+      "en": {
+        "title": "Set up your own translation and polishing pipeline",
+        "time": "half a day",
+        "level": "no setup",
+        "problem": "A document needs to exist in two languages: machine translation doesn't read like a person wrote it, and human translation is too slow. Writing in English always needs a second pair of eyes for grammar and tone.",
+        "spec": {
+          "input": "The document to translate, plus the target language and what it's for — published externally, internal, academic",
+          "output": "A version that reads as though a native speaker wrote it, with consistent terminology and no formatting lost",
+          "fail": "Terminology inconsistent, formatting mangled, the register wrong — too casual where it should be formal — or a whole paragraph dropped",
+          "alt": "You only need to get the gist of a foreign-language document → use a browser extension with a side-by-side view; you don't need the full pipeline."
+        },
+        "steps": [
+          "**Build the glossary first.** It is the most valuable step in the entire process: once product names, proper nouns and domain terms are fixed, they don't move, or the translation starts contradicting itself.",
+          "Use a dedicated translation engine such as DeepL as the base for long documents — it handles long sentences and terminology more steadily than a general model. For short, colloquial passages, a general model often reads better.",
+          "**After translating, ask it to make the text native, not to translate it again.** Hand over the machine output and ask it to rewrite according to how the target language is really written, rather than to proofread sentence by sentence.",
+          "For grammar and tone in English you wrote yourself, use a dedicated checker such as Grammarly. **The division of labour is**: the checker catches errors, the model changes expression.",
+          "When reading foreign-language material, use a side-by-side bilingual view — and **don't read only the translation.** In technical material, one mistranslated word can invert the meaning of an entire passage.",
+          "When polishing a long piece, watch for the usual failure: it sands the edges off. Passages that should stay sharp come out rounded, so anything important needs a human read afterwards.",
+          "Finally, **check that the formatting survived**: heading levels, lists, tables, code blocks, links. Machine translation breaks these most often, and tables most of all."
+        ],
+        "warnings": [
+          "**Inconsistent terminology damages credibility more than a wrong translation does.** When the same concept appears as 'user' in one place and 'customer' in another, readers start doubting the whole document.",
+          "AI translation is not reliable for **legal clauses, medical advice or financial figures.** Anything carrying liability needs a human review.",
+          "Watch for over-polishing. Models tend to smooth out anything with an edge, so if your writing wins on attitude, polishing will weaken it.",
+          "A translation coming out longer than the original is normal — one direction typically runs 20–30% longer. **Leave room in the layout**, or you get overflow and ugly line breaks."
+        ]
+      }
     },
     {
       "id": "pb-pick-coding-tool",
@@ -4061,7 +4604,35 @@
         "数学题的「步骤解释」可靠性低于「最终答案」。答案对了但过程是编的，这种情况很常见。",
         "老师的实际约束（课时、班级人数、学生差异）不告诉 AI，它给的方案就是纸上谈兵的。**备课前先把它当新来的实习老师，交代清楚背景。**",
         "别让孩子在没有引导的情况下单独使用。Khanmigo 这类「不直接给答案」的设计，正是为了这个。"
-      ]
+      ],
+      "en": {
+        "title": "Use AI for tutoring and lesson prep",
+        "time": "2 hours",
+        "level": "no setup",
+        "problem": "Students use AI to copy answers and learn nothing. Teachers want AI to set questions and prepare lessons, but what it produces misses the point.",
+        "spec": {
+          "input": "A concrete learning goal — which chapter, which concept, which skill is being practised",
+          "output": "Practice you can self-test on, plus an honest picture of what you don't know",
+          "fail": "AI hands over the answer so nothing is learned, the difficulty doesn't match, or it explains a concept wrongly and nobody notices",
+          "alt": "You just need one fact or one definition → search for it; you don't need a tutoring process."
+        },
+        "steps": [
+          "**Set the rule before anything else: no answers handed over.** The value of Socratic tools such as Khanmigo is that they guide instead of doing the work. Confirm that's what you're using before you begin.",
+          "Have it test you before it teaches you. **Exposing the weak spots first is far more efficient** — otherwise the time goes on things you already know.",
+          "Have it **set questions rather than give answers.** Ask for questions aimed at whatever weakness just surfaced, and require it to state what each question is testing.",
+          "For maths and physics, use a dedicated solver such as Photomath — but **treat the step-by-step explanation with suspicion.** On harder derivations it still goes wrong.",
+          "For language learning, use a practice mode in which it only corrects and never does the work for you. **Ask it to say why something is wrong, not just to supply the right answer.**",
+          "When preparing a lesson, have AI **differentiate rather than generate.** Three difficulty tiers of the same concept is worth far more than a lesson invented from nothing.",
+          "**Finally, explain it back in your own words.** Have it ask 'now explain what you just learned your own way' — whatever you can't answer is what you didn't actually learn."
+        ],
+        "warnings": [
+          "**Asking for the answer is the biggest trap in AI tutoring, and it's the request the tool is most willing to satisfy.** Set your own rule, or you've just spent the afternoon copying faster.",
+          "**A concept explained wrongly is the most dangerous case, because it's delivered confidently.** Check key concepts, formulas and facts against the textbook or an authoritative source.",
+          "In maths, the step-by-step explanation is less reliable than the final answer. A correct answer built on invented reasoning is common.",
+          "If you don't tell AI your actual constraints — lesson length, class size, how much the students differ — what you get is unworkable. **Treat it like a new trainee teacher and brief it properly first.**",
+          "Don't leave children to use this unsupervised. The 'no direct answers' design of tools like Khanmigo exists precisely for this."
+        ]
+      }
     },
     {
       "id": "pb-zero-to-app",

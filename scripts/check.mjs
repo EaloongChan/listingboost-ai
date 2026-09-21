@@ -596,6 +596,93 @@ const playbookIds = new Set();
     } catch { /* 忽略 */ }
 
 
+    /* 手册的英文翻译必须是「整篇有、整篇没有」，不能半篇。
+       为什么这条很关键：卡片和详情页的取值是 `L === EN && e.problem ? e.problem : pb.problem`
+       —— 字段级回退到中文。所以只翻了 title、没翻 steps 的手册，
+       英文页上会直接露出中文正文，而且不报错、只是「看起来怪」。
+       分批翻译时这一条就是进度表兼验收单。 */
+    try {
+      const pbList = JSON.parse(fs.readFileSync(path.join(DATA, 'playbooks.json'), 'utf8')).items;
+      const REQUIRED = {
+        title: (v) => typeof v === 'string' && v.length > 2,
+        problem: (v) => typeof v === 'string' && v.length > 10,
+        time: (v) => typeof v === 'string' && v.length > 0,
+        level: (v) => typeof v === 'string' && v.length > 0,
+        spec: (v) => v && v.input && v.output && v.fail && v.alt,
+        /* 注意：英文的步骤数**不要求**等于中文的。
+           翻的时候是按英文读者能照做的粒度重写的，普遍比中文更细
+           （pb-automate-chores 中文 4 步 → 英文 7 步）。
+           一开始写成「长度必须相等」，结果 5 篇好好的翻译全被判成半成品。
+           中文侧 steps 是对象（含 tools/prompts 交叉引用），英文侧是纯字符串，
+           所以这里也要求它是字符串。 */
+        steps: (v) => Array.isArray(v) && v.length > 0 && v.every((s) => typeof s === 'string' && s.length > 5),
+        warnings: (v) => Array.isArray(v) && v.length > 0 && v.every((s) => String(s).length > 5),
+      };
+      const started = pbList.filter((p) => p.en && Object.keys(p.en).length > 0);
+      const partial = [];
+      for (const pb of started) {
+        const missing = Object.keys(REQUIRED).filter((k) => !REQUIRED[k](pb.en[k], pb));
+        if (missing.length) partial.push(`${pb.id} 缺 ${missing.join('/')}`);
+      }
+      if (partial.length) {
+        errors.push(`i18n: ${partial.length} 篇手册的英文翻译是半成品（英文页会回退显示中文）→ ${partial.slice(0, 6).join('; ')}`);
+      } else {
+        ok.push(`i18n: 手册英文翻译 ${started.length}/${pbList.length} 篇，已开翻的都是整篇完整`);
+      }
+    } catch { /* 忽略 */ }
+
+
+    /* 英文「关于页 / 页脚」声明的覆盖范围，不能和实际情况说反。
+       踩过一次：手册和提示词早就翻完了，关于页还写着
+       "the playbooks, prompt library ... are not translated"。
+       英文读者看到会以为这些内容根本不存在 —— 这比没翻更糟，
+       因为他们连去中文版找的机会都没有。
+       做法：把这两句文案按句号切开；一句话里同时出现某个区段的名字和否定说法，
+       而那个区段其实已经有英文页，就报错。 */
+    try {
+      const i18nEn = JSON.parse(fs.readFileSync(path.join(DATA, 'i18n.json'), 'utf8')).en || {};
+      const pbAll = JSON.parse(fs.readFileSync(path.join(DATA, 'playbooks.json'), 'utf8')).items;
+      const prAll = JSON.parse(fs.readFileSync(path.join(DATA, 'prompts.json'), 'utf8'));
+      const glAll = JSON.parse(fs.readFileSync(path.join(DATA, 'glossary.json'), 'utf8'));
+      const mdAll = JSON.parse(fs.readFileSync(path.join(DATA, 'models.json'), 'utf8'));
+      const mdList = Array.isArray(mdAll) ? mdAll : mdAll.items || [];
+      const twAll = JSON.parse(fs.readFileSync(path.join(DATA, 'tools.json'), 'utf8'));
+      const twList = Array.isArray(twAll) ? twAll : twAll.items || [];
+
+      const translated = {
+        tool: twList.filter((t) => t.descEn).length,
+        model: mdList.filter((m) => m.strengthsEn).length,
+        playbook: pbAll.filter((p) => p.en && p.en.title).length,
+        prompt: (Array.isArray(prAll) ? prAll : prAll.items || []).filter((p) => p.en && p.en.prompt).length,
+        glossary: glAll.filter((g) => g.defEn).length,
+        search: 1,          // /en/search/ 一直存在
+        news: 0,            // 刻意不翻
+        learning: 0,        // 刻意不翻
+      };
+      const KEYWORDS = {
+        tool: /\btool|tools\b/i, model: /\bmodel|models\b/i, playbook: /\bplaybook|playbooks\b/i,
+        prompt: /\bprompt|prompts\b/i, glossary: /\bglossar(y|ies)\b/i, search: /\bsearch\b/i,
+        news: /\bnews\b/i, learning: /\blearning\b/i,
+      };
+      const NEGATIVE = /\bnot translated|untranslated|in chinese only|aren't translated|are not\b|\bonly\b/i;
+
+      const stale = [];
+      for (const key of ['about.scope', 'footer.langNote']) {
+        const text = i18nEn[key];
+        if (!text) continue;
+        for (const sentence of String(text).split(/[.;]/)) {
+          if (!NEGATIVE.test(sentence)) continue;
+          for (const [sec, re] of Object.entries(KEYWORDS)) {
+            if (!re.test(sentence)) continue;
+            if (translated[sec] > 0) stale.push(`${key} 说 ${sec} 没有英文版，实际有 ${translated[sec]} 页`);
+          }
+        }
+      }
+      if (stale.length) errors.push(`i18n: 英文站的覆盖范围说明与实际情况不符 → ${[...new Set(stale)].slice(0, 5).join('; ')}`);
+      else ok.push('i18n: 英文站覆盖范围说明与实际产出的英文页一致');
+    } catch { /* 忽略 */ }
+
+
     /* 提示词的变量与占位符必须双向一致。
        踩过一次（英文提示词批量翻译时出现 9 处）：
        提示词正文里写了 {{code}}，但变量表里没有 —— 读者会看到一个
