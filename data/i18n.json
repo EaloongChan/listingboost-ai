@@ -91,6 +91,16 @@
     "footer.data": "Open data",
     "footer.langNote": "English section: tools and models only.",
     "kind.3d": "3D generation",
-    "kind.doc": "Document parsing"
+    "kind.doc": "Document parsing",
+    "pcat.writing": "Writing & copy",
+    "pcat.coding": "Coding",
+    "pcat.study": "Learning",
+    "pcat.work": "Productivity",
+    "pcat.marketing": "Marketing",
+    "pcat.design": "Design",
+    "pcat.data": "Data",
+    "pcat.life": "Everyday",
+    "pcat.role": "Role-play",
+    "pcat.meta": "Prompt engineering"
   }
 }

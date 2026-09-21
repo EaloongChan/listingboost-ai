@@ -6,7 +6,7 @@
  * 在关于页里明确说明——两套长期并行维护的翻译成本远高于它能带来的价值。
  */
 import { esc, jsonEmbed, initials, accentStyle, hashColor, accentTextStyle } from './utils.mjs';
-import { pageHead, crumbs, toolCard, modelCard, catCard, playbookCard, PRICING } from './components.mjs';
+import { pageHead, crumbs, toolCard, modelCard, catCard, playbookCard, promptCard, emptyState, PRICING } from './components.mjs';
 import { EN, pick, tagList } from './labels.mjs';
 import { vendorEn, modelNameEn, toolNameEn } from './i18n-en-maps.mjs';
 import { layout } from './layout.mjs';
@@ -43,6 +43,7 @@ const enReady = (ctx) => ctx.playbooks.items.filter((p) => p.en && p.en.steps &&
 
 const enNav = [
   { label: 'Playbooks', href: '/en/playbooks/' },
+  { label: 'Prompts', href: '/en/prompts/' },
   { label: 'Tools', href: '/en/tools/' },
   { label: 'Models', href: '/en/models/' },
   { label: 'About', href: '/en/about/' },
@@ -565,7 +566,13 @@ export function enPlaybookDetail(ctx, i18n, pb) {
   const promptChip = (id) => {
     const p = promptMap[id];
     if (!p) return '';
-    return `<a class="tag accent" href="/prompts/${esc(p.cat)}/#${esc(p.id)}" style="${accentTextStyle(g.accent)}" title="Prompt template (Chinese only)">${icon('spark', 10)} ${esc(p.title)} <span style="opacity:.65">· zh</span></a>`;
+    // 有英文版就链到英文提示词库；没有才回退到中文版并显式标明
+    const hasEn = !!(p.en && p.en.prompt);
+    const href = hasEn ? `/en/prompts/${esc(p.cat)}/#${esc(p.id)}` : `/prompts/${esc(p.cat)}/#${esc(p.id)}`;
+    const label = hasEn ? p.en.title : p.title;
+    const mark = hasEn ? '' : ' <span style="opacity:.65">· zh</span>';
+    const note = hasEn ? 'Prompt template' : 'Prompt template (Chinese only)';
+    return `<a class="tag accent" href="${href}" style="${accentTextStyle(g.accent)}" title="${note}">${icon('spark', 10)} ${esc(label)}${mark}</a>`;
   };
 
   const steps = (e.steps || []).map((text, i) => {
@@ -667,6 +674,75 @@ ${more.length ? `<section class="section">
         step: (e.steps || []).map((text, i) => ({
           '@type': 'HowToStep', position: i + 1, text: text.replace(/\*\*/g, ''),
         })),
+      },
+    ],
+  });
+}
+
+/* ============================ 提示词库（英文） ============================ */
+/* 只收录翻译好的。没翻译的不出现 —— 英文页上出现中文比缺内容更糟。 */
+const enPromptReady = (ctx) => ctx.prompts.filter((p) => p.en && p.en.prompt);
+
+export function enPrompts(ctx, i18n, { activeCat = '' } = {}) {
+  const en = i18n.en;
+  const { site, categories } = ctx;
+  // 提示词分类和工具分类共用 id 但名字不同，所以用独立命名空间 pcat.*
+  const pcatName = (id) => en[`pcat.${id}`] || id;
+  const catMap = Object.fromEntries(categories.promptCategories.map((c) => [c.id, { ...c, name: pcatName(c.id) }]));
+  const list = enPromptReady(ctx);
+  const shown = activeCat ? list.filter((p) => p.cat === activeCat) : list;
+
+  const seg = [
+    `<button data-facet="cat" data-value="all"${!activeCat ? ' class="on"' : ''}>All</button>`,
+    ...categories.promptCategories
+      .filter((c) => list.some((p) => p.cat === c.id))
+      .map((c) => `<button data-facet="cat" data-value="${esc(c.id)}"${activeCat === c.id ? ' class="on"' : ''}>${esc(pcatName(c.id))}</button>`),
+  ].join('');
+
+  const crumbItems = [{ label: 'Home', href: '/en/' }, { label: 'Prompts' }];
+  const title = activeCat && catMap[activeCat] ? `${pcatName(activeCat)} prompts` : 'Prompt library';
+
+  const body = `
+${crumbs(crumbItems, 'Breadcrumb')}
+${pageHead(
+  'Prompt library',
+  `${list.length} prompt templates that are ready to paste. Each one explains what to put in, what you get back, and why it is written that way.`,
+  '', 'PROMPTS / Templates', 'Prompt list',
+)}
+<div data-filter-root>
+  <div class="toolbar">
+    <div class="container">
+      <div class="toolbar-row">
+        <div class="filter-wrap">
+          <span class="f-icon" aria-hidden="true">${icon('search', 15)}</span>
+          <input class="filter-input" type="search" data-query placeholder="Search prompts…" aria-label="Search prompts">
+        </div>
+        <button class="btn btn-sm btn-ghost" data-reset>Reset</button>
+      </div>
+      <div class="toolbar-row"><div class="seg" style="flex:1">${seg}</div></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="result-count" data-count></div>
+    <div class="grid" data-list>${shown.map((p) => promptCard(p, catMap, EN)).join('')}</div>
+    <div class="hidden" data-empty>${emptyState('No prompts match', 'Try a different word.')}</div>
+  </div>
+</div>`;
+
+  return shell({
+    site,
+    path: activeCat ? `/en/prompts/${activeCat}/` : '/en/prompts/',
+    title,
+    description: `${shown.length} ready-to-paste AI prompt templates with variables you fill in. Each states what to provide, what you get back, and the reasoning behind the wording.`,
+    body,
+    brandDesc: en['siteDesc'],
+    altPath: activeCat ? `/prompts/${activeCat}/` : '/prompts/',
+    jsonld: [
+      breadcrumbLd(site, crumbItems),
+      {
+        '@context': 'https://schema.org', '@type': 'ItemList', inLanguage: 'en',
+        name: title, numberOfItems: shown.length,
+        itemListElement: shown.map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.en.title })),
       },
     ],
   });

@@ -46,7 +46,17 @@
       "风格要求"
     ],
     "prompt": "请润色下面这段文字，要求：\n- 保持原意和信息量不变，不要擅自增删观点；\n- 删除空话套话、排比堆砌、过度形容词；\n- 把长句拆短，避免连续三个以上相同句式；\n- 风格：{{风格要求}}；\n- 只输出润色后的正文，不要解释。\n\n原文：\n{{原文}}",
-    "tips": "「只输出正文，不要解释」能省掉大量废话。想更狠可以加一句「以人类写作者的口吻重写」。"
+    "tips": "「只输出正文，不要解释」能省掉大量废话。想更狠可以加一句「以人类写作者的口吻重写」。",
+    "en": {
+      "title": "Polish prose and remove the AI voice",
+      "desc": "Keeps the meaning, strips the padding, and makes it read like a person wrote it.",
+      "vars": [
+        "Original text",
+        "Style requirement"
+      ],
+      "prompt": "Polish the text below. Requirements:\n- Keep the meaning and the information intact. Do not add or remove points.\n- Cut filler, stacked parallel constructions and piled-up adjectives.\n- Break long sentences up, and avoid three or more sentences with the same structure in a row.\n- Style: {{Style requirement}}.\n- Output only the revised text. No commentary.\n\nOriginal:\n{{Original text}}",
+      "tips": "Only having it output the text saves a lot of preamble. To go further, add 'rewrite in the voice of a human writer'."
+    }
   },
   {
     "id": "p-summarize",
@@ -69,7 +79,16 @@
       "材料类型"
     ],
     "prompt": "以下是一份{{材料类型}}。请按这个结构输出：\n\n【一句话结论】\n【核心要点】不超过 7 条，每条一句话，按重要性排序\n【关键数据】列出原文出现的所有数字、日期、专有名词\n【隐含风险/未说明项】3 条以内\n【待办事项】如果材料涉及行动安排，提取出「谁 / 做什么 / 什么时候」\n\n要求：只用材料中出现的信息，不要脑补。不确定的标注「原文未提及」。\n\n材料：\n（粘贴或上传）",
-    "tips": "加上「不确定标注原文未提及」，能显著降低幻觉。"
+    "tips": "加上「不确定标注原文未提及」，能显著降低幻觉。",
+    "en": {
+      "title": "Summarise a long document precisely",
+      "desc": "Compresses dozens of pages into usable points, with a location for each.",
+      "vars": [
+        "Document type"
+      ],
+      "prompt": "Below is a {{Document type}}. Output in this structure:\n\n**[One-line conclusion]**\n**[Core points]** No more than 7, one sentence each, ordered by importance\n**[Key data]** Every number, date and proper noun that appears in the source\n**[Hidden risks / gaps]** Up to 3\n**[Actions]** If the document implies next steps, extract 'who / does what / by when'\n\nRequirements: use only what is in the document. Do not fill gaps. Mark anything unclear as **'not stated in the source'**.\n\nDocument:\n(paste or attach)",
+      "tips": "That instruction to mark gaps is what keeps hallucination down. Without it, the model supplies plausible detail."
+    }
   },
   {
     "id": "p-translate-pro",
@@ -115,7 +134,16 @@
       "语言/框架"
     ],
     "prompt": "你是{{语言/框架}}的资深工程师。请审查以下代码。\n\n输出格式：\n【严重】会导致 bug / 安全问题 / 性能问题的地方（必须给修复代码）\n【中等】可维护性、可读性、命名问题\n【建议】风格与更优写法\n\n规则：\n- 每条意见必须指明具体行或函数名；\n- 不要泛泛地说「建议加注释」「注意边界」，要指出**哪一个**边界；\n- 不要重写整个文件，只给需要改的片段；\n- 如果代码没有严重问题，直接说「无严重问题」，不要凑数。\n\n代码：\n```\n{{代码}}\n```",
-    "tips": "「如果没问题就直接说，不要凑数」能大幅减少 AI 硬编问题。"
+    "tips": "「如果没问题就直接说，不要凑数」能大幅减少 AI 硬编问题。",
+    "en": {
+      "title": "Code review, graded by severity",
+      "desc": "Actionable findings sorted into must-fix, should-fix and optional — not generic advice.",
+      "vars": [
+        "Language / framework"
+      ],
+      "prompt": "You are a senior {{Language / framework}} engineer. Review the code below.\n\nOutput format:\n**[Critical]** Bugs, security issues, performance problems. You must include the fix.\n**[Moderate]** Maintainability, readability, naming.\n**[Optional]** Style and better approaches.\n\nRules:\n- Every finding must point at a specific line or function name.\n- Don't say 'add comments' or 'watch the boundaries'. Name **which** boundary.\n- Don't rewrite the file. Give only the fragments that need changing.\n- If there is nothing critical, say **'no critical issues'** and move on. Do not pad the list.\n\nCode:\n```\n{{code}}\n```",
+      "tips": "'If there is nothing critical, say so' dramatically cuts the number of invented problems."
+    }
   },
   {
     "id": "p-debug",
@@ -136,7 +164,16 @@
       "环境"
     ],
     "prompt": "环境：{{环境}}\n\n我遇到以下报错：\n```\n{{报错信息}}\n```\n相关代码：\n```\n{{代码}}\n```\n\n请按这个顺序回答：\n1. 用一句话解释这个报错的**根本原因**；\n2. 列出最可能的 3 个原因，按可能性排序，并说明如何快速验证每一个；\n3. 给出修复后的代码（只给改动的部分）；\n4. 说明这个改动会不会引入其他风险。\n\n如果信息不足，先问我最关键的 2 个问题，不要猜。",
-    "tips": "最后一句是关键——让 AI 主动提问，比它硬答一堆猜测强得多。"
+    "tips": "最后一句是关键——让 AI 主动提问，比它硬答一堆猜测强得多。",
+    "en": {
+      "title": "Locate and fix an error",
+      "desc": "Give it the trace and the code, and make it list hypotheses before guessing.",
+      "vars": [
+        "Environment"
+      ],
+      "prompt": "Environment: {{Environment}}\n\nI'm getting this error:\n```\n{{error output}}\n```\n\nRelevant code:\n```\n{{code}}\n```\n\nAnswer in this order:\n1. The **root cause** in one sentence.\n2. The three most likely causes, ranked, and how to verify each quickly.\n3. The fix — only the changed lines.\n4. Whether this change could introduce anything else.\n\nIf you don't have enough information, **ask me the two most important questions first**. Don't guess.",
+      "tips": "That last line is the key: making the model ask beats letting it produce a pile of guesses."
+    }
   },
   {
     "id": "p-learn-topic",
@@ -158,7 +195,17 @@
       "当前水平"
     ],
     "prompt": "我想学「{{学习主题}}」，目前水平是：{{当前水平}}。\n\n请你扮演费曼学习法教练，严格按以下流程：\n\n第 1 步：用 5 句话以内解释这个主题的核心，假设我是完全的新手，只能用生活类比。\n第 2 步：给我一个「检验理解」的问题，让我用自己的话回答。\n第 3 步：等我回答后，指出我回答里的漏洞、含糊处和用错的词。\n第 4 步：针对漏洞补充讲解，然后进入下一个知识点。\n\n现在开始第 1 步和第 2 步，然后停下来等我回答。",
-    "tips": "一定要让它「停下来等你」。否则它会一口气讲完，学习效果归零。"
+    "tips": "一定要让它「停下来等你」。否则它会一口气讲完，学习效果归零。",
+    "en": {
+      "title": "Feynman technique coach",
+      "desc": "Not a lecture — it makes you explain first, then finds the holes.",
+      "vars": [
+        "Topic",
+        "My current level"
+      ],
+      "prompt": "I want to learn '{{Topic}}'. My current level: {{My current level}}.\n\nAct as a Feynman-technique coach and follow this exactly:\n\nStep 1: Explain the core of the topic in five sentences or fewer, assuming I'm a complete beginner. Everyday analogies only.\nStep 2: Give me one question that tests my understanding, and let me answer in my own words.\nStep 3: After I answer, point out the holes, the vagueness and the words I misused.\nStep 4: Fill those gaps, then move to the next idea.\n\nDo steps 1 and 2 now, **then stop and wait for my answer**.",
+      "tips": "It must stop and wait. Otherwise it delivers the whole lecture at once and nothing sticks."
+    }
   },
   {
     "id": "p-explain-simple",
@@ -223,7 +270,16 @@
       "参会人"
     ],
     "prompt": "以下是会议转写记录（可能包含口语、重复、跑题）。参会人：{{参会人}}\n\n请整理成纪要：\n\n【会议结论】已达成共识的事项，每条一句话\n【待办事项】表格：事项 | 负责人 | 截止时间（未提及则写「未定」）\n【悬而未决】讨论但没有结论的问题，标注分歧点在哪\n【关键数字/名词】\n\n规则：\n- 严格基于原文，不要推测；\n- 把口语化表达转成书面语；\n- 如果同一件事讨论多次，合并并标注「反复讨论」。\n\n记录：\n{{记录}}",
-    "tips": "「反复讨论」这个标注特别有用，能暴露出团队真正卡住的地方。"
+    "tips": "「反复讨论」这个标注特别有用，能暴露出团队真正卡住的地方。",
+    "en": {
+      "title": "Turn a meeting transcript into minutes",
+      "desc": "Pulls decisions, actions and unresolved questions out of a messy transcript.",
+      "vars": [
+        "Attendees"
+      ],
+      "prompt": "Below is a meeting transcript. It may contain filler, repetition and tangents. Attendees: {{Attendees}}\n\nProduce minutes:\n\n**[Decisions]** What was agreed, one line each.\n**[Actions]** Table: item | owner | deadline (write 'undecided' if not mentioned)\n**[Unresolved]** Discussed but not settled — and where the disagreement lies.\n**[Key numbers and names]**\n\nRules:\n- Stay strictly within the transcript. Do not infer.\n- Convert spoken phrasing into written form.\n- If the same subject came up repeatedly, merge it and mark it **'revisited'**.\n\nTranscript:\n{{transcript}}",
+      "tips": "The 'revisited' tag is quietly the most useful output — repeated discussion is where a team is actually stuck."
+    }
   },
   {
     "id": "p-email",
@@ -267,7 +323,17 @@
       "选项"
     ],
     "prompt": "我面临一个决策：{{决策}}\n候选选项：{{选项}}\n\n请不要直接给我建议。按以下步骤：\n\n1. 先用一句话复述我的真实诉求（如果表述含糊，指出含糊在哪）；\n2. 列出我没提到的**隐藏约束**（时间、金钱、精力、人际关系、不可逆性）；\n3. 对每个选项，写出「最好情况 / 最坏情况 / 最可能情况」；\n4. 找出我可能存在的 3 个认知偏差；\n5. 提出 5 个我应该问自己但很可能没问的问题；\n6. 最后：如果我必须现在决定，你会建议哪个，为什么，以及哪个信号出现时应该反悔。\n\n不要客套，直接指出我思维里的漏洞。",
-    "tips": "「不要客套，直接指出漏洞」这句一定要加，不然 AI 会顺着你说。"
+    "tips": "「不要客套，直接指出漏洞」这句一定要加，不然 AI 会顺着你说。",
+    "en": {
+      "title": "Decision analyser",
+      "desc": "Forces the model to argue against you, surfacing risks you haven't noticed.",
+      "vars": [
+        "The decision",
+        "The options"
+      ],
+      "prompt": "I'm facing a decision: {{The decision}}\nOptions: {{The options}}\n\nDon't give me a recommendation yet. Work through this:\n\n1. Restate my actual goal in one sentence. If my framing is vague, say where.\n2. List the **hidden constraints** I didn't mention — time, money, energy, relationships, reversibility.\n3. For each option: best case / worst case / most likely case.\n4. Name three cognitive biases I am probably exhibiting.\n5. Ask five questions I should be asking myself and probably am not.\n6. Only then: if I had to decide now, which would you choose, why, and **what signal would tell me to reverse it**.\n\nSkip the pleasantries. Point at the holes in my thinking directly.",
+      "tips": "'Skip the pleasantries' is essential — without it the model agrees with whatever you seem to want."
+    }
   },
   {
     "id": "p-xiaohongshu",
@@ -392,7 +458,16 @@
       "数据背景"
     ],
     "prompt": "背景：{{数据背景}}\n数据：\n{{数据}}\n\n请分析，严格按这个结构：\n\n1. 【客观描述】只陈述数据本身说明了什么，不带解释（3 条以内）；\n2. 【异常点】指出哪些数字不符合预期或自相矛盾；\n3. 【可能原因】每个异常给 2-3 个假设，并说明如何用数据验证；\n4. 【所以呢】给出 3 条具体的行动建议，每条要包含「做什么 / 预期影响 / 怎么衡量」；\n5. 【数据局限】明确指出这份数据**不能**回答什么问题。\n\n重要：不要在没有依据时下结论。如果数据不足以支撑某判断，直接说「数据不足」。",
-    "tips": "第 5 条「不能回答什么」，是专业分析师和随便看看的人最大的区别。"
+    "tips": "第 5 条「不能回答什么」，是专业分析师和随便看看的人最大的区别。",
+    "en": {
+      "title": "From numbers to action",
+      "desc": "Refuses to stop at describing the data; forces the 'so what'.",
+      "vars": [
+        "Data context"
+      ],
+      "prompt": "Context: {{Data context}}\nData:\n{{data}}\n\nAnalyse it, in this exact structure:\n\n1. **[Objective description]** What the data itself shows. No interpretation. Maximum 3 points.\n2. **[Anomalies]** Which figures are unexpected or contradictory.\n3. **[Possible causes]** For each anomaly, 2-3 hypotheses and how to test each with data.\n4. **[So what]** Three concrete recommendations, each with: what to do / expected effect / how to measure it.\n5. **[What this data cannot tell you]** Be explicit.\n\nImportant: do not draw conclusions without support. If the data can't sustain a claim, say **'insufficient data'**.",
+      "tips": "Section 5 is the difference between a professional analyst and someone skimming a dashboard."
+    }
   },
   {
     "id": "p-sql",
@@ -435,7 +510,17 @@
       "本周记录"
     ],
     "prompt": "我的岗位：{{岗位}}\n本周做的事（碎片记录，没整理过）：\n{{记录}}\n\n请整理成一份周报，要求：\n\n1. 【本周成果】按「业务价值」而不是「工作量」排序，每条格式：做了什么 → 带来什么结果 → 数据支撑（没有就写「待量化」）；\n2. 【问题与风险】主动暴露 2-3 个真实卡点，说明需要什么支持；\n3. 【下周计划】具体到可验证的产出，不要写「继续推进 XX」；\n4. 【需要协调】明确列出要谁配合什么。\n\n风格：客观、不邀功、不注水。总长度 400 字以内。\n\n如果我的记录里有明显不值得写进周报的事，直接告诉我删掉哪些。",
-    "tips": "最后一句很实用——大部分人周报写不好的原因是舍不得删。"
+    "tips": "最后一句很实用——大部分人周报写不好的原因是舍不得删。",
+    "en": {
+      "title": "Weekly report that isn't a laundry list",
+      "desc": "Turns scattered notes into a report organised by value rather than by activity.",
+      "vars": [
+        "Role",
+        "This week's notes"
+      ],
+      "prompt": "My role: {{Role}}\nWhat I did this week (raw notes, unsorted):\n{{This week's notes}}\n\nTurn this into a weekly report:\n\n1. **[Outcomes]** Ordered by **business value, not volume of activity**. Format each as: what I did → what it produced → the number that supports it (write 'not quantified yet' if there isn't one).\n2. **[Problems and risks]** Surface 2-3 real blockers, and say what support you need.\n3. **[Next week]** Specific enough to verify. Not 'continue pushing X'.\n4. **[Needs coordination]** Who needs to do what.\n\nTone: factual, no self-congratulation, no padding. Under 400 words.\n\nIf my notes contain things that clearly don't belong in a report, **tell me which to cut**.",
+      "tips": "That last line is the useful part — most people write bad reports because they can't bear to leave things out."
+    }
   },
   {
     "id": "p-interview",
@@ -587,7 +672,17 @@
       "目标字段"
     ],
     "prompt": "请从下面的文本中抽取信息，输出 JSON。\n\n需要抽取的字段：{{目标字段}}\n\n规则（必须严格遵守）：\n1. 只输出 JSON，不要任何解释文字、不要 markdown 代码块标记；\n2. 找不到的字段值填 null，**绝对不要推测或编造**；\n3. 日期统一格式化为 YYYY-MM-DD；\n4. 如果一个字段在原文出现多次且不一致，选最完整的那次，并在同名字段后加 `_conflict: true`；\n5. 数字保留原文精度，不要四舍五入。\n\n文本：\n{{文本}}",
-    "tips": "「绝对不要推测」和 null 约定，是把 AI 用在生产环境的前提。"
+    "tips": "「绝对不要推测」和 null 约定，是把 AI 用在生产环境的前提。",
+    "en": {
+      "title": "Extract unstructured text into JSON",
+      "desc": "Turns messy input into a schema you specify, with gaps marked rather than invented.",
+      "vars": [
+        "Target schema",
+        "Source text"
+      ],
+      "prompt": "Extract the following text into JSON matching this schema:\n\n```json\n{{Target schema}}\n```\n\nSource text:\n```\n{{Source text}}\n```\n\nRules:\n\n1. **Only output what is actually present.** For a missing field, use `null` and add the field name to a `_missing` array at the top level. Never infer a plausible value.\n2. **Preserve the original wording** for values you extract. Don't normalise dates, currency or names unless the schema says to.\n3. If a value is ambiguous, include it with your reading and add an entry to `_uncertain` with the field name and your interpretation.\n4. Output valid JSON only, no commentary before or after.\n5. After the JSON, list any **structural problems** you noticed in the source — inconsistent formatting, duplicated records, rows that don't fit the schema.\n\nIf the source contains multiple records, return an array.",
+      "tips": "The _missing and _uncertain arrays are what make the output auditable — you can see what it could not find instead of guessing."
+    }
   },
   {
     "id": "p-book-notes",
@@ -767,7 +862,17 @@
       "我的背景"
     ],
     "prompt": "语言/框架：{{语言/框架}}\n我的背景：{{我的背景}}\n\n代码：\n```\n{{代码}}\n```\n\n请分四层讲解：\n\n第 1 层｜这段代码解决什么问题（不看代码也能懂的一句话）\n第 2 层｜整体流程（用编号步骤描述数据怎么流动）\n第 3 层｜关键设计决策：为什么用这个数据结构 / 为什么这里要加锁 / 为什么不用更简单的写法。这些才是接手的人真正会踩坑的地方。\n第 4 层｜如果我改坏哪一行，会出什么现象（列出 3 个最脆弱的点）\n\n不要逐行翻译代码。第 3 层和第 4 层是重点，请写详细。",
-    "tips": "第 3、4 层才是真正有价值的。逐行翻译代码谁都会，讲清设计意图才需要功力。"
+    "tips": "第 3、4 层才是真正有价值的。逐行翻译代码谁都会，讲清设计意图才需要功力。",
+    "en": {
+      "title": "Explain code layer by layer",
+      "desc": "From the whole to the detail, explaining why it was written this way rather than what it does.",
+      "vars": [
+        "Language / framework",
+        "My background"
+      ],
+      "prompt": "Language / framework: {{Language / framework}}\nMy background: {{My background}}\n\nCode:\n```\n{{code}}\n```\n\nExplain it in four layers:\n\nLayer 1 — What problem does this code solve? One sentence, understandable without reading the code.\nLayer 2 — The overall flow. Describe how data moves through it as numbered steps.\nLayer 3 — Key design decisions: why this data structure, why the lock here, why not the simpler approach. **This is where the next person actually gets hurt.**\nLayer 4 — If I broke which line, what would I see? List the three most fragile points.\n\nDon't translate the code line by line. Layers 3 and 4 are the point — go deep on those.",
+      "tips": "Layers 3 and 4 are the valuable part. Anyone can translate code line by line; explaining design intent is the hard bit."
+    }
   },
   {
     "id": "p-refactor-plan",
@@ -790,7 +895,18 @@
       "约束"
     ],
     "prompt": "技术栈：{{技术栈}}\n现有代码的问题：{{现有问题}}\n不可改变的约束：{{约束}}\n\n请设计重构方案：\n\n1. 【先建安全网】列出重构前必须补的测试或日志，明确「没有这个就不能动手」；\n2. 【目标结构】画出重构后的模块划分，说明每个模块的职责边界；\n3. 【分批计划】拆成 4-6 个可独立上线、每批都能回滚的步骤，每批说明：改什么、风险点、怎么验证、失败怎么回退；\n4. 【明确不做】列出这次刻意不改的部分，以及原因（避免范围蔓延）；\n5. 【失败的信号】哪些现象出现就说明这个方向错了，应该及时止损。\n\n不要给一个大爆炸式的整体重写方案。",
-    "tips": "第 4 条「明确不做」和第 5 条「失败信号」是实际项目里最缺的部分。"
+    "tips": "第 4 条「明确不做」和第 5 条「失败信号」是实际项目里最缺的部分。",
+    "en": {
+      "title": "Design a refactor you can ship in stages",
+      "desc": "Safety net first, always reversible, never a big-bang rewrite.",
+      "vars": [
+        "Tech stack",
+        "Current problems",
+        "Constraints"
+      ],
+      "prompt": "Stack: {{Tech stack}}\nProblems with the current code: {{Current problems}}\nConstraints I cannot change: {{Constraints}}\n\nDesign the refactor:\n\n1. **[Safety net first]** What tests or logging must exist before touching anything. Be explicit that without them, **do not start**.\n2. **[Target structure]** The module boundaries after the refactor, and what each one owns.\n3. **[Staged plan]** 4-6 steps, each independently shippable and reversible. For each: what changes, the risk, how to verify, how to roll back.\n4. **[Explicitly out of scope]** What you are deliberately not changing, and why. Range creep kills refactors.\n5. **[Failure signals]** What you would observe that means the direction is wrong and you should stop.\n\nDo not propose a big-bang rewrite.",
+      "tips": "Sections 4 and 5 are the parts real projects always skip, and the parts that decide whether a refactor lands."
+    }
   },
   {
     "id": "p-test-gen",
@@ -811,7 +927,17 @@
       "语言"
     ],
     "prompt": "语言：{{语言}}\n\n被测代码：\n```\n{{被测函数}}\n```\n\n请按维度生成测试用例，每个维度先说明「这里可能出什么问题」再给用例：\n\n1. 正常路径（含典型输入）\n2. 边界值（空 / 1 个 / 最大值 / 最小值 / 刚好越界）\n3. 类型与非法输入（null、undefined、错误类型、格式非法的字符串）\n4. 并发与顺序（如果适用）\n5. 资源与异常（失败、超时、部分成功）\n6. 幂等性与重复调用\n\n要求：\n- 每个用例写清「输入 → 期望输出 → 为什么这个用例值得存在」；\n- 如果某个用例其实测不出有价值的 bug，直接告诉我删掉；\n- 最后指出这段代码里**测不到**的逻辑（需要重构才能测的部分）。",
-    "tips": "最后一条是最有价值的——「测不到的代码」通常就是设计有问题的地方。"
+    "tips": "最后一条是最有价值的——「测不到的代码」通常就是设计有问题的地方。",
+    "en": {
+      "title": "Generate tests that are worth having",
+      "desc": "Systematic coverage across boundaries, failures and concurrency — not just the happy path.",
+      "vars": [
+        "Function under test",
+        "Language"
+      ],
+      "prompt": "Language: {{Language}}\n\nCode under test:\n```\n{{Function under test}}\n```\n\nGenerate tests by dimension. For each dimension, say **what tends to go wrong here** before giving the cases:\n\n1. Normal path (including typical input)\n2. Boundary values (empty / one / maximum / minimum / just past the edge)\n3. Types and invalid input (null, undefined, wrong type, malformed string)\n4. Concurrency and ordering, where applicable\n5. Resource failures and exceptions (errors, timeouts, partial success)\n6. Idempotency and repeated calls\n\nRequirements:\n- Each case states **input → expected output → why this case deserves to exist**.\n- If a case would not catch a meaningful bug, say so and drop it.\n- Finish by naming the logic in this code that **cannot be tested as written** — the parts that would need refactoring first.",
+      "tips": "That last line matters most: untestable code usually means a design problem, not a testing gap."
+    }
   },
   {
     "id": "p-api-design",
@@ -986,7 +1112,18 @@
       "截止时间"
     ],
     "prompt": "项目目标：{{项目目标}}\n截止时间：{{截止时间}}\n参与人：{{参与人}}\n任务列表：\n{{任务列表}}\n\n请帮我排期并找出风险：\n\n1. 【依赖链】哪些任务必须串行？画出关键路径。\n2. 【瓶颈】关键路径上最可能拖慢整体的是哪一环？为什么？\n3. 【可以砍的】如果时间不够，哪些任务可以砍掉而不影响核心目标？\n4. 【可以并行的】：哪些任务应该立刻并行启动，避免后面排队？\n5. 【缓冲】按历史经验，这类项目通常会在哪里超出预估？应该预留多少缓冲？\n6. 【早期预警信号】什么现象一出现就说明要延期了？\n\n不要给我理想化的排期。如果这个截止时间根本不可能完成，直接说出来，并给出最接近可行的方案。",
-    "tips": "最后一句「不可能就直接说」能避免拿到一份看起来很美好但注定失败的排期表。"
+    "tips": "最后一句「不可能就直接说」能避免拿到一份看起来很美好但注定失败的排期表。",
+    "en": {
+      "title": "Plan a project and find the real bottleneck",
+      "desc": "A schedule that names the constraint, instead of a Gantt chart of wishful thinking.",
+      "vars": [
+        "Project",
+        "Deadline",
+        "Resources"
+      ],
+      "prompt": "Project: {{Project}}\nDeadline: {{Deadline}}\nResources I have: {{Resources}}\n\nPlan it, but spend your effort on the constraint rather than the schedule:\n\n1. **Identify the real bottleneck.** Be specific — one thing, not 'time'. If several candidates exist, say which one gates the others.\n2. **Work backwards from the deadline.** What must be true at each checkpoint for the end date to hold?\n3. **List the assumptions you're making** that, if wrong, break the plan. Rate each by how likely and how damaging.\n4. **Propose the smallest version that still delivers the core value.** What gets cut?\n5. **Give the schedule** — but mark which steps are on the critical path and which can slip without moving the date.\n6. **Name the first thing I should verify this week.** Not start — verify.",
+      "tips": "'What must be true for this to hold' catches more failed plans than any amount of scheduling detail."
+    }
   },
   {
     "id": "p-negotiate",
@@ -1031,7 +1168,18 @@
       "执行人水平"
     ],
     "prompt": "流程名称：{{流程名称}}\n执行人水平：{{执行人水平}}\n我的做法（可能很乱）：\n{{我的做法}}\n\n请整理成一份可交接的 SOP：\n\n1. 【前置条件】开始前需要准备什么、需要什么权限、需要谁配合\n2. 【步骤】编号列出，每一步写清：做什么、在哪做、用什么工具、做完怎么确认对了\n3. 【判断点】哪些地方需要主观判断？把判断标准写出来（这是我脑子里最容易漏掉的部分）\n4. 【常见事故】新手最常在哪几步出错？出错了怎么补救\n5. 【检查清单】一张可以打勾的最终检查表\n6. 【什么情况下不要用这个 SOP】边界条件\n\n请特别标注那些「我理所当然地没写出来、但新手绝对不知道」的隐含前提。",
-    "tips": "最后一句是精髓——老手的隐性知识都藏在这些「理所当然」里。"
+    "tips": "最后一句是精髓——老手的隐性知识都藏在这些「理所当然」里。",
+    "en": {
+      "title": "Turn know-how into a handover SOP",
+      "desc": "From 'I know how to do this' to 'someone else can follow it'.",
+      "vars": [
+        "Process name",
+        "Who will run it",
+        "How I do it"
+      ],
+      "prompt": "Process name: {{Process name}}\nWho will run it: {{Who will run it}}\nHow I do it (probably messy):\n{{How I do it}}\n\nTurn this into a handover SOP:\n\n1. **Prerequisites** — what to prepare, what access is needed, who else must be involved.\n2. **Steps** — numbered. For each: what to do, where, with which tool, and how to confirm it worked.\n3. **Judgement calls** — where does this need subjective judgement? Write down the criteria. **This is the part that lives in your head and never gets written down.**\n4. **Common failures** — where do beginners go wrong, and how do you recover?\n5. **Checklist** — a final tick-box list.\n6. **When not to use this SOP** — the boundary conditions.\n\nFlag specifically the implicit assumptions that are **so obvious to you that you would never write them down, and that a beginner could not possibly know**.",
+      "tips": "That last instruction is the whole point — expert tacit knowledge hides in the things that feel too obvious to mention."
+    }
   },
   {
     "id": "p-ask-boss",
@@ -1642,7 +1790,18 @@
       "要跑的任务"
     ],
     "prompt": "我的机器配置：显卡 {{显卡型号和显存}}，内存 {{内存}}。\n我想在本机跑模型来做这件事：{{要跑的任务}}\n\n请给我一份判断，按下面的结构输出：\n\n1. **结论先行**：能跑 / 只能降级跑 / 建议放弃，一句话说清。\n2. **显存账**：算一下模型权重 + KV cache 大概占多少，留多少余量。要说明你用的估算口径（是量化到几位、上下文多长）。\n3. **候选**：列出 2-3 个实际能跑的模型，标注参数量与量化档位，并说明各自的取舍（大的更聪明但慢，小的快但容易答错）。\n4. **瓶颈在哪**：如果是显存不够，说清楚差多少、降量化能省多少、会不会明显掉能力；如果是速度问题，给出预估的 token/s 量级。\n5. **不值得的情况**：明确告诉我，我这个任务用本地模型是不是本来就划不来（比如任务简单、或者需要很强的推理）。\n\n注意：所有数字请标注是官方数据还是你的估算。不确定的地方直接说不确定，不要给我一个看起来很精确但其实编的数字。",
-    "tips": "最后那问「我这个任务用本地模型是不是划不来」最关键——很多人折腾半天才发现任务本来就不该用本地模型。"
+    "tips": "最后那问「我这个任务用本地模型是不是划不来」最关键——很多人折腾半天才发现任务本来就不该用本地模型。",
+    "en": {
+      "title": "Can my machine run this model?",
+      "desc": "Reconciles VRAM, task and model into a clear yes / only-with-caveats / forget-it answer.",
+      "vars": [
+        "GPU and VRAM",
+        "System RAM",
+        "What I want to run"
+      ],
+      "prompt": "My machine: GPU {{GPU and VRAM}}, RAM {{System RAM}}.\nI want to run, locally: {{What I want to run}}\n\nGive me a verdict in this structure:\n\n1. **Lead with the conclusion** — yes / only with a smaller model / don't bother.\n2. **The VRAM budget** — weights plus KV cache, and the headroom left. State your assumptions (quantisation level, context length).\n3. **Candidates** — 2-3 models that actually fit, with parameter count and quantisation, and the trade-off between them.\n4. **Where the bottleneck is** — if VRAM is short, by how much, what quantisation buys, and what it costs in quality. If it's speed, estimate tokens per second.\n5. **Whether this is worth doing at all** — say plainly if this task should just use a hosted model.\n\nMark every number as either from official documentation or your own estimate. Where you're unsure, say so rather than producing a plausible figure.",
+      "tips": "The last question matters most — plenty of people set up local inference and only then realise the task never needed it."
+    }
   },
   {
     "id": "p-model-pick",
@@ -1665,7 +1824,17 @@
       "约束条件"
     ],
     "prompt": "我要处理的任务：{{要处理的任务}}\n我的约束条件：{{约束条件}}（比如预算、是否能访问境外服务、数据能不能出内网、对延迟的要求）\n\n请给我一份选型建议：\n\n1. **先拆任务**：把我的任务拆成几个能力维度（比如「长文档理解」「严格 JSON 输出」「多轮工具调用」）。**不要给我一个笼统的推荐**，不同维度可能适合不同模型。\n2. **逐维度给候选**：每个维度列出 2-3 个模型，说明**为什么这个模型在这一维度上更适合**。如果只是「因为它参数大」，那不算理由。\n3. **约束筛选**：把不满足我硬约束的选项直接划掉，并说明划掉的原因。剩下的才进推荐。\n4. **真实成本**：不要只报每百万 token 的价格。按我描述的任务量，估算「完成这个任务大概要花多少钱」，并说明是否受缓存、批量折扣影响。\n5. **换模型的风险**：如果从我现在用的换到推荐的那个，会有什么东西坏掉（输出格式、提示词需要重调、工具调用行为差异）。\n\n最后：如果我的任务简单到「用哪个都差不多」，请直接这么说，不要为了给我建议而编出差异。",
-    "tips": "要求「用哪个都差不多就直接说」能挡掉一大批为了显得专业而硬造的差异。"
+    "tips": "要求「用哪个都差不多就直接说」能挡掉一大批为了显得专业而硬造的差异。",
+    "en": {
+      "title": "Pick a model by task, not by leaderboard",
+      "desc": "A selection table driven by your actual task and constraints, not a ranking.",
+      "vars": [
+        "The task",
+        "Constraints"
+      ],
+      "prompt": "Task: {{The task}}\nMy constraints: {{Constraints}} (budget, region, whether data can leave the network, latency requirements)\n\nGive me a selection, not a ranking:\n\n1. **Break the task into capability dimensions** — long-document understanding, strict JSON output, multi-turn tool calling, whatever is relevant. **Don't give me one blanket recommendation**; different dimensions may point at different models.\n2. **For each dimension, name 2-3 candidates and why each fits.** 'It's bigger' is not a reason.\n3. **Apply my hard constraints first**, and say what got eliminated and why. Only what survives goes into the recommendation.\n4. **Real cost** — not price per million tokens. Estimate what this task costs end to end, and whether caching or batching changes that.\n5. **Migration risk** — if I switch from what I use today, what breaks (output format, prompt tuning, tool-calling behaviour)?\n\nFinally: **if the task is simple enough that any model works, just say so.** Don't manufacture differences to look useful.",
+      "tips": "'If any model works, say so' filters out a lot of invented nuance."
+    }
   },
   {
     "id": "p-agent-design",

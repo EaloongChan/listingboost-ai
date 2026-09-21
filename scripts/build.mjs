@@ -14,7 +14,7 @@ import {
   learnPage, glossaryPage, searchPage, aboutPage, changelogPage, notFoundPage,
   playbooksPage, playbookDetailPage, modelsPage, toolDetailPage, liveNewsPage, comparePage, savedPage,
 } from '../src/lib/pages.mjs';
-import { enHome, enTools, enToolDetail, enModels, enAbout, enPlaybooks, enPlaybookDetail } from '../src/lib/pages-en.mjs';
+import { enHome, enTools, enToolDetail, enModels, enAbout, enPlaybooks, enPlaybookDetail, enPrompts } from '../src/lib/pages-en.mjs';
 import { EN } from '../src/lib/labels.mjs';
 import { countBy, esc } from '../src/lib/utils.mjs';
 import { resetIcons } from '../src/lib/icons.mjs';
@@ -352,6 +352,15 @@ export function build({ quiet = false } = {}) {
     emit('en/playbooks/index.html', () => enPlaybooks(ctx, i18n), { title: 'AI playbooks: end-to-end workflows', type: 'playbooks' });
     for (const p of pbEnList) {
       emit(`en/playbooks/${p.id}/index.html`, () => enPlaybookDetail(ctx, i18n, p), { title: `${p.en.title} · Playbook`, type: 'playbook-detail', item: p });
+    }
+  }
+
+  /* 英文提示词库：同样只生成有翻译的。没翻译的不生成页面。 */
+  if (prompts.some((p) => p.en && p.en.prompt)) {
+    emit('en/prompts/index.html', () => enPrompts(ctx, i18n), { title: 'Prompt library', type: 'prompts' });
+    for (const pc of categories.promptCategories) {
+      if (!prompts.some((p) => p.cat === pc.id && p.en && p.en.prompt)) continue;
+      emit(`en/prompts/${pc.id}/index.html`, () => enPrompts(ctx, i18n, { activeCat: pc.id }), { title: `${i18n.en['cat.' + pc.id] || pc.id} prompts`, type: 'prompts-cat' });
     }
   }
 

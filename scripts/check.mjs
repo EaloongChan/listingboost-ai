@@ -508,6 +508,35 @@ const playbookIds = new Set();
       }
     } catch { /* 忽略 */ }
 
+
+    /* 分类命名空间：工具分类与提示词分类共用 id，但**名字不一样**。
+       writing 在工具里是「写作办公」，在提示词里是「写作文案」。
+       英文站因此必须用两个命名空间（cat.* 与 pcat.*），不能互相借用。
+       踩过一次：英文提示词库直接用了 cat.*，分类名显示成工具分类的英文，
+       和实际内容对不上。 */
+    try {
+      const cat = JSON.parse(fs.readFileSync(path.join(DATA, 'categories.json'), 'utf8'));
+      const i18n = JSON.parse(fs.readFileSync(path.join(DATA, 'i18n.json'), 'utf8'));
+      const en = i18n.en || {};
+
+      const missTool = cat.toolCategories.filter((x) => !en['cat.' + x.id]);
+      const missPrompt = cat.promptCategories.filter((x) => !en['pcat.' + x.id]);
+      if (missTool.length) warns.push(`i18n: 缺工具分类英文名 cat.* → ${missTool.map((x) => x.id).join(', ')}`);
+      if (missPrompt.length) errors.push(`i18n: 缺提示词分类英文名 pcat.* → ${missPrompt.map((x) => x.id).join(', ')}`);
+
+      // 两边 id 相同但中文名不同的，必须确认英文名也不同（否则就是误用了同一个键）
+      const toolMap = Object.fromEntries(cat.toolCategories.map((x) => [x.id, x]));
+      const collide = cat.promptCategories.filter((x) => toolMap[x.id] && toolMap[x.id].name !== x.name);
+      if (collide.length) {
+        const reused = collide.filter((x) => en['cat.' + x.id] === en['pcat.' + x.id]);
+        if (reused.length) {
+          errors.push(`i18n: 提示词分类借用了工具分类的英文名（两者内容不同）→ ${reused.map((x) => x.id).join(', ')}`);
+        } else {
+          ok.push(`i18n: ${collide.length} 个同名分类的中英文名各自独立（cat.* / pcat.* 分开）`);
+        }
+      }
+    } catch { /* 忽略 */ }
+
 /* ---- vercel.json 字段白名单校验 ----
    踩过一次：在 redirects 里写了个 `comment` 字段（本意是留说明），
    Vercel 校验很严，不认识这个字段就直接拒绝部署 —— 而且部署失败后

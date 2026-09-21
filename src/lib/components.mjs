@@ -127,36 +127,43 @@ export function catCard(cat, count, href, L = ZH) {
  *     填充本身就是纯 JS 功能，服务端渲染这 165 个 label 纯属浪费（约 26KB）。
  *  2. 不再输出 data-raw 复制一份正文。原始模板由前端从 <pre> 的 textContent 里取一次并缓存。
  */
-export function promptCard(p, catMap) {
+export function promptCard(p, catMap, L = ZH) {
   const cat = catMap[p.cat] || { name: p.cat, accent: hashColor(p.id) };
   const c = cat.accent || hashColor(p.id);
-  const vars = p.vars || [];
+  // 英文站取 p.en；没有英文版就不该出现在英文站上（由页面层过滤）
+  const e = p.en || {};
+  const isEn = L === EN && e.title;
+  const title = isEn ? e.title : p.title;
+  const desc = isEn ? e.desc : p.desc;
+  const body = isEn ? e.prompt : p.prompt;
+  const tips = isEn ? e.tips : p.tips;
+  const vars = (isEn ? e.vars : p.vars) || (isEn ? [] : p.vars) || [];
 
   return `<article class="card prompt-card reveal" id="${esc(p.id)}"
-    data-name="${esc((p.title + ' ' + (p.tags || []).join(' ') + ' ' + p.desc).toLowerCase())}"
+    data-name="${esc((p.title + ' ' + (p.tags || []).join(' ') + ' ' + p.desc + ' ' + (e.title || '')).toLowerCase())}"
     data-cat="${esc(p.cat)}"
     data-vars="${esc(vars.join(','))}"
     data-hot="${p.hot ? '1' : '0'}">
     <div class="prompt-head" data-accordion>
       <span class="avatar" style="${accent(c)};width:32px;height:32px;font-size:.7rem" aria-hidden="true">${esc(cat.name.slice(0, 2))}</span>
       <div class="ph-main">
-        <h3>${esc(p.title)}${p.hot ? '<span class="badge-pill badge-hot">热门</span>' : ''}</h3>
-        <p>${esc(p.desc)}</p>
+        <h3>${esc(title)}${p.hot ? `<span class="badge-pill badge-hot">${L === EN ? 'Popular' : '热门'}</span>` : ''}</h3>
+        <p>${esc(desc)}</p>
       </div>
       ${cardActions('prompt', p.id)}
       <span class="prompt-toggle" aria-hidden="true">${icon('chevron-down', 14)}</span>
     </div>
     <div class="prompt-body">
       <div class="prompt-meta">
-        <span class="kv">分类 <b>${esc(cat.name)}</b></span>
-        <span class="kv">适用 <b>${esc((p.model || []).join(' / '))}</b></span>
-        ${vars.length ? `<span class="kv">变量 <b>${vars.length} 个</b></span>` : ''}
+        <span class="kv">${L === EN ? 'Category' : '分类'} <b>${esc(cat.name)}</b></span>
+        <span class="kv">${L === EN ? 'Works with' : '适用'} <b>${esc((p.model || []).join(' / '))}</b></span>
+        ${vars.length ? `<span class="kv">${L === EN ? 'Variables' : '变量'} <b>${vars.length}${L === EN ? '' : ' 个'}</b></span>` : ''}
       </div>
       <div class="prompt-code">
-        <button class="copy-btn" data-copy type="button">${icon('copy', 11)} 复制</button>
-        <pre>${highlightVars(p.prompt)}</pre>
+        <button class="copy-btn" data-copy type="button">${icon('copy', 11)} ${L === EN ? 'Copy' : '复制'}</button>
+        <pre>${highlightVars(body)}</pre>
       </div>
-      ${p.tips ? `<div class="prompt-tip"><b>使用提示：</b>${esc(p.tips)}</div>` : ''}
+      ${p.tips ? `<div class="prompt-tip"><b>${L === EN ? 'How to use it:' : '使用提示：'}</b>${esc(tips)}</div>` : ''}
       <div class="row" style="gap:5px;padding:0 18px 16px">${(p.tags || []).map((g) => `<span class="tag">${esc(g)}</span>`).join('')}</div>
     </div>
   </article>`;
