@@ -1736,12 +1736,18 @@ a.tag { padding-top: 3px; padding-bottom: 3px; }
   content-visibility: auto;
   contain-intrinsic-size: auto 104px;
 }
+/* 术语表 92 条：它是 .gloss-item 而不是 .card，不在这里补上就享受不到延迟渲染。
+   学习卡与工具/模型/手册卡都是 .card，上面那条已经覆盖了。 */
+.gloss-item {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 148px;
+}
 /* 首屏那几张不要延迟渲染，否则首屏会闪 */
 .hero .card,
 .card.reveal.in { content-visibility: visible; }
 
 @media print {
-  .card, .live-item { content-visibility: visible; }
+  .card, .live-item, .gloss-item { content-visibility: visible; }
 }
 
 /* ---------- 28. 内容核验状态说明 ----------
@@ -1808,6 +1814,18 @@ a.tag { padding-top: 3px; padding-bottom: 3px; }
 /* ---------- 30. 场景手册的验收区 ----------
    把「产出什么 / 什么算失败 / 什么时候别用 AI」摆到流程之前。
    判断一篇流程文章是不是「假装有用」有客观标准，这里就是把它显式化。 */
+/* ---------- 手册流程图（输入 → N 步 → 产出） ----------
+   从数据推导的内联 SVG，不是插画。宽度自适应，等宽数字承担标签层。
+   注意 SVG 里的颜色走 style（呈现属性不解析 var()），见 playbookFlow。 */
+.pb-flow { margin: 20px 0 2px; }
+.pb-flow svg { display: block; width: 100%; height: auto; overflow: visible; }
+.pb-flow-t {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  fill: var(--fg);
+}
+
 .pb-spec {
   border: var(--bw-thin) solid var(--line-2);
   border-top: 3px solid var(--accent);

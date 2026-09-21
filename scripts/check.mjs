@@ -435,12 +435,28 @@ const playbookIds = new Set();
         };
         const shortDesc = [];
         const starDesc = [];
+        /* 长标题 / 长描述：原来只有「过短」的守卫，长的没人管。
+           搜索结果大约显示 60-70 字符标题、160 字符描述，超出就是白写。
+           layout 已经给描述兜底截断到 160（含省略号 161），
+           这里再守一道 —— 万一以后有人绕过 layout 直接拼 meta 也能拦住。
+           必须**解码实体后再量**：源码里 &#39; 是 5 个字符，用户看到的是 1 个。 */
+        const longTitle = [];
+        const longDesc = [];
+        const decodeEnt = (s) => String(s || '')
+          .replace(/&#(\d+);/g, (_, d) => String.fromCharCode(+d))
+          .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
+          .replace(/&quot;/g, '"').replace(/&apos;/g, "'")
+          .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ')
+          .replace(/&amp;/g, '&');
         const descSeen = new Map();
         const dupDesc = [];
         for (const f of walkHtml(distDir)) {
           const html = fs.readFileSync(f, 'utf8');
-          const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+          const desc = decodeEnt((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '');
+          const title = decodeEnt((html.match(/<title>([^<]*)<\/title>/) || [])[1] || '');
           const rel = '/' + path.relative(distDir, f).replace(/\\/g, '/').replace(/\/index\.html$/, '').replace(/index\.html$/, '');
+          if (title.length > 70) longTitle.push(rel + ' (' + title.length + ')');
+          if (desc.length > 165) longDesc.push(rel + ' (' + desc.length + ')');
           // noindex 的页面（如自动聚合的实时动态）不上搜索结果，描述短一点无所谓 ——
           // 对这类页面报「描述过短」是假警报，会把真问题埋掉。
           const noindex = /<meta name="robots" content="[^"]*noindex/.test(html);
@@ -452,10 +468,12 @@ const playbookIds = new Set();
           }
         }
         if (shortDesc.length) warns.push(`SEO: ${shortDesc.length} 个页面的描述过短 → ${shortDesc.slice(0, 8).join(', ')}${shortDesc.length > 8 ? ' …' : ''}`);
+        if (longTitle.length) warns.push(`SEO: ${longTitle.length} 个页面的标题超过 70 字符（搜索结果会截断）→ ${longTitle.slice(0, 6).join(', ')}`);
+        if (longDesc.length) warns.push(`SEO: ${longDesc.length} 个页面的描述超过 165 字符（搜索结果会截断）→ ${longDesc.slice(0, 6).join(', ')}`);
         if (starDesc.length) errors.push(`SEO: ${starDesc.length} 个页面的描述里残留 markdown 星号 → ${starDesc.slice(0, 5).join(', ')}`);
         if (dupDesc.length) warns.push(`SEO: ${dupDesc.length} 组重复描述 → ${dupDesc.slice(0, 3).join('; ')}`);
-        if (!shortDesc.length && !starDesc.length && !dupDesc.length) {
-          ok.push(`SEO: ${descSeen.size} 个页面的标题与描述都达标，无重复`);
+        if (!shortDesc.length && !starDesc.length && !dupDesc.length && !longTitle.length && !longDesc.length) {
+          ok.push(`SEO: ${descSeen.size} 个页面的标题与描述都达标（长度合规、无重复）`);
         }
       }
     } catch { /* 忽略 */ }

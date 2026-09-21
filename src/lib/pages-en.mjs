@@ -1,12 +1,12 @@
 /**
  * 英文版页面
  *
- * 范围刻意收窄：只覆盖「查询型」内容（工具库 + 模型库）。
- * 场景手册 / 提示词 / 资讯 / 学习资源是长篇中文内容，不做翻译，
- * 在关于页里明确说明——两套长期并行维护的翻译成本远高于它能带来的价值。
+ * 覆盖范围：工具库 + 模型库 + 场景手册 + 提示词库 + 术语表 + 搜索。
+ * **资讯与学习资源刻意不翻** —— 那是长期连载型的长文，两套并行维护的成本
+ * 远高于它带来的价值；关于页里对读者明确说明了这一点。
  */
-import { esc, jsonEmbed, initials, accentStyle, hashColor, accentTextStyle, termSlug, buildGlossSlugMap } from './utils.mjs';
-import { pageHead, crumbs, toolCard, modelCard, catCard, playbookCard, promptCard, glossItem, emptyState } from './components.mjs';
+import { esc, jsonEmbed, initials, accentStyle, hashColor, accentTextStyle, termSlug, buildGlossSlugMap, metaExcerpt } from './utils.mjs';
+import { pageHead, crumbs, toolCard, modelCard, catCard, playbookCard, playbookFlow, promptCard, glossItem, emptyState } from './components.mjs';
 import { EN, pick, tagList } from './labels.mjs';
 import { vendorEn, modelNameEn, toolNameEn } from './i18n-en-maps.mjs';
 import { layout } from './layout.mjs';
@@ -666,6 +666,7 @@ ${crumbs(crumbItems, 'Breadcrumb')}
     <h1>${esc(e.title)}</h1>
     <p style="color:var(--fg-2);font-size:1rem;line-height:1.75;max-width:66ch">${esc(e.problem)}</p>
   </header>
+  ${playbookFlow((e.steps || []).length, g.accent, EN)}
 </div>
 
 ${specBlock}
@@ -696,8 +697,15 @@ ${more.length ? `<section class="section">
   return shell({
     site,
     path: `/en/playbooks/${pb.id}/`,
-    title: `${e.title} · Playbook`,
-    description: `${e.problem} ${(e.steps || []).length} steps, about ${e.time}.${e.spec ? ' Output: ' + e.spec.output : ''}`,
+    /* 不加「· Playbook」：中文版的手册页标题就是「标题 · AI 万象」，
+       英文版多加一段既不一致，又把标题顶到 80 多字符（搜索结果里会被截断）。 */
+    title: e.title,
+    /* 描述要老实截断到 ~160 字符。拼上 problem + 步数 + 产出动辄 300 多字符，
+       搜索结果里只会显示前 160，剩下的白写。 */
+    description: metaExcerpt(
+      `${e.problem} ${(e.steps || []).length} steps, about ${e.time}.${e.spec ? ' Output: ' + e.spec.output : ''}`,
+      160,
+    ),
     pageType: 'article',
     body,
     brandDesc: en['siteDesc'],

@@ -341,6 +341,58 @@ export function learnCard(l, trackMap) {
   </article>`;
 }
 
+/**
+ * 场景手册的流程示意图：输入 → N 步 → 产出。
+ *
+ * 为什么是这种图，而不是给 43 篇各配一张插画：
+ *  1. 它**从数据推出来的**（步数 + 分组色），不用人手画，内容变了也不会过时；
+ *  2. 它说的是信息 —— 这条流水线多长、入口出口各是什么，不是装饰；
+ *  3. 纯几何 + 内联 SVG，零依赖、零额外请求，视觉语言也和本站一致
+ *     （硬边框 + 实心偏移投影 + 等宽数字），不会混进渐变光晕那套。
+ *
+ * 两个坑：
+ *  · SVG 的**呈现属性不解析 var()**（fill="var(--pop)" 是无效的），
+ *    所有跟主题有关的颜色必须写成 style="fill:var(--pop)"。
+ *  · 对读屏它是冗余信息（下面就有完整步骤列表），所以 aria-hidden。
+ */
+export function playbookFlow(stepCount, accent = '#1B4DFF', L = ZH) {
+  const n = Math.max(1, Math.min(12, Number(stepCount) || 1));
+  const isEn = L === EN;
+  const inLabel = isEn ? 'IN' : '输入';
+  const outLabel = isEn ? 'OUT' : '产出';
+
+  const W = 680; const H = 104;
+  const pad = 6; const gap = 9;
+  const cols = n + 2;                              // 输入 + N 步 + 产出
+  const bw = (W - pad * 2 - gap * (cols - 1)) / cols;
+  const boxH = 42;
+  const y = (H - boxH) / 2;
+  const r1 = (v) => Number(v).toFixed(1);
+  const xOf = (i) => pad + i * (bw + gap);
+
+  const box = (i, label, highlighted) => {
+    const bx = r1(xOf(i));
+    const w = r1(bw);
+    return ''
+      // 实心偏移投影：先画一个位移的同尺寸矩形
+      + `<rect x="${r1(xOf(i) + 3)}" y="${y + 3}" width="${w}" height="${boxH}" rx="2" style="fill:var(--pop)"/>`
+      + `<rect x="${bx}" y="${y}" width="${w}" height="${boxH}" rx="2" style="fill:var(--surface);stroke:${highlighted ? esc(accent) : 'var(--fg)'};stroke-width:1.5"/>`
+      + `<text class="pb-flow-t" x="${r1(xOf(i) + bw / 2)}" y="${y + boxH / 2 + 5}" text-anchor="middle"${highlighted ? ` style="fill:${esc(accent)};font-weight:600"` : ''}>${esc(label)}</text>`;
+  };
+
+  const arrow = (i) => {
+    const cx = xOf(i) + bw + gap / 2;
+    const my = y + boxH / 2;
+    return `<path d="M${r1(cx - 3)} ${r1(my - 4)} L${r1(cx + 3)} ${r1(my)} L${r1(cx - 3)} ${r1(my + 4)}" style="fill:none;stroke:var(--fg-3);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"/>`;
+  };
+
+  const parts = [box(0, inLabel, false)];
+  for (let i = 0; i < n; i++) parts.push(arrow(i), box(i + 1, String(i + 1).padStart(2, '0'), true));
+  parts.push(arrow(n), box(n + 1, outLabel, false));
+
+  return `<div class="pb-flow"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">${parts.join('')}</svg></div>`;
+}
+
 /** 场景手册卡片 */
 export function playbookCard(pb, groupMap, base = '/playbooks/', L = ZH) {
   const g = groupMap[pb.group] || { name: pb.group, accent: '#1B4DFF', icon: 'target' };

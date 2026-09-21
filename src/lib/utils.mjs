@@ -232,6 +232,32 @@ export function slug(s = '') {
     .replace(/-+/g, '-');
 }
 
+/**
+ * meta description 用的摘录：截到句子边界，不在半句话里断掉。
+ *
+ * 两个用途：
+ *  1. 「一句话太短、正文第一段信息量更足」的页面（如资讯解读）；
+ *  2. layout 里给所有 description 兜底 —— 搜索结果大约只显示 160 字符，
+ *     写再长也会被截断，不如自己截在句子边界上，至少读起来是完整的。
+ *
+ * 放在 utils 是因为 layout 也要用它，而 pages.mjs 依赖 layout.mjs，
+ * 放在 pages.mjs 会形成循环依赖。
+ *
+ * 注意标点要中英文都认：只认「。！？」时，英文文本会一路硬切成半句。
+ */
+export function metaExcerpt(text, max = 160) {
+  const s = String(text || '').replace(/\*\*/g, '').trim();
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max);
+  const sentence = cut.match(/^[\s\S]*[。！？；.!?;]/);
+  if (sentence) return sentence[0].trimEnd() + '…';
+  const comma = cut.match(/^[\s\S]*[，、,]/);
+  if (comma) return comma[0].trimEnd() + '…';
+  // 都没有就退到最后一个空格，避免把英文单词切成两半
+  const sp = cut.lastIndexOf(' ');
+  return (sp > max * 0.6 ? cut.slice(0, sp) : cut).trimEnd() + '…';
+}
+
 export function readingTime(text = '') {
   const n = String(text).length;
   return Math.max(1, Math.round(n / 400));

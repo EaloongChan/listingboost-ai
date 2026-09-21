@@ -1,4 +1,4 @@
-import { esc, jsonEmbed } from './utils.mjs';
+import { esc, jsonEmbed, metaExcerpt } from './utils.mjs';
 import { icon, iconSprite } from './icons.mjs';
 
 /** og:locale 要写成 zh_CN / en_US 这种带地区的格式，光写 en 不规范 */
@@ -62,7 +62,10 @@ export function layout(o) {
 
   const bName = brandName || site.brand.name;
   const fullTitle = title ? `${title} · ${bName}` : `${bName} · ${brandSlogan || site.brand.slogan}`;
-  const desc = description || site.brand.description;
+  /* 搜索结果大约只显示 160 字符，写再长也会被截断 —— 不如自己截在句子边界上，
+     至少读出来是完整的一句。放在这里兜底，是为了让「以后新增的页面」也自动遵守，
+     而不是每个页面各自记得调一次。 */
+  const desc = metaExcerpt(description || site.brand.description, 160);
   const base = (site.baseUrl || '').replace(/\/$/, '');
   const canonical = base ? base + path : path;
   const theme = site.theme?.default || 'light';

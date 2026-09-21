@@ -4680,5 +4680,36 @@
     ],
     "descEn": "A speech AI suite for the Java ecosystem: recognition, synthesis, voiceprint and denoising in one line of code.",
     "caveatEn": "Aimed at Java backend developers — useless outside that stack. It is a wrapper, so quality comes from the underlying speech models, not this library."
+  },
+  {
+    "id": "zcode",
+    "name": "ZCode",
+    "url": "https://zcode.z.ai",
+    "cat": "coding",
+    "desc": "智谱出品的桌面 AI 编程工具，对标 Claude Code，配 GLM 系列模型使用。",
+    "tags": ["Agent", "代码", "国产", "桌面端"],
+    "pricing": "freemium",
+    "cn": true,
+    "official": true,
+    "added": "2026-09-21",
+    "caveat": "2026-09 曾被曝登录后静默打包 .git 历史上传云端，引发信任风波；现已整改、开源并过第三方审计。对敏感项目仍建议先关代码库索引、盯紧权限。",
+    "descEn": "Zhipu's desktop AI coding agent, positioned as a Claude Code counterpart and paired with the GLM model family.",
+    "caveatEn": "In Sep 2026 it was caught silently uploading full .git history while signed in — since fixed, open-sourced and third-party audited. For sensitive repos, still disable repo indexing and watch permissions."
+  },
+  {
+    "id": "minimax-code-cli",
+    "name": "MiniMax Code CLI",
+    "url": "https://github.com/MiniMax-AI/minimax-code",
+    "cat": "coding",
+    "desc": "MiniMax 开源的终端编程智能体（MIT），支持 BYOK 接任意兼容模型的 API。",
+    "tags": ["CLI", "Agent", "开源", "代码"],
+    "pricing": "open",
+    "cn": true,
+    "open": true,
+    "official": true,
+    "added": "2026-09-21",
+    "caveat": "工具本体开源免费，但算力按 MiniMax 套餐或自有 API 计费；评测数字（76.7%）来自第三方 30 题小样本，别当排行榜看。",
+    "descEn": "MiniMax's open-source (MIT) terminal coding agent. BYOK-friendly: bring any OpenAI- or Anthropic-compatible API.",
+    "caveatEn": "The tool is free and open, but compute bills through a MiniMax plan or your own API. Its 76.7% eval number comes from a small 30-task third-party run — not a leaderboard."
   }
 ]

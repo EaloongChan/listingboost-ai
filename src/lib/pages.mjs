@@ -1,24 +1,13 @@
-import { esc, jsonEmbed, fmtDateCN, initials, accentStyle, accentTextStyle, termSlug, buildGlossSlugMap } from './utils.mjs';
+import { esc, jsonEmbed, fmtDateCN, initials, accentStyle, accentTextStyle, termSlug, buildGlossSlugMap, metaExcerpt } from './utils.mjs';
 import { icon } from './icons.mjs';
 import { layout } from './layout.mjs';
 import {
   crumbs, pageHead, emptyState, toolCard, catCard, promptCard,
   newsItem, milestoneItem, sourceRow, glossItem, learnCard,
-  playbookCard, modelCard, liveItem, cmpButton, PRICING, PRICING_CLS,
+  playbookCard, playbookFlow, modelCard, liveItem, cmpButton, PRICING, PRICING_CLS,
 } from './components.mjs';
 
 const BASE = (site) => (site.baseUrl || '').replace(/\/$/, '');
-
-/** meta description 用的摘录：截到句子边界，不在半个句子里断掉。
-    用于「一句话太短、正文第一段信息量更足」的页面（如资讯解读）。 */
-export function metaExcerpt(text, max = 60) {
-  const s = String(text || '').replace(/\*\*/g, '').trim();
-  if (s.length <= max) return s;
-  const cut = s.slice(0, max);
-  // 优先切在句末，其次分号/逗号；都没找到才硬切
-  const m = cut.match(/^[\s\S]*[。！？；]/) || cut.match(/^[\s\S]*[，、]/);
-  return (m ? m[0] : cut) + '…';
-}
 
 /** 带编号的章节头。n 为数字时补零，为字符串（如 '—' / '!'）时原样输出 */
 export function shead(n, title, sub, moreHref, moreLabel) {
@@ -1064,6 +1053,7 @@ ${crumbs(crumbItems)}
     <h1>${esc(pb.title)}</h1>
     <p style="color:var(--fg-2);font-size:1rem;line-height:1.75;max-width:66ch">${esc(pb.problem)}</p>
   </header>
+  ${playbookFlow((pb.steps || []).length, g.accent)}
 </div>
 
 ${pbSpec(pb.spec)}
