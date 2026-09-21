@@ -1,4 +1,5 @@
 import { esc, hashColor, initials, highlightVars, accentStyle, accentTextStyle, fmtDate, termSlug } from './utils.mjs';
+import { promptModelEn } from './i18n-en-maps.mjs';
 import { ZH, EN, pick, tagList } from './labels.mjs';
 import { icon } from './icons.mjs';
 
@@ -150,13 +151,13 @@ export function promptCard(p, catMap, L = ZH) {
         <h3>${esc(title)}${p.hot ? `<span class="badge-pill badge-hot">${L === EN ? 'Popular' : '热门'}</span>` : ''}</h3>
         <p>${esc(desc)}</p>
       </div>
-      ${cardActions('prompt', p.id)}
+      ${cardActions('prompt', p.id, false, L)}
       <span class="prompt-toggle" aria-hidden="true">${icon('chevron-down', 14)}</span>
     </div>
     <div class="prompt-body">
       <div class="prompt-meta">
         <span class="kv">${L === EN ? 'Category' : '分类'} <b>${esc(cat.name)}</b></span>
-        <span class="kv">${L === EN ? 'Works with' : '适用'} <b>${esc((p.model || []).join(' / '))}</b></span>
+        <span class="kv">${L === EN ? 'Works with' : '适用'} <b>${esc((p.model || []).map((x) => (L === EN ? promptModelEn(x) : x)).join(' / '))}</b></span>
         ${vars.length ? `<span class="kv">${L === EN ? 'Variables' : '变量'} <b>${vars.length}${L === EN ? '' : ' 个'}</b></span>` : ''}
       </div>
       <div class="prompt-code">
@@ -164,7 +165,11 @@ export function promptCard(p, catMap, L = ZH) {
         <pre>${highlightVars(body)}</pre>
       </div>
       ${p.tips ? `<div class="prompt-tip"><b>${L === EN ? 'How to use it:' : '使用提示：'}</b>${esc(tips)}</div>` : ''}
-      <div class="row" style="gap:5px;padding:0 18px 16px">${(p.tags || []).map((g) => `<span class="tag">${esc(g)}</span>`).join('')}</div>
+      ${(() => {
+      // 英文站要么显示英文标签，要么整行不显示 —— 不露出中文
+      const tags = L === EN ? (e.tags || []) : (p.tags || []);
+      return tags.length ? `<div class="row" style="gap:5px;padding:0 18px 16px">${tags.map((g) => `<span class="tag">${esc(g)}</span>`).join('')}</div>` : '';
+    })()}
     </div>
   </article>`;
 }

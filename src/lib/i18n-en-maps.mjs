@@ -127,3 +127,25 @@ export const TOOL_NAME_EN = {
 export function toolNameEn(name) {
   return TOOL_NAME_EN[name] || name;
 }
+
+/** 提示词「适用模型」字段里出现的中文名。 */
+export const PROMPT_MODEL_EN = {
+  "文心": "ERNIE",
+  "通义": "Qwen",
+  "飞书": "Feishu",
+  "豆包": "Doubao",
+  "混元": "Hunyuan",
+  "星火": "Spark",
+  "智谱": "Zhipu",
+  "Kimi": "Kimi",
+  "海螺": "Hailuo",
+  "即梦": "Jimeng",
+  "可灵": "Kling",
+  "通义千问": "Qwen",
+  "文心一言": "ERNIE",
+  "讯飞星火": "iFlytek Spark"
+};
+
+export function promptModelEn(name) {
+  return PROMPT_MODEL_EN[name] || name;
+}
