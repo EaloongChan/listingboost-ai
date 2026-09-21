@@ -4,6 +4,7 @@
  * 检查重复 id、未知分类、缺失字段、URL 格式、可能的占位内容。
  */
 import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -383,6 +384,18 @@ const playbookIds = new Set();
     }
   }
 }
+
+
+    /* 场景手册质量体检：把 ChatGPT 那张 10 分评分卡固化下来。
+       低于 7 分说明这篇没写清「产出什么 / 什么算失败 / 工具怎么选 / 什么时候别用 AI」，
+       属于「假装有用」的文章。 */
+    try {
+      const out = execFileSync(process.execPath, [path.join(__dirname, 'audit-playbooks.mjs'), '--json'], { encoding: 'utf8' });
+      const rows = JSON.parse(out.trim().split('\n').pop());
+      const low = rows.filter((r) => r.total < 7);
+      if (low.length) errors.push(`playbooks: ${low.length} 篇手册低于 7 分（跑 node scripts/audit-playbooks.mjs 看详情）→ ${low.map((r) => r.id).join(', ')}`);
+      else ok.push(`playbooks: ${rows.length} 篇手册全部达到 7 分以上（平均 ${(rows.reduce((a, b) => a + b.total, 0) / rows.length).toFixed(1)} 分）`);
+    } catch { /* 体检脚本本身出错不影响主流程 */ }
 
 /* ---- vercel.json 字段白名单校验 ----
    踩过一次：在 redirects 里写了个 `comment` 字段（本意是留说明），
