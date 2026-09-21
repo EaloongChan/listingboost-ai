@@ -226,7 +226,16 @@
       "概念"
     ],
     "prompt": "请解释「{{概念}}」，分三层输出：\n\n【给小学生的版本】2-3 句，必须用日常生活里的类比，不能出现术语。\n【给大学生的版本】一段话，可以出现专业名词，但要当场解释。\n【给专业人士的版本】说明它的核心机制、常见误解、以及在什么情况下会失效。\n\n最后加一句「最常见的误解是……」并说明为什么大家会这么误解。\n\n不要用「简单来说」「众所周知」这类填充词。",
-    "tips": "「在什么情况下会失效」这一问，是区分真懂和假懂的分水岭。"
+    "tips": "「在什么情况下会失效」这一问，是区分真懂和假懂的分水岭。",
+    "en": {
+      "title": "Explain at three levels",
+      "desc": "One concept, three depths, so you can pitch it to anyone.",
+      "vars": [
+        "Concept"
+      ],
+      "prompt": "Explain \"{{Concept}}\" in three layers:\n\n**[For a child]** Two or three sentences. Everyday analogies only, no jargon.\n**[For an undergraduate]** One paragraph. Technical terms allowed, but define each one as you use it.\n**[For a specialist]** The core mechanism, the common misconceptions, and **the conditions under which it breaks down**.\n\nFinish with 'the most common misconception is…' and explain why people hold it.\n\nAvoid filler like 'in simple terms' or 'as we all know'.",
+      "tips": "'When does it break down' is the line between real understanding and vocabulary."
+    }
   },
   {
     "id": "p-roadmap",
@@ -395,7 +404,16 @@
       "产品/服务"
     ],
     "prompt": "我的产品/服务是：{{产品/服务}}\n\n请帮我挖掘用户画像，要求具体到能「想象出一张脸」：\n\n1. 列出 3 类典型用户，每类给出：年龄、职业、典型的一天、手机里常用的 5 个 App、当前用什么方式解决这个问题；\n2. 对每类用户，用一句原话写出他们**自己会怎么描述**这个痛点（不要用书面语）；\n3. 指出哪一类用户最容易转化，为什么；\n4. 列出 5 个「他们搜索时会输入的关键词」；\n5. 最后指出我可能高估了哪类用户的需求。\n\n不要用「年轻白领」「Z 世代」这类空泛标签。",
-    "tips": "「他们自己会怎么描述」这条能直接产出广告文案的原始语料。"
+    "tips": "「他们自己会怎么描述」这条能直接产出广告文案的原始语料。",
+    "en": {
+      "title": "Dig into who your user actually is",
+      "desc": "Moves 'target user: young professionals' to a picture you can imagine.",
+      "vars": [
+        "Product or service"
+      ],
+      "prompt": "My product is: {{Product or service}}\n\nBuild user personas, specific enough that **I can picture a face**:\n\n1. Three typical user types. For each: age, job, what a typical day looks like, the five apps they use most, and how they solve this problem today.\n2. For each type, **write the pain point in their own words** — how they would describe it themselves, not in marketing language.\n3. Which type is most likely to convert, and why.\n4. Five keywords they would actually type into a search box.\n5. Finally, which type's need am I most likely to be overestimating?\n\nNo empty labels like 'young professionals' or 'Gen Z'.",
+      "tips": "'In their own words' gives you raw material you can put straight into ad copy."
+    }
   },
   {
     "id": "p-image-prompt",
@@ -417,7 +435,16 @@
       "画面描述"
     ],
     "prompt": "我想生成这样一张图：{{画面描述}}\n\n请帮我输出一段专业的英文图像提示词，按这个结构组织：\n主体（含外貌、服装、动作）→ 环境与背景 → 光线（方向、色温、质感）→ 镜头（焦段、景深、视角）→ 风格与媒介 → 色彩方案 → 画质修饰词。\n\n要求：\n- 用逗号分隔的关键词组，不要写成句子；\n- 具体到摄影师/画派/材质级别的词，避免「beautiful」「high quality」这类空词；\n- 同时给出 negative prompt（负面提示词）；\n- 最后附一个「参数建议」（如宽高比、风格化强度），并说明改动哪个词会带来什么变化。",
-    "tips": "「改动哪个词会带来什么变化」让你能自己调参，而不是每次都重新问。"
+    "tips": "「改动哪个词会带来什么变化」让你能自己调参，而不是每次都重新问。",
+    "en": {
+      "title": "Structured image prompt generator",
+      "desc": "Translates a one-line request into a complete prompt an image model can act on.",
+      "vars": [
+        "Scene description"
+      ],
+      "prompt": "I want to generate this image: {{Scene description}}\n\nGive me a professional image prompt in this structure:\nsubject (appearance, clothing, action) → environment and background → lighting (direction, colour temperature, quality) → camera (focal length, depth of field, angle) → style and medium → colour scheme → quality descriptors.\n\nRequirements:\n- Comma-separated keyword phrases, not sentences.\n- Specific enough to name photographers, schools or materials. Avoid empty words like 'beautiful' or 'high quality'.\n- Include a negative prompt.\n- Finish with parameter suggestions (aspect ratio, stylisation strength) and **say what changes if I alter each keyword**.",
+      "tips": "'What changes if I alter each keyword' lets you tune it yourself instead of asking again every time."
+    }
   },
   {
     "id": "p-ui-critique",
@@ -488,7 +515,17 @@
       "数据库类型"
     ],
     "prompt": "数据库：{{数据库类型}}\n表结构：\n{{表结构}}\n\n我的需求：{{需求}}\n\n请输出：\n1. 先复述一遍你理解的业务问题（如果我描述有歧义，在此指出并列出你的假设）；\n2. SQL 语句，带清晰注释；\n3. 说明这条 SQL 在什么数据情况下会出错或返回异常结果；\n4. 如果数据量很大，给出性能优化建议。\n\n要求：用标准 SQL 语法，字段名严格按我给的，不要自己造字段。",
-    "tips": "「不要自己造字段」能避免 AI 幻觉出根本不存在的列名。"
+    "tips": "「不要自己造字段」能避免 AI 幻觉出根本不存在的列名。",
+    "en": {
+      "title": "Natural language to SQL",
+      "desc": "Turns a business question into working SQL, with its assumptions stated.",
+      "vars": [
+        "Database",
+        "Schema"
+      ],
+      "prompt": "Database: {{Database}}\nSchema:\n{{Schema}}\n\nWhat I need: {{requirement}}\n\nOutput:\n1. Restate the business question as you understand it. **If my description is ambiguous, say where and list your assumptions.**\n2. The SQL, with clear comments.\n3. Under what data conditions would this query fail or return something unexpected?\n4. If the table is large, performance suggestions.\n\nRequirements: standard SQL syntax, and **use exactly the column names I gave you**. Do not invent fields.",
+      "tips": "'Do not invent fields' prevents the classic hallucinated column name."
+    }
   },
   {
     "id": "p-weekly",
@@ -609,7 +646,16 @@
       "我的想法"
     ],
     "prompt": "我有一个想法/方案：{{我的想法}}\n\n请组织一场三人评审，每个角色都要说真话：\n\n【甲方（出钱的人）】只关心回报率、时间和风险，说话直接。\n【一线执行者】只关心这玩意儿落地时有多麻烦，会不会加班。\n【目标用户】不关心你怎么做，只关心自己凭什么要用。\n\n规则：\n- 每个人说 3 段，之后可以互相反驳一轮；\n- 严禁说「这个想法很有创意」这类客套话；\n- 每人的批评必须具体，指出「哪个环节、为什么不行」；\n- 最后你来总结：这三人里谁的意见最应该听，以及我的方案必须改掉的那一条。\n\n不要替我圆场。",
-    "tips": "「不要替我圆场」很必要——不加这句，AI 最后一定会给个和稀泥的结论。"
+    "tips": "「不要替我圆场」很必要——不加这句，AI 最后一定会给个和稀泥的结论。",
+    "en": {
+      "title": "Hostile review panel",
+      "desc": "Three people with opposing interests tear into your idea, then you decide.",
+      "vars": [
+        "My idea"
+      ],
+      "prompt": "I have this idea: {{My idea}}\n\nRun a three-person review. Every role tells the truth:\n\n**[The payer]** Cares only about return, timeline and risk. Blunt.\n**[The person who has to execute it]** Cares only about how painful this is to land, and whether it means overtime.\n**[The target user]** Doesn't care how you build it, only why they would use it.\n\nRules:\n- Each speaks three times, then they get one round of rebuttal.\n- **No pleasantries.** 'That's a creative idea' is banned.\n- Every criticism must be specific: which part, and why it fails.\n- Finally, summarise: whose opinion deserves the most weight, and **the one thing my plan must change**.\n\nDon't smooth it over for me.",
+      "tips": "'Don't smooth it over' is necessary — without it the conclusion is always a bland compromise."
+    }
   },
   {
     "id": "p-prompt-improve",
@@ -1067,7 +1113,18 @@
       "每天可投入时长"
     ],
     "prompt": "我想学「{{想学的技能}}」，目前水平：{{我的水平}}，每天能投入：{{每天可投入时长}}。\n\n请拆解成可练习的动作：\n\n1. 这个技能最终由哪 4-6 个子能力构成？\n2. 每个子能力对应的**最小练习动作**是什么（小到 15 分钟内能做完一轮）？\n3. 每个子能力的「练到位了」是什么样，怎么自检？\n4. 这些子能力应该按什么顺序练，哪些可以并行？\n5. 新手最容易在哪个子能力上卡住，卡住的典型表现是什么，怎么绕过去？\n\n不要给我书单或课程推荐，只要可执行的动作。",
-    "tips": "「小到 15 分钟能做完一轮」这个约束是关键，否则拆解出来的动作永远不会被执行。"
+    "tips": "「小到 15 分钟能做完一轮」这个约束是关键，否则拆解出来的动作永远不会被执行。",
+    "en": {
+      "title": "Break a skill into daily practice",
+      "desc": "Turns 'learn X' into concrete actions small enough to actually do.",
+      "vars": [
+        "Skill",
+        "My level",
+        "Time per day"
+      ],
+      "prompt": "I want to learn '{{Skill}}'. Current level: {{My level}}. Time I can put in: {{Time per day}}.\n\nBreak it into practiceable actions:\n\n1. Which 4-6 sub-abilities make up this skill?\n2. What is the **smallest practice action** for each — small enough to complete one round in under 15 minutes?\n3. What does 'getting it right' look like for each, and how do I self-check?\n4. What order should they be learned in, and which can run in parallel?\n5. Where do beginners get stuck, what does that look like, and how do they get around it?\n\nNo reading lists or course recommendations. Only doable actions.",
+      "tips": "The 'under 15 minutes' constraint is the whole trick — without it the actions never get done."
+    }
   },
   {
     "id": "p-weekly-review",
@@ -1313,7 +1370,17 @@
       "我的资源"
     ],
     "prompt": "我的产品：{{我的产品}}\n主要竞品：{{竞品}}\n我的资源：{{我的资源}}\n\n请做拆解：\n\n1. 【对手的定位】用一句话写出每个竞品在用户心里占的位置。\n2. 【他们的强项】客观列出，不要贬低——贬低对手会让你判断失误。\n3. 【他们做不到的】不是「做得不好」，而是**结构性做不到**的（比如商业模式不允许、客户群不允许、组织能力不允许）。这些才是可攻击的缝隙。\n4. 【空白地带】所有竞品都没覆盖的用户需求是什么？\n5. 【我的现实打法】以我的资源，最现实的一个切入点是什么？不要给我需要大预算才能打的方案。\n6. 【风险】我的这个切入点会被对手多快复制？怎么建立防御？",
-    "tips": "第 3 条是核心——「做得不好」会被改进，「做不到」才是持久的缝隙。"
+    "tips": "第 3 条是核心——「做得不好」会被改进，「做不到」才是持久的缝隙。",
+    "en": {
+      "title": "Competitive teardown: find the exploitable gap",
+      "desc": "Focuses on structural weaknesses rather than a feature-by-feature comparison.",
+      "vars": [
+        "Competitor",
+        "My positioning"
+      ],
+      "prompt": "Competitor: {{Competitor}}\nMy positioning: {{My positioning}}\n\nTear down their position, aimed at finding where I can attack:\n\n1. **[What they are optimising for]** Read it off their product decisions, not their marketing copy. Pricing shape, onboarding length, which features get attention.\n2. **[Who they are not serving well]** Which customer segment is poorly served by their choices. **Structural choices create structural exclusions.**\n3. **[What constraints they cannot escape]** Their business model, their sales motion, their org shape — what do those make impossible for them?\n4. **[Where they are strong and I should not attack]** Be honest. Attacking their strength is the most common way to waste a quarter.\n5. **[The gap I can hold]** What could I own that they cannot easily copy, and how long would that last?\n6. **[What I'd need to believe]** What has to be true about the market for this attack to work?\n\nReminder: everything about the competitor must be something I can verify publicly. Mark anything you are inferring **as inference**.",
+      "tips": "Section 4 is the one people skip and the one that saves the most wasted effort."
+    }
   },
   {
     "id": "p-cold-outreach",
@@ -1357,7 +1424,17 @@
       "项目背景"
     ],
     "prompt": "需求方原话：「{{需求方原话}}」\n项目背景：{{项目背景}}\n\n请把这句话翻译成可执行的设计简报：\n\n1. 【他真正想要的是什么】拆出背后 2-3 种可能的诉求，指出哪些是互相冲突的。\n2. 【必须问清的问题】列出 5 个如果不问清楚、返工风险最高的问题。\n3. 【参考方向】这类诉求通常对应哪几种设计方向（给方向描述，不要给具体品牌名）。\n4. 【可量化的参数】把模糊形容词转成具体参数，比如「高端」可能对应：更低的色彩饱和度、更大的留白、更细的字重、更少的装饰元素。\n5. 【验收标准】写出这次设计的验收 checklist，避免最后凭感觉争论。\n\n如果这句话本身就不合理，直接指出。",
-    "tips": "第 4 条最有用——把「高级感」拆成饱和度和留白，争论才有落点。"
+    "tips": "第 4 条最有用——把「高级感」拆成饱和度和留白，争论才有落点。",
+    "en": {
+      "title": "Translate a vague design request into a brief",
+      "desc": "Turns 'premium and understated' into parameters you can actually design against.",
+      "vars": [
+        "What the requester said",
+        "Project context"
+      ],
+      "prompt": "What the requester said: \"{{What the requester said}}\"\nProject context: {{Project context}}\n\nTranslate this into an executable design brief:\n\n1. **[What they probably mean]** Two or three plausible underlying wants, and which of them conflict.\n2. **[Questions to ask]** Five questions where not asking them carries the highest rework risk.\n3. **[Reference directions]** Which design directions this kind of request usually maps to. Describe directions, not brand names.\n4. **[Quantifiable parameters]** Convert the vague adjectives into specifics. 'Premium' might mean lower colour saturation, more whitespace, lighter font weights, fewer decorative elements.\n5. **[Acceptance criteria]** A checklist for reviewing the work, so the final conversation is not an argument about taste.\n\nIf the request is unreasonable on its face, say so.",
+      "tips": "Section 4 is the useful one — turning 'a sense of quality' into saturation and whitespace gives the discussion something to stand on."
+    }
   },
   {
     "id": "p-design-system",
@@ -1443,7 +1520,17 @@
       "汇报对象"
     ],
     "prompt": "数据：\n{{数据}}\n汇报对象：{{汇报对象}}\n\n请准备三个版本的叙事：\n\n版本 A｜给高层（30 秒）：一句话结论 + 最关键的一个数字 + 需要的决策。不要过程。\n版本 B｜给业务方（3 分钟）：他们的动作和数据变化的因果关系，重点讲「所以你们该做什么」。\n版本 C｜给专业同事（10 分钟）：方法、口径、置信度、局限性，以及你认为最可能被质疑的三个点。\n\n另外：\n- 指出这份数据里最容易被误读的一个数字，以及应该怎么主动说明；\n- 给出 2 张图表的建议（画什么、对比什么），说明为什么比原始数据表更有说服力。",
-    "tips": "「最容易被误读的数字」这一条能救你很多次——主动说明比被质疑后再解释体面得多。"
+    "tips": "「最容易被误读的数字」这一条能救你很多次——主动说明比被质疑后再解释体面得多。",
+    "en": {
+      "title": "Tell a story with the data",
+      "desc": "Three versions of the same analysis for three different audiences.",
+      "vars": [
+        "Data",
+        "Audience"
+      ],
+      "prompt": "Data:\n{{Data}}\nAudience: {{Audience}}\n\nPrepare three versions:\n\n**Version A — executives (30 seconds)**: one-line conclusion, the single most important number, the decision needed. No process.\n**Version B — the business team (3 minutes)**: the causal link between their actions and the numbers, focused on **what they should do differently**.\n**Version C — specialist peers (10 minutes)**: method, definitions, confidence, limitations, and the three points most likely to be challenged.\n\nAlso:\n- Name the one number in this data most likely to be misread, and how to pre-empt that.\n- Suggest two charts (what they plot, what they compare) and why they persuade better than the raw table.",
+      "tips": "Naming the misreadable number saves you repeatedly — pre-empting it is far more comfortable than defending it later."
+    }
   },
   {
     "id": "p-ab-test",
@@ -1856,7 +1943,17 @@
       "可用的工具或接口"
     ],
     "prompt": "我想让 Agent 自动完成这件事：{{想自动化的任务}}\n它能调用的工具/接口有：{{可用的工具或接口}}\n\n请给我一份设计，重点不是「怎么做」，而是「怎么不出事」：\n\n1. **成功标准**：先说清楚「做完了」是什么样的，怎么验证。**没有可验证终点就不该做成 Agent。**\n2. **步骤拆解**：每一步写清输入、输出、调哪个工具。\n3. **人工闸门**：标出哪些步骤**必须人工确认**（不可逆的动作：发消息、删数据、付款、对外发布）。说明为什么这些不能自动过。\n4. **失败模式**：列出这个流程最可能出问题的 3 个地方，以及每个地方的降级方案。**特别是：工具调用失败、返回了预期外的数据、中途跑偏。**\n5. **熔断参数**：建议的最大步数上限、成本上限、超时时间，并说明依据。\n6. **该不该做 Agent**：如果这个任务的步骤其实是固定规则、不需要判断，请直接告诉我用脚本更好，并说明脚本方案。\n\n不要给我代码，我要的是设计。",
-    "tips": "「人工闸门」这一栏是这份设计的核心—— Agent 出事 90% 是因为不可逆的动作被自动放行了。"
+    "tips": "「人工闸门」这一栏是这份设计的核心—— Agent 出事 90% 是因为不可逆的动作被自动放行了。",
+    "en": {
+      "title": "Design an agent task with human gates",
+      "desc": "Turns 'I want AI to do this automatically' into a design with failure handling and checkpoints.",
+      "vars": [
+        "Task to automate",
+        "Available tools or APIs"
+      ],
+      "prompt": "I want an agent to do this automatically: {{Task to automate}}\nTools and APIs it can call: {{Available tools or APIs}}\n\nGive me a design. The point is not how to build it — it is **how to keep it from going wrong**:\n\n1. **Success criterion** — what does 'done' look like, and how is it verified? **Without a verifiable endpoint, this should not be an agent.**\n2. **Step breakdown** — for each step: input, output, which tool it calls.\n3. **Human gates** — mark the steps that **require human confirmation** (irreversible actions: sending messages, deleting data, payments, publishing). Explain why each cannot be automatic.\n4. **Failure modes** — the three most likely failure points and the fallback for each. **Specifically: tool call failures, unexpected data coming back, drifting off course mid-run.**\n5. **Circuit breakers** — recommended maximum steps, cost ceiling and timeout, with your reasoning.\n6. **Should this be an agent at all?** If the steps are actually fixed rules needing no judgement, say so plainly and describe the script instead.\n\nNo code. I want the design.",
+      "tips": "The human-gates section is the heart of this — agents go wrong 90% of the time because an irreversible action was allowed through automatically."
+    }
   },
   {
     "id": "p-video-shotlist",
@@ -1879,7 +1976,18 @@
       "风格参考"
     ],
     "prompt": "我要做一条视频，内容是：{{视频要讲的内容}}\n总时长约 {{总时长}}\n想要的风格：{{风格参考}}\n\n请输出一份分镜表，每个镜头一行，包含这些列：\n\n| 序 | 时长 | 画面内容 | 生成提示词（英文） | 镜头运动 | 风险 |\n\n要求：\n- **单个镜头控制在 5-10 秒**，这是目前 AI 视频能稳定处理的长度；\n- 「生成提示词」要具体到光线、材质、镜头焦段，不要写「一个人很开心」这种无法执行的描述；\n- **「风险」列必须诚实**：涉及人物的手、快速运动、画面内文字、多人物互动、复杂物理效果的镜头，标出高风险，并给出规避方案（换角度、拆分镜头、或者改成后期叠加文字）；\n- 如果某个镜头按目前的 AI 能力**基本做不出来**，直接建议改成实拍或用素材，不要硬编一个提示词；\n- 最后给出「一致性方案」：同一角色/场景跨镜头时怎么保持统一（用什么参考图、哪些描述词必须固定不变）。",
-    "tips": "「风险」列比提示词本身更有用——在分镜阶段避开做不到的镜头，比生成完再返工省得多。"
+    "tips": "「风险」列比提示词本身更有用——在分镜阶段避开做不到的镜头，比生成完再返工省得多。",
+    "en": {
+      "title": "Video shot list you can feed straight to a generator",
+      "desc": "Turns a script into per-shot prompts, and flags the shots AI probably cannot do.",
+      "vars": [
+        "What the video covers",
+        "Total length",
+        "Style reference"
+      ],
+      "prompt": "I'm making a video about: {{What the video covers}}\nLength: about {{Total length}}\nStyle: {{Style reference}}\n\nProduce a shot list, one shot per row, with these columns:\n\n| # | Duration | What happens | Generation prompt (English) | Camera movement | Risk |\n\nRequirements:\n- **Keep each shot to 5-10 seconds.** That is what AI video handles reliably today.\n- The generation prompt must be specific about lighting, materials and focal length. 'A happy person' is not executable.\n- **The risk column must be honest.** Shots involving hands, fast motion, text in frame, multiple people interacting or complex physics get flagged high risk, with a workaround (different angle, split the shot, composite the text in post).\n- If a shot is **simply beyond current AI capability**, recommend shooting it or using stock instead of inventing a prompt for it.\n- Finish with a **consistency plan**: how the same character or location stays coherent across shots — which reference image, which descriptors stay fixed.",
+      "tips": "The risk column is worth more than the prompts — avoiding impossible shots at storyboard stage beats reworking them afterwards."
+    }
   },
   {
     "id": "p-3d-spec",
@@ -1901,7 +2009,18 @@
       "资产描述"
     ],
     "prompt": "我要做一个 3D 资产：{{资产描述}}\n用途是：{{资产用途}}（游戏角色 / 场景道具 / 电商展示 / 概念稿）\n目标平台：{{目标平台}}\n\n请按这个顺序给我：\n\n1. **面数预算**：根据用途和目标平台给出建议面数区间，并说明依据（手游、PC、网页展示差别很大）。**这个数要在生成之前定下来。**\n2. **规格清单**：贴图分辨率、是否需要 UV、是否需要骨骼、坐标轴与单位、导出格式。\n3. **生成提示词**：用于 AI 3D 生成工具的提示词，包含形状、材质、风格、细节程度。给出英文版本。\n4. **生成后的处理步骤**：按顺序列出（重拓扑 → UV → 贴图 → 检查法线/原点/尺度），并说明每步**为什么不能省**。\n5. **该不该用 AI 生成**：如果这个资产需要反复使用、需要动画、或者精度要求高，直接建议手工建模或购买现成资产，并说明 AI 生成的返工成本在哪。\n\n所有涉及具体数字的地方，说明是行业惯例还是你的估算。",
-    "tips": "「面数预算」放在最前面是刻意的—— AI 生成默认几十万面，不先定预算后面全是返工。"
+    "tips": "「面数预算」放在最前面是刻意的—— AI 生成默认几十万面，不先定预算后面全是返工。",
+    "en": {
+      "title": "3D asset spec and generation prompt",
+      "desc": "Set the polygon budget and purpose first, then write the prompt — reversed order guarantees rework.",
+      "vars": [
+        "Asset purpose",
+        "Target platform",
+        "Asset description"
+      ],
+      "prompt": "I need a 3D asset: {{Asset description}}\nPurpose: {{Asset purpose}} (game character / set prop / e-commerce display / concept)\nTarget platform: {{Target platform}}\n\nGive me this, in this order:\n\n1. **Polygon budget** — a recommended range for this purpose and platform, with your reasoning (mobile, PC and web display differ enormously). **This number has to be settled before generating.**\n2. **Spec sheet** — texture resolution, whether UVs are needed, whether it needs a rig, axes and units, export format.\n3. **Generation prompt** — for an AI 3D tool, covering shape, material, style and level of detail. Include an English version.\n4. **Post-generation steps** — in order (retopology → UVs → texturing → check normals/origin/scale), and **why none of them can be skipped**.\n5. **Should this be AI-generated at all?** If the asset will be reused, animated, or needs high precision, recommend hand modelling or buying one, and say where the rework cost sits.\n\nMark every figure as either industry convention or your own estimate.",
+      "tips": "Putting the polygon budget first is deliberate — AI output starts in the hundreds of thousands of triangles, and everything downstream is rework if you skip it."
+    }
   },
   {
     "id": "p-literature-matrix",
@@ -1924,7 +2043,17 @@
       "论文内容或列表"
     ],
     "prompt": "我的研究问题是：{{研究问题}}\n以下是我找到的文献：{{论文内容或列表}}\n\n请帮我抽取成一张对比表，列是这些：\n\n| 文献 | 研究问题 | 方法 | 样本/数据 | 主要结论 | 局限（作者自己承认的） | 与我问题的相关性 |\n\n要求：\n\n1. **只填文献里明确写了的**。文献没提到的格子就写「未报告」，**不要根据标题或摘要推测**。\n2. 单独列一栏「结论冲突」：把结论互相矛盾的文献指出来，说明它们在哪个点上不一致（方法不同？样本不同？还是真的结论相反）。\n3. 单独列一栏「我的问题还没有被回答的部分」——这往往就是你研究的切入点。\n4. 最后列出「引用前必须核对的地方」：哪些数字、结论、方法细节，我回到原文时必须逐一确认。\n\n**重要：不要替我总结出「总的来说学界认为……」这种结论。** 我要的是可核对的原始信息，概括由我自己做。",
-    "tips": "「不要替我总结」这条很关键——综述的价值在于你对文献之间关系的判断，代劳了写出来的东西经不起追问。"
+    "tips": "「不要替我总结」这条很关键——综述的价值在于你对文献之间关系的判断，代劳了写出来的东西经不起追问。",
+    "en": {
+      "title": "Literature comparison table",
+      "desc": "Pulls conclusions from several papers into a comparable table, and marks where they contradict.",
+      "vars": [
+        "Research question",
+        "Papers or their content"
+      ],
+      "prompt": "My research question: {{Research question}}\nPapers I've found: {{Papers or their content}}\n\nExtract them into a comparison table with these columns:\n\n| Paper | Question | Method | Sample / data | Main finding | Stated limitations | Relevance to my question |\n\nRequirements:\n\n1. **Fill in only what the paper states.** Where something isn't reported, write 'not reported'. **Do not infer from the title or abstract.**\n2. Add a separate **'conflicts'** section: which papers disagree, and on what — different methods, different samples, or genuinely opposite findings.\n3. Add a **'what my question leaves unanswered'** section. That is usually where your contribution is.\n4. Finish with **'verify these before citing'**: the numbers, findings and methodological details I must check against the originals.\n\n**Important: do not summarise into 'the field broadly agrees that…'.** I want checkable raw information. The synthesis is mine to make.",
+      "tips": "'Don't synthesise for me' matters — the value of a review is your judgement about how the literature relates, and it falls apart under questioning if delegated."
+    }
   },
   {
     "id": "p-voiceover-script",
@@ -1946,7 +2075,18 @@
       "时长"
     ],
     "prompt": "我要配一段音，内容是：{{要讲的内容}}\n用途：{{配音用途}}（视频旁白 / 播客片头 / 广告口播 / 有声书）\n时长约：{{时长}}\n\n请输出一份**配音稿**，而不是普通文稿：\n\n1. **按呼吸节奏断句**。每个断句处用 `/` 标轻停、`//` 标重停。不要出现一口气念不完的长句。\n2. **标出重音**。需要强调的词用**加粗**标出，并确保每句最多一个重音——重音太多等于没有重音。\n3. **标出语速变化**。用「（加快）」「（放慢）」标注，说明哪一段需要赶、哪一段需要沉下来。\n4. **数字和专有名词单独处理**。把它们列成一张表，标注建议读法（比如「2026」读「二零二六」还是「两千零二十六」，「3.5%」怎么念才自然）。**这是 TTS 最容易读错的地方。**\n5. **给出时长估算**。按中文每分钟 220-260 字估算，告诉我现在超了还是短了，以及该删哪一段。\n\n最后：把最拗口的三处单独列出来，给出更顺口的替代说法。",
-    "tips": "「数字和专有名词单独列表」是被低估的一步——TTS 和配音员读错品牌名或数字，整段就得重录。"
+    "tips": "「数字和专有名词单独列表」是被低估的一步——TTS 和配音员读错品牌名或数字，整段就得重录。",
+    "en": {
+      "title": "Voiceover script with emphasis and pauses",
+      "desc": "Outputs a script marked for delivery, not just prose — ready for a TTS engine or a reader.",
+      "vars": [
+        "What to say",
+        "Where it will be used",
+        "Length"
+      ],
+      "prompt": "I need a voiceover for: {{What to say}}\nUse: {{Where it will be used}} (video narration / podcast intro / ad read / audiobook)\nLength: about {{Length}}\n\nProduce a **voiceover script**, not ordinary prose:\n\n1. **Break at breathing points.** Mark light pauses with `/` and full stops with `//`. No sentence should run past one breath.\n2. **Mark emphasis.** Bold the words to stress, and keep it to **one emphasis per sentence** — more than that and nothing is emphasised.\n3. **Mark pace changes.** Use '(faster)' and '(slower)' and say which passages rush and which settle.\n4. **Handle numbers and proper nouns separately.** List them in a table with the intended reading. **This is where TTS fails most often.**\n5. **Estimate the duration.** At roughly 150-160 words per minute for English, say whether it runs short or long, and which passage to cut.\n\nFinally, pull out the three most awkward phrases and give smoother alternatives.",
+      "tips": "The separate table for numbers and names is underrated — one mispronounced brand name means re-recording the whole passage."
+    }
   },
   {
     "id": "p-color-audit",
@@ -2015,7 +2155,18 @@
       "硬约束"
     ],
     "prompt": "我要选一个工具来解决：{{要解决的问题}}\n候选有：{{候选工具}}\n我的硬约束：{{硬约束}}（比如预算上限、数据能不能出内网、团队能不能自己运维、必须支持什么格式）\n\n请给我一份评估表，不是功能对照表：\n\n1. **先过硬约束**。把不满足的候选**直接划掉**，说明划掉的具体原因。剩下的才继续评估。\n2. **对剩下的按我的场景打分**。权重由我任务的实际情况决定，不要按「功能数量」打分——**功能多但对我不重要的，不算优势**。\n3. **真实成本**。不只算订阅费，还要算：上手时间、团队培训成本、数据迁移成本、用量超限后的费用、以及退出成本。\n4. **迁移风险**。如果将来要换掉它，什么会被锁住（数据格式、专有 API、工作流依赖）。**说明能不能提前规避。**\n5. **反向证据**。分别说出每个候选**最可能让我后悔**的一点。\n6. **如果差不多就说差不多**。不要为了给我一个结论而编出差异。\n\n所有关于具体产品的信息，标注是「确定的事实」还是「我的印象」。你对具体产品的了解可能过期，不确定的我需要自己核实。",
-    "tips": "「反向证据」和「如果差不多就说差不多」这两条最能挡住 AI 为了显得专业而硬造差异。"
+    "tips": "「反向证据」和「如果差不多就说差不多」这两条最能挡住 AI 为了显得专业而硬造差异。",
+    "en": {
+      "title": "Tool selection scorecard",
+      "desc": "Turns 'which tool is best' into a table with hard filters, real cost and lock-in risk.",
+      "vars": [
+        "The problem",
+        "Candidates",
+        "Hard constraints"
+      ],
+      "prompt": "I need to choose a tool for: {{The problem}}\nCandidates: {{Candidates}}\nHard constraints: {{Hard constraints}} (budget ceiling, whether data can leave the network, whether the team can run it, required formats)\n\nGive me an evaluation, not a feature grid:\n\n1. **Apply the hard constraints first.** Eliminate anything that fails, and say specifically why. Only survivors get evaluated.\n2. **Score the survivors against my scenario.** Weight by what actually matters for my task, not by feature count. **Features I don't need are not advantages.**\n3. **Real cost.** Beyond subscription: onboarding time, team training, data migration, overage charges, and the cost of leaving.\n4. **Lock-in risk.** If I switch later, what is trapped — data format, proprietary APIs, workflow dependencies. **Say whether it can be avoided up front.**\n5. **Counter-evidence.** For each candidate, the one thing most likely to make me regret it.\n6. **If they're equivalent, say so.** Don't invent differences to produce a verdict.\n\nMark anything about specific products as either a fact you're confident in or an impression. Your knowledge of specific products may be out of date, and I'll need to verify.",
+      "tips": "'Counter-evidence' and 'if they're equivalent, say so' are what stop the model manufacturing differences to look useful."
+    }
   },
   {
     "id": "p-image-text-plan",
@@ -2059,6 +2210,16 @@
       "目标用户"
     ],
     "prompt": "我有个产品想法：{{产品想法}}\n目标用户：{{目标用户}}\n\n请帮我压缩成一份**原型规格说明**，目标是让我今天就能做出一个能演示的东西。\n\n1. **砍到只剩一条链路**。用一句话描述核心动作：「用户打开 → 做某件事 → 得到某结果」。**把其他所有功能都列进「暂不做」清单**，并说明为什么现在不做。\n2. **逐屏说明**。这一条链路上有几个界面？每个界面：显示什么、用户能点什么、点完跳到哪。**不要设计没有交互的页面**——原型阶段没有死页面。\n3. **假数据方案**。哪些地方用假数据就够？假数据长什么样（要真实到能看出体验，但不能让人误以为是真功能）。\n4. **明确不做的事**。登录、支付、权限、设置——这些明确排除在原型之外，说明理由。\n5. **验证什么**。给这个原型定一个要验证的假设（比如「用户愿不愿意为这个结果付费」），以及怎么看它成没成。\n6. **给生成工具的提示词**。把上面这些压成一段可以直接交给 AI 生成工具的描述。\n\n最后问我一句：这个原型做出来，你打算给谁看、想从他那得到什么反馈？如果答不上来，说明还不该动手做。",
-    "tips": "第 4 步「明确不做」和第 6 步「验证什么」是关键——大多数人卡在登录支付上，核心流程反而没跑通。"
+    "tips": "第 4 步「明确不做」和第 6 步「验证什么」是关键——大多数人卡在登录支付上，核心流程反而没跑通。",
+    "en": {
+      "title": "Prototype spec: one flow, end to end",
+      "desc": "Compresses an idea into a single core flow you can build today.",
+      "vars": [
+        "Product idea",
+        "Target user"
+      ],
+      "prompt": "I have a product idea: {{Product idea}}\nTarget user: {{Target user}}\n\nCompress it into a **prototype spec** I can build and demo today.\n\n1. **Cut to one flow.** One sentence: 'user opens → does one thing → gets a result'. Put everything else on a not-now list and say why it waits.\n2. **Screen by screen.** How many screens on that one flow? For each: what it shows, what can be clicked, where that goes. **No dead screens** — a prototype screen without an interaction is decoration.\n3. **Fake data plan.** Where is fake data enough? What does it look like? Real enough to judge the experience, not so real that it reads as a working feature.\n4. **Explicitly out of scope.** Login, payments, permissions, settings — excluded, with reasoning.\n5. **What this validates.** One hypothesis (e.g. 'users will pay for this result'), and how you will know it held.\n6. **Prompt for the generation tool.** Compress all of the above into something you can paste into a builder.\n\nFinally, ask me one thing: who am I showing this to, and what do I want back from them? **If I can't answer that, I shouldn't be building it yet.**",
+      "tips": "Sections 4 and 6 are the point — most people get stuck on login and payments and never get the core flow running."
+    }
   }
 ]
