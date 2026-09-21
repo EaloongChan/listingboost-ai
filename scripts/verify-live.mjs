@@ -92,9 +92,14 @@ async function main() {
     ['/compare/', '工具对比', /cmpRoot/],
     ['/saved/', '我的收藏', /savedRoot/],
     ['/news/live/', '实时动态', /live-item/],
-    ['/glossary/', '术语表', /null|./],
+    // 之前这里写的是 /null|./，它匹配任何字符串 —— 等于没检查。改成真实标记。
+    ['/glossary/', '术语表', /gloss-item/],
     ['/en/', '英文版首页', /Browse|tools/i],
     ['/en/tools/', '英文工具库', /tool-card/],
+    ['/en/prompts/', '英文提示词库', /prompt-card/],
+    ['/en/playbooks/', '英文场景手册', /playbook-card/],
+    ['/en/glossary/', '英文术语表', /gloss-item/],
+    ['/en/search/', '英文全站搜索', /__AIWX_INDEX__/],
     ['/tools/coding/cursor/', '工具详情页', /SoftwareApplication/],
     ['/en/tools/chat/chatgpt/', '英文工具详情页', /SoftwareApplication/],
   ];
