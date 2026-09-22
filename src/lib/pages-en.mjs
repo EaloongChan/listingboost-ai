@@ -197,9 +197,23 @@ export function enTools(ctx, i18n, { activeCat = '' } = {}) {
     .concat(categories.toolCategories.map((c) => `<button data-facet="cat" data-value="${esc(c.id)}"${activeCat === c.id ? ' class="on"' : ''}>${esc(catName(c.id))}</button>`))
     .join('');
 
+  const catMeta = cat || {};
   const title = cat ? catName(cat.id) : en['tools.title'];
+  /* 同中文站：h1 用站内分类名，<title> 用用户会搜的说法（seoNameEn）。
+     另外这里原来漏了句号 —— descEn 不含结尾标点，模板直接接下一句，
+     结果描述里出现 "coding agents Each entry notes..." 这种粘连。 */
+  const seoTitle = cat ? catMeta.seoNameEn || title : title;
+  /* descEn 不含结尾标点，模板直接接下一句会粘连（原文是 "coding agents Each entry notes…"）：
+     这里补上句号，并且**控制总长在 160 字符以内**。
+     因为 metaExcerpt 的做法是「截到 160，再回退到最后一个句末标点 + …」——
+     英文模板原来第一句只有 67 字符，于是 160 的额度只用了 67，剩下 90 个字白扔，
+     而英文 SERP 有 ~155 字符可用。收尾那句因此写得紧凑，保证整句装得下、不被截。 */
+  const tail = (t) => {
+    const v = String(t || '').trim().replace(/[.。]+$/, '');
+    return v ? v + '. ' : '';
+  };
   const desc = cat
-    ? `${list.length} AI tools for ${catName(cat.id).toLowerCase()}: ${(ctx.categories.toolCategories.find((x) => x.id === cat.id) || {}).descEn || ''} Each entry notes pricing, China accessibility, an editor's note on when not to use it, and a side-by-side comparison within the category.`
+    ? `${list.length} AI tools for ${catName(cat.id).toLowerCase()}: ${tail(catMeta.descEn)}Each with pricing, China access, caveats and a comparison.`
     : en['tools.desc'];
 
   const crumbItems = cat
@@ -234,7 +248,7 @@ ${pageHead(title, desc, `<div class="ph-meta"><span class="label">Tools <b style
   return shell({
     site,
     path: activeCat ? `/en/tools/${activeCat}/` : '/en/tools/',
-    title, description: desc, body, brandDesc: en['siteDesc'],
+    title: seoTitle, description: desc, body, brandDesc: en['siteDesc'],
     altPath: activeCat ? `/tools/${activeCat}/` : '/tools/',
     jsonld: [
       breadcrumbLd(site, crumbItems),

@@ -213,6 +213,11 @@ export function toolsPage(ctx, { activeCat = '', sort = '' } = {}) {
   ].map(([v, l], i) => `<button data-facet="pricing" data-value="${v}"${i === 0 ? ' class="on"' : ''}>${l}</button>`).join('');
 
   const title = activeName ? `${activeName}工具` : 'AI 工具库';
+  /* 分类页是目录站最重要的入口页，而「分类名」和「用户搜的词」是两回事：
+     站内叫「编程开发」，用户搜的是「AI 编程工具」；站内叫「对话助手」，用户搜「AI 对话工具」。
+     所以搜索结果标题另用 seoName，h1 与面包屑保持分类名不变（不为了 SEO 把界面改成怪话）。 */
+  const catMeta = activeCat ? toolCatMap[activeCat] || {} : null;
+  const seoTitle = activeCat ? (catMeta.seoName || title) : title;
   const desc = activeName
     ? `「${activeName}」分类下的 ${list.length} 个 AI 工具：${(toolCatMap[activeCat] || {}).desc || ''}。每个都标注了价格、是否国内可直连，并附「什么时候别用」的编辑点评和同分类横向对比。选型要点：${((toolCatMap[activeCat] || {}).guide || '').replace(/\*\*/g, '').split('。')[0]}。`
     : `AI 工具库：收录 ${tools.length} 个常用 AI 工具，按用途分成 ${categories.toolCategories.length} 类，逐个标注是否国内直连、免费还是付费。每个工具都附一条「什么时候别选它」的编辑点评。`;
@@ -291,7 +296,7 @@ ${activeCat ? (() => {
     altLabel: '切换到英文版（Tools & Models）',
     site,
     path: activeCat ? `/tools/${activeCat}/` : '/tools/',
-    title, description: desc, body,
+    title: seoTitle, description: desc, body,
     jsonld: [
       breadcrumbLd(site, crumbItems),
       {

@@ -630,6 +630,9 @@ const playbookIds = new Set();
           .replace(/&amp;/g, '&');
         const descSeen = new Map();
         const dupDesc = [];
+        const titleSeen = new Map();
+        const dupTitle = [];
+        const earlyCut = [];
         for (const f of walkHtml(distDir)) {
           const html = fs.readFileSync(f, 'utf8');
           const desc = decodeEnt((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '');
@@ -642,6 +645,21 @@ const playbookIds = new Set();
           const noindex = /<meta name="robots" content="[^"]*noindex/.test(html);
           if (w(desc) < 55 && !noindex) shortDesc.push(rel + ' (' + w(desc) + ')');
           if (/\*\*/.test(desc)) starDesc.push(rel);
+          /* 分类页描述被截断得太早 → 浪费 SERP 额度（英文尤其明显，那边有 ~155 字符可用）。
+             注意 rel 形如 `/en/tools/coding`（已去掉末尾斜杠），正则别写成要求 `/` 结尾 ——
+             那样这个守卫一次都不会触发，成了永远不报警的死代码。 */
+          if (/^\/(en\/)?tools\/[a-z0-9-]+$/.test(rel) && desc.endsWith('…')) {
+            const budget = rel.startsWith('/en/') ? 120 : 70;
+            if (desc.length < budget) earlyCut.push(`${rel} (仅 ${desc.length})`);
+          }
+          /* 重复标题必须抓到。踩过一次：英文名映射把「通义千问」写成 "Qwen Chat"，
+             和另一条本来就叫 Qwen Chat 的条目撞车 —— 两个页面 <title> 一个字都不差。
+             这种事不会报错，只是 Google 挑一个收录、另一个白做，
+             而你在后台看到的现象是"这页怎么没流量"，根本联想不到是标题重复。 */
+          if (title && !noindex) {
+            if (titleSeen.has(title)) dupTitle.push(`${rel} = ${titleSeen.get(title)}`);
+            else titleSeen.set(title, rel);
+          }
           if (desc) {
             if (descSeen.has(desc)) dupDesc.push(rel + ' = ' + descSeen.get(desc));
             else descSeen.set(desc, rel);
@@ -651,9 +669,15 @@ const playbookIds = new Set();
         if (longTitle.length) warns.push(`SEO: ${longTitle.length} 个页面的标题超过 70 字符（搜索结果会截断）→ ${longTitle.slice(0, 6).join(', ')}`);
         if (longDesc.length) warns.push(`SEO: ${longDesc.length} 个页面的描述超过 165 字符（搜索结果会截断）→ ${longDesc.slice(0, 6).join(', ')}`);
         if (starDesc.length) errors.push(`SEO: ${starDesc.length} 个页面的描述里残留 markdown 星号 → ${starDesc.slice(0, 5).join(', ')}`);
+        if (dupTitle.length) errors.push(`SEO: ${dupTitle.length} 组**完全重复**的标题（Google 只会挑一个收录，另一个白做）→ ${dupTitle.slice(0, 4).join('; ')}`);
         if (dupDesc.length) warns.push(`SEO: ${dupDesc.length} 组重复描述 → ${dupDesc.slice(0, 3).join('; ')}`);
-        if (!shortDesc.length && !starDesc.length && !dupDesc.length && !longTitle.length && !longDesc.length) {
-          ok.push(`SEO: ${descSeen.size} 个页面的标题与描述都达标（长度合规、无重复）`);
+        /* 分类页是目录站最主要的入口页，描述被提前截断等于白扔 SERP 额度。
+           机理：metaExcerpt 在 160 字符处截断后回退到「最后一个句末标点」，
+           所以只要模板的第一句很短，后面 90 个字符就全浪费了 ——
+           英文那次实测：整段只用掉 67 字符就加了省略号。 */
+        for (const r of earlyCut) warns.push(`SEO: ${r} 的描述很早就被截断，SERP 额度没用上`);
+        if (!shortDesc.length && !starDesc.length && !dupDesc.length && !dupTitle.length && !longTitle.length && !longDesc.length && !earlyCut.length) {
+          ok.push(`SEO: ${descSeen.size} 个页面的标题与描述都达标（长度合规、标题唯一、无重复）`);
         }
       }
     } catch { /* 忽略 */ }

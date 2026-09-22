@@ -3,6 +3,8 @@
     {
       "id": "chat",
       "name": "对话助手",
+      "seoName": "AI 对话工具",
+      "seoNameEn": "AI chat assistants",
       "icon": "chat",
       "desc": "通用大模型对话与推理",
       "accent": "#1B4DFF",
@@ -13,6 +15,8 @@
     {
       "id": "coding",
       "name": "编程开发",
+      "seoName": "AI 编程工具",
+      "seoNameEn": "AI coding tools",
       "icon": "code",
       "desc": "代码补全、AI IDE、Agent 编程",
       "accent": "#00875A",
@@ -23,6 +27,8 @@
     {
       "id": "image",
       "name": "图像生成",
+      "seoName": "AI 图像生成工具",
+      "seoNameEn": "AI image generators",
       "icon": "image",
       "desc": "文生图、改图、设计素材",
       "accent": "#FF3B00",
@@ -33,6 +39,8 @@
     {
       "id": "video",
       "name": "视频生成",
+      "seoName": "AI 视频生成工具",
+      "seoNameEn": "AI video generators",
       "icon": "video",
       "desc": "文生视频、图生视频、剪辑",
       "accent": "#7C3AED",
@@ -43,6 +51,8 @@
     {
       "id": "audio",
       "name": "音频音乐",
+      "seoName": "AI 音频与音乐工具",
+      "seoNameEn": "AI audio and music tools",
       "icon": "audio",
       "desc": "配音、音乐生成、语音识别",
       "accent": "#0E7490",
@@ -53,6 +63,8 @@
     {
       "id": "writing",
       "name": "写作办公",
+      "seoName": "AI 写作与办公工具",
+      "seoNameEn": "AI writing and office tools",
       "icon": "pen",
       "desc": "文档、PPT、翻译、润色",
       "accent": "#E5337B",
@@ -63,6 +75,8 @@
     {
       "id": "research",
       "name": "搜索研究",
+      "seoName": "AI 搜索与研究工具",
+      "seoNameEn": "AI research tools",
       "icon": "search",
       "desc": "AI 搜索、文献、深度研究",
       "accent": "#B45309",
@@ -73,6 +87,8 @@
     {
       "id": "agent",
       "name": "Agent 自动化",
+      "seoName": "AI Agent 与自动化工具",
+      "seoNameEn": "AI agents and automation",
       "icon": "bot",
       "desc": "工作流、智能体、自动化编排",
       "accent": "#4F46E5",
@@ -83,6 +99,8 @@
     {
       "id": "design",
       "name": "设计创意",
+      "seoName": "AI 设计工具",
+      "seoNameEn": "AI design tools",
       "icon": "palette",
       "desc": "UI、海报、品牌视觉",
       "accent": "#F5A524",
@@ -93,6 +111,8 @@
     {
       "id": "data",
       "name": "数据分析",
+      "seoName": "AI 数据分析工具",
+      "seoNameEn": "AI data analysis tools",
       "icon": "chart",
       "desc": "表格分析、BI、洞察",
       "accent": "#0F766E",
@@ -103,6 +123,8 @@
     {
       "id": "3d",
       "name": "3D 建模",
+      "seoName": "AI 3D 建模工具",
+      "seoNameEn": "AI 3D tools",
       "icon": "cube",
       "desc": "文生 3D、贴图、场景",
       "accent": "#A21CAF",
@@ -113,6 +135,8 @@
     {
       "id": "local",
       "name": "本地开源",
+      "seoName": "本地部署与开源 AI 工具",
+      "seoNameEn": "local and open-source AI",
       "icon": "server",
       "desc": "本地跑模型、开源框架、微调",
       "accent": "#57534E",
@@ -123,6 +147,8 @@
     {
       "id": "marketing",
       "name": "营销增长",
+      "seoName": "AI 营销工具",
+      "seoNameEn": "AI marketing tools",
       "icon": "megaphone",
       "desc": "SEO、广告素材、社媒与投放数据",
       "accent": "#BE123C",
@@ -133,6 +159,8 @@
     {
       "id": "meeting",
       "name": "会议协作",
+      "seoName": "AI 会议记录工具",
+      "seoNameEn": "AI meeting tools",
       "icon": "user",
       "desc": "转录、纪要、待办提取",
       "accent": "#0369A1",
@@ -143,6 +171,8 @@
     {
       "id": "edu",
       "name": "教育学习",
+      "seoName": "AI 学习与教育工具",
+      "seoNameEn": "AI learning tools",
       "icon": "book-open",
       "desc": "讲题、备考、备课与语言学习",
       "accent": "#65A30D",

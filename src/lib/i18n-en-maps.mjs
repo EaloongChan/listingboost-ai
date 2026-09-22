@@ -75,7 +75,10 @@ export function modelNameEn(name) {
 /** 中文工具名的英文写法。官方有英文名的用官方的，没有的用通行叫法。 */
 export const TOOL_NAME_EN = {
   "豆包": "Doubao",
-  "通义千问": "Qwen Chat",
+  /* 通义千问是产品家族名，不是那个对话站。原来这里写 "Qwen Chat"，
+     和 chat.qwen.ai 那条独立条目（Qwen Chat）撞了 —— 结果两个页面的英文 <title>
+     一模一样，Google 只会挑一个收录，另一个白做。 */
+  "通义千问": "Tongyi Qianwen",
   "智谱清言": "ChatGLM",
   "海螺 AI": "Hailuo AI",
   "即梦 AI": "Jimeng AI",
