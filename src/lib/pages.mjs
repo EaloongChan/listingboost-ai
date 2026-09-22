@@ -934,6 +934,9 @@ ${pageHead('全站搜索', '一次搜索覆盖场景手册、工具、提示词�
     altPath: '/en/search/',
     altLang: 'en',
     altLabel: 'Switch to English (search)',
+    /* 搜索页对爬虫是空页（结果要输入才出现），且 ?q= 变体会被当成无穷多份重复内容。
+       noindex 但 follow：不进索引，链接权重照常传。sitemap 里也同步排除了。 */
+    robots: 'noindex, follow',
     scripts: `<script src="/assets/${esc(site.asset.icons)}"></script>`
       + `<script>window.__AIWX_INDEX__=${jsonEmbed(ctx.searchIndex)};window.__AIWX_QUERY_MAP__=${jsonEmbed(ctx.queryMap || {})};</script>`
       // 搜索逻辑按需加载：defer 保证排在 app.js 之后执行，而 app.js 已经不再认得它
@@ -1542,7 +1545,9 @@ ${pageHead(
     title: '我的收藏',
     description: '我的收藏：把 AI 工具、提示词、场景手册、模型和学习资源收在一处，按类型分组。数据只存在本机浏览器里，不上传、不跟踪，也不需要注册账号。',
     body,
-    // 收藏页要渲染带类型图标的卡片，图标表由 type-icons.js 提供（普通 script，先于 defer 执行）
+    // 收藏内容存在浏览器里，爬虫看到的永远是空态 —— 对搜索结果是垃圾，对用户是功能
+    robots: 'noindex, follow',
+    // 收藏页要渲染带类型图标的卡片，图标表由 card-svg.js 提供（普通 script，先于 defer 执行）
     scripts: `<script src="/assets/${esc(site.asset.icons)}"></script>`
       + `<script>window.__AIWX_INDEX__=${jsonEmbed(ctx.searchIndex)};</script>`,
     jsonld: breadcrumbLd(site, crumbItems),

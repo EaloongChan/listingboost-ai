@@ -573,8 +573,13 @@ ${rssItems}
      · 404 —— 本来就不该被索引
      · news-live —— 实时动态是自动抓取的标题摘要聚合，不是自己的原创内容。
        它对人有用（发现入口），但不该占 SEO 名额、也不该和原创解读抢权重。
-       该页另外打了 noindex,follow，见 liveNewsPage。 */
-  const NO_INDEX_TYPES = new Set(['404', 'news-live']);
+       该页另外打了 noindex,follow，见 liveNewsPage。
+     · search / saved —— 这两个页面对爬虫是**空的**。实测正文只有 534 / 372 字，
+       内容还都在浏览器 localStorage 里（收藏）或要靠输入才出现（搜索）。
+       把它们写进 sitemap 等于主动请搜索引擎收录空页，只会拖累整站的质量评分；
+       而且搜索页一旦被索引，`?q=xxx` 变体会变成无穷多份重复内容。
+       两页同样打了 noindex,follow（见 searchPage / savedPage），内部链接照常传权重。 */
+  const NO_INDEX_TYPES = new Set(['404', 'news-live', 'search', 'saved']);
   const urls = manifest
     .filter((m) => !NO_INDEX_TYPES.has(m.type))
     .map((m) => `  <url>\n    <loc>${base}${m.url}</loc>\n    <lastmod>${m.lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${m.type === 'home' ? '1.0' : m.type.includes('-detail') || m.type === 'about' ? '0.6' : '0.8'}</priority>\n  </url>`)

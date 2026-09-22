@@ -55,12 +55,6 @@ jobs:
       # 主动通知百度有新内容。新站靠百度自己发现可能要几周，主动推送是抢收录最直接的杠杆。
       # token 放在仓库 Secrets 里（名字 BAIDU_TOKEN），没配就自动跳过，不会让流水线红掉。
       # 已推过的 URL 记在 data/pushed-urls.json，不会重复推（重复推会降配额）。
-      - name: 主动推送 URL 给百度
-        continue-on-error: true
-        env:
-          BAIDU_TOKEN: ${{ secrets.BAIDU_TOKEN }}
-        run: node scripts/push-search.mjs
-
       - name: 提交并推送
         run: |
           git config user.name  "github-actions[bot]"
@@ -73,6 +67,21 @@ jobs:
             git push
             echo "已推送，Vercel 会自动重新部署。"
           fi
+
+      # 推送 URL 必须排在「提交并推送」之后：
+      # 之前放在构建后面，等于把还没上线的地址先告诉搜索引擎，
+      # 新页面在那几分钟里是 404，爬虫抓到会降低对这站的信任。
+      - name: 主动推送 URL 给百度
+        continue-on-error: true
+        env:
+          BAIDU_TOKEN: ${{ secrets.BAIDU_TOKEN }}
+        run: node scripts/push-search.mjs
+
+      # IndexNow：Bing / Yandex / Seznam / Naver 通用，不需要备案也不需要 token，
+      # 只要 public/<key>.txt 能访问到。URL 清单直接读 dist/sitemap.xml（已被 build 裁剪过）。
+      - name: 主动推送 URL 给 IndexNow
+        continue-on-error: true
+        run: node scripts/indexnow.mjs
 
       # 抓取状态贴进运行摘要，不用翻日志
       - name: 输出抓取概况

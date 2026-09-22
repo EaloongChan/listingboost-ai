@@ -31,6 +31,8 @@
     "push": "node scripts/deploy-push.mjs",
     "push:search": "node scripts/push-search.mjs",
     "push:search:seed": "node scripts/push-search.mjs --seed",
+    "indexnow": "node scripts/indexnow.mjs",
+    "indexnow:seed": "node scripts/indexnow.mjs --seed",
     "check:outbound": "node scripts/check-outbound.mjs"
   },
   "engines": {

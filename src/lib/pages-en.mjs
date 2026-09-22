@@ -936,6 +936,8 @@ ${pageHead(
         glossPath: '/en/glossary/?q=',
       })};</script>`
       + `<script src="/assets/${esc(site.asset.search)}" defer></script>`,
+    // 与中文搜索页同理：爬虫看到的是空页，且 ?q= 变体会成为重复内容
+    robots: 'noindex, follow',
     jsonld: [
       breadcrumbLd(site, crumbItems),
       {

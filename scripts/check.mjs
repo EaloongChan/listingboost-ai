@@ -149,6 +149,52 @@ const glossary = read('glossary.json');
   }
 }
 
+/* ---- 可发现性守卫（sitemap 与 noindex 必须一致） ----
+   这两侧很容易走岔：页面打了 noindex 却还在 sitemap 里（自相矛盾，浪费抓取），
+   或者页面正文是空的（收藏页/搜索页，内容在 localStorage 或要输入才出现）却大方地
+   请搜索引擎来收录 —— 后者的代价是整站质量评分，而这**不会让任何构建失败**。 */
+{
+  const sitemapPath = path.join(DIST, 'sitemap.xml');
+  if (fs.existsSync(sitemapPath)) {
+    const sm = fs.readFileSync(sitemapPath, 'utf8');
+    const mustNotBeListed = ['/search/', '/saved/', '/news/live/', '/404.html', '/404/'];
+    const listed = mustNotBeListed.filter((p) => new RegExp(`<loc>[^<]*${p.replace(/[/.]/g, '\\$&')}</loc>`).test(sm));
+    if (listed.length) {
+      errors.push(`sitemap: 不该收录的页面出现在 sitemap 里 → ${listed.join('、')}（它们是空页/自动聚合页，收进去拉低整站质量评分）`);
+    }
+    /* 反向：打了 noindex 的页面如果就在 sitemap 里，同样矛盾 */
+    const noindexWithLoc = [];
+    for (const p of ['search/index.html', 'saved/index.html', 'en/search/index.html']) {
+      const f = path.join(DIST, p);
+      if (!fs.existsSync(f)) continue;
+      const html = fs.readFileSync(f, 'utf8');
+      const hasNoindex = /name="robots"[^>]*noindex/.test(html);
+      if (!hasNoindex) errors.push(`${p}: 对爬虫是空页，必须打 noindex,follow（否则等于请它收录空页）`);
+      else if (new RegExp(`<loc>[^<]*/${p.replace('/index.html', '/')}</loc>`).test(sm)) {
+        noindexWithLoc.push(p);
+      }
+    }
+    if (noindexWithLoc.length) errors.push(`sitemap 与 noindex 自相矛盾 → ${noindexWithLoc.join('、')}`);
+    if (!listed.length && !noindexWithLoc.length && /<loc>/.test(sm)) {
+      const n = (sm.match(/<loc>/g) || []).length;
+      ok.push(`可发现性: sitemap ${n} 条，已排除搜索页/收藏页/实时动态/404；这三个空页都打了 noindex`);
+    }
+  }
+}
+
+/* ---- IndexNow 密钥文件 ----
+   没有它，Bing/Yandex 一类的主动推送全部 403。文件很容易在重构里被清掉，
+   而少了它**不会报错** —— 推送接口静静地拒绝，你会以为推过了。 */
+{
+  const pubDir = path.join(ROOT, 'public');
+  if (fs.existsSync(pubDir)) {
+    const keys = fs.readdirSync(pubDir).filter((f) => /^[0-9a-f]{8,128}\.txt$/.test(f)
+      && fs.readFileSync(path.join(pubDir, f), 'utf8').trim() === f.replace(/\.txt$/, ''));
+    if (!keys.length) warns.push('IndexNow: public/ 下没有合法密钥文件（跑 node scripts/indexnow.mjs --new-key 生成），主动推送会 403');
+    else ok.push(`IndexNow: 密钥文件 ${keys.length} 个，文件名与内容一致（推送时校验的就是它）`);
+  }
+}
+
 /* ---- card-svg 共享碎片 ----
    搜索结果卡与「我的收藏」页都要画类型图标，这两套渲染分别在 search.js / app.js 里。
    图标表统一放在 card-svg.js（页面用不带 defer 的 <script> 最先引入），
