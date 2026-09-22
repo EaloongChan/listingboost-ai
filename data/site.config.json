@@ -110,7 +110,7 @@
   },
   "verify": {
     "note": "搜索引擎站点验证。把 token 填在这里，构建时自动输出对应 meta；留空则不输出。填完必须重新构建，check.mjs 会核对 token 是否真的出现在页面里。Google 用 HTML 标签验证（或换成 HTML 文件，放 public/ 即可）；Bing 的 msvalidate.01 同理。百度已放弃：要求真实姓名/职务/微信等实名信息，换来的是一个无备案海外站的极低配额，不值得。",
-    "google": "",
+    "google": "HSLSJ3BGMo7acl1WJQ2R8lzHa-hw4ElXSXuXjobaxbY",
     "bing": "",
     "baidu": ""
   }
