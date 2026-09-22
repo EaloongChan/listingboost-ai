@@ -195,6 +195,31 @@ const glossary = read('glossary.json');
   }
 }
 
+/* ---- 搜索引擎验证 token：配了就必须真的出现在 HTML 里 ----
+   最容易出的事：site.config.json 里填了 token，但 layout 没输出、或者名字写错一个字母。
+   表现是"填完了，Google 那边点验证一直失败"，你会去怀疑 Google，而不是怀疑自己。
+   （百度那次就是三个字段全空、逻辑写了没数据，谁也没发现。） */
+{
+  const cfg = read('site.config.json');
+  const v = (cfg && cfg.verify) || {};
+  const EXPECT = { google: 'google-site-verification', bing: 'msvalidate.01', baidu: 'baidu-site-verification' };
+  const configured = Object.keys(EXPECT).filter((k) => v[k]);
+  const home = path.join(DIST, 'index.html');
+  if (configured.length && fs.existsSync(home)) {
+    const html = fs.readFileSync(home, 'utf8');
+    const missing = configured.filter((k) => !html.includes(`name="${EXPECT[k]}"`) || !html.includes(v[k]));
+    if (missing.length) {
+      errors.push(`搜索验证: site.config.json 里配了 ${missing.join('、')} 的 token，但 ${missing.join('、')} 的 meta 没出现在首页 —— 验证会一直失败`);
+    } else {
+      ok.push(`搜索验证: ${configured.join(' / ')} 的 meta 已输出到页面（token 配了就得看得见）`);
+    }
+  } else if (configured.length && !fs.existsSync(home)) {
+    /* 没构建过就不判断 */
+  } else {
+    warns.push('搜索验证: Google / Bing 的 token 还没配（填在 data/site.config.json 的 verify 段），现在没有任何搜索后台数据可看');
+  }
+}
+
 /* ---- card-svg 共享碎片 ----
    搜索结果卡与「我的收藏」页都要画类型图标，这两套渲染分别在 search.js / app.js 里。
    图标表统一放在 card-svg.js（页面用不带 defer 的 <script> 最先引入），
