@@ -33,6 +33,7 @@ const SITE = process.env.SITE_HOST || 'www.ealoongchan.top';
 const KEY_RE = /^[0-9a-f]{8,128}\.txt$/;
 
 const SEED = process.argv.includes('--seed');
+const ALL = process.argv.includes('--all');
 const DRY = process.argv.includes('--dry');
 const STATUS = process.argv.includes('--status');
 const NEW_KEY = process.argv.includes('--new-key');
@@ -102,7 +103,12 @@ if (!pending.length) {
 /* ---------- 决定这次推哪些 ---------- */
 const PRIORITY = ['/$', '/tools/$', '/playbooks/$', '/prompts/$', '/models/$', '/glossary/$', '/learn/$', '/news/$'];
 let picked;
-if (SEED) {
+if (ALL) {
+  /* 一次性补推：站点刚在 Bing 后台验证过、而 sitemap 那边还停在几个月前的旧记录
+     （实测：Bing 只认 103 条，上次爬网时间是很久以前），等它慢慢处理不划算。
+     Bing / Yandex 对已验证站点允许每天 1 万条，693 条完全在额度内，且不会重复推。 */
+  picked = pending;
+} else if (SEED) {
   const core = pending.filter((u) => PRIORITY.some((p) => new RegExp(p).test(u)));
   const rest = pending.filter((u) => !core.includes(u));
   // 播种时优先推「核心页 + 各栏目的最新详情页」，一次别推几百条（新站推送量要有节制）
