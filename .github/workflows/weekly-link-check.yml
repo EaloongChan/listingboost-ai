@@ -37,6 +37,12 @@ jobs:
       - name: 检查全部外链
         run: node scripts/check-outbound.mjs
 
+      # 交给搜索引擎的那份清单，自己先逐条抓一遍。
+      # sitemap 是构建产物，页面改名/删条目时最容易对不上，而那种事不会让构建失败 ——
+      # 只会在 Search Console 里慢慢累积「无法抓取」。
+      - name: 检查 sitemap 里每条 URL 是否都可达
+        run: node scripts/check-sitemap.mjs --canonical
+
       # 判定逻辑全在脚本里（能在本地跑、能测），workflow 只管搬运
       - name: 生成巡检报告
         id: report

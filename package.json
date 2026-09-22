@@ -33,7 +33,8 @@
     "push:search:seed": "node scripts/push-search.mjs --seed",
     "indexnow": "node scripts/indexnow.mjs",
     "indexnow:seed": "node scripts/indexnow.mjs --seed",
-    "check:outbound": "node scripts/check-outbound.mjs"
+    "check:outbound": "node scripts/check-outbound.mjs",
+    "check:sitemap": "node scripts/check-sitemap.mjs --canonical"
   },
   "engines": {
     "node": ">=18"
